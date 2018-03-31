@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,18 +14,6 @@ import (
 func main() {
 	tdjson.SetLogVerbosityLevel(1)
 	tdjson.SetFilePath("./errors.txt")
-
-	// Get API_ID and API_HASH from env vars
-	apiId := os.Getenv("API_ID")
-	apiId = "187786"
-	if apiId == "" {
-		log.Fatal("API_ID env variable not specified")
-	}
-	apiHash := os.Getenv("API_HASH")
-	apiHash = "e782045df67ba48e441ccb105da8fc85"
-	if apiHash == "" {
-		log.Fatal("API_HASH env variable not specified")
-	}
 
 	// Create new instance of client
 	client := tdjson.NewClient(tdjson.TdlibConfig{
@@ -42,7 +29,6 @@ func main() {
 		UseTestDataCenter:   false,
 		DatabaseDirectory:   "tdlib-db",
 		FileDirectory:       "tdlib-files",
-		FileDirectory:       "tdlib-files",
 		IgnoreFileNames:     false,
 	})
 
@@ -55,10 +41,37 @@ func main() {
 		os.Exit(1)
 	}()
 
+	for {
+		currentState, _ := client.Authorize()
+		if currentState == tdjson.AuthorizationStateWaitPhoneNumber {
+			fmt.Print("Enter phone: ")
+			var number string
+			fmt.Scanln(&number)
+			client.SendPhoneNumber(number)
+		} else if currentState == tdjson.AuthorizationStateWaitCode {
+			fmt.Print("Enter code: ")
+			var code string
+			fmt.Scanln(&code)
+			client.SendAuthCode(code)
+		} else if currentState == tdjson.AuthorizationStateWaitPassword {
+			fmt.Print("Enter Password: ")
+			var password string
+			fmt.Scanln(&password)
+			client.SendAuthPassword(password)
+		} else if currentState == tdjson.AuthorizationStateReady {
+			break
+		}
+	}
+
 	go func() {
 		time.Sleep(1 * time.Second)
 
 		for {
+			res, err := client.SendAndCatch(tdjson.Update{
+				"@type": "getAuthorizationState",
+			})
+			fmt.Println(res)
+			fmt.Println(err)
 
 			result, err := client.SendAndCatchBytes(tdjson.Update{
 				"@type":          "getChats",
@@ -112,36 +125,5 @@ func main() {
 		fmt.Println(update)
 		fmt.Print("\n\n")
 
-		// Authorization block
-		if update["@type"].(string) == "updateAuthorizationState" {
-			if authorizationState, ok := update["authorization_state"].(tdjson.Update)["@type"].(string); ok {
-				res, err := client.Auth(authorizationState, apiId, apiHash)
-				if err != nil {
-					log.Println(err)
-				}
-				log.Println(res)
-			}
-		} else {
-			// data := map[string]interface{}{
-			// 	"@type":          "getChats",
-			// 	"offset_order":   0,
-			// 	"offset_chat_id": 0,
-			// 	"limit":          2000,
-			// }
-			// // result, err := client.SendAndCatch("{'@type': 'getChats', 'extra': 'bb123aa', 'offset_order': 0, 'offset_chat_id': 0, 'limit': 1000}")
-			// result, err := client.SendAndCatch(data)
-			// fmt.Printf("Result is : %s", result)
-			// if err != nil {
-			// 	fmt.Printf("errrror")
-			// }
-
-			// result, err := client.SendAndCatch("{'@type': 'getChats', 'extra': 'bb123aa', 'offset_order': 0, 'offset_chat_id': 0, 'limit': 1000}")
-			// result := client.Execute(`{
-			// 	"@type": "getTextEntities",
-			// 	"text": "@telegram /test_command https://telegram.org telegram.me",
-			// 	"@extra": ["5", 7.0]
-			// }`)
-
-		}
 	}
 }

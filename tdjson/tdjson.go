@@ -12,7 +12,6 @@ import "C"
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"math/rand"
 	"sync"
 	"time"
@@ -30,21 +29,20 @@ const (
 	AuthorizationStateClosed = iota
 	AuthorizationStateClosing
 	AuthorizationStateLoggingOut
-	AuthorizationStateStateReady
-	AuthorizationStateStateWaitCode
-	AuthorizationStateStateWaitEncryptionKey
-	AuthorizationStateStateWaitPassword
+	AuthorizationStateReady
+	AuthorizationStateWaitCode
+	AuthorizationStateWaitEncryptionKey
+	AuthorizationStateWaitPassword
 	AuthorizationStateWaitPhoneNumber
 	AuthorizationStateWaitTdlibParameters
 )
 
 // Client is the Telegram TdLib client
 type Client struct {
-	Client             unsafe.Pointer
-	Updates            chan Update
-	waiters            sync.Map
-	rawWaiters         sync.Map
-	authorizationState AuthorizationState
+	Client     unsafe.Pointer
+	Updates    chan Update
+	waiters    sync.Map
+	rawWaiters sync.Map
 }
 
 // TdlibConfig holds tdlibParameters
@@ -290,84 +288,89 @@ func (c *Client) SendAndCatchBytes(jsonQuery interface{}) ([]byte, error) {
 	}
 }
 
-// Auth Method for interactive authorizations process, just provide it authorization state from updates and api credentials.
-func (c *Client) Auth(authorizationState string, apiId string, apiHash string) (Update, error) {
-	switch authorizationState {
-	case "authorizationStateWaitTdlibParameters":
-		res, err := c.SendAndCatch(Update{
-			"@type": "setTdlibParameters",
-			"parameters": Update{
-				"@type":                    "tdlibParameters",
-				"use_message_database":     true,
-				"api_id":                   apiId,
-				"api_hash":                 apiHash,
-				"system_language_code":     "en",
-				"device_model":             "Server",
-				"system_version":           "Unknown",
-				"application_version":      "1.0",
-				"enable_storage_optimizer": true,
-			},
-		})
-		if err != nil {
-			return nil, err
-		}
-		return res, nil
-	case "authorizationStateWaitEncryptionKey":
-		res, err := c.SendAndCatch(Update{
-			"@type": "checkDatabaseEncryptionKey",
-		})
-		if err != nil {
-			return nil, err
-		}
-		return res, nil
-	case "authorizationStateWaitPhoneNumber":
-		fmt.Print("Enter phone: ")
-		var number string
-		fmt.Scanln(&number)
+// GetAuthorizationState returns authorization state
+func (c *Client) GetAuthorizationState() (AuthorizationState, error) {
+	res, err := c.SendAndCatch(Update{
+		"@type": "getAuthorizationState",
+	})
 
-		res, err := c.SendAndCatch(Update{
-			"@type":        "setAuthenticationPhoneNumber",
-			"phone_number": number,
-		})
-		if err != nil {
-			return nil, err
-		}
-		return res, nil
-	case "authorizationStateWaitCode":
-		fmt.Print("Enter code: ")
-		var code string
-		fmt.Scanln(&code)
-
-		res, err := c.SendAndCatch(Update{
-			"@type": "checkAuthenticationCode",
-			"code":  code,
-		})
-		if err != nil {
-			return nil, err
-		}
-		return res, nil
-	case "authorizationStateWaitPassword":
-		fmt.Print("Enter password: ")
-		var passwd string
-		fmt.Scanln(&passwd)
-
-		res, err := c.SendAndCatch(Update{
-			"@type":    "checkAuthenticationPassword",
-			"password": passwd,
-		})
-		if err != nil {
-			return nil, err
-		}
-		return res, nil
+	switch res["@type"].(string) {
+	case "authorizationStateClosed":
+		return AuthorizationStateClosed, err
+	case "authorizationStateClosing":
+		return AuthorizationStateClosing, err
+	case "authorizationStateLoggingOut":
+		return AuthorizationStateLoggingOut, err
 	case "authorizationStateReady":
-		fmt.Println("Authorized!")
-		return nil, nil
+		return AuthorizationStateReady, err
+	case "authorizationStateWaitCode":
+		return AuthorizationStateWaitCode, err
+	case "authorizationStateWaitEncryptionKey":
+		return AuthorizationStateWaitEncryptionKey, err
+	case "authorizationStateWaitPassword":
+		return AuthorizationStateWaitPassword, err
+	case "authorizationStateWaitPhoneNumber":
+		return AuthorizationStateWaitPhoneNumber, err
+	case "authorizationStateWaitTdlibParameters":
+		return AuthorizationStateWaitTdlibParameters, err
 	default:
-		return nil, fmt.Errorf(fmt.Sprintf("unexpected authorization state: %s", authorizationState))
+		return AuthorizationStateClosed, err
 	}
 }
 
-// GetAuthorizationState returns authorization state
-func (c *Client) GetAuthorizationState() AuthorizationState {
-	return c.authorizationState
+// Authorize is used to authorize the users
+func (c *Client) Authorize() (AuthorizationState, error) {
+	if state, _ := c.GetAuthorizationState(); state == AuthorizationStateWaitEncryptionKey {
+		_, err := c.SendAndCatch(Update{
+			"@type": "checkDatabaseEncryptionKey",
+		})
+
+		if err != nil {
+			return AuthorizationStateClosed, err
+		}
+	}
+
+	return c.GetAuthorizationState()
+}
+
+// SendPhoneNumber sends phone number to tdlib
+func (c *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, error) {
+	_, err := c.SendAndCatch(Update{
+		"@type":        "setAuthenticationPhoneNumber",
+		"phone_number": phoneNumber,
+	})
+
+	if err != nil {
+		return AuthorizationStateClosed, err
+	}
+
+	return c.GetAuthorizationState()
+}
+
+// SendAuthCode sends auth code to tdlib
+func (c *Client) SendAuthCode(code string) (AuthorizationState, error) {
+	_, err := c.SendAndCatch(Update{
+		"@type": "checkAuthenticationCode",
+		"code":  code,
+	})
+
+	if err != nil {
+		return AuthorizationStateClosed, err
+	}
+
+	return c.GetAuthorizationState()
+}
+
+// SendAuthPassword sends two-step verification password (user defined)to tdlib
+func (c *Client) SendAuthPassword(password string) (AuthorizationState, error) {
+	_, err := c.SendAndCatch(Update{
+		"@type":    "checkAuthenticationPassword",
+		"password": password,
+	})
+
+	if err != nil {
+		return AuthorizationStateClosed, err
+	}
+
+	return c.GetAuthorizationState()
 }
