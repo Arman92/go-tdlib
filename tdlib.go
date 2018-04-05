@@ -177,7 +177,6 @@ func (client *Client) Send(jsonQuery interface{}) {
 		query = C.CString(jsonQuery.(string))
 	case UpdateData:
 		jsonBytes, _ := json.Marshal(jsonQuery.(UpdateData))
-		fmt.Println("Sending: ", string(jsonBytes))
 		query = C.CString(string(jsonBytes))
 	}
 
