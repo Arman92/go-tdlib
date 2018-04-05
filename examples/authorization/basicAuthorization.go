@@ -2,15 +2,8 @@ package main
 
 import (
 	"fmt"
-	"math"
-	"os"
-	"os/signal"
-	"syscall"
 	"tg-tdlib/tdlib"
-	"time"
 )
-
-var allChats []tdlib.Chat
 
 func main() {
 	tdlib.SetLogVerbosityLevel(1)
@@ -32,15 +25,6 @@ func main() {
 		FileDirectory:       "./tdlib-files",
 		IgnoreFileNames:     false,
 	})
-
-	// Handle Ctrl+C
-	ch := make(chan os.Signal, 2)
-	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		<-ch
-		client.DestroyInstance()
-		os.Exit(1)
-	}()
 
 	for {
 		currentState, _ := client.Authorize()
@@ -74,52 +58,11 @@ func main() {
 		}
 	}
 
-	go func() {
-		eventFilter := func(msg *tdlib.TdMessage) bool {
-			updateMsg := (*msg).(*tdlib.UpdateNewMessage)
-			if updateMsg.Message.SenderUserID == 41507975 {
-				return true
-			}
-			return false
-		}
-
-		receiver := client.AddEventReceiver(&tdlib.UpdateNewMessage{}, eventFilter, 5)
-		for newMsg := range receiver.Chan {
-			fmt.Println(newMsg)
-			updateMsg := (newMsg).(*tdlib.UpdateNewMessage)
-			msgText := updateMsg.Message.Content.(*tdlib.MessageText)
-			fmt.Println("MsgText:  ", msgText.Text)
-			fmt.Print("\n\n")
-		}
-
-	}()
-
 	// Main loop
-	go func() {
-		for update := range client.RawUpdates {
-			// Show all updates
-			// fmt.Println(update.Data)
-			// fmt.Print("\n\n")
-			_ = update
-		}
-	}()
-
-	// see https://stackoverflow.com/questions/37782348/how-to-use-getchats-in-tdlib
-	chats, err := client.GetChats(math.MaxInt64, 0, 100)
-	allChats = make([]tdlib.Chat, 0, 1)
-	if err != nil {
-		fmt.Printf("Error getting chats, err: %v\n", err)
-	} else {
-		for _, chatID := range chats.ChatIDs {
-			chat, err := client.GetChat(chatID)
-			if err == nil {
-				fmt.Println("Got chat info: ", *chat)
-				allChats = append(allChats, *chat)
-			}
-		}
+	for update := range client.RawUpdates {
+		// Show all updates
+		fmt.Println(update.Data)
+		fmt.Print("\n\n")
 	}
 
-	for {
-		time.Sleep(1 * time.Second)
-	}
 }
