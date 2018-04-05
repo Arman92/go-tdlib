@@ -6,11 +6,13 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"tg-tdlib/tdlib"
 	"time"
+
+	"github.com/Arman92/go-tdlib"
 )
 
-var allChats []tdlib.Chat
+var allChats []*tdlib.Chat
+var haveFullChatList bool
 
 func main() {
 	tdlib.SetLogVerbosityLevel(1)
@@ -56,23 +58,54 @@ func main() {
 		}
 	}()
 
-	// Get chats
-	// see https://stackoverflow.com/questions/37782348/how-to-use-getchats-in-tdlib
-	chats, err := client.GetChats(math.MaxInt64, 0, 100)
-	allChats = make([]tdlib.Chat, 0, 1)
-	if err != nil {
-		fmt.Printf("Error getting chats, err: %v\n", err)
-	} else {
-		for _, chatID := range chats.ChatIDs {
-			chat, err := client.GetChat(chatID)
-			if err == nil {
-				fmt.Println("Got chat info: ", *chat)
-				allChats = append(allChats, *chat)
-			}
-		}
+	// get at most 1000 chats list
+	getChatList(client, 1000)
+	fmt.Printf("got %d chats\n", len(allChats))
+
+	for _, chat := range allChats {
+		fmt.Printf("Chat title: %s \n", chat.Title)
 	}
 
 	for {
 		time.Sleep(1 * time.Second)
 	}
+}
+
+// see https://stackoverflow.com/questions/37782348/how-to-use-getchats-in-tdlib
+func getChatList(client *tdlib.Client, limit int) error {
+
+	if !haveFullChatList && limit > len(allChats) {
+		offsetOrder := int64(math.MaxInt64)
+		offsetChatID := int64(0)
+		var lastChat *tdlib.Chat
+
+		if len(allChats) > 0 {
+			lastChat = allChats[len(allChats)-1]
+			offsetOrder = int64(lastChat.Order)
+			offsetChatID = lastChat.ID
+		}
+
+		// get chats (ids) from tdlib
+		chats, err := client.GetChats(tdlib.JSONInt64(offsetOrder),
+			offsetChatID, int32(limit-len(allChats)))
+		if err != nil {
+			return err
+		}
+		if len(chats.ChatIDs) == 0 {
+			haveFullChatList = true
+			return nil
+		}
+
+		for _, chatID := range chats.ChatIDs {
+			// get chat info from tdlib
+			chat, err := client.GetChat(chatID)
+			if err == nil {
+				allChats = append(allChats, chat)
+			} else {
+				return err
+			}
+		}
+		return getChatList(client, limit)
+	}
+	return nil
 }
