@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"tg-tdlib/tdlib"
+
+	"github.com/Arman92/go-tdlib"
 )
 
 func main() {

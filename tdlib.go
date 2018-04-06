@@ -41,7 +41,7 @@ type EventReceiver struct {
 // Client is the Telegram TdLib client
 type Client struct {
 	Client       unsafe.Pointer
-	RawUpdates   chan UpdateMsg
+	rawUpdates   chan UpdateMsg
 	receivers    []EventReceiver
 	waiters      sync.Map
 	receiverLock *sync.Mutex
@@ -75,7 +75,6 @@ func NewClient(config Config) *Client {
 	rand.Seed(time.Now().UnixNano())
 
 	client := Client{Client: C.td_json_client_create()}
-	client.RawUpdates = make(chan UpdateMsg, 100)
 	client.receivers = make([]EventReceiver, 0, 1)
 	client.receiverLock = &sync.Mutex{}
 
@@ -100,8 +99,11 @@ func NewClient(config Config) *Client {
 			} else {
 				// does new updates has @type field?
 				if msgType, hasType := updateData["@type"]; hasType {
-					// if yes, send it in main channel
-					client.RawUpdates <- UpdateMsg{Data: updateData, Raw: updateBytes}
+
+					if client.rawUpdates != nil {
+						// if rawUpdates is initialized, send the update in rawUpdates channel
+						client.rawUpdates <- UpdateMsg{Data: updateData, Raw: updateBytes}
+					}
 
 					client.receiverLock.Lock()
 					for _, receiver := range client.receivers {
@@ -144,6 +146,12 @@ func NewClient(config Config) *Client {
 	})
 
 	return &client
+}
+
+// GetRawUpdatesChannel creates a general channel that fetches every update comming from tdlib
+func (client *Client) GetRawUpdatesChannel(capacity int) chan UpdateMsg {
+	client.rawUpdates = make(chan UpdateMsg, 1000)
+	return client.rawUpdates
 }
 
 // AddEventReceiver adds a new receiver to be subscribed in receiver channels
