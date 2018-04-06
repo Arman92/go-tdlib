@@ -45,18 +45,11 @@ func main() {
 	}()
 
 	// Wait while we get AuthorizationReady!
+	// Note: See authorization example for complete auhtorization sequence example
 	currentState, _ := client.Authorize()
 	for ; currentState.GetAuthorizationStateEnum() != tdlib.AuthorizationStateReadyType; currentState, _ = client.Authorize() {
 		time.Sleep(300 * time.Millisecond)
 	}
-
-	// Main loop
-	go func() {
-		// Just fetch updates so the Updates channel won't cause the main routine to get blocked
-		for update := range client.RawUpdates {
-			_ = update
-		}
-	}()
 
 	// get at most 1000 chats list
 	getChatList(client, 1000)

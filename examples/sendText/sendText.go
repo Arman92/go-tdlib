@@ -47,29 +47,18 @@ func main() {
 		time.Sleep(300 * time.Millisecond)
 	}
 
+	// Send "/start" text every 5 seconds to Forsquare bot chat
 	go func() {
-		// Create an filter function which will be used to filter out unwanted tdlib messages
-		eventFilter := func(msg *tdlib.TdMessage) bool {
-			updateMsg := (*msg).(*tdlib.UpdateNewMessage)
-			// For example, we want incomming messages from user with below id:
-			if updateMsg.Message.SenderUserID == 41507975 {
-				return true
-			}
-			return false
-		}
+		// Should get chatID somehow, check out "getChats" example
+		chatID := int64(198529620) // Foursquare bot chat id
 
-		// Here we can add a receiver to retreive any message type we want
-		// We like to get UpdateNewMessage events and with a specific FilterFunc
-		receiver := client.AddEventReceiver(&tdlib.UpdateNewMessage{}, eventFilter, 5)
-		for newMsg := range receiver.Chan {
-			fmt.Println(newMsg)
-			updateMsg := (newMsg).(*tdlib.UpdateNewMessage)
-			// We assume the message content is simple text: (should be more sophosticated for general use)
-			msgText := updateMsg.Message.Content.(*tdlib.MessageText)
-			fmt.Println("MsgText:  ", msgText.Text)
-			fmt.Print("\n\n")
-		}
+		inputMsgTxt := tdlib.InputMessageText{
+			DisableWebPagePreview: true,
+			Text:       tdlib.FormattedText{Text: "/start"},
+			ClearDraft: true}
+		client.SendMessage(chatID, 0, false, true, nil, &inputMsgTxt)
 
+		time.Sleep(5 * time.Second)
 	}()
 
 	// rawUpdates gets all updates comming from tdlib
