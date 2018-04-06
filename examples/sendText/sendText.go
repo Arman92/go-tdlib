@@ -52,11 +52,8 @@ func main() {
 		// Should get chatID somehow, check out "getChats" example
 		chatID := int64(198529620) // Foursquare bot chat id
 
-		inputMsgTxt := tdlib.InputMessageText{
-			DisableWebPagePreview: true,
-			Text:       tdlib.FormattedText{Text: "/start"},
-			ClearDraft: true}
-		client.SendMessage(chatID, 0, false, true, nil, &inputMsgTxt)
+		inputMsgTxt := tdlib.NewInputMessageText(tdlib.NewFormattedText("/start", nil), true, true)
+		client.SendMessage(chatID, 0, false, true, nil, inputMsgTxt)
 
 		time.Sleep(5 * time.Second)
 	}()

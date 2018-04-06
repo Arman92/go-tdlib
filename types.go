@@ -17,7 +17,7 @@ type JSONInt64 int64
 
 // MarshalJSON marshals to json
 func (jsonInt *JSONInt64) MarshalJSON() ([]byte, error) {
-	intStr := "\"" + strconv.FormatInt(int64(*jsonInt), 10) + "\""
+	intStr := strconv.FormatInt(int64(*jsonInt), 10)
 	return []byte(intStr), nil
 }
 
@@ -987,6 +987,20 @@ func (error *Error) MessageType() string {
 	return "error"
 }
 
+// NewError creates a new Error
+//
+// @param code Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user
+// @param message Error message; subject to future changes
+func NewError(code int32, message string) *Error {
+	errorTemp := Error{
+		tdCommon: tdCommon{Type: "error"},
+		Code:     code,
+		Message:  message,
+	}
+
+	return &errorTemp
+}
+
 // Ok An object of this type is returned on a successful function call for certain functions
 type Ok struct {
 	tdCommon
@@ -995,6 +1009,16 @@ type Ok struct {
 // MessageType return the string telegram-type of Ok
 func (ok *Ok) MessageType() string {
 	return "ok"
+}
+
+// NewOk creates a new Ok
+//
+func NewOk() *Ok {
+	okTemp := Ok{
+		tdCommon: tdCommon{Type: "ok"},
+	}
+
+	return &okTemp
 }
 
 // TdlibParameters Contains parameters for TDLib initialization
@@ -1022,6 +1046,46 @@ func (tdlibParameters *TdlibParameters) MessageType() string {
 	return "tdlibParameters"
 }
 
+// NewTdlibParameters creates a new TdlibParameters
+//
+// @param useTestDc If set to true, the Telegram test environment will be used instead of the production environment
+// @param databaseDirectory The path to the directory for the persistent database; if empty, the current working directory will be used
+// @param filesDirectory The path to the directory for storing files; if empty, database_directory will be used
+// @param useFileDatabase If set to true, information about downloaded and uploaded files will be saved between application restarts
+// @param useChatInfoDatabase If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database
+// @param useMessageDatabase If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database
+// @param useSecretChats If set to true, support for secret chats will be enabled
+// @param aPIID Application identifier for Telegram API access, which can be obtained at https://my.telegram.org
+// @param aPIHash Application identifier hash for Telegram API access, which can be obtained at https://my.telegram.org
+// @param systemLanguageCode IETF language tag of the user's operating system language; must be non-empty
+// @param deviceModel Model of the device the application is being run on; must be non-empty
+// @param systemVersion Version of the operating system the application is being run on; must be non-empty
+// @param applicationVersion Application version; must be non-empty
+// @param enableStorageOptimizer If set to true, old files will automatically be deleted
+// @param ignoreFileNames If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name
+func NewTdlibParameters(useTestDc bool, databaseDirectory string, filesDirectory string, useFileDatabase bool, useChatInfoDatabase bool, useMessageDatabase bool, useSecretChats bool, aPIID int32, aPIHash string, systemLanguageCode string, deviceModel string, systemVersion string, applicationVersion string, enableStorageOptimizer bool, ignoreFileNames bool) *TdlibParameters {
+	tdlibParametersTemp := TdlibParameters{
+		tdCommon:               tdCommon{Type: "tdlibParameters"},
+		UseTestDc:              useTestDc,
+		DatabaseDirectory:      databaseDirectory,
+		FilesDirectory:         filesDirectory,
+		UseFileDatabase:        useFileDatabase,
+		UseChatInfoDatabase:    useChatInfoDatabase,
+		UseMessageDatabase:     useMessageDatabase,
+		UseSecretChats:         useSecretChats,
+		APIID:                  aPIID,
+		APIHash:                aPIHash,
+		SystemLanguageCode:     systemLanguageCode,
+		DeviceModel:            deviceModel,
+		SystemVersion:          systemVersion,
+		ApplicationVersion:     applicationVersion,
+		EnableStorageOptimizer: enableStorageOptimizer,
+		IgnoreFileNames:        ignoreFileNames,
+	}
+
+	return &tdlibParametersTemp
+}
+
 // AuthenticationCodeTypeTelegramMessage An authentication code is delivered via a private Telegram message, which can be viewed in another client
 type AuthenticationCodeTypeTelegramMessage struct {
 	tdCommon
@@ -1031,6 +1095,18 @@ type AuthenticationCodeTypeTelegramMessage struct {
 // MessageType return the string telegram-type of AuthenticationCodeTypeTelegramMessage
 func (authenticationCodeTypeTelegramMessage *AuthenticationCodeTypeTelegramMessage) MessageType() string {
 	return "authenticationCodeTypeTelegramMessage"
+}
+
+// NewAuthenticationCodeTypeTelegramMessage creates a new AuthenticationCodeTypeTelegramMessage
+//
+// @param length Length of the code
+func NewAuthenticationCodeTypeTelegramMessage(length int32) *AuthenticationCodeTypeTelegramMessage {
+	authenticationCodeTypeTelegramMessageTemp := AuthenticationCodeTypeTelegramMessage{
+		tdCommon: tdCommon{Type: "authenticationCodeTypeTelegramMessage"},
+		Length:   length,
+	}
+
+	return &authenticationCodeTypeTelegramMessageTemp
 }
 
 // GetAuthenticationCodeTypeEnum return the enum type of this object
@@ -1049,6 +1125,18 @@ func (authenticationCodeTypeSms *AuthenticationCodeTypeSms) MessageType() string
 	return "authenticationCodeTypeSms"
 }
 
+// NewAuthenticationCodeTypeSms creates a new AuthenticationCodeTypeSms
+//
+// @param length Length of the code
+func NewAuthenticationCodeTypeSms(length int32) *AuthenticationCodeTypeSms {
+	authenticationCodeTypeSmsTemp := AuthenticationCodeTypeSms{
+		tdCommon: tdCommon{Type: "authenticationCodeTypeSms"},
+		Length:   length,
+	}
+
+	return &authenticationCodeTypeSmsTemp
+}
+
 // GetAuthenticationCodeTypeEnum return the enum type of this object
 func (authenticationCodeTypeSms *AuthenticationCodeTypeSms) GetAuthenticationCodeTypeEnum() AuthenticationCodeTypeEnum {
 	return AuthenticationCodeTypeSmsType
@@ -1065,6 +1153,18 @@ func (authenticationCodeTypeCall *AuthenticationCodeTypeCall) MessageType() stri
 	return "authenticationCodeTypeCall"
 }
 
+// NewAuthenticationCodeTypeCall creates a new AuthenticationCodeTypeCall
+//
+// @param length Length of the code
+func NewAuthenticationCodeTypeCall(length int32) *AuthenticationCodeTypeCall {
+	authenticationCodeTypeCallTemp := AuthenticationCodeTypeCall{
+		tdCommon: tdCommon{Type: "authenticationCodeTypeCall"},
+		Length:   length,
+	}
+
+	return &authenticationCodeTypeCallTemp
+}
+
 // GetAuthenticationCodeTypeEnum return the enum type of this object
 func (authenticationCodeTypeCall *AuthenticationCodeTypeCall) GetAuthenticationCodeTypeEnum() AuthenticationCodeTypeEnum {
 	return AuthenticationCodeTypeCallType
@@ -1079,6 +1179,18 @@ type AuthenticationCodeTypeFlashCall struct {
 // MessageType return the string telegram-type of AuthenticationCodeTypeFlashCall
 func (authenticationCodeTypeFlashCall *AuthenticationCodeTypeFlashCall) MessageType() string {
 	return "authenticationCodeTypeFlashCall"
+}
+
+// NewAuthenticationCodeTypeFlashCall creates a new AuthenticationCodeTypeFlashCall
+//
+// @param pattern Pattern of the phone number from which the call will be made
+func NewAuthenticationCodeTypeFlashCall(pattern string) *AuthenticationCodeTypeFlashCall {
+	authenticationCodeTypeFlashCallTemp := AuthenticationCodeTypeFlashCall{
+		tdCommon: tdCommon{Type: "authenticationCodeTypeFlashCall"},
+		Pattern:  pattern,
+	}
+
+	return &authenticationCodeTypeFlashCallTemp
 }
 
 // GetAuthenticationCodeTypeEnum return the enum type of this object
@@ -1098,6 +1210,24 @@ type AuthenticationCodeInfo struct {
 // MessageType return the string telegram-type of AuthenticationCodeInfo
 func (authenticationCodeInfo *AuthenticationCodeInfo) MessageType() string {
 	return "authenticationCodeInfo"
+}
+
+// NewAuthenticationCodeInfo creates a new AuthenticationCodeInfo
+//
+// @param phoneNumber A phone number that is being authenticated
+// @param typeParam Describes the way the code was sent to the user
+// @param nextType Describes the way the next code will be sent to the user; may be null
+// @param timeout Timeout before the code should be re-sent, in seconds
+func NewAuthenticationCodeInfo(phoneNumber string, typeParam AuthenticationCodeType, nextType AuthenticationCodeType, timeout int32) *AuthenticationCodeInfo {
+	authenticationCodeInfoTemp := AuthenticationCodeInfo{
+		tdCommon:    tdCommon{Type: "authenticationCodeInfo"},
+		PhoneNumber: phoneNumber,
+		Type:        typeParam,
+		NextType:    nextType,
+		Timeout:     timeout,
+	}
+
+	return &authenticationCodeInfoTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -1140,6 +1270,16 @@ func (authorizationStateWaitTdlibParameters *AuthorizationStateWaitTdlibParamete
 	return "authorizationStateWaitTdlibParameters"
 }
 
+// NewAuthorizationStateWaitTdlibParameters creates a new AuthorizationStateWaitTdlibParameters
+//
+func NewAuthorizationStateWaitTdlibParameters() *AuthorizationStateWaitTdlibParameters {
+	authorizationStateWaitTdlibParametersTemp := AuthorizationStateWaitTdlibParameters{
+		tdCommon: tdCommon{Type: "authorizationStateWaitTdlibParameters"},
+	}
+
+	return &authorizationStateWaitTdlibParametersTemp
+}
+
 // GetAuthorizationStateEnum return the enum type of this object
 func (authorizationStateWaitTdlibParameters *AuthorizationStateWaitTdlibParameters) GetAuthorizationStateEnum() AuthorizationStateEnum {
 	return AuthorizationStateWaitTdlibParametersType
@@ -1154,6 +1294,18 @@ type AuthorizationStateWaitEncryptionKey struct {
 // MessageType return the string telegram-type of AuthorizationStateWaitEncryptionKey
 func (authorizationStateWaitEncryptionKey *AuthorizationStateWaitEncryptionKey) MessageType() string {
 	return "authorizationStateWaitEncryptionKey"
+}
+
+// NewAuthorizationStateWaitEncryptionKey creates a new AuthorizationStateWaitEncryptionKey
+//
+// @param isEncrypted True, if the database is currently encrypted
+func NewAuthorizationStateWaitEncryptionKey(isEncrypted bool) *AuthorizationStateWaitEncryptionKey {
+	authorizationStateWaitEncryptionKeyTemp := AuthorizationStateWaitEncryptionKey{
+		tdCommon:    tdCommon{Type: "authorizationStateWaitEncryptionKey"},
+		IsEncrypted: isEncrypted,
+	}
+
+	return &authorizationStateWaitEncryptionKeyTemp
 }
 
 // GetAuthorizationStateEnum return the enum type of this object
@@ -1171,6 +1323,16 @@ func (authorizationStateWaitPhoneNumber *AuthorizationStateWaitPhoneNumber) Mess
 	return "authorizationStateWaitPhoneNumber"
 }
 
+// NewAuthorizationStateWaitPhoneNumber creates a new AuthorizationStateWaitPhoneNumber
+//
+func NewAuthorizationStateWaitPhoneNumber() *AuthorizationStateWaitPhoneNumber {
+	authorizationStateWaitPhoneNumberTemp := AuthorizationStateWaitPhoneNumber{
+		tdCommon: tdCommon{Type: "authorizationStateWaitPhoneNumber"},
+	}
+
+	return &authorizationStateWaitPhoneNumberTemp
+}
+
 // GetAuthorizationStateEnum return the enum type of this object
 func (authorizationStateWaitPhoneNumber *AuthorizationStateWaitPhoneNumber) GetAuthorizationStateEnum() AuthorizationStateEnum {
 	return AuthorizationStateWaitPhoneNumberType
@@ -1186,6 +1348,20 @@ type AuthorizationStateWaitCode struct {
 // MessageType return the string telegram-type of AuthorizationStateWaitCode
 func (authorizationStateWaitCode *AuthorizationStateWaitCode) MessageType() string {
 	return "authorizationStateWaitCode"
+}
+
+// NewAuthorizationStateWaitCode creates a new AuthorizationStateWaitCode
+//
+// @param isRegistered True, if the user is already registered
+// @param codeInfo Information about the authorization code that was sent
+func NewAuthorizationStateWaitCode(isRegistered bool, codeInfo *AuthenticationCodeInfo) *AuthorizationStateWaitCode {
+	authorizationStateWaitCodeTemp := AuthorizationStateWaitCode{
+		tdCommon:     tdCommon{Type: "authorizationStateWaitCode"},
+		IsRegistered: isRegistered,
+		CodeInfo:     *codeInfo,
+	}
+
+	return &authorizationStateWaitCodeTemp
 }
 
 // GetAuthorizationStateEnum return the enum type of this object
@@ -1206,6 +1382,22 @@ func (authorizationStateWaitPassword *AuthorizationStateWaitPassword) MessageTyp
 	return "authorizationStateWaitPassword"
 }
 
+// NewAuthorizationStateWaitPassword creates a new AuthorizationStateWaitPassword
+//
+// @param passwordHint Hint for the password; can be empty
+// @param hasRecoveryEmailAddress True if a recovery email address has been set up
+// @param recoveryEmailAddressPattern Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent
+func NewAuthorizationStateWaitPassword(passwordHint string, hasRecoveryEmailAddress bool, recoveryEmailAddressPattern string) *AuthorizationStateWaitPassword {
+	authorizationStateWaitPasswordTemp := AuthorizationStateWaitPassword{
+		tdCommon:                    tdCommon{Type: "authorizationStateWaitPassword"},
+		PasswordHint:                passwordHint,
+		HasRecoveryEmailAddress:     hasRecoveryEmailAddress,
+		RecoveryEmailAddressPattern: recoveryEmailAddressPattern,
+	}
+
+	return &authorizationStateWaitPasswordTemp
+}
+
 // GetAuthorizationStateEnum return the enum type of this object
 func (authorizationStateWaitPassword *AuthorizationStateWaitPassword) GetAuthorizationStateEnum() AuthorizationStateEnum {
 	return AuthorizationStateWaitPasswordType
@@ -1219,6 +1411,16 @@ type AuthorizationStateReady struct {
 // MessageType return the string telegram-type of AuthorizationStateReady
 func (authorizationStateReady *AuthorizationStateReady) MessageType() string {
 	return "authorizationStateReady"
+}
+
+// NewAuthorizationStateReady creates a new AuthorizationStateReady
+//
+func NewAuthorizationStateReady() *AuthorizationStateReady {
+	authorizationStateReadyTemp := AuthorizationStateReady{
+		tdCommon: tdCommon{Type: "authorizationStateReady"},
+	}
+
+	return &authorizationStateReadyTemp
 }
 
 // GetAuthorizationStateEnum return the enum type of this object
@@ -1236,6 +1438,16 @@ func (authorizationStateLoggingOut *AuthorizationStateLoggingOut) MessageType() 
 	return "authorizationStateLoggingOut"
 }
 
+// NewAuthorizationStateLoggingOut creates a new AuthorizationStateLoggingOut
+//
+func NewAuthorizationStateLoggingOut() *AuthorizationStateLoggingOut {
+	authorizationStateLoggingOutTemp := AuthorizationStateLoggingOut{
+		tdCommon: tdCommon{Type: "authorizationStateLoggingOut"},
+	}
+
+	return &authorizationStateLoggingOutTemp
+}
+
 // GetAuthorizationStateEnum return the enum type of this object
 func (authorizationStateLoggingOut *AuthorizationStateLoggingOut) GetAuthorizationStateEnum() AuthorizationStateEnum {
 	return AuthorizationStateLoggingOutType
@@ -1251,6 +1463,16 @@ func (authorizationStateClosing *AuthorizationStateClosing) MessageType() string
 	return "authorizationStateClosing"
 }
 
+// NewAuthorizationStateClosing creates a new AuthorizationStateClosing
+//
+func NewAuthorizationStateClosing() *AuthorizationStateClosing {
+	authorizationStateClosingTemp := AuthorizationStateClosing{
+		tdCommon: tdCommon{Type: "authorizationStateClosing"},
+	}
+
+	return &authorizationStateClosingTemp
+}
+
 // GetAuthorizationStateEnum return the enum type of this object
 func (authorizationStateClosing *AuthorizationStateClosing) GetAuthorizationStateEnum() AuthorizationStateEnum {
 	return AuthorizationStateClosingType
@@ -1264,6 +1486,16 @@ type AuthorizationStateClosed struct {
 // MessageType return the string telegram-type of AuthorizationStateClosed
 func (authorizationStateClosed *AuthorizationStateClosed) MessageType() string {
 	return "authorizationStateClosed"
+}
+
+// NewAuthorizationStateClosed creates a new AuthorizationStateClosed
+//
+func NewAuthorizationStateClosed() *AuthorizationStateClosed {
+	authorizationStateClosedTemp := AuthorizationStateClosed{
+		tdCommon: tdCommon{Type: "authorizationStateClosed"},
+	}
+
+	return &authorizationStateClosedTemp
 }
 
 // GetAuthorizationStateEnum return the enum type of this object
@@ -1285,6 +1517,24 @@ func (passwordState *PasswordState) MessageType() string {
 	return "passwordState"
 }
 
+// NewPasswordState creates a new PasswordState
+//
+// @param hasPassword True if a 2-step verification password has been set up
+// @param passwordHint Hint for the password; can be empty
+// @param hasRecoveryEmailAddress True if a recovery email has been set up
+// @param unconfirmedRecoveryEmailAddressPattern Pattern of the email address to which a confirmation email was sent
+func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, unconfirmedRecoveryEmailAddressPattern string) *PasswordState {
+	passwordStateTemp := PasswordState{
+		tdCommon:                               tdCommon{Type: "passwordState"},
+		HasPassword:                            hasPassword,
+		PasswordHint:                           passwordHint,
+		HasRecoveryEmailAddress:                hasRecoveryEmailAddress,
+		UnconfirmedRecoveryEmailAddressPattern: unconfirmedRecoveryEmailAddressPattern,
+	}
+
+	return &passwordStateTemp
+}
+
 // PasswordRecoveryInfo Contains information available to the user after requesting password recovery
 type PasswordRecoveryInfo struct {
 	tdCommon
@@ -1294,6 +1544,18 @@ type PasswordRecoveryInfo struct {
 // MessageType return the string telegram-type of PasswordRecoveryInfo
 func (passwordRecoveryInfo *PasswordRecoveryInfo) MessageType() string {
 	return "passwordRecoveryInfo"
+}
+
+// NewPasswordRecoveryInfo creates a new PasswordRecoveryInfo
+//
+// @param recoveryEmailAddressPattern Pattern of the email address to which a recovery email was sent
+func NewPasswordRecoveryInfo(recoveryEmailAddressPattern string) *PasswordRecoveryInfo {
+	passwordRecoveryInfoTemp := PasswordRecoveryInfo{
+		tdCommon:                    tdCommon{Type: "passwordRecoveryInfo"},
+		RecoveryEmailAddressPattern: recoveryEmailAddressPattern,
+	}
+
+	return &passwordRecoveryInfoTemp
 }
 
 // RecoveryEmailAddress Contains information about the current recovery email address
@@ -1307,6 +1569,18 @@ func (recoveryEmailAddress *RecoveryEmailAddress) MessageType() string {
 	return "recoveryEmailAddress"
 }
 
+// NewRecoveryEmailAddress creates a new RecoveryEmailAddress
+//
+// @param recoveryEmailAddress Recovery email address
+func NewRecoveryEmailAddress(recoveryEmailAddress string) *RecoveryEmailAddress {
+	recoveryEmailAddressTemp := RecoveryEmailAddress{
+		tdCommon:             tdCommon{Type: "recoveryEmailAddress"},
+		RecoveryEmailAddress: recoveryEmailAddress,
+	}
+
+	return &recoveryEmailAddressTemp
+}
+
 // TemporaryPasswordState Returns information about the availability of a temporary password, which can be used for payments
 type TemporaryPasswordState struct {
 	tdCommon
@@ -1317,6 +1591,20 @@ type TemporaryPasswordState struct {
 // MessageType return the string telegram-type of TemporaryPasswordState
 func (temporaryPasswordState *TemporaryPasswordState) MessageType() string {
 	return "temporaryPasswordState"
+}
+
+// NewTemporaryPasswordState creates a new TemporaryPasswordState
+//
+// @param hasPassword True, if a temporary password is available
+// @param validFor Time left before the temporary password expires, in seconds
+func NewTemporaryPasswordState(hasPassword bool, validFor int32) *TemporaryPasswordState {
+	temporaryPasswordStateTemp := TemporaryPasswordState{
+		tdCommon:    tdCommon{Type: "temporaryPasswordState"},
+		HasPassword: hasPassword,
+		ValidFor:    validFor,
+	}
+
+	return &temporaryPasswordStateTemp
 }
 
 // LocalFile Represents a local file
@@ -1336,6 +1624,30 @@ func (localFile *LocalFile) MessageType() string {
 	return "localFile"
 }
 
+// NewLocalFile creates a new LocalFile
+//
+// @param path Local path to the locally available file part; may be empty
+// @param canBeDownloaded True, if it is possible to try to download or generate the file
+// @param canBeDeleted True, if the file can be deleted
+// @param isDownloadingActive True, if the file is currently being downloaded (or a local copy is being generated by some other means)
+// @param isDownloadingCompleted True, if the local copy is fully available
+// @param downloadedPrefixSize If is_downloading_completed is false, then only some prefix of the file is ready to be read. downloaded_prefix_size is the size of that prefix
+// @param downloadedSize Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
+func NewLocalFile(path string, canBeDownloaded bool, canBeDeleted bool, isDownloadingActive bool, isDownloadingCompleted bool, downloadedPrefixSize int32, downloadedSize int32) *LocalFile {
+	localFileTemp := LocalFile{
+		tdCommon:               tdCommon{Type: "localFile"},
+		Path:                   path,
+		CanBeDownloaded:        canBeDownloaded,
+		CanBeDeleted:           canBeDeleted,
+		IsDownloadingActive:    isDownloadingActive,
+		IsDownloadingCompleted: isDownloadingCompleted,
+		DownloadedPrefixSize:   downloadedPrefixSize,
+		DownloadedSize:         downloadedSize,
+	}
+
+	return &localFileTemp
+}
+
 // RemoteFile Represents a remote file
 type RemoteFile struct {
 	tdCommon
@@ -1348,6 +1660,24 @@ type RemoteFile struct {
 // MessageType return the string telegram-type of RemoteFile
 func (remoteFile *RemoteFile) MessageType() string {
 	return "remoteFile"
+}
+
+// NewRemoteFile creates a new RemoteFile
+//
+// @param iD Remote file identifier, may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known.
+// @param isUploadingActive True, if the file is currently being uploaded (or a remote copy is being generated by some other means)
+// @param isUploadingCompleted True, if a remote copy is fully available
+// @param uploadedSize Size of the remote available part of the file; 0 if unknown
+func NewRemoteFile(iD string, isUploadingActive bool, isUploadingCompleted bool, uploadedSize int32) *RemoteFile {
+	remoteFileTemp := RemoteFile{
+		tdCommon:             tdCommon{Type: "remoteFile"},
+		ID:                   iD,
+		IsUploadingActive:    isUploadingActive,
+		IsUploadingCompleted: isUploadingCompleted,
+		UploadedSize:         uploadedSize,
+	}
+
+	return &remoteFileTemp
 }
 
 // File Represents a file
@@ -1365,6 +1695,26 @@ func (file *File) MessageType() string {
 	return "file"
 }
 
+// NewFile creates a new File
+//
+// @param iD Unique file identifier
+// @param size File size; 0 if unknown
+// @param expectedSize Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
+// @param local Information about the local copy of the file
+// @param remote Information about the remote copy of the file
+func NewFile(iD int32, size int32, expectedSize int32, local *LocalFile, remote *RemoteFile) *File {
+	fileTemp := File{
+		tdCommon:     tdCommon{Type: "file"},
+		ID:           iD,
+		Size:         size,
+		ExpectedSize: expectedSize,
+		Local:        *local,
+		Remote:       *remote,
+	}
+
+	return &fileTemp
+}
+
 // InputFileID A file defined by its unique ID
 type InputFileID struct {
 	tdCommon
@@ -1374,6 +1724,18 @@ type InputFileID struct {
 // MessageType return the string telegram-type of InputFileID
 func (inputFileID *InputFileID) MessageType() string {
 	return "inputFileId"
+}
+
+// NewInputFileID creates a new InputFileID
+//
+// @param iD Unique file identifier
+func NewInputFileID(iD int32) *InputFileID {
+	inputFileIDTemp := InputFileID{
+		tdCommon: tdCommon{Type: "inputFileId"},
+		ID:       iD,
+	}
+
+	return &inputFileIDTemp
 }
 
 // GetInputFileEnum return the enum type of this object
@@ -1392,6 +1754,18 @@ func (inputFileRemote *InputFileRemote) MessageType() string {
 	return "inputFileRemote"
 }
 
+// NewInputFileRemote creates a new InputFileRemote
+//
+// @param iD Remote file identifier
+func NewInputFileRemote(iD string) *InputFileRemote {
+	inputFileRemoteTemp := InputFileRemote{
+		tdCommon: tdCommon{Type: "inputFileRemote"},
+		ID:       iD,
+	}
+
+	return &inputFileRemoteTemp
+}
+
 // GetInputFileEnum return the enum type of this object
 func (inputFileRemote *InputFileRemote) GetInputFileEnum() InputFileEnum {
 	return InputFileRemoteType
@@ -1406,6 +1780,18 @@ type InputFileLocal struct {
 // MessageType return the string telegram-type of InputFileLocal
 func (inputFileLocal *InputFileLocal) MessageType() string {
 	return "inputFileLocal"
+}
+
+// NewInputFileLocal creates a new InputFileLocal
+//
+// @param path Local path to the file
+func NewInputFileLocal(path string) *InputFileLocal {
+	inputFileLocalTemp := InputFileLocal{
+		tdCommon: tdCommon{Type: "inputFileLocal"},
+		Path:     path,
+	}
+
+	return &inputFileLocalTemp
 }
 
 // GetInputFileEnum return the enum type of this object
@@ -1424,6 +1810,22 @@ type InputFileGenerated struct {
 // MessageType return the string telegram-type of InputFileGenerated
 func (inputFileGenerated *InputFileGenerated) MessageType() string {
 	return "inputFileGenerated"
+}
+
+// NewInputFileGenerated creates a new InputFileGenerated
+//
+// @param originalPath Local path to a file from which the file is generated, may be empty if there is no such file
+// @param conversion String specifying the conversion applied to the original file; should be persistent across application restarts
+// @param expectedSize Expected size of the generated file; 0 if unknown
+func NewInputFileGenerated(originalPath string, conversion string, expectedSize int32) *InputFileGenerated {
+	inputFileGeneratedTemp := InputFileGenerated{
+		tdCommon:     tdCommon{Type: "inputFileGenerated"},
+		OriginalPath: originalPath,
+		Conversion:   conversion,
+		ExpectedSize: expectedSize,
+	}
+
+	return &inputFileGeneratedTemp
 }
 
 // GetInputFileEnum return the enum type of this object
@@ -1445,6 +1847,24 @@ func (photoSize *PhotoSize) MessageType() string {
 	return "photoSize"
 }
 
+// NewPhotoSize creates a new PhotoSize
+//
+// @param typeParam Thumbnail type (see https://core.telegram.org/constructor/photoSize)
+// @param photo Information about the photo file
+// @param width Photo width
+// @param height Photo height
+func NewPhotoSize(typeParam string, photo *File, width int32, height int32) *PhotoSize {
+	photoSizeTemp := PhotoSize{
+		tdCommon: tdCommon{Type: "photoSize"},
+		Type:     typeParam,
+		Photo:    *photo,
+		Width:    width,
+		Height:   height,
+	}
+
+	return &photoSizeTemp
+}
+
 // MaskPointForehead A mask should be placed relatively to the forehead
 type MaskPointForehead struct {
 	tdCommon
@@ -1453,6 +1873,16 @@ type MaskPointForehead struct {
 // MessageType return the string telegram-type of MaskPointForehead
 func (maskPointForehead *MaskPointForehead) MessageType() string {
 	return "maskPointForehead"
+}
+
+// NewMaskPointForehead creates a new MaskPointForehead
+//
+func NewMaskPointForehead() *MaskPointForehead {
+	maskPointForeheadTemp := MaskPointForehead{
+		tdCommon: tdCommon{Type: "maskPointForehead"},
+	}
+
+	return &maskPointForeheadTemp
 }
 
 // GetMaskPointEnum return the enum type of this object
@@ -1470,6 +1900,16 @@ func (maskPointEyes *MaskPointEyes) MessageType() string {
 	return "maskPointEyes"
 }
 
+// NewMaskPointEyes creates a new MaskPointEyes
+//
+func NewMaskPointEyes() *MaskPointEyes {
+	maskPointEyesTemp := MaskPointEyes{
+		tdCommon: tdCommon{Type: "maskPointEyes"},
+	}
+
+	return &maskPointEyesTemp
+}
+
 // GetMaskPointEnum return the enum type of this object
 func (maskPointEyes *MaskPointEyes) GetMaskPointEnum() MaskPointEnum {
 	return MaskPointEyesType
@@ -1485,6 +1925,16 @@ func (maskPointMouth *MaskPointMouth) MessageType() string {
 	return "maskPointMouth"
 }
 
+// NewMaskPointMouth creates a new MaskPointMouth
+//
+func NewMaskPointMouth() *MaskPointMouth {
+	maskPointMouthTemp := MaskPointMouth{
+		tdCommon: tdCommon{Type: "maskPointMouth"},
+	}
+
+	return &maskPointMouthTemp
+}
+
 // GetMaskPointEnum return the enum type of this object
 func (maskPointMouth *MaskPointMouth) GetMaskPointEnum() MaskPointEnum {
 	return MaskPointMouthType
@@ -1498,6 +1948,16 @@ type MaskPointChin struct {
 // MessageType return the string telegram-type of MaskPointChin
 func (maskPointChin *MaskPointChin) MessageType() string {
 	return "maskPointChin"
+}
+
+// NewMaskPointChin creates a new MaskPointChin
+//
+func NewMaskPointChin() *MaskPointChin {
+	maskPointChinTemp := MaskPointChin{
+		tdCommon: tdCommon{Type: "maskPointChin"},
+	}
+
+	return &maskPointChinTemp
 }
 
 // GetMaskPointEnum return the enum type of this object
@@ -1517,6 +1977,24 @@ type MaskPosition struct {
 // MessageType return the string telegram-type of MaskPosition
 func (maskPosition *MaskPosition) MessageType() string {
 	return "maskPosition"
+}
+
+// NewMaskPosition creates a new MaskPosition
+//
+// @param point Part of the face, relative to which the mask should be placed
+// @param xShift Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position)
+// @param yShift Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. (For example, 1.0 will place the mask just below the default mask position)
+// @param scale Mask scaling coefficient. (For example, 2.0 means a doubled size)
+func NewMaskPosition(point MaskPoint, xShift float64, yShift float64, scale float64) *MaskPosition {
+	maskPositionTemp := MaskPosition{
+		tdCommon: tdCommon{Type: "maskPosition"},
+		Point:    point,
+		XShift:   xShift,
+		YShift:   yShift,
+		Scale:    scale,
+	}
+
+	return &maskPositionTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -1561,6 +2039,22 @@ func (textEntity *TextEntity) MessageType() string {
 	return "textEntity"
 }
 
+// NewTextEntity creates a new TextEntity
+//
+// @param offset Offset of the entity in UTF-16 code points
+// @param length Length of the entity, in UTF-16 code points
+// @param typeParam Type of the entity
+func NewTextEntity(offset int32, length int32, typeParam TextEntityType) *TextEntity {
+	textEntityTemp := TextEntity{
+		tdCommon: tdCommon{Type: "textEntity"},
+		Offset:   offset,
+		Length:   length,
+		Type:     typeParam,
+	}
+
+	return &textEntityTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (textEntity *TextEntity) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -1600,6 +2094,18 @@ func (textEntities *TextEntities) MessageType() string {
 	return "textEntities"
 }
 
+// NewTextEntities creates a new TextEntities
+//
+// @param entities List of text entities
+func NewTextEntities(entities []TextEntity) *TextEntities {
+	textEntitiesTemp := TextEntities{
+		tdCommon: tdCommon{Type: "textEntities"},
+		Entities: entities,
+	}
+
+	return &textEntitiesTemp
+}
+
 // FormattedText A text with some entities
 type FormattedText struct {
 	tdCommon
@@ -1610,6 +2116,20 @@ type FormattedText struct {
 // MessageType return the string telegram-type of FormattedText
 func (formattedText *FormattedText) MessageType() string {
 	return "formattedText"
+}
+
+// NewFormattedText creates a new FormattedText
+//
+// @param text The text
+// @param entities Entities contained in the text
+func NewFormattedText(text string, entities []TextEntity) *FormattedText {
+	formattedTextTemp := FormattedText{
+		tdCommon: tdCommon{Type: "formattedText"},
+		Text:     text,
+		Entities: entities,
+	}
+
+	return &formattedTextTemp
 }
 
 // Animation Describes an animation file. The animation must be encoded in GIF or MPEG4 format
@@ -1629,6 +2149,30 @@ func (animation *Animation) MessageType() string {
 	return "animation"
 }
 
+// NewAnimation creates a new Animation
+//
+// @param duration Duration of the animation, in seconds; as defined by the sender
+// @param width Width of the animation
+// @param height Height of the animation
+// @param fileName Original name of the file; as defined by the sender
+// @param mimeType MIME type of the file, usually "image/gif" or "video/mp4"
+// @param thumbnail Animation thumbnail; may be null
+// @param animation File containing the animation
+func NewAnimation(duration int32, width int32, height int32, fileName string, mimeType string, thumbnail *PhotoSize, animation *File) *Animation {
+	animationTemp := Animation{
+		tdCommon:  tdCommon{Type: "animation"},
+		Duration:  duration,
+		Width:     width,
+		Height:    height,
+		FileName:  fileName,
+		MimeType:  mimeType,
+		Thumbnail: *thumbnail,
+		Animation: *animation,
+	}
+
+	return &animationTemp
+}
+
 // Audio Describes an audio file. Audio is usually in MP3 format
 type Audio struct {
 	tdCommon
@@ -1646,6 +2190,30 @@ func (audio *Audio) MessageType() string {
 	return "audio"
 }
 
+// NewAudio creates a new Audio
+//
+// @param duration Duration of the audio, in seconds; as defined by the sender
+// @param title Title of the audio; as defined by the sender
+// @param performer Performer of the audio; as defined by the sender
+// @param fileName Original name of the file; as defined by the sender
+// @param mimeType The MIME type of the file; as defined by the sender
+// @param albumCoverThumbnail The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null
+// @param audio File containing the audio
+func NewAudio(duration int32, title string, performer string, fileName string, mimeType string, albumCoverThumbnail *PhotoSize, audio *File) *Audio {
+	audioTemp := Audio{
+		tdCommon:            tdCommon{Type: "audio"},
+		Duration:            duration,
+		Title:               title,
+		Performer:           performer,
+		FileName:            fileName,
+		MimeType:            mimeType,
+		AlbumCoverThumbnail: *albumCoverThumbnail,
+		Audio:               *audio,
+	}
+
+	return &audioTemp
+}
+
 // Document Describes a document of any type
 type Document struct {
 	tdCommon
@@ -1660,6 +2228,24 @@ func (document *Document) MessageType() string {
 	return "document"
 }
 
+// NewDocument creates a new Document
+//
+// @param fileName Original name of the file; as defined by the sender
+// @param mimeType MIME type of the file; as defined by the sender
+// @param thumbnail Document thumbnail; as defined by the sender; may be null
+// @param document File containing the document
+func NewDocument(fileName string, mimeType string, thumbnail *PhotoSize, document *File) *Document {
+	documentTemp := Document{
+		tdCommon:  tdCommon{Type: "document"},
+		FileName:  fileName,
+		MimeType:  mimeType,
+		Thumbnail: *thumbnail,
+		Document:  *document,
+	}
+
+	return &documentTemp
+}
+
 // Photo Describes a photo
 type Photo struct {
 	tdCommon
@@ -1671,6 +2257,22 @@ type Photo struct {
 // MessageType return the string telegram-type of Photo
 func (photo *Photo) MessageType() string {
 	return "photo"
+}
+
+// NewPhoto creates a new Photo
+//
+// @param iD Photo identifier; 0 for deleted photos
+// @param hasStickers True, if stickers were added to the photo
+// @param sizes Available variants of the photo, in different sizes
+func NewPhoto(iD JSONInt64, hasStickers bool, sizes []PhotoSize) *Photo {
+	photoTemp := Photo{
+		tdCommon:    tdCommon{Type: "photo"},
+		ID:          iD,
+		HasStickers: hasStickers,
+		Sizes:       sizes,
+	}
+
+	return &photoTemp
 }
 
 // Sticker Describes a sticker
@@ -1689,6 +2291,32 @@ type Sticker struct {
 // MessageType return the string telegram-type of Sticker
 func (sticker *Sticker) MessageType() string {
 	return "sticker"
+}
+
+// NewSticker creates a new Sticker
+//
+// @param setID The identifier of the sticker set to which the sticker belongs; 0 if none
+// @param width Sticker width; as defined by the sender
+// @param height Sticker height; as defined by the sender
+// @param emoji Emoji corresponding to the sticker
+// @param isMask True, if the sticker is a mask
+// @param maskPosition Position where the mask should be placed; may be null
+// @param thumbnail Sticker thumbnail in WEBP or JPEG format; may be null
+// @param sticker File containing the sticker
+func NewSticker(setID JSONInt64, width int32, height int32, emoji string, isMask bool, maskPosition *MaskPosition, thumbnail *PhotoSize, sticker *File) *Sticker {
+	stickerTemp := Sticker{
+		tdCommon:     tdCommon{Type: "sticker"},
+		SetID:        setID,
+		Width:        width,
+		Height:       height,
+		Emoji:        emoji,
+		IsMask:       isMask,
+		MaskPosition: *maskPosition,
+		Thumbnail:    *thumbnail,
+		Sticker:      *sticker,
+	}
+
+	return &stickerTemp
 }
 
 // Video Describes a video file
@@ -1710,6 +2338,34 @@ func (video *Video) MessageType() string {
 	return "video"
 }
 
+// NewVideo creates a new Video
+//
+// @param duration Duration of the video, in seconds; as defined by the sender
+// @param width Video width; as defined by the sender
+// @param height Video height; as defined by the sender
+// @param fileName Original name of the file; as defined by the sender
+// @param mimeType MIME type of the file; as defined by the sender
+// @param hasStickers True, if stickers were added to the photo
+// @param supportsStreaming True, if the video should be tried to be streamed
+// @param thumbnail Video thumbnail; as defined by the sender; may be null
+// @param video File containing the video
+func NewVideo(duration int32, width int32, height int32, fileName string, mimeType string, hasStickers bool, supportsStreaming bool, thumbnail *PhotoSize, video *File) *Video {
+	videoTemp := Video{
+		tdCommon:          tdCommon{Type: "video"},
+		Duration:          duration,
+		Width:             width,
+		Height:            height,
+		FileName:          fileName,
+		MimeType:          mimeType,
+		HasStickers:       hasStickers,
+		SupportsStreaming: supportsStreaming,
+		Thumbnail:         *thumbnail,
+		Video:             *video,
+	}
+
+	return &videoTemp
+}
+
 // VideoNote Describes a video note. The video must be equal in width and height, cropped to a circle, and stored in MPEG4 format
 type VideoNote struct {
 	tdCommon
@@ -1722,6 +2378,24 @@ type VideoNote struct {
 // MessageType return the string telegram-type of VideoNote
 func (videoNote *VideoNote) MessageType() string {
 	return "videoNote"
+}
+
+// NewVideoNote creates a new VideoNote
+//
+// @param duration Duration of the video, in seconds; as defined by the sender
+// @param length Video width and height; as defined by the sender
+// @param thumbnail Video thumbnail; as defined by the sender; may be null
+// @param video File containing the video
+func NewVideoNote(duration int32, length int32, thumbnail *PhotoSize, video *File) *VideoNote {
+	videoNoteTemp := VideoNote{
+		tdCommon:  tdCommon{Type: "videoNote"},
+		Duration:  duration,
+		Length:    length,
+		Thumbnail: *thumbnail,
+		Video:     *video,
+	}
+
+	return &videoNoteTemp
 }
 
 // VoiceNote Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel
@@ -1738,6 +2412,24 @@ func (voiceNote *VoiceNote) MessageType() string {
 	return "voiceNote"
 }
 
+// NewVoiceNote creates a new VoiceNote
+//
+// @param duration Duration of the voice note, in seconds; as defined by the sender
+// @param waveform A waveform representation of the voice note in 5-bit format
+// @param mimeType MIME type of the file; as defined by the sender
+// @param voice File containing the voice note
+func NewVoiceNote(duration int32, waveform []byte, mimeType string, voice *File) *VoiceNote {
+	voiceNoteTemp := VoiceNote{
+		tdCommon: tdCommon{Type: "voiceNote"},
+		Duration: duration,
+		Waveform: waveform,
+		MimeType: mimeType,
+		Voice:    *voice,
+	}
+
+	return &voiceNoteTemp
+}
+
 // Contact Describes a user contact
 type Contact struct {
 	tdCommon
@@ -1752,6 +2444,24 @@ func (contact *Contact) MessageType() string {
 	return "contact"
 }
 
+// NewContact creates a new Contact
+//
+// @param phoneNumber Phone number of the user
+// @param firstName First name of the user; 1-255 characters in length
+// @param lastName Last name of the user
+// @param userID Identifier of the user, if known; otherwise 0
+func NewContact(phoneNumber string, firstName string, lastName string, userID int32) *Contact {
+	contactTemp := Contact{
+		tdCommon:    tdCommon{Type: "contact"},
+		PhoneNumber: phoneNumber,
+		FirstName:   firstName,
+		LastName:    lastName,
+		UserID:      userID,
+	}
+
+	return &contactTemp
+}
+
 // Location Describes a location on planet Earth
 type Location struct {
 	tdCommon
@@ -1762,6 +2472,20 @@ type Location struct {
 // MessageType return the string telegram-type of Location
 func (location *Location) MessageType() string {
 	return "location"
+}
+
+// NewLocation creates a new Location
+//
+// @param latitude Latitude of the location in degrees; as defined by the sender
+// @param longitude Longitude of the location, in degrees; as defined by the sender
+func NewLocation(latitude float64, longitude float64) *Location {
+	locationTemp := Location{
+		tdCommon:  tdCommon{Type: "location"},
+		Latitude:  latitude,
+		Longitude: longitude,
+	}
+
+	return &locationTemp
 }
 
 // Venue Describes a venue
@@ -1777,6 +2501,26 @@ type Venue struct {
 // MessageType return the string telegram-type of Venue
 func (venue *Venue) MessageType() string {
 	return "venue"
+}
+
+// NewVenue creates a new Venue
+//
+// @param location Venue location; as defined by the sender
+// @param title Venue name; as defined by the sender
+// @param address Venue address; as defined by the sender
+// @param provider Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported
+// @param iD Identifier of the venue in the provider database; as defined by the sender
+func NewVenue(location *Location, title string, address string, provider string, iD string) *Venue {
+	venueTemp := Venue{
+		tdCommon: tdCommon{Type: "venue"},
+		Location: *location,
+		Title:    title,
+		Address:  address,
+		Provider: provider,
+		ID:       iD,
+	}
+
+	return &venueTemp
 }
 
 // Game Describes a game
@@ -1796,6 +2540,30 @@ func (game *Game) MessageType() string {
 	return "game"
 }
 
+// NewGame creates a new Game
+//
+// @param iD Game ID
+// @param shortName Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}
+// @param title Game title
+// @param text Game text, usually containing scoreboards for a game
+// @param description
+// @param photo Game photo
+// @param animation Game animation; may be null
+func NewGame(iD JSONInt64, shortName string, title string, text *FormattedText, description string, photo *Photo, animation *Animation) *Game {
+	gameTemp := Game{
+		tdCommon:    tdCommon{Type: "game"},
+		ID:          iD,
+		ShortName:   shortName,
+		Title:       title,
+		Text:        *text,
+		Description: description,
+		Photo:       *photo,
+		Animation:   *animation,
+	}
+
+	return &gameTemp
+}
+
 // ProfilePhoto Describes a user profile photo
 type ProfilePhoto struct {
 	tdCommon
@@ -1807,6 +2575,22 @@ type ProfilePhoto struct {
 // MessageType return the string telegram-type of ProfilePhoto
 func (profilePhoto *ProfilePhoto) MessageType() string {
 	return "profilePhoto"
+}
+
+// NewProfilePhoto creates a new ProfilePhoto
+//
+// @param iD Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos
+// @param small A small (160x160) user profile photo
+// @param big A big (640x640) user profile photo
+func NewProfilePhoto(iD JSONInt64, small *File, big *File) *ProfilePhoto {
+	profilePhotoTemp := ProfilePhoto{
+		tdCommon: tdCommon{Type: "profilePhoto"},
+		ID:       iD,
+		Small:    *small,
+		Big:      *big,
+	}
+
+	return &profilePhotoTemp
 }
 
 // ChatPhoto Describes the photo of a chat
@@ -1821,6 +2605,20 @@ func (chatPhoto *ChatPhoto) MessageType() string {
 	return "chatPhoto"
 }
 
+// NewChatPhoto creates a new ChatPhoto
+//
+// @param small A small (160x160) chat photo
+// @param big A big (640x640) chat photo
+func NewChatPhoto(small *File, big *File) *ChatPhoto {
+	chatPhotoTemp := ChatPhoto{
+		tdCommon: tdCommon{Type: "chatPhoto"},
+		Small:    *small,
+		Big:      *big,
+	}
+
+	return &chatPhotoTemp
+}
+
 // LinkStateNone The phone number of user A is not known to user B
 type LinkStateNone struct {
 	tdCommon
@@ -1829,6 +2627,16 @@ type LinkStateNone struct {
 // MessageType return the string telegram-type of LinkStateNone
 func (linkStateNone *LinkStateNone) MessageType() string {
 	return "linkStateNone"
+}
+
+// NewLinkStateNone creates a new LinkStateNone
+//
+func NewLinkStateNone() *LinkStateNone {
+	linkStateNoneTemp := LinkStateNone{
+		tdCommon: tdCommon{Type: "linkStateNone"},
+	}
+
+	return &linkStateNoneTemp
 }
 
 // GetLinkStateEnum return the enum type of this object
@@ -1846,6 +2654,16 @@ func (linkStateKnowsPhoneNumber *LinkStateKnowsPhoneNumber) MessageType() string
 	return "linkStateKnowsPhoneNumber"
 }
 
+// NewLinkStateKnowsPhoneNumber creates a new LinkStateKnowsPhoneNumber
+//
+func NewLinkStateKnowsPhoneNumber() *LinkStateKnowsPhoneNumber {
+	linkStateKnowsPhoneNumberTemp := LinkStateKnowsPhoneNumber{
+		tdCommon: tdCommon{Type: "linkStateKnowsPhoneNumber"},
+	}
+
+	return &linkStateKnowsPhoneNumberTemp
+}
+
 // GetLinkStateEnum return the enum type of this object
 func (linkStateKnowsPhoneNumber *LinkStateKnowsPhoneNumber) GetLinkStateEnum() LinkStateEnum {
 	return LinkStateKnowsPhoneNumberType
@@ -1859,6 +2677,16 @@ type LinkStateIsContact struct {
 // MessageType return the string telegram-type of LinkStateIsContact
 func (linkStateIsContact *LinkStateIsContact) MessageType() string {
 	return "linkStateIsContact"
+}
+
+// NewLinkStateIsContact creates a new LinkStateIsContact
+//
+func NewLinkStateIsContact() *LinkStateIsContact {
+	linkStateIsContactTemp := LinkStateIsContact{
+		tdCommon: tdCommon{Type: "linkStateIsContact"},
+	}
+
+	return &linkStateIsContactTemp
 }
 
 // GetLinkStateEnum return the enum type of this object
@@ -1876,6 +2704,16 @@ func (userTypeRegular *UserTypeRegular) MessageType() string {
 	return "userTypeRegular"
 }
 
+// NewUserTypeRegular creates a new UserTypeRegular
+//
+func NewUserTypeRegular() *UserTypeRegular {
+	userTypeRegularTemp := UserTypeRegular{
+		tdCommon: tdCommon{Type: "userTypeRegular"},
+	}
+
+	return &userTypeRegularTemp
+}
+
 // GetUserTypeEnum return the enum type of this object
 func (userTypeRegular *UserTypeRegular) GetUserTypeEnum() UserTypeEnum {
 	return UserTypeRegularType
@@ -1889,6 +2727,16 @@ type UserTypeDeleted struct {
 // MessageType return the string telegram-type of UserTypeDeleted
 func (userTypeDeleted *UserTypeDeleted) MessageType() string {
 	return "userTypeDeleted"
+}
+
+// NewUserTypeDeleted creates a new UserTypeDeleted
+//
+func NewUserTypeDeleted() *UserTypeDeleted {
+	userTypeDeletedTemp := UserTypeDeleted{
+		tdCommon: tdCommon{Type: "userTypeDeleted"},
+	}
+
+	return &userTypeDeletedTemp
 }
 
 // GetUserTypeEnum return the enum type of this object
@@ -1911,6 +2759,26 @@ func (userTypeBot *UserTypeBot) MessageType() string {
 	return "userTypeBot"
 }
 
+// NewUserTypeBot creates a new UserTypeBot
+//
+// @param canJoinGroups True, if the bot can be invited to basic group and supergroup chats
+// @param canReadAllGroupMessages True, if the bot can read all messages in basic group or supergroup chats and not just those addressed to the bot. In private and channel chats a bot can always read all messages
+// @param isInline True, if the bot supports inline queries
+// @param inlineQueryPlaceholder Placeholder for inline queries (displayed on the client input field)
+// @param needLocation True, if the location of the user should be sent with every inline query to this bot
+func NewUserTypeBot(canJoinGroups bool, canReadAllGroupMessages bool, isInline bool, inlineQueryPlaceholder string, needLocation bool) *UserTypeBot {
+	userTypeBotTemp := UserTypeBot{
+		tdCommon:                tdCommon{Type: "userTypeBot"},
+		CanJoinGroups:           canJoinGroups,
+		CanReadAllGroupMessages: canReadAllGroupMessages,
+		IsInline:                isInline,
+		InlineQueryPlaceholder:  inlineQueryPlaceholder,
+		NeedLocation:            needLocation,
+	}
+
+	return &userTypeBotTemp
+}
+
 // GetUserTypeEnum return the enum type of this object
 func (userTypeBot *UserTypeBot) GetUserTypeEnum() UserTypeEnum {
 	return UserTypeBotType
@@ -1924,6 +2792,16 @@ type UserTypeUnknown struct {
 // MessageType return the string telegram-type of UserTypeUnknown
 func (userTypeUnknown *UserTypeUnknown) MessageType() string {
 	return "userTypeUnknown"
+}
+
+// NewUserTypeUnknown creates a new UserTypeUnknown
+//
+func NewUserTypeUnknown() *UserTypeUnknown {
+	userTypeUnknownTemp := UserTypeUnknown{
+		tdCommon: tdCommon{Type: "userTypeUnknown"},
+	}
+
+	return &userTypeUnknownTemp
 }
 
 // GetUserTypeEnum return the enum type of this object
@@ -1943,6 +2821,20 @@ func (botCommand *BotCommand) MessageType() string {
 	return "botCommand"
 }
 
+// NewBotCommand creates a new BotCommand
+//
+// @param command Text of the bot command
+// @param description
+func NewBotCommand(command string, description string) *BotCommand {
+	botCommandTemp := BotCommand{
+		tdCommon:    tdCommon{Type: "botCommand"},
+		Command:     command,
+		Description: description,
+	}
+
+	return &botCommandTemp
+}
+
 // BotInfo Provides information about a bot and its supported commands
 type BotInfo struct {
 	tdCommon
@@ -1953,6 +2845,20 @@ type BotInfo struct {
 // MessageType return the string telegram-type of BotInfo
 func (botInfo *BotInfo) MessageType() string {
 	return "botInfo"
+}
+
+// NewBotInfo creates a new BotInfo
+//
+// @param description
+// @param commands A list of commands supported by the bot
+func NewBotInfo(description string, commands []BotCommand) *BotInfo {
+	botInfoTemp := BotInfo{
+		tdCommon:    tdCommon{Type: "botInfo"},
+		Description: description,
+		Commands:    commands,
+	}
+
+	return &botInfoTemp
 }
 
 // User Represents a user
@@ -1977,6 +2883,44 @@ type User struct {
 // MessageType return the string telegram-type of User
 func (user *User) MessageType() string {
 	return "user"
+}
+
+// NewUser creates a new User
+//
+// @param iD User identifier
+// @param firstName First name of the user
+// @param lastName Last name of the user
+// @param username Username of the user
+// @param phoneNumber Phone number of the user
+// @param status Current online status of the user
+// @param profilePhoto Profile photo of the user; may be null
+// @param outgoingLink Relationship from the current user to the other user
+// @param incomingLink Relationship from the other user to the current user
+// @param isVerified True, if the user is verified
+// @param restrictionReason If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}".
+// @param haveAccess If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
+// @param typeParam Type of the user
+// @param languageCode IETF language tag of the user's language; only available to bots
+func NewUser(iD int32, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, outgoingLink LinkState, incomingLink LinkState, isVerified bool, restrictionReason string, haveAccess bool, typeParam UserType, languageCode string) *User {
+	userTemp := User{
+		tdCommon:          tdCommon{Type: "user"},
+		ID:                iD,
+		FirstName:         firstName,
+		LastName:          lastName,
+		Username:          username,
+		PhoneNumber:       phoneNumber,
+		Status:            status,
+		ProfilePhoto:      *profilePhoto,
+		OutgoingLink:      outgoingLink,
+		IncomingLink:      incomingLink,
+		IsVerified:        isVerified,
+		RestrictionReason: restrictionReason,
+		HaveAccess:        haveAccess,
+		Type:              typeParam,
+		LanguageCode:      languageCode,
+	}
+
+	return &userTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2048,6 +2992,30 @@ func (userFullInfo *UserFullInfo) MessageType() string {
 	return "userFullInfo"
 }
 
+// NewUserFullInfo creates a new UserFullInfo
+//
+// @param isBlocked True, if the user is blacklisted by the current user
+// @param canBeCalled True, if the user can be called
+// @param hasPrivateCalls True, if the user can't be called due to their privacy settings
+// @param bio A short user bio
+// @param shareText For bots, the text that is included with the link when users share the bot
+// @param groupInCommonCount Number of group chats where both the other user and the current user are a member; 0 for the current user
+// @param botInfo If the user is a bot, information about the bot; may be null
+func NewUserFullInfo(isBlocked bool, canBeCalled bool, hasPrivateCalls bool, bio string, shareText string, groupInCommonCount int32, botInfo *BotInfo) *UserFullInfo {
+	userFullInfoTemp := UserFullInfo{
+		tdCommon:           tdCommon{Type: "userFullInfo"},
+		IsBlocked:          isBlocked,
+		CanBeCalled:        canBeCalled,
+		HasPrivateCalls:    hasPrivateCalls,
+		Bio:                bio,
+		ShareText:          shareText,
+		GroupInCommonCount: groupInCommonCount,
+		BotInfo:            *botInfo,
+	}
+
+	return &userFullInfoTemp
+}
+
 // UserProfilePhotos Contains part of the list of user photos
 type UserProfilePhotos struct {
 	tdCommon
@@ -2058,6 +3026,20 @@ type UserProfilePhotos struct {
 // MessageType return the string telegram-type of UserProfilePhotos
 func (userProfilePhotos *UserProfilePhotos) MessageType() string {
 	return "userProfilePhotos"
+}
+
+// NewUserProfilePhotos creates a new UserProfilePhotos
+//
+// @param totalCount Total number of user profile photos
+// @param photos A list of photos
+func NewUserProfilePhotos(totalCount int32, photos []Photo) *UserProfilePhotos {
+	userProfilePhotosTemp := UserProfilePhotos{
+		tdCommon:   tdCommon{Type: "userProfilePhotos"},
+		TotalCount: totalCount,
+		Photos:     photos,
+	}
+
+	return &userProfilePhotosTemp
 }
 
 // Users Represents a list of users
@@ -2072,6 +3054,20 @@ func (users *Users) MessageType() string {
 	return "users"
 }
 
+// NewUsers creates a new Users
+//
+// @param totalCount Approximate total count of users found
+// @param userIDs A list of user identifiers
+func NewUsers(totalCount int32, userIDs []int32) *Users {
+	usersTemp := Users{
+		tdCommon:   tdCommon{Type: "users"},
+		TotalCount: totalCount,
+		UserIDs:    userIDs,
+	}
+
+	return &usersTemp
+}
+
 // ChatMemberStatusCreator The user is the creator of a chat and has all the administrator privileges
 type ChatMemberStatusCreator struct {
 	tdCommon
@@ -2081,6 +3077,18 @@ type ChatMemberStatusCreator struct {
 // MessageType return the string telegram-type of ChatMemberStatusCreator
 func (chatMemberStatusCreator *ChatMemberStatusCreator) MessageType() string {
 	return "chatMemberStatusCreator"
+}
+
+// NewChatMemberStatusCreator creates a new ChatMemberStatusCreator
+//
+// @param isMember True, if the user is a member of the chat
+func NewChatMemberStatusCreator(isMember bool) *ChatMemberStatusCreator {
+	chatMemberStatusCreatorTemp := ChatMemberStatusCreator{
+		tdCommon: tdCommon{Type: "chatMemberStatusCreator"},
+		IsMember: isMember,
+	}
+
+	return &chatMemberStatusCreatorTemp
 }
 
 // GetChatMemberStatusEnum return the enum type of this object
@@ -2107,6 +3115,34 @@ func (chatMemberStatusAdministrator *ChatMemberStatusAdministrator) MessageType(
 	return "chatMemberStatusAdministrator"
 }
 
+// NewChatMemberStatusAdministrator creates a new ChatMemberStatusAdministrator
+//
+// @param canBeEdited True, if the current user can edit the administrator privileges for the called user
+// @param canChangeInfo True, if the administrator can change the chat title, photo, and other settings
+// @param canPostMessages True, if the administrator can create channel posts; applicable to channels only
+// @param canEditMessages True, if the administrator can edit messages of other users and pin messages; applicable to channels only
+// @param canDeleteMessages True, if the administrator can delete messages of other users
+// @param canInviteUsers True, if the administrator can invite new users to the chat
+// @param canRestrictMembers True, if the administrator can restrict, ban, or unban chat members
+// @param canPinMessages True, if the administrator can pin messages; applicable to supergroups only
+// @param canPromoteMembers True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
+func NewChatMemberStatusAdministrator(canBeEdited bool, canChangeInfo bool, canPostMessages bool, canEditMessages bool, canDeleteMessages bool, canInviteUsers bool, canRestrictMembers bool, canPinMessages bool, canPromoteMembers bool) *ChatMemberStatusAdministrator {
+	chatMemberStatusAdministratorTemp := ChatMemberStatusAdministrator{
+		tdCommon:           tdCommon{Type: "chatMemberStatusAdministrator"},
+		CanBeEdited:        canBeEdited,
+		CanChangeInfo:      canChangeInfo,
+		CanPostMessages:    canPostMessages,
+		CanEditMessages:    canEditMessages,
+		CanDeleteMessages:  canDeleteMessages,
+		CanInviteUsers:     canInviteUsers,
+		CanRestrictMembers: canRestrictMembers,
+		CanPinMessages:     canPinMessages,
+		CanPromoteMembers:  canPromoteMembers,
+	}
+
+	return &chatMemberStatusAdministratorTemp
+}
+
 // GetChatMemberStatusEnum return the enum type of this object
 func (chatMemberStatusAdministrator *ChatMemberStatusAdministrator) GetChatMemberStatusEnum() ChatMemberStatusEnum {
 	return ChatMemberStatusAdministratorType
@@ -2120,6 +3156,16 @@ type ChatMemberStatusMember struct {
 // MessageType return the string telegram-type of ChatMemberStatusMember
 func (chatMemberStatusMember *ChatMemberStatusMember) MessageType() string {
 	return "chatMemberStatusMember"
+}
+
+// NewChatMemberStatusMember creates a new ChatMemberStatusMember
+//
+func NewChatMemberStatusMember() *ChatMemberStatusMember {
+	chatMemberStatusMemberTemp := ChatMemberStatusMember{
+		tdCommon: tdCommon{Type: "chatMemberStatusMember"},
+	}
+
+	return &chatMemberStatusMemberTemp
 }
 
 // GetChatMemberStatusEnum return the enum type of this object
@@ -2143,6 +3189,28 @@ func (chatMemberStatusRestricted *ChatMemberStatusRestricted) MessageType() stri
 	return "chatMemberStatusRestricted"
 }
 
+// NewChatMemberStatusRestricted creates a new ChatMemberStatusRestricted
+//
+// @param isMember True, if the user is a member of the chat
+// @param restrictedUntilDate Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever
+// @param canSendMessages True, if the user can send text messages, contacts, locations, and venues
+// @param canSendMediaMessages True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions
+// @param canSendOtherMessages True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_media_messages permissions
+// @param canAddWebPagePreviews True, if the user may add a web page preview to his messages. Implies can_send_messages permissions
+func NewChatMemberStatusRestricted(isMember bool, restrictedUntilDate int32, canSendMessages bool, canSendMediaMessages bool, canSendOtherMessages bool, canAddWebPagePreviews bool) *ChatMemberStatusRestricted {
+	chatMemberStatusRestrictedTemp := ChatMemberStatusRestricted{
+		tdCommon:              tdCommon{Type: "chatMemberStatusRestricted"},
+		IsMember:              isMember,
+		RestrictedUntilDate:   restrictedUntilDate,
+		CanSendMessages:       canSendMessages,
+		CanSendMediaMessages:  canSendMediaMessages,
+		CanSendOtherMessages:  canSendOtherMessages,
+		CanAddWebPagePreviews: canAddWebPagePreviews,
+	}
+
+	return &chatMemberStatusRestrictedTemp
+}
+
 // GetChatMemberStatusEnum return the enum type of this object
 func (chatMemberStatusRestricted *ChatMemberStatusRestricted) GetChatMemberStatusEnum() ChatMemberStatusEnum {
 	return ChatMemberStatusRestrictedType
@@ -2156,6 +3224,16 @@ type ChatMemberStatusLeft struct {
 // MessageType return the string telegram-type of ChatMemberStatusLeft
 func (chatMemberStatusLeft *ChatMemberStatusLeft) MessageType() string {
 	return "chatMemberStatusLeft"
+}
+
+// NewChatMemberStatusLeft creates a new ChatMemberStatusLeft
+//
+func NewChatMemberStatusLeft() *ChatMemberStatusLeft {
+	chatMemberStatusLeftTemp := ChatMemberStatusLeft{
+		tdCommon: tdCommon{Type: "chatMemberStatusLeft"},
+	}
+
+	return &chatMemberStatusLeftTemp
 }
 
 // GetChatMemberStatusEnum return the enum type of this object
@@ -2172,6 +3250,18 @@ type ChatMemberStatusBanned struct {
 // MessageType return the string telegram-type of ChatMemberStatusBanned
 func (chatMemberStatusBanned *ChatMemberStatusBanned) MessageType() string {
 	return "chatMemberStatusBanned"
+}
+
+// NewChatMemberStatusBanned creates a new ChatMemberStatusBanned
+//
+// @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+func NewChatMemberStatusBanned(bannedUntilDate int32) *ChatMemberStatusBanned {
+	chatMemberStatusBannedTemp := ChatMemberStatusBanned{
+		tdCommon:        tdCommon{Type: "chatMemberStatusBanned"},
+		BannedUntilDate: bannedUntilDate,
+	}
+
+	return &chatMemberStatusBannedTemp
 }
 
 // GetChatMemberStatusEnum return the enum type of this object
@@ -2192,6 +3282,26 @@ type ChatMember struct {
 // MessageType return the string telegram-type of ChatMember
 func (chatMember *ChatMember) MessageType() string {
 	return "chatMember"
+}
+
+// NewChatMember creates a new ChatMember
+//
+// @param userID User identifier of the chat member
+// @param inviterUserID Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
+// @param joinedChatDate Point in time (Unix timestamp) when the user joined a chat
+// @param status Status of the member in the chat
+// @param botInfo If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not a chat member
+func NewChatMember(userID int32, inviterUserID int32, joinedChatDate int32, status ChatMemberStatus, botInfo *BotInfo) *ChatMember {
+	chatMemberTemp := ChatMember{
+		tdCommon:       tdCommon{Type: "chatMember"},
+		UserID:         userID,
+		InviterUserID:  inviterUserID,
+		JoinedChatDate: joinedChatDate,
+		Status:         status,
+		BotInfo:        *botInfo,
+	}
+
+	return &chatMemberTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2237,6 +3347,20 @@ func (chatMembers *ChatMembers) MessageType() string {
 	return "chatMembers"
 }
 
+// NewChatMembers creates a new ChatMembers
+//
+// @param totalCount Approximate total count of chat members found
+// @param members A list of chat members
+func NewChatMembers(totalCount int32, members []ChatMember) *ChatMembers {
+	chatMembersTemp := ChatMembers{
+		tdCommon:   tdCommon{Type: "chatMembers"},
+		TotalCount: totalCount,
+		Members:    members,
+	}
+
+	return &chatMembersTemp
+}
+
 // SupergroupMembersFilterRecent Returns recently active users in reverse chronological order
 type SupergroupMembersFilterRecent struct {
 	tdCommon
@@ -2245,6 +3369,16 @@ type SupergroupMembersFilterRecent struct {
 // MessageType return the string telegram-type of SupergroupMembersFilterRecent
 func (supergroupMembersFilterRecent *SupergroupMembersFilterRecent) MessageType() string {
 	return "supergroupMembersFilterRecent"
+}
+
+// NewSupergroupMembersFilterRecent creates a new SupergroupMembersFilterRecent
+//
+func NewSupergroupMembersFilterRecent() *SupergroupMembersFilterRecent {
+	supergroupMembersFilterRecentTemp := SupergroupMembersFilterRecent{
+		tdCommon: tdCommon{Type: "supergroupMembersFilterRecent"},
+	}
+
+	return &supergroupMembersFilterRecentTemp
 }
 
 // GetSupergroupMembersFilterEnum return the enum type of this object
@@ -2260,6 +3394,16 @@ type SupergroupMembersFilterAdministrators struct {
 // MessageType return the string telegram-type of SupergroupMembersFilterAdministrators
 func (supergroupMembersFilterAdministrators *SupergroupMembersFilterAdministrators) MessageType() string {
 	return "supergroupMembersFilterAdministrators"
+}
+
+// NewSupergroupMembersFilterAdministrators creates a new SupergroupMembersFilterAdministrators
+//
+func NewSupergroupMembersFilterAdministrators() *SupergroupMembersFilterAdministrators {
+	supergroupMembersFilterAdministratorsTemp := SupergroupMembersFilterAdministrators{
+		tdCommon: tdCommon{Type: "supergroupMembersFilterAdministrators"},
+	}
+
+	return &supergroupMembersFilterAdministratorsTemp
 }
 
 // GetSupergroupMembersFilterEnum return the enum type of this object
@@ -2278,6 +3422,18 @@ func (supergroupMembersFilterSearch *SupergroupMembersFilterSearch) MessageType(
 	return "supergroupMembersFilterSearch"
 }
 
+// NewSupergroupMembersFilterSearch creates a new SupergroupMembersFilterSearch
+//
+// @param query Query to search for
+func NewSupergroupMembersFilterSearch(query string) *SupergroupMembersFilterSearch {
+	supergroupMembersFilterSearchTemp := SupergroupMembersFilterSearch{
+		tdCommon: tdCommon{Type: "supergroupMembersFilterSearch"},
+		Query:    query,
+	}
+
+	return &supergroupMembersFilterSearchTemp
+}
+
 // GetSupergroupMembersFilterEnum return the enum type of this object
 func (supergroupMembersFilterSearch *SupergroupMembersFilterSearch) GetSupergroupMembersFilterEnum() SupergroupMembersFilterEnum {
 	return SupergroupMembersFilterSearchType
@@ -2292,6 +3448,18 @@ type SupergroupMembersFilterRestricted struct {
 // MessageType return the string telegram-type of SupergroupMembersFilterRestricted
 func (supergroupMembersFilterRestricted *SupergroupMembersFilterRestricted) MessageType() string {
 	return "supergroupMembersFilterRestricted"
+}
+
+// NewSupergroupMembersFilterRestricted creates a new SupergroupMembersFilterRestricted
+//
+// @param query Query to search for
+func NewSupergroupMembersFilterRestricted(query string) *SupergroupMembersFilterRestricted {
+	supergroupMembersFilterRestrictedTemp := SupergroupMembersFilterRestricted{
+		tdCommon: tdCommon{Type: "supergroupMembersFilterRestricted"},
+		Query:    query,
+	}
+
+	return &supergroupMembersFilterRestrictedTemp
 }
 
 // GetSupergroupMembersFilterEnum return the enum type of this object
@@ -2310,6 +3478,18 @@ func (supergroupMembersFilterBanned *SupergroupMembersFilterBanned) MessageType(
 	return "supergroupMembersFilterBanned"
 }
 
+// NewSupergroupMembersFilterBanned creates a new SupergroupMembersFilterBanned
+//
+// @param query Query to search for
+func NewSupergroupMembersFilterBanned(query string) *SupergroupMembersFilterBanned {
+	supergroupMembersFilterBannedTemp := SupergroupMembersFilterBanned{
+		tdCommon: tdCommon{Type: "supergroupMembersFilterBanned"},
+		Query:    query,
+	}
+
+	return &supergroupMembersFilterBannedTemp
+}
+
 // GetSupergroupMembersFilterEnum return the enum type of this object
 func (supergroupMembersFilterBanned *SupergroupMembersFilterBanned) GetSupergroupMembersFilterEnum() SupergroupMembersFilterEnum {
 	return SupergroupMembersFilterBannedType
@@ -2323,6 +3503,16 @@ type SupergroupMembersFilterBots struct {
 // MessageType return the string telegram-type of SupergroupMembersFilterBots
 func (supergroupMembersFilterBots *SupergroupMembersFilterBots) MessageType() string {
 	return "supergroupMembersFilterBots"
+}
+
+// NewSupergroupMembersFilterBots creates a new SupergroupMembersFilterBots
+//
+func NewSupergroupMembersFilterBots() *SupergroupMembersFilterBots {
+	supergroupMembersFilterBotsTemp := SupergroupMembersFilterBots{
+		tdCommon: tdCommon{Type: "supergroupMembersFilterBots"},
+	}
+
+	return &supergroupMembersFilterBotsTemp
 }
 
 // GetSupergroupMembersFilterEnum return the enum type of this object
@@ -2344,6 +3534,28 @@ type BasicGroup struct {
 // MessageType return the string telegram-type of BasicGroup
 func (basicGroup *BasicGroup) MessageType() string {
 	return "basicGroup"
+}
+
+// NewBasicGroup creates a new BasicGroup
+//
+// @param iD Group identifier
+// @param memberCount Number of members in the group
+// @param status Status of the current user in the group
+// @param everyoneIsAdministrator True, if all members have been granted administrator rights in the group
+// @param isActive True, if the group is active
+// @param upgradedToSupergroupID Identifier of the supergroup to which this group was upgraded; 0 if none
+func NewBasicGroup(iD int32, memberCount int32, status ChatMemberStatus, everyoneIsAdministrator bool, isActive bool, upgradedToSupergroupID int32) *BasicGroup {
+	basicGroupTemp := BasicGroup{
+		tdCommon:                tdCommon{Type: "basicGroup"},
+		ID:                      iD,
+		MemberCount:             memberCount,
+		Status:                  status,
+		EveryoneIsAdministrator: everyoneIsAdministrator,
+		IsActive:                isActive,
+		UpgradedToSupergroupID:  upgradedToSupergroupID,
+	}
+
+	return &basicGroupTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2392,6 +3604,22 @@ func (basicGroupFullInfo *BasicGroupFullInfo) MessageType() string {
 	return "basicGroupFullInfo"
 }
 
+// NewBasicGroupFullInfo creates a new BasicGroupFullInfo
+//
+// @param creatorUserID User identifier of the creator of the group; 0 if unknown
+// @param members Group members
+// @param inviteLink Invite link for this group; available only for the group creator and only after it has been generated at least once
+func NewBasicGroupFullInfo(creatorUserID int32, members []ChatMember, inviteLink string) *BasicGroupFullInfo {
+	basicGroupFullInfoTemp := BasicGroupFullInfo{
+		tdCommon:      tdCommon{Type: "basicGroupFullInfo"},
+		CreatorUserID: creatorUserID,
+		Members:       members,
+		InviteLink:    inviteLink,
+	}
+
+	return &basicGroupFullInfoTemp
+}
+
 // Supergroup Represents a supergroup or channel with zero or more members (subscribers in the case of channels). From the point of view of the system, a channel is a special kind of a supergroup: only administrators can post and see the list of members, and posts from all administrators use the name and photo of the channel instead of individual names and profile photos. Unlike supergroups, channels can have an unlimited number of subscribers
 type Supergroup struct {
 	tdCommon
@@ -2410,6 +3638,36 @@ type Supergroup struct {
 // MessageType return the string telegram-type of Supergroup
 func (supergroup *Supergroup) MessageType() string {
 	return "supergroup"
+}
+
+// NewSupergroup creates a new Supergroup
+//
+// @param iD Supergroup or channel identifier
+// @param username Username of the supergroup or channel; empty for private supergroups or channels
+// @param date Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member
+// @param status Status of the current user in the supergroup or channel
+// @param memberCount Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats
+// @param anyoneCanInvite True, if any member of the supergroup can invite other members. This field has no meaning for channels
+// @param signMessages True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
+// @param isChannel True, if the supergroup is a channel
+// @param isVerified True, if the supergroup or channel is verified
+// @param restrictionReason If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}".
+func NewSupergroup(iD int32, username string, date int32, status ChatMemberStatus, memberCount int32, anyoneCanInvite bool, signMessages bool, isChannel bool, isVerified bool, restrictionReason string) *Supergroup {
+	supergroupTemp := Supergroup{
+		tdCommon:          tdCommon{Type: "supergroup"},
+		ID:                iD,
+		Username:          username,
+		Date:              date,
+		Status:            status,
+		MemberCount:       memberCount,
+		AnyoneCanInvite:   anyoneCanInvite,
+		SignMessages:      signMessages,
+		IsChannel:         isChannel,
+		IsVerified:        isVerified,
+		RestrictionReason: restrictionReason,
+	}
+
+	return &supergroupTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2477,6 +3735,44 @@ func (supergroupFullInfo *SupergroupFullInfo) MessageType() string {
 	return "supergroupFullInfo"
 }
 
+// NewSupergroupFullInfo creates a new SupergroupFullInfo
+//
+// @param description
+// @param memberCount Number of members in the supergroup or channel; 0 if unknown
+// @param administratorCount Number of privileged users in the supergroup or channel; 0 if unknown
+// @param restrictedCount Number of restricted users in the supergroup; 0 if unknown
+// @param bannedCount Number of users banned from chat; 0 if unknown
+// @param canGetMembers True, if members of the chat can be retrieved
+// @param canSetUsername True, if the chat can be made public
+// @param canSetStickerSet True, if the supergroup sticker set can be changed
+// @param isAllHistoryAvailable True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators
+// @param stickerSetID Identifier of the supergroup sticker set; 0 if none
+// @param inviteLink Invite link for this chat
+// @param pinnedMessageID Identifier of the pinned message in the chat; 0 if none
+// @param upgradedFromBasicGroupID Identifier of the basic group from which supergroup was upgraded; 0 if none
+// @param upgradedFromMaxMessageID Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
+func NewSupergroupFullInfo(description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, inviteLink string, pinnedMessageID int64, upgradedFromBasicGroupID int32, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
+	supergroupFullInfoTemp := SupergroupFullInfo{
+		tdCommon:                 tdCommon{Type: "supergroupFullInfo"},
+		Description:              description,
+		MemberCount:              memberCount,
+		AdministratorCount:       administratorCount,
+		RestrictedCount:          restrictedCount,
+		BannedCount:              bannedCount,
+		CanGetMembers:            canGetMembers,
+		CanSetUsername:           canSetUsername,
+		CanSetStickerSet:         canSetStickerSet,
+		IsAllHistoryAvailable:    isAllHistoryAvailable,
+		StickerSetID:             stickerSetID,
+		InviteLink:               inviteLink,
+		PinnedMessageID:          pinnedMessageID,
+		UpgradedFromBasicGroupID: upgradedFromBasicGroupID,
+		UpgradedFromMaxMessageID: upgradedFromMaxMessageID,
+	}
+
+	return &supergroupFullInfoTemp
+}
+
 // SecretChatStatePending The secret chat is not yet created; waiting for the other user to get online
 type SecretChatStatePending struct {
 	tdCommon
@@ -2485,6 +3781,16 @@ type SecretChatStatePending struct {
 // MessageType return the string telegram-type of SecretChatStatePending
 func (secretChatStatePending *SecretChatStatePending) MessageType() string {
 	return "secretChatStatePending"
+}
+
+// NewSecretChatStatePending creates a new SecretChatStatePending
+//
+func NewSecretChatStatePending() *SecretChatStatePending {
+	secretChatStatePendingTemp := SecretChatStatePending{
+		tdCommon: tdCommon{Type: "secretChatStatePending"},
+	}
+
+	return &secretChatStatePendingTemp
 }
 
 // GetSecretChatStateEnum return the enum type of this object
@@ -2502,6 +3808,16 @@ func (secretChatStateReady *SecretChatStateReady) MessageType() string {
 	return "secretChatStateReady"
 }
 
+// NewSecretChatStateReady creates a new SecretChatStateReady
+//
+func NewSecretChatStateReady() *SecretChatStateReady {
+	secretChatStateReadyTemp := SecretChatStateReady{
+		tdCommon: tdCommon{Type: "secretChatStateReady"},
+	}
+
+	return &secretChatStateReadyTemp
+}
+
 // GetSecretChatStateEnum return the enum type of this object
 func (secretChatStateReady *SecretChatStateReady) GetSecretChatStateEnum() SecretChatStateEnum {
 	return SecretChatStateReadyType
@@ -2515,6 +3831,16 @@ type SecretChatStateClosed struct {
 // MessageType return the string telegram-type of SecretChatStateClosed
 func (secretChatStateClosed *SecretChatStateClosed) MessageType() string {
 	return "secretChatStateClosed"
+}
+
+// NewSecretChatStateClosed creates a new SecretChatStateClosed
+//
+func NewSecretChatStateClosed() *SecretChatStateClosed {
+	secretChatStateClosedTemp := SecretChatStateClosed{
+		tdCommon: tdCommon{Type: "secretChatStateClosed"},
+	}
+
+	return &secretChatStateClosedTemp
 }
 
 // GetSecretChatStateEnum return the enum type of this object
@@ -2537,6 +3863,30 @@ type SecretChat struct {
 // MessageType return the string telegram-type of SecretChat
 func (secretChat *SecretChat) MessageType() string {
 	return "secretChat"
+}
+
+// NewSecretChat creates a new SecretChat
+//
+// @param iD Secret chat identifier
+// @param userID Identifier of the chat partner
+// @param state State of the secret chat
+// @param isOutbound True, if the chat was created by the current user; otherwise false
+// @param tTL Current message Time To Live setting (self-destruct timer) for the chat, in seconds
+// @param keyHash Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 bytes, which must be used to make a 12x12 square image with a color depth of 4. The first 16 bytes should be used to make a central 8x8 square, while the remaining 20 bytes should be used to construct a 2-pixel-wide border around that square.
+// @param layer Secret chat layer; determines features supported by the other client. Video notes are supported if the layer >= 66
+func NewSecretChat(iD int32, userID int32, state SecretChatState, isOutbound bool, tTL int32, keyHash []byte, layer int32) *SecretChat {
+	secretChatTemp := SecretChat{
+		tdCommon:   tdCommon{Type: "secretChat"},
+		ID:         iD,
+		UserID:     userID,
+		State:      state,
+		IsOutbound: isOutbound,
+		TTL:        tTL,
+		KeyHash:    keyHash,
+		Layer:      layer,
+	}
+
+	return &secretChatTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2588,6 +3938,24 @@ func (messageForwardedFromUser *MessageForwardedFromUser) MessageType() string {
 	return "messageForwardedFromUser"
 }
 
+// NewMessageForwardedFromUser creates a new MessageForwardedFromUser
+//
+// @param senderUserID Identifier of the user that originally sent this message
+// @param date Point in time (Unix timestamp) when the message was originally sent
+// @param forwardedFromChatID For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown
+// @param forwardedFromMessageID For messages forwarded to the chat with the current user (saved messages) the identifier of the original message from which the new message was forwarded; 0 if unknown
+func NewMessageForwardedFromUser(senderUserID int32, date int32, forwardedFromChatID int64, forwardedFromMessageID int64) *MessageForwardedFromUser {
+	messageForwardedFromUserTemp := MessageForwardedFromUser{
+		tdCommon:               tdCommon{Type: "messageForwardedFromUser"},
+		SenderUserID:           senderUserID,
+		Date:                   date,
+		ForwardedFromChatID:    forwardedFromChatID,
+		ForwardedFromMessageID: forwardedFromMessageID,
+	}
+
+	return &messageForwardedFromUserTemp
+}
+
 // GetMessageForwardInfoEnum return the enum type of this object
 func (messageForwardedFromUser *MessageForwardedFromUser) GetMessageForwardInfoEnum() MessageForwardInfoEnum {
 	return MessageForwardedFromUserType
@@ -2609,6 +3977,28 @@ func (messageForwardedPost *MessageForwardedPost) MessageType() string {
 	return "messageForwardedPost"
 }
 
+// NewMessageForwardedPost creates a new MessageForwardedPost
+//
+// @param chatID Identifier of the chat from which the message was forwarded
+// @param authorSignature Post author signature
+// @param date Point in time (Unix timestamp) when the message was originally sent
+// @param messageID Message identifier of the original message from which the new message was forwarded; 0 if unknown
+// @param forwardedFromChatID For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown
+// @param forwardedFromMessageID For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded; 0 if unknown
+func NewMessageForwardedPost(chatID int64, authorSignature string, date int32, messageID int64, forwardedFromChatID int64, forwardedFromMessageID int64) *MessageForwardedPost {
+	messageForwardedPostTemp := MessageForwardedPost{
+		tdCommon:               tdCommon{Type: "messageForwardedPost"},
+		ChatID:                 chatID,
+		AuthorSignature:        authorSignature,
+		Date:                   date,
+		MessageID:              messageID,
+		ForwardedFromChatID:    forwardedFromChatID,
+		ForwardedFromMessageID: forwardedFromMessageID,
+	}
+
+	return &messageForwardedPostTemp
+}
+
 // GetMessageForwardInfoEnum return the enum type of this object
 func (messageForwardedPost *MessageForwardedPost) GetMessageForwardInfoEnum() MessageForwardInfoEnum {
 	return MessageForwardedPostType
@@ -2624,6 +4014,16 @@ func (messageSendingStatePending *MessageSendingStatePending) MessageType() stri
 	return "messageSendingStatePending"
 }
 
+// NewMessageSendingStatePending creates a new MessageSendingStatePending
+//
+func NewMessageSendingStatePending() *MessageSendingStatePending {
+	messageSendingStatePendingTemp := MessageSendingStatePending{
+		tdCommon: tdCommon{Type: "messageSendingStatePending"},
+	}
+
+	return &messageSendingStatePendingTemp
+}
+
 // GetMessageSendingStateEnum return the enum type of this object
 func (messageSendingStatePending *MessageSendingStatePending) GetMessageSendingStateEnum() MessageSendingStateEnum {
 	return MessageSendingStatePendingType
@@ -2637,6 +4037,16 @@ type MessageSendingStateFailed struct {
 // MessageType return the string telegram-type of MessageSendingStateFailed
 func (messageSendingStateFailed *MessageSendingStateFailed) MessageType() string {
 	return "messageSendingStateFailed"
+}
+
+// NewMessageSendingStateFailed creates a new MessageSendingStateFailed
+//
+func NewMessageSendingStateFailed() *MessageSendingStateFailed {
+	messageSendingStateFailedTemp := MessageSendingStateFailed{
+		tdCommon: tdCommon{Type: "messageSendingStateFailed"},
+	}
+
+	return &messageSendingStateFailedTemp
 }
 
 // GetMessageSendingStateEnum return the enum type of this object
@@ -2675,6 +4085,62 @@ type Message struct {
 // MessageType return the string telegram-type of Message
 func (message *Message) MessageType() string {
 	return "message"
+}
+
+// NewMessage creates a new Message
+//
+// @param iD Unique message identifier
+// @param senderUserID Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
+// @param chatID Chat identifier
+// @param sendingState Information about the sending state of the message; may be null
+// @param isOutgoing True, if the message is outgoing
+// @param canBeEdited True, if the message can be edited
+// @param canBeForwarded True, if the message can be forwarded
+// @param canBeDeletedOnlyForSelf True, if the message can be deleted only for the current user while other users will continue to see it
+// @param canBeDeletedForAllUsers True, if the message can be deleted for all users
+// @param isChannelPost True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts
+// @param containsUnreadMention True, if the message contains an unread mention for the current user
+// @param date Point in time (Unix timestamp) when the message was sent
+// @param editDate Point in time (Unix timestamp) when the message was last edited
+// @param forwardInfo Information about the initial message sender; may be null
+// @param replyToMessageID If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
+// @param tTL For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
+// @param tTLExpiresIn Time left before the message expires, in seconds
+// @param viaBotUserID If non-zero, the user identifier of the bot through which this message was sent
+// @param authorSignature For channel posts, optional author signature
+// @param views Number of times this message was viewed
+// @param mediaAlbumID Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
+// @param content Content of the message
+// @param replyMarkup Reply markup for the message; may be null
+func NewMessage(iD int64, senderUserID int32, chatID int64, sendingState MessageSendingState, isOutgoing bool, canBeEdited bool, canBeForwarded bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, isChannelPost bool, containsUnreadMention bool, date int32, editDate int32, forwardInfo MessageForwardInfo, replyToMessageID int64, tTL int32, tTLExpiresIn float64, viaBotUserID int32, authorSignature string, views int32, mediaAlbumID JSONInt64, content MessageContent, replyMarkup ReplyMarkup) *Message {
+	messageTemp := Message{
+		tdCommon:                tdCommon{Type: "message"},
+		ID:                      iD,
+		SenderUserID:            senderUserID,
+		ChatID:                  chatID,
+		SendingState:            sendingState,
+		IsOutgoing:              isOutgoing,
+		CanBeEdited:             canBeEdited,
+		CanBeForwarded:          canBeForwarded,
+		CanBeDeletedOnlyForSelf: canBeDeletedOnlyForSelf,
+		CanBeDeletedForAllUsers: canBeDeletedForAllUsers,
+		IsChannelPost:           isChannelPost,
+		ContainsUnreadMention:   containsUnreadMention,
+		Date:             date,
+		EditDate:         editDate,
+		ForwardInfo:      forwardInfo,
+		ReplyToMessageID: replyToMessageID,
+		TTL:              tTL,
+		TTLExpiresIn:     tTLExpiresIn,
+		ViaBotUserID:     viaBotUserID,
+		AuthorSignature:  authorSignature,
+		Views:            views,
+		MediaAlbumID:     mediaAlbumID,
+		Content:          content,
+		ReplyMarkup:      replyMarkup,
+	}
+
+	return &messageTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2760,6 +4226,20 @@ func (messages *Messages) MessageType() string {
 	return "messages"
 }
 
+// NewMessages creates a new Messages
+//
+// @param totalCount Approximate total count of messages found
+// @param messages List of messages; messages may be null
+func NewMessages(totalCount int32, messages []Message) *Messages {
+	messagesTemp := Messages{
+		tdCommon:   tdCommon{Type: "messages"},
+		TotalCount: totalCount,
+		Messages:   messages,
+	}
+
+	return &messagesTemp
+}
+
 // FoundMessages Contains a list of messages found by a search
 type FoundMessages struct {
 	tdCommon
@@ -2772,6 +4252,20 @@ func (foundMessages *FoundMessages) MessageType() string {
 	return "foundMessages"
 }
 
+// NewFoundMessages creates a new FoundMessages
+//
+// @param messages List of messages
+// @param nextFromSearchID Value to pass as from_search_id to get more results
+func NewFoundMessages(messages []Message, nextFromSearchID JSONInt64) *FoundMessages {
+	foundMessagesTemp := FoundMessages{
+		tdCommon:         tdCommon{Type: "foundMessages"},
+		Messages:         messages,
+		NextFromSearchID: nextFromSearchID,
+	}
+
+	return &foundMessagesTemp
+}
+
 // NotificationSettingsScopeChat Notification settings applied to a particular chat
 type NotificationSettingsScopeChat struct {
 	tdCommon
@@ -2781,6 +4275,18 @@ type NotificationSettingsScopeChat struct {
 // MessageType return the string telegram-type of NotificationSettingsScopeChat
 func (notificationSettingsScopeChat *NotificationSettingsScopeChat) MessageType() string {
 	return "notificationSettingsScopeChat"
+}
+
+// NewNotificationSettingsScopeChat creates a new NotificationSettingsScopeChat
+//
+// @param chatID Chat identifier
+func NewNotificationSettingsScopeChat(chatID int64) *NotificationSettingsScopeChat {
+	notificationSettingsScopeChatTemp := NotificationSettingsScopeChat{
+		tdCommon: tdCommon{Type: "notificationSettingsScopeChat"},
+		ChatID:   chatID,
+	}
+
+	return &notificationSettingsScopeChatTemp
 }
 
 // GetNotificationSettingsScopeEnum return the enum type of this object
@@ -2798,6 +4304,16 @@ func (notificationSettingsScopePrivateChats *NotificationSettingsScopePrivateCha
 	return "notificationSettingsScopePrivateChats"
 }
 
+// NewNotificationSettingsScopePrivateChats creates a new NotificationSettingsScopePrivateChats
+//
+func NewNotificationSettingsScopePrivateChats() *NotificationSettingsScopePrivateChats {
+	notificationSettingsScopePrivateChatsTemp := NotificationSettingsScopePrivateChats{
+		tdCommon: tdCommon{Type: "notificationSettingsScopePrivateChats"},
+	}
+
+	return &notificationSettingsScopePrivateChatsTemp
+}
+
 // GetNotificationSettingsScopeEnum return the enum type of this object
 func (notificationSettingsScopePrivateChats *NotificationSettingsScopePrivateChats) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
 	return NotificationSettingsScopePrivateChatsType
@@ -2813,6 +4329,16 @@ func (notificationSettingsScopeBasicGroupChats *NotificationSettingsScopeBasicGr
 	return "notificationSettingsScopeBasicGroupChats"
 }
 
+// NewNotificationSettingsScopeBasicGroupChats creates a new NotificationSettingsScopeBasicGroupChats
+//
+func NewNotificationSettingsScopeBasicGroupChats() *NotificationSettingsScopeBasicGroupChats {
+	notificationSettingsScopeBasicGroupChatsTemp := NotificationSettingsScopeBasicGroupChats{
+		tdCommon: tdCommon{Type: "notificationSettingsScopeBasicGroupChats"},
+	}
+
+	return &notificationSettingsScopeBasicGroupChatsTemp
+}
+
 // GetNotificationSettingsScopeEnum return the enum type of this object
 func (notificationSettingsScopeBasicGroupChats *NotificationSettingsScopeBasicGroupChats) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
 	return NotificationSettingsScopeBasicGroupChatsType
@@ -2826,6 +4352,16 @@ type NotificationSettingsScopeAllChats struct {
 // MessageType return the string telegram-type of NotificationSettingsScopeAllChats
 func (notificationSettingsScopeAllChats *NotificationSettingsScopeAllChats) MessageType() string {
 	return "notificationSettingsScopeAllChats"
+}
+
+// NewNotificationSettingsScopeAllChats creates a new NotificationSettingsScopeAllChats
+//
+func NewNotificationSettingsScopeAllChats() *NotificationSettingsScopeAllChats {
+	notificationSettingsScopeAllChatsTemp := NotificationSettingsScopeAllChats{
+		tdCommon: tdCommon{Type: "notificationSettingsScopeAllChats"},
+	}
+
+	return &notificationSettingsScopeAllChatsTemp
 }
 
 // GetNotificationSettingsScopeEnum return the enum type of this object
@@ -2846,6 +4382,22 @@ func (notificationSettings *NotificationSettings) MessageType() string {
 	return "notificationSettings"
 }
 
+// NewNotificationSettings creates a new NotificationSettings
+//
+// @param muteFor Time left before notifications will be unmuted, in seconds
+// @param sound An audio file name for notification sounds; only applies to iOS applications
+// @param showPreview True, if message content should be displayed in notifications
+func NewNotificationSettings(muteFor int32, sound string, showPreview bool) *NotificationSettings {
+	notificationSettingsTemp := NotificationSettings{
+		tdCommon:    tdCommon{Type: "notificationSettings"},
+		MuteFor:     muteFor,
+		Sound:       sound,
+		ShowPreview: showPreview,
+	}
+
+	return &notificationSettingsTemp
+}
+
 // DraftMessage Contains information about a message draft
 type DraftMessage struct {
 	tdCommon
@@ -2856,6 +4408,20 @@ type DraftMessage struct {
 // MessageType return the string telegram-type of DraftMessage
 func (draftMessage *DraftMessage) MessageType() string {
 	return "draftMessage"
+}
+
+// NewDraftMessage creates a new DraftMessage
+//
+// @param replyToMessageID Identifier of the message to reply to; 0 if none
+// @param inputMessageText Content of the message draft; this should always be of type inputMessageText
+func NewDraftMessage(replyToMessageID int64, inputMessageText InputMessageContent) *DraftMessage {
+	draftMessageTemp := DraftMessage{
+		tdCommon:         tdCommon{Type: "draftMessage"},
+		ReplyToMessageID: replyToMessageID,
+		InputMessageText: inputMessageText,
+	}
+
+	return &draftMessageTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -2895,6 +4461,18 @@ func (chatTypePrivate *ChatTypePrivate) MessageType() string {
 	return "chatTypePrivate"
 }
 
+// NewChatTypePrivate creates a new ChatTypePrivate
+//
+// @param userID User identifier
+func NewChatTypePrivate(userID int32) *ChatTypePrivate {
+	chatTypePrivateTemp := ChatTypePrivate{
+		tdCommon: tdCommon{Type: "chatTypePrivate"},
+		UserID:   userID,
+	}
+
+	return &chatTypePrivateTemp
+}
+
 // GetChatTypeEnum return the enum type of this object
 func (chatTypePrivate *ChatTypePrivate) GetChatTypeEnum() ChatTypeEnum {
 	return ChatTypePrivateType
@@ -2909,6 +4487,18 @@ type ChatTypeBasicGroup struct {
 // MessageType return the string telegram-type of ChatTypeBasicGroup
 func (chatTypeBasicGroup *ChatTypeBasicGroup) MessageType() string {
 	return "chatTypeBasicGroup"
+}
+
+// NewChatTypeBasicGroup creates a new ChatTypeBasicGroup
+//
+// @param basicGroupID Basic group identifier
+func NewChatTypeBasicGroup(basicGroupID int32) *ChatTypeBasicGroup {
+	chatTypeBasicGroupTemp := ChatTypeBasicGroup{
+		tdCommon:     tdCommon{Type: "chatTypeBasicGroup"},
+		BasicGroupID: basicGroupID,
+	}
+
+	return &chatTypeBasicGroupTemp
 }
 
 // GetChatTypeEnum return the enum type of this object
@@ -2928,6 +4518,20 @@ func (chatTypeSupergroup *ChatTypeSupergroup) MessageType() string {
 	return "chatTypeSupergroup"
 }
 
+// NewChatTypeSupergroup creates a new ChatTypeSupergroup
+//
+// @param supergroupID Supergroup or channel identifier
+// @param isChannel True, if the supergroup is a channel
+func NewChatTypeSupergroup(supergroupID int32, isChannel bool) *ChatTypeSupergroup {
+	chatTypeSupergroupTemp := ChatTypeSupergroup{
+		tdCommon:     tdCommon{Type: "chatTypeSupergroup"},
+		SupergroupID: supergroupID,
+		IsChannel:    isChannel,
+	}
+
+	return &chatTypeSupergroupTemp
+}
+
 // GetChatTypeEnum return the enum type of this object
 func (chatTypeSupergroup *ChatTypeSupergroup) GetChatTypeEnum() ChatTypeEnum {
 	return ChatTypeSupergroupType
@@ -2943,6 +4547,20 @@ type ChatTypeSecret struct {
 // MessageType return the string telegram-type of ChatTypeSecret
 func (chatTypeSecret *ChatTypeSecret) MessageType() string {
 	return "chatTypeSecret"
+}
+
+// NewChatTypeSecret creates a new ChatTypeSecret
+//
+// @param secretChatID Secret chat identifier
+// @param userID User identifier of the secret chat peer
+func NewChatTypeSecret(secretChatID int32, userID int32) *ChatTypeSecret {
+	chatTypeSecretTemp := ChatTypeSecret{
+		tdCommon:     tdCommon{Type: "chatTypeSecret"},
+		SecretChatID: secretChatID,
+		UserID:       userID,
+	}
+
+	return &chatTypeSecretTemp
 }
 
 // GetChatTypeEnum return the enum type of this object
@@ -2974,6 +4592,48 @@ type Chat struct {
 // MessageType return the string telegram-type of Chat
 func (chat *Chat) MessageType() string {
 	return "chat"
+}
+
+// NewChat creates a new Chat
+//
+// @param iD Chat unique identifier
+// @param typeParam Type of the chat
+// @param title Chat title
+// @param photo Chat photo; may be null
+// @param lastMessage Last message in the chat; may be null
+// @param order Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
+// @param isPinned True, if the chat is pinned
+// @param canBeReported True, if the chat can be reported to Telegram moderators through reportChat
+// @param unreadCount Number of unread messages in the chat
+// @param lastReadInboxMessageID Identifier of the last read incoming message
+// @param lastReadOutboxMessageID Identifier of the last read outgoing message
+// @param unreadMentionCount Number of unread messages with a mention/reply in the chat
+// @param notificationSettings Notification settings for this chat
+// @param replyMarkupMessageID Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
+// @param draftMessage A draft of a message in the chat; may be null
+// @param clientData Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
+func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastMessage *Message, order JSONInt64, isPinned bool, canBeReported bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *NotificationSettings, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
+	chatTemp := Chat{
+		tdCommon:                tdCommon{Type: "chat"},
+		ID:                      iD,
+		Type:                    typeParam,
+		Title:                   title,
+		Photo:                   *photo,
+		LastMessage:             *lastMessage,
+		Order:                   order,
+		IsPinned:                isPinned,
+		CanBeReported:           canBeReported,
+		UnreadCount:             unreadCount,
+		LastReadInboxMessageID:  lastReadInboxMessageID,
+		LastReadOutboxMessageID: lastReadOutboxMessageID,
+		UnreadMentionCount:      unreadMentionCount,
+		NotificationSettings:    *notificationSettings,
+		ReplyMarkupMessageID:    replyMarkupMessageID,
+		DraftMessage:            *draftMessage,
+		ClientData:              clientData,
+	}
+
+	return &chatTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3040,6 +4700,18 @@ func (chats *Chats) MessageType() string {
 	return "chats"
 }
 
+// NewChats creates a new Chats
+//
+// @param chatIDs List of chat identifiers
+func NewChats(chatIDs []int64) *Chats {
+	chatsTemp := Chats{
+		tdCommon: tdCommon{Type: "chats"},
+		ChatIDs:  chatIDs,
+	}
+
+	return &chatsTemp
+}
+
 // ChatInviteLink Contains a chat invite link
 type ChatInviteLink struct {
 	tdCommon
@@ -3049,6 +4721,18 @@ type ChatInviteLink struct {
 // MessageType return the string telegram-type of ChatInviteLink
 func (chatInviteLink *ChatInviteLink) MessageType() string {
 	return "chatInviteLink"
+}
+
+// NewChatInviteLink creates a new ChatInviteLink
+//
+// @param inviteLink Chat invite link
+func NewChatInviteLink(inviteLink string) *ChatInviteLink {
+	chatInviteLinkTemp := ChatInviteLink{
+		tdCommon:   tdCommon{Type: "chatInviteLink"},
+		InviteLink: inviteLink,
+	}
+
+	return &chatInviteLinkTemp
 }
 
 // ChatInviteLinkInfo Contains information about a chat invite link
@@ -3066,6 +4750,30 @@ type ChatInviteLinkInfo struct {
 // MessageType return the string telegram-type of ChatInviteLinkInfo
 func (chatInviteLinkInfo *ChatInviteLinkInfo) MessageType() string {
 	return "chatInviteLinkInfo"
+}
+
+// NewChatInviteLinkInfo creates a new ChatInviteLinkInfo
+//
+// @param chatID Chat identifier of the invite link; 0 if the user is not a member of this chat
+// @param typeParam Contains information about the type of the chat
+// @param title Title of the chat
+// @param photo Chat photo; may be null
+// @param memberCount Number of members
+// @param memberUserIDs User identifiers of some chat members that may be known to the current user
+// @param isPublic True, if the chat is a public supergroup or channel with a username
+func NewChatInviteLinkInfo(chatID int64, typeParam ChatType, title string, photo *ChatPhoto, memberCount int32, memberUserIDs []int32, isPublic bool) *ChatInviteLinkInfo {
+	chatInviteLinkInfoTemp := ChatInviteLinkInfo{
+		tdCommon:      tdCommon{Type: "chatInviteLinkInfo"},
+		ChatID:        chatID,
+		Type:          typeParam,
+		Title:         title,
+		Photo:         *photo,
+		MemberCount:   memberCount,
+		MemberUserIDs: memberUserIDs,
+		IsPublic:      isPublic,
+	}
+
+	return &chatInviteLinkInfoTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3113,6 +4821,16 @@ func (keyboardButtonTypeText *KeyboardButtonTypeText) MessageType() string {
 	return "keyboardButtonTypeText"
 }
 
+// NewKeyboardButtonTypeText creates a new KeyboardButtonTypeText
+//
+func NewKeyboardButtonTypeText() *KeyboardButtonTypeText {
+	keyboardButtonTypeTextTemp := KeyboardButtonTypeText{
+		tdCommon: tdCommon{Type: "keyboardButtonTypeText"},
+	}
+
+	return &keyboardButtonTypeTextTemp
+}
+
 // GetKeyboardButtonTypeEnum return the enum type of this object
 func (keyboardButtonTypeText *KeyboardButtonTypeText) GetKeyboardButtonTypeEnum() KeyboardButtonTypeEnum {
 	return KeyboardButtonTypeTextType
@@ -3126,6 +4844,16 @@ type KeyboardButtonTypeRequestPhoneNumber struct {
 // MessageType return the string telegram-type of KeyboardButtonTypeRequestPhoneNumber
 func (keyboardButtonTypeRequestPhoneNumber *KeyboardButtonTypeRequestPhoneNumber) MessageType() string {
 	return "keyboardButtonTypeRequestPhoneNumber"
+}
+
+// NewKeyboardButtonTypeRequestPhoneNumber creates a new KeyboardButtonTypeRequestPhoneNumber
+//
+func NewKeyboardButtonTypeRequestPhoneNumber() *KeyboardButtonTypeRequestPhoneNumber {
+	keyboardButtonTypeRequestPhoneNumberTemp := KeyboardButtonTypeRequestPhoneNumber{
+		tdCommon: tdCommon{Type: "keyboardButtonTypeRequestPhoneNumber"},
+	}
+
+	return &keyboardButtonTypeRequestPhoneNumberTemp
 }
 
 // GetKeyboardButtonTypeEnum return the enum type of this object
@@ -3143,6 +4871,16 @@ func (keyboardButtonTypeRequestLocation *KeyboardButtonTypeRequestLocation) Mess
 	return "keyboardButtonTypeRequestLocation"
 }
 
+// NewKeyboardButtonTypeRequestLocation creates a new KeyboardButtonTypeRequestLocation
+//
+func NewKeyboardButtonTypeRequestLocation() *KeyboardButtonTypeRequestLocation {
+	keyboardButtonTypeRequestLocationTemp := KeyboardButtonTypeRequestLocation{
+		tdCommon: tdCommon{Type: "keyboardButtonTypeRequestLocation"},
+	}
+
+	return &keyboardButtonTypeRequestLocationTemp
+}
+
 // GetKeyboardButtonTypeEnum return the enum type of this object
 func (keyboardButtonTypeRequestLocation *KeyboardButtonTypeRequestLocation) GetKeyboardButtonTypeEnum() KeyboardButtonTypeEnum {
 	return KeyboardButtonTypeRequestLocationType
@@ -3158,6 +4896,20 @@ type KeyboardButton struct {
 // MessageType return the string telegram-type of KeyboardButton
 func (keyboardButton *KeyboardButton) MessageType() string {
 	return "keyboardButton"
+}
+
+// NewKeyboardButton creates a new KeyboardButton
+//
+// @param text Text of the button
+// @param typeParam Type of the button
+func NewKeyboardButton(text string, typeParam KeyboardButtonType) *KeyboardButton {
+	keyboardButtonTemp := KeyboardButton{
+		tdCommon: tdCommon{Type: "keyboardButton"},
+		Text:     text,
+		Type:     typeParam,
+	}
+
+	return &keyboardButtonTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3197,6 +4949,18 @@ func (inlineKeyboardButtonTypeURL *InlineKeyboardButtonTypeURL) MessageType() st
 	return "inlineKeyboardButtonTypeUrl"
 }
 
+// NewInlineKeyboardButtonTypeURL creates a new InlineKeyboardButtonTypeURL
+//
+// @param uRL URL to open
+func NewInlineKeyboardButtonTypeURL(uRL string) *InlineKeyboardButtonTypeURL {
+	inlineKeyboardButtonTypeURLTemp := InlineKeyboardButtonTypeURL{
+		tdCommon: tdCommon{Type: "inlineKeyboardButtonTypeUrl"},
+		URL:      uRL,
+	}
+
+	return &inlineKeyboardButtonTypeURLTemp
+}
+
 // GetInlineKeyboardButtonTypeEnum return the enum type of this object
 func (inlineKeyboardButtonTypeURL *InlineKeyboardButtonTypeURL) GetInlineKeyboardButtonTypeEnum() InlineKeyboardButtonTypeEnum {
 	return InlineKeyboardButtonTypeURLType
@@ -3213,6 +4977,18 @@ func (inlineKeyboardButtonTypeCallback *InlineKeyboardButtonTypeCallback) Messag
 	return "inlineKeyboardButtonTypeCallback"
 }
 
+// NewInlineKeyboardButtonTypeCallback creates a new InlineKeyboardButtonTypeCallback
+//
+// @param data Data to be sent to the bot via a callback query
+func NewInlineKeyboardButtonTypeCallback(data []byte) *InlineKeyboardButtonTypeCallback {
+	inlineKeyboardButtonTypeCallbackTemp := InlineKeyboardButtonTypeCallback{
+		tdCommon: tdCommon{Type: "inlineKeyboardButtonTypeCallback"},
+		Data:     data,
+	}
+
+	return &inlineKeyboardButtonTypeCallbackTemp
+}
+
 // GetInlineKeyboardButtonTypeEnum return the enum type of this object
 func (inlineKeyboardButtonTypeCallback *InlineKeyboardButtonTypeCallback) GetInlineKeyboardButtonTypeEnum() InlineKeyboardButtonTypeEnum {
 	return InlineKeyboardButtonTypeCallbackType
@@ -3226,6 +5002,16 @@ type InlineKeyboardButtonTypeCallbackGame struct {
 // MessageType return the string telegram-type of InlineKeyboardButtonTypeCallbackGame
 func (inlineKeyboardButtonTypeCallbackGame *InlineKeyboardButtonTypeCallbackGame) MessageType() string {
 	return "inlineKeyboardButtonTypeCallbackGame"
+}
+
+// NewInlineKeyboardButtonTypeCallbackGame creates a new InlineKeyboardButtonTypeCallbackGame
+//
+func NewInlineKeyboardButtonTypeCallbackGame() *InlineKeyboardButtonTypeCallbackGame {
+	inlineKeyboardButtonTypeCallbackGameTemp := InlineKeyboardButtonTypeCallbackGame{
+		tdCommon: tdCommon{Type: "inlineKeyboardButtonTypeCallbackGame"},
+	}
+
+	return &inlineKeyboardButtonTypeCallbackGameTemp
 }
 
 // GetInlineKeyboardButtonTypeEnum return the enum type of this object
@@ -3245,6 +5031,20 @@ func (inlineKeyboardButtonTypeSwitchInline *InlineKeyboardButtonTypeSwitchInline
 	return "inlineKeyboardButtonTypeSwitchInline"
 }
 
+// NewInlineKeyboardButtonTypeSwitchInline creates a new InlineKeyboardButtonTypeSwitchInline
+//
+// @param query Inline query to be sent to the bot
+// @param inCurrentChat True, if the inline query should be sent from the current chat
+func NewInlineKeyboardButtonTypeSwitchInline(query string, inCurrentChat bool) *InlineKeyboardButtonTypeSwitchInline {
+	inlineKeyboardButtonTypeSwitchInlineTemp := InlineKeyboardButtonTypeSwitchInline{
+		tdCommon:      tdCommon{Type: "inlineKeyboardButtonTypeSwitchInline"},
+		Query:         query,
+		InCurrentChat: inCurrentChat,
+	}
+
+	return &inlineKeyboardButtonTypeSwitchInlineTemp
+}
+
 // GetInlineKeyboardButtonTypeEnum return the enum type of this object
 func (inlineKeyboardButtonTypeSwitchInline *InlineKeyboardButtonTypeSwitchInline) GetInlineKeyboardButtonTypeEnum() InlineKeyboardButtonTypeEnum {
 	return InlineKeyboardButtonTypeSwitchInlineType
@@ -3258,6 +5058,16 @@ type InlineKeyboardButtonTypeBuy struct {
 // MessageType return the string telegram-type of InlineKeyboardButtonTypeBuy
 func (inlineKeyboardButtonTypeBuy *InlineKeyboardButtonTypeBuy) MessageType() string {
 	return "inlineKeyboardButtonTypeBuy"
+}
+
+// NewInlineKeyboardButtonTypeBuy creates a new InlineKeyboardButtonTypeBuy
+//
+func NewInlineKeyboardButtonTypeBuy() *InlineKeyboardButtonTypeBuy {
+	inlineKeyboardButtonTypeBuyTemp := InlineKeyboardButtonTypeBuy{
+		tdCommon: tdCommon{Type: "inlineKeyboardButtonTypeBuy"},
+	}
+
+	return &inlineKeyboardButtonTypeBuyTemp
 }
 
 // GetInlineKeyboardButtonTypeEnum return the enum type of this object
@@ -3275,6 +5085,20 @@ type InlineKeyboardButton struct {
 // MessageType return the string telegram-type of InlineKeyboardButton
 func (inlineKeyboardButton *InlineKeyboardButton) MessageType() string {
 	return "inlineKeyboardButton"
+}
+
+// NewInlineKeyboardButton creates a new InlineKeyboardButton
+//
+// @param text Text of the button
+// @param typeParam Type of the button
+func NewInlineKeyboardButton(text string, typeParam InlineKeyboardButtonType) *InlineKeyboardButton {
+	inlineKeyboardButtonTemp := InlineKeyboardButton{
+		tdCommon: tdCommon{Type: "inlineKeyboardButton"},
+		Text:     text,
+		Type:     typeParam,
+	}
+
+	return &inlineKeyboardButtonTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3314,6 +5138,18 @@ func (replyMarkupRemoveKeyboard *ReplyMarkupRemoveKeyboard) MessageType() string
 	return "replyMarkupRemoveKeyboard"
 }
 
+// NewReplyMarkupRemoveKeyboard creates a new ReplyMarkupRemoveKeyboard
+//
+// @param isPersonal True, if the keyboard is removed only for the mentioned users or the target user of a reply
+func NewReplyMarkupRemoveKeyboard(isPersonal bool) *ReplyMarkupRemoveKeyboard {
+	replyMarkupRemoveKeyboardTemp := ReplyMarkupRemoveKeyboard{
+		tdCommon:   tdCommon{Type: "replyMarkupRemoveKeyboard"},
+		IsPersonal: isPersonal,
+	}
+
+	return &replyMarkupRemoveKeyboardTemp
+}
+
 // GetReplyMarkupEnum return the enum type of this object
 func (replyMarkupRemoveKeyboard *ReplyMarkupRemoveKeyboard) GetReplyMarkupEnum() ReplyMarkupEnum {
 	return ReplyMarkupRemoveKeyboardType
@@ -3328,6 +5164,18 @@ type ReplyMarkupForceReply struct {
 // MessageType return the string telegram-type of ReplyMarkupForceReply
 func (replyMarkupForceReply *ReplyMarkupForceReply) MessageType() string {
 	return "replyMarkupForceReply"
+}
+
+// NewReplyMarkupForceReply creates a new ReplyMarkupForceReply
+//
+// @param isPersonal True, if a forced reply must automatically be shown to the current user. For outgoing messages, specify true to show the forced reply only for the mentioned users and for the target user of a reply
+func NewReplyMarkupForceReply(isPersonal bool) *ReplyMarkupForceReply {
+	replyMarkupForceReplyTemp := ReplyMarkupForceReply{
+		tdCommon:   tdCommon{Type: "replyMarkupForceReply"},
+		IsPersonal: isPersonal,
+	}
+
+	return &replyMarkupForceReplyTemp
 }
 
 // GetReplyMarkupEnum return the enum type of this object
@@ -3349,6 +5197,24 @@ func (replyMarkupShowKeyboard *ReplyMarkupShowKeyboard) MessageType() string {
 	return "replyMarkupShowKeyboard"
 }
 
+// NewReplyMarkupShowKeyboard creates a new ReplyMarkupShowKeyboard
+//
+// @param rows A list of rows of bot keyboard buttons
+// @param resizeKeyboard True, if the client needs to resize the keyboard vertically
+// @param oneTime True, if the client needs to hide the keyboard after use
+// @param isPersonal True, if the keyboard must automatically be shown to the current user. For outgoing messages, specify true to show the keyboard only for the mentioned users and for the target user of a reply
+func NewReplyMarkupShowKeyboard(rows [][]KeyboardButton, resizeKeyboard bool, oneTime bool, isPersonal bool) *ReplyMarkupShowKeyboard {
+	replyMarkupShowKeyboardTemp := ReplyMarkupShowKeyboard{
+		tdCommon:       tdCommon{Type: "replyMarkupShowKeyboard"},
+		Rows:           rows,
+		ResizeKeyboard: resizeKeyboard,
+		OneTime:        oneTime,
+		IsPersonal:     isPersonal,
+	}
+
+	return &replyMarkupShowKeyboardTemp
+}
+
 // GetReplyMarkupEnum return the enum type of this object
 func (replyMarkupShowKeyboard *ReplyMarkupShowKeyboard) GetReplyMarkupEnum() ReplyMarkupEnum {
 	return ReplyMarkupShowKeyboardType
@@ -3363,6 +5229,18 @@ type ReplyMarkupInlineKeyboard struct {
 // MessageType return the string telegram-type of ReplyMarkupInlineKeyboard
 func (replyMarkupInlineKeyboard *ReplyMarkupInlineKeyboard) MessageType() string {
 	return "replyMarkupInlineKeyboard"
+}
+
+// NewReplyMarkupInlineKeyboard creates a new ReplyMarkupInlineKeyboard
+//
+// @param rows A list of rows of inline keyboard buttons
+func NewReplyMarkupInlineKeyboard(rows [][]InlineKeyboardButton) *ReplyMarkupInlineKeyboard {
+	replyMarkupInlineKeyboardTemp := ReplyMarkupInlineKeyboard{
+		tdCommon: tdCommon{Type: "replyMarkupInlineKeyboard"},
+		Rows:     rows,
+	}
+
+	return &replyMarkupInlineKeyboardTemp
 }
 
 // GetReplyMarkupEnum return the enum type of this object
@@ -3381,6 +5259,18 @@ func (richTextPlain *RichTextPlain) MessageType() string {
 	return "richTextPlain"
 }
 
+// NewRichTextPlain creates a new RichTextPlain
+//
+// @param text Text
+func NewRichTextPlain(text string) *RichTextPlain {
+	richTextPlainTemp := RichTextPlain{
+		tdCommon: tdCommon{Type: "richTextPlain"},
+		Text:     text,
+	}
+
+	return &richTextPlainTemp
+}
+
 // GetRichTextEnum return the enum type of this object
 func (richTextPlain *RichTextPlain) GetRichTextEnum() RichTextEnum {
 	return RichTextPlainType
@@ -3395,6 +5285,18 @@ type RichTextBold struct {
 // MessageType return the string telegram-type of RichTextBold
 func (richTextBold *RichTextBold) MessageType() string {
 	return "richTextBold"
+}
+
+// NewRichTextBold creates a new RichTextBold
+//
+// @param text Text
+func NewRichTextBold(text RichText) *RichTextBold {
+	richTextBoldTemp := RichTextBold{
+		tdCommon: tdCommon{Type: "richTextBold"},
+		Text:     text,
+	}
+
+	return &richTextBoldTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3436,6 +5338,18 @@ func (richTextItalic *RichTextItalic) MessageType() string {
 	return "richTextItalic"
 }
 
+// NewRichTextItalic creates a new RichTextItalic
+//
+// @param text Text
+func NewRichTextItalic(text RichText) *RichTextItalic {
+	richTextItalicTemp := RichTextItalic{
+		tdCommon: tdCommon{Type: "richTextItalic"},
+		Text:     text,
+	}
+
+	return &richTextItalicTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (richTextItalic *RichTextItalic) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -3473,6 +5387,18 @@ type RichTextUnderline struct {
 // MessageType return the string telegram-type of RichTextUnderline
 func (richTextUnderline *RichTextUnderline) MessageType() string {
 	return "richTextUnderline"
+}
+
+// NewRichTextUnderline creates a new RichTextUnderline
+//
+// @param text Text
+func NewRichTextUnderline(text RichText) *RichTextUnderline {
+	richTextUnderlineTemp := RichTextUnderline{
+		tdCommon: tdCommon{Type: "richTextUnderline"},
+		Text:     text,
+	}
+
+	return &richTextUnderlineTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3514,6 +5440,18 @@ func (richTextStrikethrough *RichTextStrikethrough) MessageType() string {
 	return "richTextStrikethrough"
 }
 
+// NewRichTextStrikethrough creates a new RichTextStrikethrough
+//
+// @param text Text
+func NewRichTextStrikethrough(text RichText) *RichTextStrikethrough {
+	richTextStrikethroughTemp := RichTextStrikethrough{
+		tdCommon: tdCommon{Type: "richTextStrikethrough"},
+		Text:     text,
+	}
+
+	return &richTextStrikethroughTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (richTextStrikethrough *RichTextStrikethrough) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -3551,6 +5489,18 @@ type RichTextFixed struct {
 // MessageType return the string telegram-type of RichTextFixed
 func (richTextFixed *RichTextFixed) MessageType() string {
 	return "richTextFixed"
+}
+
+// NewRichTextFixed creates a new RichTextFixed
+//
+// @param text Text
+func NewRichTextFixed(text RichText) *RichTextFixed {
+	richTextFixedTemp := RichTextFixed{
+		tdCommon: tdCommon{Type: "richTextFixed"},
+		Text:     text,
+	}
+
+	return &richTextFixedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3591,6 +5541,20 @@ type RichTextURL struct {
 // MessageType return the string telegram-type of RichTextURL
 func (richTextURL *RichTextURL) MessageType() string {
 	return "richTextUrl"
+}
+
+// NewRichTextURL creates a new RichTextURL
+//
+// @param text Text
+// @param uRL URL
+func NewRichTextURL(text RichText, uRL string) *RichTextURL {
+	richTextURLTemp := RichTextURL{
+		tdCommon: tdCommon{Type: "richTextUrl"},
+		Text:     text,
+		URL:      uRL,
+	}
+
+	return &richTextURLTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3635,6 +5599,20 @@ func (richTextEmailAddress *RichTextEmailAddress) MessageType() string {
 	return "richTextEmailAddress"
 }
 
+// NewRichTextEmailAddress creates a new RichTextEmailAddress
+//
+// @param text Text
+// @param emailAddress Email address
+func NewRichTextEmailAddress(text RichText, emailAddress string) *RichTextEmailAddress {
+	richTextEmailAddressTemp := RichTextEmailAddress{
+		tdCommon:     tdCommon{Type: "richTextEmailAddress"},
+		Text:         text,
+		EmailAddress: emailAddress,
+	}
+
+	return &richTextEmailAddressTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (richTextEmailAddress *RichTextEmailAddress) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -3676,6 +5654,18 @@ func (richTexts *RichTexts) MessageType() string {
 	return "richTexts"
 }
 
+// NewRichTexts creates a new RichTexts
+//
+// @param texts Texts
+func NewRichTexts(texts []RichText) *RichTexts {
+	richTextsTemp := RichTexts{
+		tdCommon: tdCommon{Type: "richTexts"},
+		Texts:    texts,
+	}
+
+	return &richTextsTemp
+}
+
 // GetRichTextEnum return the enum type of this object
 func (richTexts *RichTexts) GetRichTextEnum() RichTextEnum {
 	return RichTextsType
@@ -3690,6 +5680,18 @@ type PageBlockTitle struct {
 // MessageType return the string telegram-type of PageBlockTitle
 func (pageBlockTitle *PageBlockTitle) MessageType() string {
 	return "pageBlockTitle"
+}
+
+// NewPageBlockTitle creates a new PageBlockTitle
+//
+// @param title Title
+func NewPageBlockTitle(title RichText) *PageBlockTitle {
+	pageBlockTitleTemp := PageBlockTitle{
+		tdCommon: tdCommon{Type: "pageBlockTitle"},
+		Title:    title,
+	}
+
+	return &pageBlockTitleTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3731,6 +5733,18 @@ func (pageBlockSubtitle *PageBlockSubtitle) MessageType() string {
 	return "pageBlockSubtitle"
 }
 
+// NewPageBlockSubtitle creates a new PageBlockSubtitle
+//
+// @param subtitle Subtitle
+func NewPageBlockSubtitle(subtitle RichText) *PageBlockSubtitle {
+	pageBlockSubtitleTemp := PageBlockSubtitle{
+		tdCommon: tdCommon{Type: "pageBlockSubtitle"},
+		Subtitle: subtitle,
+	}
+
+	return &pageBlockSubtitleTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockSubtitle *PageBlockSubtitle) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -3769,6 +5783,20 @@ type PageBlockAuthorDate struct {
 // MessageType return the string telegram-type of PageBlockAuthorDate
 func (pageBlockAuthorDate *PageBlockAuthorDate) MessageType() string {
 	return "pageBlockAuthorDate"
+}
+
+// NewPageBlockAuthorDate creates a new PageBlockAuthorDate
+//
+// @param author Author
+// @param publishDate Point in time (Unix timestamp) when the article was published; 0 if unknown
+func NewPageBlockAuthorDate(author RichText, publishDate int32) *PageBlockAuthorDate {
+	pageBlockAuthorDateTemp := PageBlockAuthorDate{
+		tdCommon:    tdCommon{Type: "pageBlockAuthorDate"},
+		Author:      author,
+		PublishDate: publishDate,
+	}
+
+	return &pageBlockAuthorDateTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3812,6 +5840,18 @@ func (pageBlockHeader *PageBlockHeader) MessageType() string {
 	return "pageBlockHeader"
 }
 
+// NewPageBlockHeader creates a new PageBlockHeader
+//
+// @param header Header
+func NewPageBlockHeader(header RichText) *PageBlockHeader {
+	pageBlockHeaderTemp := PageBlockHeader{
+		tdCommon: tdCommon{Type: "pageBlockHeader"},
+		Header:   header,
+	}
+
+	return &pageBlockHeaderTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockHeader *PageBlockHeader) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -3849,6 +5889,18 @@ type PageBlockSubheader struct {
 // MessageType return the string telegram-type of PageBlockSubheader
 func (pageBlockSubheader *PageBlockSubheader) MessageType() string {
 	return "pageBlockSubheader"
+}
+
+// NewPageBlockSubheader creates a new PageBlockSubheader
+//
+// @param subheader Subheader
+func NewPageBlockSubheader(subheader RichText) *PageBlockSubheader {
+	pageBlockSubheaderTemp := PageBlockSubheader{
+		tdCommon:  tdCommon{Type: "pageBlockSubheader"},
+		Subheader: subheader,
+	}
+
+	return &pageBlockSubheaderTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3890,6 +5942,18 @@ func (pageBlockParagraph *PageBlockParagraph) MessageType() string {
 	return "pageBlockParagraph"
 }
 
+// NewPageBlockParagraph creates a new PageBlockParagraph
+//
+// @param text Paragraph text
+func NewPageBlockParagraph(text RichText) *PageBlockParagraph {
+	pageBlockParagraphTemp := PageBlockParagraph{
+		tdCommon: tdCommon{Type: "pageBlockParagraph"},
+		Text:     text,
+	}
+
+	return &pageBlockParagraphTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockParagraph *PageBlockParagraph) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -3928,6 +5992,20 @@ type PageBlockPreformatted struct {
 // MessageType return the string telegram-type of PageBlockPreformatted
 func (pageBlockPreformatted *PageBlockPreformatted) MessageType() string {
 	return "pageBlockPreformatted"
+}
+
+// NewPageBlockPreformatted creates a new PageBlockPreformatted
+//
+// @param text Paragraph text
+// @param language Programming language for which the text should be formatted
+func NewPageBlockPreformatted(text RichText, language string) *PageBlockPreformatted {
+	pageBlockPreformattedTemp := PageBlockPreformatted{
+		tdCommon: tdCommon{Type: "pageBlockPreformatted"},
+		Text:     text,
+		Language: language,
+	}
+
+	return &pageBlockPreformattedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -3971,6 +6049,18 @@ func (pageBlockFooter *PageBlockFooter) MessageType() string {
 	return "pageBlockFooter"
 }
 
+// NewPageBlockFooter creates a new PageBlockFooter
+//
+// @param footer Footer
+func NewPageBlockFooter(footer RichText) *PageBlockFooter {
+	pageBlockFooterTemp := PageBlockFooter{
+		tdCommon: tdCommon{Type: "pageBlockFooter"},
+		Footer:   footer,
+	}
+
+	return &pageBlockFooterTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockFooter *PageBlockFooter) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -4009,6 +6099,16 @@ func (pageBlockDivider *PageBlockDivider) MessageType() string {
 	return "pageBlockDivider"
 }
 
+// NewPageBlockDivider creates a new PageBlockDivider
+//
+func NewPageBlockDivider() *PageBlockDivider {
+	pageBlockDividerTemp := PageBlockDivider{
+		tdCommon: tdCommon{Type: "pageBlockDivider"},
+	}
+
+	return &pageBlockDividerTemp
+}
+
 // GetPageBlockEnum return the enum type of this object
 func (pageBlockDivider *PageBlockDivider) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockDividerType
@@ -4023,6 +6123,18 @@ type PageBlockAnchor struct {
 // MessageType return the string telegram-type of PageBlockAnchor
 func (pageBlockAnchor *PageBlockAnchor) MessageType() string {
 	return "pageBlockAnchor"
+}
+
+// NewPageBlockAnchor creates a new PageBlockAnchor
+//
+// @param name Name of the anchor
+func NewPageBlockAnchor(name string) *PageBlockAnchor {
+	pageBlockAnchorTemp := PageBlockAnchor{
+		tdCommon: tdCommon{Type: "pageBlockAnchor"},
+		Name:     name,
+	}
+
+	return &pageBlockAnchorTemp
 }
 
 // GetPageBlockEnum return the enum type of this object
@@ -4042,6 +6154,20 @@ func (pageBlockList *PageBlockList) MessageType() string {
 	return "pageBlockList"
 }
 
+// NewPageBlockList creates a new PageBlockList
+//
+// @param items Texts
+// @param isOrdered True, if the items should be marked with numbers
+func NewPageBlockList(items []RichText, isOrdered bool) *PageBlockList {
+	pageBlockListTemp := PageBlockList{
+		tdCommon:  tdCommon{Type: "pageBlockList"},
+		Items:     items,
+		IsOrdered: isOrdered,
+	}
+
+	return &pageBlockListTemp
+}
+
 // GetPageBlockEnum return the enum type of this object
 func (pageBlockList *PageBlockList) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockListType
@@ -4057,6 +6183,20 @@ type PageBlockBlockQuote struct {
 // MessageType return the string telegram-type of PageBlockBlockQuote
 func (pageBlockBlockQuote *PageBlockBlockQuote) MessageType() string {
 	return "pageBlockBlockQuote"
+}
+
+// NewPageBlockBlockQuote creates a new PageBlockBlockQuote
+//
+// @param text Quote text
+// @param caption Quote caption
+func NewPageBlockBlockQuote(text RichText, caption RichText) *PageBlockBlockQuote {
+	pageBlockBlockQuoteTemp := PageBlockBlockQuote{
+		tdCommon: tdCommon{Type: "pageBlockBlockQuote"},
+		Text:     text,
+		Caption:  caption,
+	}
+
+	return &pageBlockBlockQuoteTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -4100,6 +6240,20 @@ type PageBlockPullQuote struct {
 // MessageType return the string telegram-type of PageBlockPullQuote
 func (pageBlockPullQuote *PageBlockPullQuote) MessageType() string {
 	return "pageBlockPullQuote"
+}
+
+// NewPageBlockPullQuote creates a new PageBlockPullQuote
+//
+// @param text Quote text
+// @param caption Quote caption
+func NewPageBlockPullQuote(text RichText, caption RichText) *PageBlockPullQuote {
+	pageBlockPullQuoteTemp := PageBlockPullQuote{
+		tdCommon: tdCommon{Type: "pageBlockPullQuote"},
+		Text:     text,
+		Caption:  caption,
+	}
+
+	return &pageBlockPullQuoteTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -4146,6 +6300,22 @@ func (pageBlockAnimation *PageBlockAnimation) MessageType() string {
 	return "pageBlockAnimation"
 }
 
+// NewPageBlockAnimation creates a new PageBlockAnimation
+//
+// @param animation Animation file; may be null
+// @param caption Animation caption
+// @param needAutoplay True, if the animation should be played automatically
+func NewPageBlockAnimation(animation *Animation, caption RichText, needAutoplay bool) *PageBlockAnimation {
+	pageBlockAnimationTemp := PageBlockAnimation{
+		tdCommon:     tdCommon{Type: "pageBlockAnimation"},
+		Animation:    *animation,
+		Caption:      caption,
+		NeedAutoplay: needAutoplay,
+	}
+
+	return &pageBlockAnimationTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockAnimation *PageBlockAnimation) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -4190,6 +6360,20 @@ func (pageBlockAudio *PageBlockAudio) MessageType() string {
 	return "pageBlockAudio"
 }
 
+// NewPageBlockAudio creates a new PageBlockAudio
+//
+// @param audio Audio file; may be null
+// @param caption Audio file caption
+func NewPageBlockAudio(audio *Audio, caption RichText) *PageBlockAudio {
+	pageBlockAudioTemp := PageBlockAudio{
+		tdCommon: tdCommon{Type: "pageBlockAudio"},
+		Audio:    *audio,
+		Caption:  caption,
+	}
+
+	return &pageBlockAudioTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockAudio *PageBlockAudio) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -4231,6 +6415,20 @@ type PageBlockPhoto struct {
 // MessageType return the string telegram-type of PageBlockPhoto
 func (pageBlockPhoto *PageBlockPhoto) MessageType() string {
 	return "pageBlockPhoto"
+}
+
+// NewPageBlockPhoto creates a new PageBlockPhoto
+//
+// @param photo Photo file; may be null
+// @param caption Photo caption
+func NewPageBlockPhoto(photo *Photo, caption RichText) *PageBlockPhoto {
+	pageBlockPhotoTemp := PageBlockPhoto{
+		tdCommon: tdCommon{Type: "pageBlockPhoto"},
+		Photo:    *photo,
+		Caption:  caption,
+	}
+
+	return &pageBlockPhotoTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -4278,6 +6476,24 @@ func (pageBlockVideo *PageBlockVideo) MessageType() string {
 	return "pageBlockVideo"
 }
 
+// NewPageBlockVideo creates a new PageBlockVideo
+//
+// @param video Video file; may be null
+// @param caption Video caption
+// @param needAutoplay True, if the video should be played automatically
+// @param isLooped True, if the video should be looped
+func NewPageBlockVideo(video *Video, caption RichText, needAutoplay bool, isLooped bool) *PageBlockVideo {
+	pageBlockVideoTemp := PageBlockVideo{
+		tdCommon:     tdCommon{Type: "pageBlockVideo"},
+		Video:        *video,
+		Caption:      caption,
+		NeedAutoplay: needAutoplay,
+		IsLooped:     isLooped,
+	}
+
+	return &pageBlockVideoTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockVideo *PageBlockVideo) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -4321,6 +6537,18 @@ type PageBlockCover struct {
 // MessageType return the string telegram-type of PageBlockCover
 func (pageBlockCover *PageBlockCover) MessageType() string {
 	return "pageBlockCover"
+}
+
+// NewPageBlockCover creates a new PageBlockCover
+//
+// @param cover Cover
+func NewPageBlockCover(cover PageBlock) *PageBlockCover {
+	pageBlockCoverTemp := PageBlockCover{
+		tdCommon: tdCommon{Type: "pageBlockCover"},
+		Cover:    cover,
+	}
+
+	return &pageBlockCoverTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -4367,6 +6595,32 @@ type PageBlockEmbedded struct {
 // MessageType return the string telegram-type of PageBlockEmbedded
 func (pageBlockEmbedded *PageBlockEmbedded) MessageType() string {
 	return "pageBlockEmbedded"
+}
+
+// NewPageBlockEmbedded creates a new PageBlockEmbedded
+//
+// @param uRL Web page URL, if available
+// @param hTML HTML-markup of the embedded page
+// @param posterPhoto Poster photo, if available; may be null
+// @param width Block width
+// @param height Block height
+// @param caption Block caption
+// @param isFullWidth True, if the block should be full width
+// @param allowScrolling True, if scrolling should be allowed
+func NewPageBlockEmbedded(uRL string, hTML string, posterPhoto *Photo, width int32, height int32, caption RichText, isFullWidth bool, allowScrolling bool) *PageBlockEmbedded {
+	pageBlockEmbeddedTemp := PageBlockEmbedded{
+		tdCommon:       tdCommon{Type: "pageBlockEmbedded"},
+		URL:            uRL,
+		HTML:           hTML,
+		PosterPhoto:    *posterPhoto,
+		Width:          width,
+		Height:         height,
+		Caption:        caption,
+		IsFullWidth:    isFullWidth,
+		AllowScrolling: allowScrolling,
+	}
+
+	return &pageBlockEmbeddedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -4427,6 +6681,28 @@ func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) MessageType() string {
 	return "pageBlockEmbeddedPost"
 }
 
+// NewPageBlockEmbeddedPost creates a new PageBlockEmbeddedPost
+//
+// @param uRL Web page URL
+// @param author Post author
+// @param authorPhoto Post author photo
+// @param date Point in time (Unix timestamp) when the post was created; 0 if unknown
+// @param pageBlocks Post content
+// @param caption Post caption
+func NewPageBlockEmbeddedPost(uRL string, author string, authorPhoto *Photo, date int32, pageBlocks []PageBlock, caption RichText) *PageBlockEmbeddedPost {
+	pageBlockEmbeddedPostTemp := PageBlockEmbeddedPost{
+		tdCommon:    tdCommon{Type: "pageBlockEmbeddedPost"},
+		URL:         uRL,
+		Author:      author,
+		AuthorPhoto: *authorPhoto,
+		Date:        date,
+		PageBlocks:  pageBlocks,
+		Caption:     caption,
+	}
+
+	return &pageBlockEmbeddedPostTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -4478,6 +6754,20 @@ func (pageBlockCollage *PageBlockCollage) MessageType() string {
 	return "pageBlockCollage"
 }
 
+// NewPageBlockCollage creates a new PageBlockCollage
+//
+// @param pageBlocks Collage item contents
+// @param caption Block caption
+func NewPageBlockCollage(pageBlocks []PageBlock, caption RichText) *PageBlockCollage {
+	pageBlockCollageTemp := PageBlockCollage{
+		tdCommon:   tdCommon{Type: "pageBlockCollage"},
+		PageBlocks: pageBlocks,
+		Caption:    caption,
+	}
+
+	return &pageBlockCollageTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (pageBlockCollage *PageBlockCollage) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -4519,6 +6809,20 @@ type PageBlockSlideshow struct {
 // MessageType return the string telegram-type of PageBlockSlideshow
 func (pageBlockSlideshow *PageBlockSlideshow) MessageType() string {
 	return "pageBlockSlideshow"
+}
+
+// NewPageBlockSlideshow creates a new PageBlockSlideshow
+//
+// @param pageBlocks Slideshow item contents
+// @param caption Block caption
+func NewPageBlockSlideshow(pageBlocks []PageBlock, caption RichText) *PageBlockSlideshow {
+	pageBlockSlideshowTemp := PageBlockSlideshow{
+		tdCommon:   tdCommon{Type: "pageBlockSlideshow"},
+		PageBlocks: pageBlocks,
+		Caption:    caption,
+	}
+
+	return &pageBlockSlideshowTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -4565,6 +6869,22 @@ func (pageBlockChatLink *PageBlockChatLink) MessageType() string {
 	return "pageBlockChatLink"
 }
 
+// NewPageBlockChatLink creates a new PageBlockChatLink
+//
+// @param title Chat title
+// @param photo Chat photo; may be null
+// @param username Chat username, by which all other information about the chat should be resolved
+func NewPageBlockChatLink(title string, photo *ChatPhoto, username string) *PageBlockChatLink {
+	pageBlockChatLinkTemp := PageBlockChatLink{
+		tdCommon: tdCommon{Type: "pageBlockChatLink"},
+		Title:    title,
+		Photo:    *photo,
+		Username: username,
+	}
+
+	return &pageBlockChatLinkTemp
+}
+
 // GetPageBlockEnum return the enum type of this object
 func (pageBlockChatLink *PageBlockChatLink) GetPageBlockEnum() PageBlockEnum {
 	return PageBlockChatLinkType
@@ -4580,6 +6900,20 @@ type WebPageInstantView struct {
 // MessageType return the string telegram-type of WebPageInstantView
 func (webPageInstantView *WebPageInstantView) MessageType() string {
 	return "webPageInstantView"
+}
+
+// NewWebPageInstantView creates a new WebPageInstantView
+//
+// @param pageBlocks Content of the web page
+// @param isFull True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
+func NewWebPageInstantView(pageBlocks []PageBlock, isFull bool) *WebPageInstantView {
+	webPageInstantViewTemp := WebPageInstantView{
+		tdCommon:   tdCommon{Type: "webPageInstantView"},
+		PageBlocks: pageBlocks,
+		IsFull:     isFull,
+	}
+
+	return &webPageInstantViewTemp
 }
 
 // WebPage Describes a web page preview
@@ -4613,6 +6947,58 @@ func (webPage *WebPage) MessageType() string {
 	return "webPage"
 }
 
+// NewWebPage creates a new WebPage
+//
+// @param uRL Original URL of the link
+// @param displayURL URL to display
+// @param typeParam Type of the web page. Can be: article, photo, audio, video, document, profile, app, or something else
+// @param siteName Short name of the site (e.g., Google Docs, App Store)
+// @param title Title of the content
+// @param description
+// @param photo Image representing the content; may be null
+// @param embedURL URL to show in the embedded preview
+// @param embedType MIME type of the embedded preview, (e.g., text/html or video/mp4)
+// @param embedWidth Width of the embedded preview
+// @param embedHeight Height of the embedded preview
+// @param duration Duration of the content, in seconds
+// @param author Author of the content
+// @param animation Preview of the content as an animation, if available; may be null
+// @param audio Preview of the content as an audio file, if available; may be null
+// @param document Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null
+// @param sticker Preview of the content as a sticker for small WEBP files, if available; may be null
+// @param video Preview of the content as a video, if available; may be null
+// @param videoNote Preview of the content as a video note, if available; may be null
+// @param voiceNote Preview of the content as a voice note, if available; may be null
+// @param hasInstantView True, if the web page has an instant view
+func NewWebPage(uRL string, displayURL string, typeParam string, siteName string, title string, description string, photo *Photo, embedURL string, embedType string, embedWidth int32, embedHeight int32, duration int32, author string, animation *Animation, audio *Audio, document *Document, sticker *Sticker, video *Video, videoNote *VideoNote, voiceNote *VoiceNote, hasInstantView bool) *WebPage {
+	webPageTemp := WebPage{
+		tdCommon:       tdCommon{Type: "webPage"},
+		URL:            uRL,
+		DisplayURL:     displayURL,
+		Type:           typeParam,
+		SiteName:       siteName,
+		Title:          title,
+		Description:    description,
+		Photo:          *photo,
+		EmbedURL:       embedURL,
+		EmbedType:      embedType,
+		EmbedWidth:     embedWidth,
+		EmbedHeight:    embedHeight,
+		Duration:       duration,
+		Author:         author,
+		Animation:      *animation,
+		Audio:          *audio,
+		Document:       *document,
+		Sticker:        *sticker,
+		Video:          *video,
+		VideoNote:      *videoNote,
+		VoiceNote:      *voiceNote,
+		HasInstantView: hasInstantView,
+	}
+
+	return &webPageTemp
+}
+
 // LabeledPricePart Portion of the price of a product (e.g., "delivery cost", "tax amount")
 type LabeledPricePart struct {
 	tdCommon
@@ -4623,6 +7009,20 @@ type LabeledPricePart struct {
 // MessageType return the string telegram-type of LabeledPricePart
 func (labeledPricePart *LabeledPricePart) MessageType() string {
 	return "labeledPricePart"
+}
+
+// NewLabeledPricePart creates a new LabeledPricePart
+//
+// @param label Label for this portion of the product price
+// @param amount Currency amount in minimal quantity of the currency
+func NewLabeledPricePart(label string, amount int64) *LabeledPricePart {
+	labeledPricePartTemp := LabeledPricePart{
+		tdCommon: tdCommon{Type: "labeledPricePart"},
+		Label:    label,
+		Amount:   amount,
+	}
+
+	return &labeledPricePartTemp
 }
 
 // Invoice Product invoice
@@ -4645,6 +7045,36 @@ func (invoice *Invoice) MessageType() string {
 	return "invoice"
 }
 
+// NewInvoice creates a new Invoice
+//
+// @param currency ISO 4217 currency code
+// @param priceParts A list of objects used to calculate the total price of the product
+// @param isTest True, if the payment is a test payment
+// @param needName True, if the user's name is needed for payment
+// @param needPhoneNumber True, if the user's phone number is needed for payment
+// @param needEmailAddress True, if the user's email address is needed for payment
+// @param needShippingAddress True, if the user's shipping address is needed for payment
+// @param sendPhoneNumberToProvider True, if the user's phone number will be sent to the provider
+// @param sendEmailAddressToProvider True, if the user's email address will be sent to the provider
+// @param isFlexible True, if the total price depends on the shipping method
+func NewInvoice(currency string, priceParts []LabeledPricePart, isTest bool, needName bool, needPhoneNumber bool, needEmailAddress bool, needShippingAddress bool, sendPhoneNumberToProvider bool, sendEmailAddressToProvider bool, isFlexible bool) *Invoice {
+	invoiceTemp := Invoice{
+		tdCommon:                   tdCommon{Type: "invoice"},
+		Currency:                   currency,
+		PriceParts:                 priceParts,
+		IsTest:                     isTest,
+		NeedName:                   needName,
+		NeedPhoneNumber:            needPhoneNumber,
+		NeedEmailAddress:           needEmailAddress,
+		NeedShippingAddress:        needShippingAddress,
+		SendPhoneNumberToProvider:  sendPhoneNumberToProvider,
+		SendEmailAddressToProvider: sendEmailAddressToProvider,
+		IsFlexible:                 isFlexible,
+	}
+
+	return &invoiceTemp
+}
+
 // ShippingAddress Describes a shipping address
 type ShippingAddress struct {
 	tdCommon
@@ -4661,6 +7091,28 @@ func (shippingAddress *ShippingAddress) MessageType() string {
 	return "shippingAddress"
 }
 
+// NewShippingAddress creates a new ShippingAddress
+//
+// @param countryCode Two-letter ISO 3166-1 alpha-2 country code
+// @param state State, if applicable
+// @param city City
+// @param streetLine1 First line of the address
+// @param streetLine2 Second line of the address
+// @param postalCode Address postal code
+func NewShippingAddress(countryCode string, state string, city string, streetLine1 string, streetLine2 string, postalCode string) *ShippingAddress {
+	shippingAddressTemp := ShippingAddress{
+		tdCommon:    tdCommon{Type: "shippingAddress"},
+		CountryCode: countryCode,
+		State:       state,
+		City:        city,
+		StreetLine1: streetLine1,
+		StreetLine2: streetLine2,
+		PostalCode:  postalCode,
+	}
+
+	return &shippingAddressTemp
+}
+
 // OrderInfo Order information
 type OrderInfo struct {
 	tdCommon
@@ -4673,6 +7125,24 @@ type OrderInfo struct {
 // MessageType return the string telegram-type of OrderInfo
 func (orderInfo *OrderInfo) MessageType() string {
 	return "orderInfo"
+}
+
+// NewOrderInfo creates a new OrderInfo
+//
+// @param name Name of the user
+// @param phoneNumber Phone number of the user
+// @param emailAddress Email address of the user
+// @param shippingAddress Shipping address for this order; may be null
+func NewOrderInfo(name string, phoneNumber string, emailAddress string, shippingAddress *ShippingAddress) *OrderInfo {
+	orderInfoTemp := OrderInfo{
+		tdCommon:        tdCommon{Type: "orderInfo"},
+		Name:            name,
+		PhoneNumber:     phoneNumber,
+		EmailAddress:    emailAddress,
+		ShippingAddress: *shippingAddress,
+	}
+
+	return &orderInfoTemp
 }
 
 // ShippingOption One shipping option
@@ -4688,6 +7158,22 @@ func (shippingOption *ShippingOption) MessageType() string {
 	return "shippingOption"
 }
 
+// NewShippingOption creates a new ShippingOption
+//
+// @param iD Shipping option identifier
+// @param title Option title
+// @param priceParts A list of objects used to calculate the total shipping costs
+func NewShippingOption(iD string, title string, priceParts []LabeledPricePart) *ShippingOption {
+	shippingOptionTemp := ShippingOption{
+		tdCommon:   tdCommon{Type: "shippingOption"},
+		ID:         iD,
+		Title:      title,
+		PriceParts: priceParts,
+	}
+
+	return &shippingOptionTemp
+}
+
 // SavedCredentials Contains information about saved card credentials
 type SavedCredentials struct {
 	tdCommon
@@ -4700,6 +7186,20 @@ func (savedCredentials *SavedCredentials) MessageType() string {
 	return "savedCredentials"
 }
 
+// NewSavedCredentials creates a new SavedCredentials
+//
+// @param iD Unique identifier of the saved credentials
+// @param title Title of the saved credentials
+func NewSavedCredentials(iD string, title string) *SavedCredentials {
+	savedCredentialsTemp := SavedCredentials{
+		tdCommon: tdCommon{Type: "savedCredentials"},
+		ID:       iD,
+		Title:    title,
+	}
+
+	return &savedCredentialsTemp
+}
+
 // InputCredentialsSaved Applies if a user chooses some previously saved payment credentials. To use their previously saved credentials, the user must have a valid temporary password
 type InputCredentialsSaved struct {
 	tdCommon
@@ -4709,6 +7209,18 @@ type InputCredentialsSaved struct {
 // MessageType return the string telegram-type of InputCredentialsSaved
 func (inputCredentialsSaved *InputCredentialsSaved) MessageType() string {
 	return "inputCredentialsSaved"
+}
+
+// NewInputCredentialsSaved creates a new InputCredentialsSaved
+//
+// @param savedCredentialsID Identifier of the saved credentials
+func NewInputCredentialsSaved(savedCredentialsID string) *InputCredentialsSaved {
+	inputCredentialsSavedTemp := InputCredentialsSaved{
+		tdCommon:           tdCommon{Type: "inputCredentialsSaved"},
+		SavedCredentialsID: savedCredentialsID,
+	}
+
+	return &inputCredentialsSavedTemp
 }
 
 // GetInputCredentialsEnum return the enum type of this object
@@ -4728,6 +7240,20 @@ func (inputCredentialsNew *InputCredentialsNew) MessageType() string {
 	return "inputCredentialsNew"
 }
 
+// NewInputCredentialsNew creates a new InputCredentialsNew
+//
+// @param data Contains JSON-encoded data with a credential identifier from the payment provider
+// @param allowSave True, if the credential identifier can be saved on the server side
+func NewInputCredentialsNew(data string, allowSave bool) *InputCredentialsNew {
+	inputCredentialsNewTemp := InputCredentialsNew{
+		tdCommon:  tdCommon{Type: "inputCredentialsNew"},
+		Data:      data,
+		AllowSave: allowSave,
+	}
+
+	return &inputCredentialsNewTemp
+}
+
 // GetInputCredentialsEnum return the enum type of this object
 func (inputCredentialsNew *InputCredentialsNew) GetInputCredentialsEnum() InputCredentialsEnum {
 	return InputCredentialsNewType
@@ -4744,6 +7270,18 @@ func (inputCredentialsAndroidPay *InputCredentialsAndroidPay) MessageType() stri
 	return "inputCredentialsAndroidPay"
 }
 
+// NewInputCredentialsAndroidPay creates a new InputCredentialsAndroidPay
+//
+// @param data JSON-encoded data with the credential identifier
+func NewInputCredentialsAndroidPay(data string) *InputCredentialsAndroidPay {
+	inputCredentialsAndroidPayTemp := InputCredentialsAndroidPay{
+		tdCommon: tdCommon{Type: "inputCredentialsAndroidPay"},
+		Data:     data,
+	}
+
+	return &inputCredentialsAndroidPayTemp
+}
+
 // GetInputCredentialsEnum return the enum type of this object
 func (inputCredentialsAndroidPay *InputCredentialsAndroidPay) GetInputCredentialsEnum() InputCredentialsEnum {
 	return InputCredentialsAndroidPayType
@@ -4758,6 +7296,18 @@ type InputCredentialsApplePay struct {
 // MessageType return the string telegram-type of InputCredentialsApplePay
 func (inputCredentialsApplePay *InputCredentialsApplePay) MessageType() string {
 	return "inputCredentialsApplePay"
+}
+
+// NewInputCredentialsApplePay creates a new InputCredentialsApplePay
+//
+// @param data JSON-encoded data with the credential identifier
+func NewInputCredentialsApplePay(data string) *InputCredentialsApplePay {
+	inputCredentialsApplePayTemp := InputCredentialsApplePay{
+		tdCommon: tdCommon{Type: "inputCredentialsApplePay"},
+		Data:     data,
+	}
+
+	return &inputCredentialsApplePayTemp
 }
 
 // GetInputCredentialsEnum return the enum type of this object
@@ -4779,6 +7329,24 @@ func (paymentsProviderStripe *PaymentsProviderStripe) MessageType() string {
 	return "paymentsProviderStripe"
 }
 
+// NewPaymentsProviderStripe creates a new PaymentsProviderStripe
+//
+// @param publishableKey Stripe API publishable key
+// @param needCountry True, if the user country must be provided
+// @param needPostalCode True, if the user ZIP/postal code must be provided
+// @param needCardholderName True, if the cardholder name must be provided
+func NewPaymentsProviderStripe(publishableKey string, needCountry bool, needPostalCode bool, needCardholderName bool) *PaymentsProviderStripe {
+	paymentsProviderStripeTemp := PaymentsProviderStripe{
+		tdCommon:           tdCommon{Type: "paymentsProviderStripe"},
+		PublishableKey:     publishableKey,
+		NeedCountry:        needCountry,
+		NeedPostalCode:     needPostalCode,
+		NeedCardholderName: needCardholderName,
+	}
+
+	return &paymentsProviderStripeTemp
+}
+
 // PaymentForm Contains information about an invoice payment form
 type PaymentForm struct {
 	tdCommon
@@ -4796,6 +7364,30 @@ func (paymentForm *PaymentForm) MessageType() string {
 	return "paymentForm"
 }
 
+// NewPaymentForm creates a new PaymentForm
+//
+// @param invoice Full information of the invoice
+// @param uRL Payment form URL
+// @param paymentsProvider Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
+// @param savedOrderInfo Saved server-side order information; may be null
+// @param savedCredentials Contains information about saved card credentials; may be null
+// @param canSaveCredentials True, if the user can choose to save credentials
+// @param needPassword True, if the user will be able to save credentials protected by a password they set up
+func NewPaymentForm(invoice *Invoice, uRL string, paymentsProvider *PaymentsProviderStripe, savedOrderInfo *OrderInfo, savedCredentials *SavedCredentials, canSaveCredentials bool, needPassword bool) *PaymentForm {
+	paymentFormTemp := PaymentForm{
+		tdCommon:           tdCommon{Type: "paymentForm"},
+		Invoice:            *invoice,
+		URL:                uRL,
+		PaymentsProvider:   *paymentsProvider,
+		SavedOrderInfo:     *savedOrderInfo,
+		SavedCredentials:   *savedCredentials,
+		CanSaveCredentials: canSaveCredentials,
+		NeedPassword:       needPassword,
+	}
+
+	return &paymentFormTemp
+}
+
 // ValidatedOrderInfo Contains a temporary identifier of validated order information, which is stored for one hour. Also contains the available shipping options
 type ValidatedOrderInfo struct {
 	tdCommon
@@ -4808,6 +7400,20 @@ func (validatedOrderInfo *ValidatedOrderInfo) MessageType() string {
 	return "validatedOrderInfo"
 }
 
+// NewValidatedOrderInfo creates a new ValidatedOrderInfo
+//
+// @param orderInfoID Temporary identifier of the order information
+// @param shippingOptions Available shipping options
+func NewValidatedOrderInfo(orderInfoID string, shippingOptions []ShippingOption) *ValidatedOrderInfo {
+	validatedOrderInfoTemp := ValidatedOrderInfo{
+		tdCommon:        tdCommon{Type: "validatedOrderInfo"},
+		OrderInfoID:     orderInfoID,
+		ShippingOptions: shippingOptions,
+	}
+
+	return &validatedOrderInfoTemp
+}
+
 // PaymentResult Contains the result of a payment request
 type PaymentResult struct {
 	tdCommon
@@ -4818,6 +7424,20 @@ type PaymentResult struct {
 // MessageType return the string telegram-type of PaymentResult
 func (paymentResult *PaymentResult) MessageType() string {
 	return "paymentResult"
+}
+
+// NewPaymentResult creates a new PaymentResult
+//
+// @param success True, if the payment request was successful; otherwise the verification_url will be not empty
+// @param verificationURL URL for additional payment credentials verification
+func NewPaymentResult(success bool, verificationURL string) *PaymentResult {
+	paymentResultTemp := PaymentResult{
+		tdCommon:        tdCommon{Type: "paymentResult"},
+		Success:         success,
+		VerificationURL: verificationURL,
+	}
+
+	return &paymentResultTemp
 }
 
 // PaymentReceipt Contains information about a successful payment
@@ -4836,6 +7456,28 @@ func (paymentReceipt *PaymentReceipt) MessageType() string {
 	return "paymentReceipt"
 }
 
+// NewPaymentReceipt creates a new PaymentReceipt
+//
+// @param date Point in time (Unix timestamp) when the payment was made
+// @param paymentsProviderUserID User identifier of the payment provider bot
+// @param invoice Contains information about the invoice
+// @param orderInfo Contains order information; may be null
+// @param shippingOption Chosen shipping option; may be null
+// @param credentialsTitle Title of the saved credentials
+func NewPaymentReceipt(date int32, paymentsProviderUserID int32, invoice *Invoice, orderInfo *OrderInfo, shippingOption *ShippingOption, credentialsTitle string) *PaymentReceipt {
+	paymentReceiptTemp := PaymentReceipt{
+		tdCommon: tdCommon{Type: "paymentReceipt"},
+		Date:     date,
+		PaymentsProviderUserID: paymentsProviderUserID,
+		Invoice:                *invoice,
+		OrderInfo:              *orderInfo,
+		ShippingOption:         *shippingOption,
+		CredentialsTitle:       credentialsTitle,
+	}
+
+	return &paymentReceiptTemp
+}
+
 // MessageText A text message
 type MessageText struct {
 	tdCommon
@@ -4846,6 +7488,20 @@ type MessageText struct {
 // MessageType return the string telegram-type of MessageText
 func (messageText *MessageText) MessageType() string {
 	return "messageText"
+}
+
+// NewMessageText creates a new MessageText
+//
+// @param text Text of the message
+// @param webPage A preview of the web page that's mentioned in the text; may be null
+func NewMessageText(text *FormattedText, webPage *WebPage) *MessageText {
+	messageTextTemp := MessageText{
+		tdCommon: tdCommon{Type: "messageText"},
+		Text:     *text,
+		WebPage:  *webPage,
+	}
+
+	return &messageTextTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -4866,6 +7522,22 @@ func (messageAnimation *MessageAnimation) MessageType() string {
 	return "messageAnimation"
 }
 
+// NewMessageAnimation creates a new MessageAnimation
+//
+// @param animation Message content
+// @param caption Animation caption
+// @param isSecret True, if the animation thumbnail must be blurred and the animation must be shown only while tapped
+func NewMessageAnimation(animation *Animation, caption *FormattedText, isSecret bool) *MessageAnimation {
+	messageAnimationTemp := MessageAnimation{
+		tdCommon:  tdCommon{Type: "messageAnimation"},
+		Animation: *animation,
+		Caption:   *caption,
+		IsSecret:  isSecret,
+	}
+
+	return &messageAnimationTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageAnimation *MessageAnimation) GetMessageContentEnum() MessageContentEnum {
 	return MessageAnimationType
@@ -4883,6 +7555,20 @@ func (messageAudio *MessageAudio) MessageType() string {
 	return "messageAudio"
 }
 
+// NewMessageAudio creates a new MessageAudio
+//
+// @param audio Message content
+// @param caption Audio caption
+func NewMessageAudio(audio *Audio, caption *FormattedText) *MessageAudio {
+	messageAudioTemp := MessageAudio{
+		tdCommon: tdCommon{Type: "messageAudio"},
+		Audio:    *audio,
+		Caption:  *caption,
+	}
+
+	return &messageAudioTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageAudio *MessageAudio) GetMessageContentEnum() MessageContentEnum {
 	return MessageAudioType
@@ -4898,6 +7584,20 @@ type MessageDocument struct {
 // MessageType return the string telegram-type of MessageDocument
 func (messageDocument *MessageDocument) MessageType() string {
 	return "messageDocument"
+}
+
+// NewMessageDocument creates a new MessageDocument
+//
+// @param document Message content
+// @param caption Document caption
+func NewMessageDocument(document *Document, caption *FormattedText) *MessageDocument {
+	messageDocumentTemp := MessageDocument{
+		tdCommon: tdCommon{Type: "messageDocument"},
+		Document: *document,
+		Caption:  *caption,
+	}
+
+	return &messageDocumentTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -4918,6 +7618,22 @@ func (messagePhoto *MessagePhoto) MessageType() string {
 	return "messagePhoto"
 }
 
+// NewMessagePhoto creates a new MessagePhoto
+//
+// @param photo Message content
+// @param caption Photo caption
+// @param isSecret True, if the photo must be blurred and must be shown only while tapped
+func NewMessagePhoto(photo *Photo, caption *FormattedText, isSecret bool) *MessagePhoto {
+	messagePhotoTemp := MessagePhoto{
+		tdCommon: tdCommon{Type: "messagePhoto"},
+		Photo:    *photo,
+		Caption:  *caption,
+		IsSecret: isSecret,
+	}
+
+	return &messagePhotoTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messagePhoto *MessagePhoto) GetMessageContentEnum() MessageContentEnum {
 	return MessagePhotoType
@@ -4931,6 +7647,16 @@ type MessageExpiredPhoto struct {
 // MessageType return the string telegram-type of MessageExpiredPhoto
 func (messageExpiredPhoto *MessageExpiredPhoto) MessageType() string {
 	return "messageExpiredPhoto"
+}
+
+// NewMessageExpiredPhoto creates a new MessageExpiredPhoto
+//
+func NewMessageExpiredPhoto() *MessageExpiredPhoto {
+	messageExpiredPhotoTemp := MessageExpiredPhoto{
+		tdCommon: tdCommon{Type: "messageExpiredPhoto"},
+	}
+
+	return &messageExpiredPhotoTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -4947,6 +7673,18 @@ type MessageSticker struct {
 // MessageType return the string telegram-type of MessageSticker
 func (messageSticker *MessageSticker) MessageType() string {
 	return "messageSticker"
+}
+
+// NewMessageSticker creates a new MessageSticker
+//
+// @param sticker Message content
+func NewMessageSticker(sticker *Sticker) *MessageSticker {
+	messageStickerTemp := MessageSticker{
+		tdCommon: tdCommon{Type: "messageSticker"},
+		Sticker:  *sticker,
+	}
+
+	return &messageStickerTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -4967,6 +7705,22 @@ func (messageVideo *MessageVideo) MessageType() string {
 	return "messageVideo"
 }
 
+// NewMessageVideo creates a new MessageVideo
+//
+// @param video Message content
+// @param caption Video caption
+// @param isSecret True, if the video thumbnail must be blurred and the video must be shown only while tapped
+func NewMessageVideo(video *Video, caption *FormattedText, isSecret bool) *MessageVideo {
+	messageVideoTemp := MessageVideo{
+		tdCommon: tdCommon{Type: "messageVideo"},
+		Video:    *video,
+		Caption:  *caption,
+		IsSecret: isSecret,
+	}
+
+	return &messageVideoTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageVideo *MessageVideo) GetMessageContentEnum() MessageContentEnum {
 	return MessageVideoType
@@ -4980,6 +7734,16 @@ type MessageExpiredVideo struct {
 // MessageType return the string telegram-type of MessageExpiredVideo
 func (messageExpiredVideo *MessageExpiredVideo) MessageType() string {
 	return "messageExpiredVideo"
+}
+
+// NewMessageExpiredVideo creates a new MessageExpiredVideo
+//
+func NewMessageExpiredVideo() *MessageExpiredVideo {
+	messageExpiredVideoTemp := MessageExpiredVideo{
+		tdCommon: tdCommon{Type: "messageExpiredVideo"},
+	}
+
+	return &messageExpiredVideoTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5000,6 +7764,22 @@ func (messageVideoNote *MessageVideoNote) MessageType() string {
 	return "messageVideoNote"
 }
 
+// NewMessageVideoNote creates a new MessageVideoNote
+//
+// @param videoNote Message content
+// @param isViewed True, if at least one of the recipients has viewed the video note
+// @param isSecret True, if the video note thumbnail must be blurred and the video note must be shown only while tapped
+func NewMessageVideoNote(videoNote *VideoNote, isViewed bool, isSecret bool) *MessageVideoNote {
+	messageVideoNoteTemp := MessageVideoNote{
+		tdCommon:  tdCommon{Type: "messageVideoNote"},
+		VideoNote: *videoNote,
+		IsViewed:  isViewed,
+		IsSecret:  isSecret,
+	}
+
+	return &messageVideoNoteTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageVideoNote *MessageVideoNote) GetMessageContentEnum() MessageContentEnum {
 	return MessageVideoNoteType
@@ -5016,6 +7796,22 @@ type MessageVoiceNote struct {
 // MessageType return the string telegram-type of MessageVoiceNote
 func (messageVoiceNote *MessageVoiceNote) MessageType() string {
 	return "messageVoiceNote"
+}
+
+// NewMessageVoiceNote creates a new MessageVoiceNote
+//
+// @param voiceNote Message content
+// @param caption Voice note caption
+// @param isListened True, if at least one of the recipients has listened to the voice note
+func NewMessageVoiceNote(voiceNote *VoiceNote, caption *FormattedText, isListened bool) *MessageVoiceNote {
+	messageVoiceNoteTemp := MessageVoiceNote{
+		tdCommon:   tdCommon{Type: "messageVoiceNote"},
+		VoiceNote:  *voiceNote,
+		Caption:    *caption,
+		IsListened: isListened,
+	}
+
+	return &messageVoiceNoteTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5036,6 +7832,22 @@ func (messageLocation *MessageLocation) MessageType() string {
 	return "messageLocation"
 }
 
+// NewMessageLocation creates a new MessageLocation
+//
+// @param location Message content
+// @param livePeriod Time relative to the message sent date until which the location can be updated, in seconds
+// @param expiresIn Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes
+func NewMessageLocation(location *Location, livePeriod int32, expiresIn int32) *MessageLocation {
+	messageLocationTemp := MessageLocation{
+		tdCommon:   tdCommon{Type: "messageLocation"},
+		Location:   *location,
+		LivePeriod: livePeriod,
+		ExpiresIn:  expiresIn,
+	}
+
+	return &messageLocationTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageLocation *MessageLocation) GetMessageContentEnum() MessageContentEnum {
 	return MessageLocationType
@@ -5050,6 +7862,18 @@ type MessageVenue struct {
 // MessageType return the string telegram-type of MessageVenue
 func (messageVenue *MessageVenue) MessageType() string {
 	return "messageVenue"
+}
+
+// NewMessageVenue creates a new MessageVenue
+//
+// @param venue Message content
+func NewMessageVenue(venue *Venue) *MessageVenue {
+	messageVenueTemp := MessageVenue{
+		tdCommon: tdCommon{Type: "messageVenue"},
+		Venue:    *venue,
+	}
+
+	return &messageVenueTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5068,6 +7892,18 @@ func (messageContact *MessageContact) MessageType() string {
 	return "messageContact"
 }
 
+// NewMessageContact creates a new MessageContact
+//
+// @param contact Message content
+func NewMessageContact(contact *Contact) *MessageContact {
+	messageContactTemp := MessageContact{
+		tdCommon: tdCommon{Type: "messageContact"},
+		Contact:  *contact,
+	}
+
+	return &messageContactTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageContact *MessageContact) GetMessageContentEnum() MessageContentEnum {
 	return MessageContactType
@@ -5082,6 +7918,18 @@ type MessageGame struct {
 // MessageType return the string telegram-type of MessageGame
 func (messageGame *MessageGame) MessageType() string {
 	return "messageGame"
+}
+
+// NewMessageGame creates a new MessageGame
+//
+// @param game Game
+func NewMessageGame(game *Game) *MessageGame {
+	messageGameTemp := MessageGame{
+		tdCommon: tdCommon{Type: "messageGame"},
+		Game:     *game,
+	}
+
+	return &messageGameTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5108,6 +7956,34 @@ func (messageInvoice *MessageInvoice) MessageType() string {
 	return "messageInvoice"
 }
 
+// NewMessageInvoice creates a new MessageInvoice
+//
+// @param title Product title
+// @param description
+// @param photo Product photo; may be null
+// @param currency Currency for the product price
+// @param totalAmount Product total price in the minimal quantity of the currency
+// @param startParameter Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
+// @param isTest True, if the invoice is a test invoice
+// @param needShippingAddress True, if the shipping address should be specified
+// @param receiptMessageID The identifier of the message with the receipt, after the product has been purchased
+func NewMessageInvoice(title string, description string, photo *Photo, currency string, totalAmount int64, startParameter string, isTest bool, needShippingAddress bool, receiptMessageID int64) *MessageInvoice {
+	messageInvoiceTemp := MessageInvoice{
+		tdCommon:            tdCommon{Type: "messageInvoice"},
+		Title:               title,
+		Description:         description,
+		Photo:               *photo,
+		Currency:            currency,
+		TotalAmount:         totalAmount,
+		StartParameter:      startParameter,
+		IsTest:              isTest,
+		NeedShippingAddress: needShippingAddress,
+		ReceiptMessageID:    receiptMessageID,
+	}
+
+	return &messageInvoiceTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageInvoice *MessageInvoice) GetMessageContentEnum() MessageContentEnum {
 	return MessageInvoiceType
@@ -5123,6 +7999,20 @@ type MessageCall struct {
 // MessageType return the string telegram-type of MessageCall
 func (messageCall *MessageCall) MessageType() string {
 	return "messageCall"
+}
+
+// NewMessageCall creates a new MessageCall
+//
+// @param discardReason Reason why the call was discarded
+// @param duration Call duration, in seconds
+func NewMessageCall(discardReason CallDiscardReason, duration int32) *MessageCall {
+	messageCallTemp := MessageCall{
+		tdCommon:      tdCommon{Type: "messageCall"},
+		DiscardReason: discardReason,
+		Duration:      duration,
+	}
+
+	return &messageCallTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -5167,6 +8057,20 @@ func (messageBasicGroupChatCreate *MessageBasicGroupChatCreate) MessageType() st
 	return "messageBasicGroupChatCreate"
 }
 
+// NewMessageBasicGroupChatCreate creates a new MessageBasicGroupChatCreate
+//
+// @param title Title of the basic group
+// @param memberUserIDs User identifiers of members in the basic group
+func NewMessageBasicGroupChatCreate(title string, memberUserIDs []int32) *MessageBasicGroupChatCreate {
+	messageBasicGroupChatCreateTemp := MessageBasicGroupChatCreate{
+		tdCommon:      tdCommon{Type: "messageBasicGroupChatCreate"},
+		Title:         title,
+		MemberUserIDs: memberUserIDs,
+	}
+
+	return &messageBasicGroupChatCreateTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageBasicGroupChatCreate *MessageBasicGroupChatCreate) GetMessageContentEnum() MessageContentEnum {
 	return MessageBasicGroupChatCreateType
@@ -5181,6 +8085,18 @@ type MessageSupergroupChatCreate struct {
 // MessageType return the string telegram-type of MessageSupergroupChatCreate
 func (messageSupergroupChatCreate *MessageSupergroupChatCreate) MessageType() string {
 	return "messageSupergroupChatCreate"
+}
+
+// NewMessageSupergroupChatCreate creates a new MessageSupergroupChatCreate
+//
+// @param title Title of the supergroup or channel
+func NewMessageSupergroupChatCreate(title string) *MessageSupergroupChatCreate {
+	messageSupergroupChatCreateTemp := MessageSupergroupChatCreate{
+		tdCommon: tdCommon{Type: "messageSupergroupChatCreate"},
+		Title:    title,
+	}
+
+	return &messageSupergroupChatCreateTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5199,6 +8115,18 @@ func (messageChatChangeTitle *MessageChatChangeTitle) MessageType() string {
 	return "messageChatChangeTitle"
 }
 
+// NewMessageChatChangeTitle creates a new MessageChatChangeTitle
+//
+// @param title New chat title
+func NewMessageChatChangeTitle(title string) *MessageChatChangeTitle {
+	messageChatChangeTitleTemp := MessageChatChangeTitle{
+		tdCommon: tdCommon{Type: "messageChatChangeTitle"},
+		Title:    title,
+	}
+
+	return &messageChatChangeTitleTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageChatChangeTitle *MessageChatChangeTitle) GetMessageContentEnum() MessageContentEnum {
 	return MessageChatChangeTitleType
@@ -5215,6 +8143,18 @@ func (messageChatChangePhoto *MessageChatChangePhoto) MessageType() string {
 	return "messageChatChangePhoto"
 }
 
+// NewMessageChatChangePhoto creates a new MessageChatChangePhoto
+//
+// @param photo New chat photo
+func NewMessageChatChangePhoto(photo *Photo) *MessageChatChangePhoto {
+	messageChatChangePhotoTemp := MessageChatChangePhoto{
+		tdCommon: tdCommon{Type: "messageChatChangePhoto"},
+		Photo:    *photo,
+	}
+
+	return &messageChatChangePhotoTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageChatChangePhoto *MessageChatChangePhoto) GetMessageContentEnum() MessageContentEnum {
 	return MessageChatChangePhotoType
@@ -5228,6 +8168,16 @@ type MessageChatDeletePhoto struct {
 // MessageType return the string telegram-type of MessageChatDeletePhoto
 func (messageChatDeletePhoto *MessageChatDeletePhoto) MessageType() string {
 	return "messageChatDeletePhoto"
+}
+
+// NewMessageChatDeletePhoto creates a new MessageChatDeletePhoto
+//
+func NewMessageChatDeletePhoto() *MessageChatDeletePhoto {
+	messageChatDeletePhotoTemp := MessageChatDeletePhoto{
+		tdCommon: tdCommon{Type: "messageChatDeletePhoto"},
+	}
+
+	return &messageChatDeletePhotoTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5246,6 +8196,18 @@ func (messageChatAddMembers *MessageChatAddMembers) MessageType() string {
 	return "messageChatAddMembers"
 }
 
+// NewMessageChatAddMembers creates a new MessageChatAddMembers
+//
+// @param memberUserIDs User identifiers of the new members
+func NewMessageChatAddMembers(memberUserIDs []int32) *MessageChatAddMembers {
+	messageChatAddMembersTemp := MessageChatAddMembers{
+		tdCommon:      tdCommon{Type: "messageChatAddMembers"},
+		MemberUserIDs: memberUserIDs,
+	}
+
+	return &messageChatAddMembersTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageChatAddMembers *MessageChatAddMembers) GetMessageContentEnum() MessageContentEnum {
 	return MessageChatAddMembersType
@@ -5259,6 +8221,16 @@ type MessageChatJoinByLink struct {
 // MessageType return the string telegram-type of MessageChatJoinByLink
 func (messageChatJoinByLink *MessageChatJoinByLink) MessageType() string {
 	return "messageChatJoinByLink"
+}
+
+// NewMessageChatJoinByLink creates a new MessageChatJoinByLink
+//
+func NewMessageChatJoinByLink() *MessageChatJoinByLink {
+	messageChatJoinByLinkTemp := MessageChatJoinByLink{
+		tdCommon: tdCommon{Type: "messageChatJoinByLink"},
+	}
+
+	return &messageChatJoinByLinkTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5277,6 +8249,18 @@ func (messageChatDeleteMember *MessageChatDeleteMember) MessageType() string {
 	return "messageChatDeleteMember"
 }
 
+// NewMessageChatDeleteMember creates a new MessageChatDeleteMember
+//
+// @param userID User identifier of the deleted chat member
+func NewMessageChatDeleteMember(userID int32) *MessageChatDeleteMember {
+	messageChatDeleteMemberTemp := MessageChatDeleteMember{
+		tdCommon: tdCommon{Type: "messageChatDeleteMember"},
+		UserID:   userID,
+	}
+
+	return &messageChatDeleteMemberTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageChatDeleteMember *MessageChatDeleteMember) GetMessageContentEnum() MessageContentEnum {
 	return MessageChatDeleteMemberType
@@ -5291,6 +8275,18 @@ type MessageChatUpgradeTo struct {
 // MessageType return the string telegram-type of MessageChatUpgradeTo
 func (messageChatUpgradeTo *MessageChatUpgradeTo) MessageType() string {
 	return "messageChatUpgradeTo"
+}
+
+// NewMessageChatUpgradeTo creates a new MessageChatUpgradeTo
+//
+// @param supergroupID Identifier of the supergroup to which the basic group was upgraded
+func NewMessageChatUpgradeTo(supergroupID int32) *MessageChatUpgradeTo {
+	messageChatUpgradeToTemp := MessageChatUpgradeTo{
+		tdCommon:     tdCommon{Type: "messageChatUpgradeTo"},
+		SupergroupID: supergroupID,
+	}
+
+	return &messageChatUpgradeToTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5310,6 +8306,20 @@ func (messageChatUpgradeFrom *MessageChatUpgradeFrom) MessageType() string {
 	return "messageChatUpgradeFrom"
 }
 
+// NewMessageChatUpgradeFrom creates a new MessageChatUpgradeFrom
+//
+// @param title Title of the newly created supergroup
+// @param basicGroupID The identifier of the original basic group
+func NewMessageChatUpgradeFrom(title string, basicGroupID int32) *MessageChatUpgradeFrom {
+	messageChatUpgradeFromTemp := MessageChatUpgradeFrom{
+		tdCommon:     tdCommon{Type: "messageChatUpgradeFrom"},
+		Title:        title,
+		BasicGroupID: basicGroupID,
+	}
+
+	return &messageChatUpgradeFromTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageChatUpgradeFrom *MessageChatUpgradeFrom) GetMessageContentEnum() MessageContentEnum {
 	return MessageChatUpgradeFromType
@@ -5326,6 +8336,18 @@ func (messagePinMessage *MessagePinMessage) MessageType() string {
 	return "messagePinMessage"
 }
 
+// NewMessagePinMessage creates a new MessagePinMessage
+//
+// @param messageID Identifier of the pinned message, can be an identifier of a deleted message
+func NewMessagePinMessage(messageID int64) *MessagePinMessage {
+	messagePinMessageTemp := MessagePinMessage{
+		tdCommon:  tdCommon{Type: "messagePinMessage"},
+		MessageID: messageID,
+	}
+
+	return &messagePinMessageTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messagePinMessage *MessagePinMessage) GetMessageContentEnum() MessageContentEnum {
 	return MessagePinMessageType
@@ -5339,6 +8361,16 @@ type MessageScreenshotTaken struct {
 // MessageType return the string telegram-type of MessageScreenshotTaken
 func (messageScreenshotTaken *MessageScreenshotTaken) MessageType() string {
 	return "messageScreenshotTaken"
+}
+
+// NewMessageScreenshotTaken creates a new MessageScreenshotTaken
+//
+func NewMessageScreenshotTaken() *MessageScreenshotTaken {
+	messageScreenshotTakenTemp := MessageScreenshotTaken{
+		tdCommon: tdCommon{Type: "messageScreenshotTaken"},
+	}
+
+	return &messageScreenshotTakenTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5357,6 +8389,18 @@ func (messageChatSetTTL *MessageChatSetTTL) MessageType() string {
 	return "messageChatSetTtl"
 }
 
+// NewMessageChatSetTTL creates a new MessageChatSetTTL
+//
+// @param tTL New TTL
+func NewMessageChatSetTTL(tTL int32) *MessageChatSetTTL {
+	messageChatSetTTLTemp := MessageChatSetTTL{
+		tdCommon: tdCommon{Type: "messageChatSetTtl"},
+		TTL:      tTL,
+	}
+
+	return &messageChatSetTTLTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageChatSetTTL *MessageChatSetTTL) GetMessageContentEnum() MessageContentEnum {
 	return MessageChatSetTTLType
@@ -5371,6 +8415,18 @@ type MessageCustomServiceAction struct {
 // MessageType return the string telegram-type of MessageCustomServiceAction
 func (messageCustomServiceAction *MessageCustomServiceAction) MessageType() string {
 	return "messageCustomServiceAction"
+}
+
+// NewMessageCustomServiceAction creates a new MessageCustomServiceAction
+//
+// @param text Message text to be shown in the chat
+func NewMessageCustomServiceAction(text string) *MessageCustomServiceAction {
+	messageCustomServiceActionTemp := MessageCustomServiceAction{
+		tdCommon: tdCommon{Type: "messageCustomServiceAction"},
+		Text:     text,
+	}
+
+	return &messageCustomServiceActionTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5391,6 +8447,22 @@ func (messageGameScore *MessageGameScore) MessageType() string {
 	return "messageGameScore"
 }
 
+// NewMessageGameScore creates a new MessageGameScore
+//
+// @param gameMessageID Identifier of the message with the game, can be an identifier of a deleted message
+// @param gameID Identifier of the game, may be different from the games presented in the message with the game
+// @param score New score
+func NewMessageGameScore(gameMessageID int64, gameID JSONInt64, score int32) *MessageGameScore {
+	messageGameScoreTemp := MessageGameScore{
+		tdCommon:      tdCommon{Type: "messageGameScore"},
+		GameMessageID: gameMessageID,
+		GameID:        gameID,
+		Score:         score,
+	}
+
+	return &messageGameScoreTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageGameScore *MessageGameScore) GetMessageContentEnum() MessageContentEnum {
 	return MessageGameScoreType
@@ -5407,6 +8479,22 @@ type MessagePaymentSuccessful struct {
 // MessageType return the string telegram-type of MessagePaymentSuccessful
 func (messagePaymentSuccessful *MessagePaymentSuccessful) MessageType() string {
 	return "messagePaymentSuccessful"
+}
+
+// NewMessagePaymentSuccessful creates a new MessagePaymentSuccessful
+//
+// @param invoiceMessageID Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
+// @param currency Currency for the price of the product
+// @param totalAmount Total price for the product, in the minimal quantity of the currency
+func NewMessagePaymentSuccessful(invoiceMessageID int64, currency string, totalAmount int64) *MessagePaymentSuccessful {
+	messagePaymentSuccessfulTemp := MessagePaymentSuccessful{
+		tdCommon:         tdCommon{Type: "messagePaymentSuccessful"},
+		InvoiceMessageID: invoiceMessageID,
+		Currency:         currency,
+		TotalAmount:      totalAmount,
+	}
+
+	return &messagePaymentSuccessfulTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5432,6 +8520,32 @@ func (messagePaymentSuccessfulBot *MessagePaymentSuccessfulBot) MessageType() st
 	return "messagePaymentSuccessfulBot"
 }
 
+// NewMessagePaymentSuccessfulBot creates a new MessagePaymentSuccessfulBot
+//
+// @param invoiceMessageID Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
+// @param currency Currency for price of the product
+// @param totalAmount Total price for the product, in the minimal quantity of the currency
+// @param invoicePayload Invoice payload
+// @param shippingOptionID Identifier of the shipping option chosen by the user, may be empty if not applicable
+// @param orderInfo Information about the order; may be null
+// @param telegramPaymentChargeID Telegram payment identifier
+// @param providerPaymentChargeID Provider payment identifier
+func NewMessagePaymentSuccessfulBot(invoiceMessageID int64, currency string, totalAmount int64, invoicePayload []byte, shippingOptionID string, orderInfo *OrderInfo, telegramPaymentChargeID string, providerPaymentChargeID string) *MessagePaymentSuccessfulBot {
+	messagePaymentSuccessfulBotTemp := MessagePaymentSuccessfulBot{
+		tdCommon:                tdCommon{Type: "messagePaymentSuccessfulBot"},
+		InvoiceMessageID:        invoiceMessageID,
+		Currency:                currency,
+		TotalAmount:             totalAmount,
+		InvoicePayload:          invoicePayload,
+		ShippingOptionID:        shippingOptionID,
+		OrderInfo:               *orderInfo,
+		TelegramPaymentChargeID: telegramPaymentChargeID,
+		ProviderPaymentChargeID: providerPaymentChargeID,
+	}
+
+	return &messagePaymentSuccessfulBotTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messagePaymentSuccessfulBot *MessagePaymentSuccessfulBot) GetMessageContentEnum() MessageContentEnum {
 	return MessagePaymentSuccessfulBotType
@@ -5445,6 +8559,16 @@ type MessageContactRegistered struct {
 // MessageType return the string telegram-type of MessageContactRegistered
 func (messageContactRegistered *MessageContactRegistered) MessageType() string {
 	return "messageContactRegistered"
+}
+
+// NewMessageContactRegistered creates a new MessageContactRegistered
+//
+func NewMessageContactRegistered() *MessageContactRegistered {
+	messageContactRegisteredTemp := MessageContactRegistered{
+		tdCommon: tdCommon{Type: "messageContactRegistered"},
+	}
+
+	return &messageContactRegisteredTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5463,6 +8587,18 @@ func (messageWebsiteConnected *MessageWebsiteConnected) MessageType() string {
 	return "messageWebsiteConnected"
 }
 
+// NewMessageWebsiteConnected creates a new MessageWebsiteConnected
+//
+// @param domainName Domain name of the connected website
+func NewMessageWebsiteConnected(domainName string) *MessageWebsiteConnected {
+	messageWebsiteConnectedTemp := MessageWebsiteConnected{
+		tdCommon:   tdCommon{Type: "messageWebsiteConnected"},
+		DomainName: domainName,
+	}
+
+	return &messageWebsiteConnectedTemp
+}
+
 // GetMessageContentEnum return the enum type of this object
 func (messageWebsiteConnected *MessageWebsiteConnected) GetMessageContentEnum() MessageContentEnum {
 	return MessageWebsiteConnectedType
@@ -5476,6 +8612,16 @@ type MessageUnsupported struct {
 // MessageType return the string telegram-type of MessageUnsupported
 func (messageUnsupported *MessageUnsupported) MessageType() string {
 	return "messageUnsupported"
+}
+
+// NewMessageUnsupported creates a new MessageUnsupported
+//
+func NewMessageUnsupported() *MessageUnsupported {
+	messageUnsupportedTemp := MessageUnsupported{
+		tdCommon: tdCommon{Type: "messageUnsupported"},
+	}
+
+	return &messageUnsupportedTemp
 }
 
 // GetMessageContentEnum return the enum type of this object
@@ -5493,6 +8639,16 @@ func (textEntityTypeMention *TextEntityTypeMention) MessageType() string {
 	return "textEntityTypeMention"
 }
 
+// NewTextEntityTypeMention creates a new TextEntityTypeMention
+//
+func NewTextEntityTypeMention() *TextEntityTypeMention {
+	textEntityTypeMentionTemp := TextEntityTypeMention{
+		tdCommon: tdCommon{Type: "textEntityTypeMention"},
+	}
+
+	return &textEntityTypeMentionTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeMention *TextEntityTypeMention) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeMentionType
@@ -5506,6 +8662,16 @@ type TextEntityTypeHashtag struct {
 // MessageType return the string telegram-type of TextEntityTypeHashtag
 func (textEntityTypeHashtag *TextEntityTypeHashtag) MessageType() string {
 	return "textEntityTypeHashtag"
+}
+
+// NewTextEntityTypeHashtag creates a new TextEntityTypeHashtag
+//
+func NewTextEntityTypeHashtag() *TextEntityTypeHashtag {
+	textEntityTypeHashtagTemp := TextEntityTypeHashtag{
+		tdCommon: tdCommon{Type: "textEntityTypeHashtag"},
+	}
+
+	return &textEntityTypeHashtagTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5523,6 +8689,16 @@ func (textEntityTypeCashtag *TextEntityTypeCashtag) MessageType() string {
 	return "textEntityTypeCashtag"
 }
 
+// NewTextEntityTypeCashtag creates a new TextEntityTypeCashtag
+//
+func NewTextEntityTypeCashtag() *TextEntityTypeCashtag {
+	textEntityTypeCashtagTemp := TextEntityTypeCashtag{
+		tdCommon: tdCommon{Type: "textEntityTypeCashtag"},
+	}
+
+	return &textEntityTypeCashtagTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeCashtag *TextEntityTypeCashtag) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeCashtagType
@@ -5536,6 +8712,16 @@ type TextEntityTypeBotCommand struct {
 // MessageType return the string telegram-type of TextEntityTypeBotCommand
 func (textEntityTypeBotCommand *TextEntityTypeBotCommand) MessageType() string {
 	return "textEntityTypeBotCommand"
+}
+
+// NewTextEntityTypeBotCommand creates a new TextEntityTypeBotCommand
+//
+func NewTextEntityTypeBotCommand() *TextEntityTypeBotCommand {
+	textEntityTypeBotCommandTemp := TextEntityTypeBotCommand{
+		tdCommon: tdCommon{Type: "textEntityTypeBotCommand"},
+	}
+
+	return &textEntityTypeBotCommandTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5553,6 +8739,16 @@ func (textEntityTypeURL *TextEntityTypeURL) MessageType() string {
 	return "textEntityTypeUrl"
 }
 
+// NewTextEntityTypeURL creates a new TextEntityTypeURL
+//
+func NewTextEntityTypeURL() *TextEntityTypeURL {
+	textEntityTypeURLTemp := TextEntityTypeURL{
+		tdCommon: tdCommon{Type: "textEntityTypeUrl"},
+	}
+
+	return &textEntityTypeURLTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeURL *TextEntityTypeURL) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeURLType
@@ -5566,6 +8762,16 @@ type TextEntityTypeEmailAddress struct {
 // MessageType return the string telegram-type of TextEntityTypeEmailAddress
 func (textEntityTypeEmailAddress *TextEntityTypeEmailAddress) MessageType() string {
 	return "textEntityTypeEmailAddress"
+}
+
+// NewTextEntityTypeEmailAddress creates a new TextEntityTypeEmailAddress
+//
+func NewTextEntityTypeEmailAddress() *TextEntityTypeEmailAddress {
+	textEntityTypeEmailAddressTemp := TextEntityTypeEmailAddress{
+		tdCommon: tdCommon{Type: "textEntityTypeEmailAddress"},
+	}
+
+	return &textEntityTypeEmailAddressTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5583,6 +8789,16 @@ func (textEntityTypeBold *TextEntityTypeBold) MessageType() string {
 	return "textEntityTypeBold"
 }
 
+// NewTextEntityTypeBold creates a new TextEntityTypeBold
+//
+func NewTextEntityTypeBold() *TextEntityTypeBold {
+	textEntityTypeBoldTemp := TextEntityTypeBold{
+		tdCommon: tdCommon{Type: "textEntityTypeBold"},
+	}
+
+	return &textEntityTypeBoldTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeBold *TextEntityTypeBold) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeBoldType
@@ -5596,6 +8812,16 @@ type TextEntityTypeItalic struct {
 // MessageType return the string telegram-type of TextEntityTypeItalic
 func (textEntityTypeItalic *TextEntityTypeItalic) MessageType() string {
 	return "textEntityTypeItalic"
+}
+
+// NewTextEntityTypeItalic creates a new TextEntityTypeItalic
+//
+func NewTextEntityTypeItalic() *TextEntityTypeItalic {
+	textEntityTypeItalicTemp := TextEntityTypeItalic{
+		tdCommon: tdCommon{Type: "textEntityTypeItalic"},
+	}
+
+	return &textEntityTypeItalicTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5613,6 +8839,16 @@ func (textEntityTypeCode *TextEntityTypeCode) MessageType() string {
 	return "textEntityTypeCode"
 }
 
+// NewTextEntityTypeCode creates a new TextEntityTypeCode
+//
+func NewTextEntityTypeCode() *TextEntityTypeCode {
+	textEntityTypeCodeTemp := TextEntityTypeCode{
+		tdCommon: tdCommon{Type: "textEntityTypeCode"},
+	}
+
+	return &textEntityTypeCodeTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeCode *TextEntityTypeCode) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeCodeType
@@ -5626,6 +8862,16 @@ type TextEntityTypePre struct {
 // MessageType return the string telegram-type of TextEntityTypePre
 func (textEntityTypePre *TextEntityTypePre) MessageType() string {
 	return "textEntityTypePre"
+}
+
+// NewTextEntityTypePre creates a new TextEntityTypePre
+//
+func NewTextEntityTypePre() *TextEntityTypePre {
+	textEntityTypePreTemp := TextEntityTypePre{
+		tdCommon: tdCommon{Type: "textEntityTypePre"},
+	}
+
+	return &textEntityTypePreTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5644,6 +8890,18 @@ func (textEntityTypePreCode *TextEntityTypePreCode) MessageType() string {
 	return "textEntityTypePreCode"
 }
 
+// NewTextEntityTypePreCode creates a new TextEntityTypePreCode
+//
+// @param language Programming language of the code; as defined by the sender
+func NewTextEntityTypePreCode(language string) *TextEntityTypePreCode {
+	textEntityTypePreCodeTemp := TextEntityTypePreCode{
+		tdCommon: tdCommon{Type: "textEntityTypePreCode"},
+		Language: language,
+	}
+
+	return &textEntityTypePreCodeTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypePreCode *TextEntityTypePreCode) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypePreCodeType
@@ -5658,6 +8916,18 @@ type TextEntityTypeTextURL struct {
 // MessageType return the string telegram-type of TextEntityTypeTextURL
 func (textEntityTypeTextURL *TextEntityTypeTextURL) MessageType() string {
 	return "textEntityTypeTextUrl"
+}
+
+// NewTextEntityTypeTextURL creates a new TextEntityTypeTextURL
+//
+// @param uRL URL to be opened when the link is clicked
+func NewTextEntityTypeTextURL(uRL string) *TextEntityTypeTextURL {
+	textEntityTypeTextURLTemp := TextEntityTypeTextURL{
+		tdCommon: tdCommon{Type: "textEntityTypeTextUrl"},
+		URL:      uRL,
+	}
+
+	return &textEntityTypeTextURLTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5676,6 +8946,18 @@ func (textEntityTypeMentionName *TextEntityTypeMentionName) MessageType() string
 	return "textEntityTypeMentionName"
 }
 
+// NewTextEntityTypeMentionName creates a new TextEntityTypeMentionName
+//
+// @param userID Identifier of the mentioned user
+func NewTextEntityTypeMentionName(userID int32) *TextEntityTypeMentionName {
+	textEntityTypeMentionNameTemp := TextEntityTypeMentionName{
+		tdCommon: tdCommon{Type: "textEntityTypeMentionName"},
+		UserID:   userID,
+	}
+
+	return &textEntityTypeMentionNameTemp
+}
+
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeMentionName *TextEntityTypeMentionName) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeMentionNameType
@@ -5689,6 +8971,16 @@ type TextEntityTypePhoneNumber struct {
 // MessageType return the string telegram-type of TextEntityTypePhoneNumber
 func (textEntityTypePhoneNumber *TextEntityTypePhoneNumber) MessageType() string {
 	return "textEntityTypePhoneNumber"
+}
+
+// NewTextEntityTypePhoneNumber creates a new TextEntityTypePhoneNumber
+//
+func NewTextEntityTypePhoneNumber() *TextEntityTypePhoneNumber {
+	textEntityTypePhoneNumberTemp := TextEntityTypePhoneNumber{
+		tdCommon: tdCommon{Type: "textEntityTypePhoneNumber"},
+	}
+
+	return &textEntityTypePhoneNumberTemp
 }
 
 // GetTextEntityTypeEnum return the enum type of this object
@@ -5707,6 +8999,22 @@ type InputThumbnail struct {
 // MessageType return the string telegram-type of InputThumbnail
 func (inputThumbnail *InputThumbnail) MessageType() string {
 	return "inputThumbnail"
+}
+
+// NewInputThumbnail creates a new InputThumbnail
+//
+// @param thumbnail Thumbnail file to send. Sending thumbnails by file_id is currently not supported
+// @param width Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown
+// @param height Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
+func NewInputThumbnail(thumbnail InputFile, width int32, height int32) *InputThumbnail {
+	inputThumbnailTemp := InputThumbnail{
+		tdCommon:  tdCommon{Type: "inputThumbnail"},
+		Thumbnail: thumbnail,
+		Width:     width,
+		Height:    height,
+	}
+
+	return &inputThumbnailTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -5749,6 +9057,22 @@ func (inputMessageText *InputMessageText) MessageType() string {
 	return "inputMessageText"
 }
 
+// NewInputMessageText creates a new InputMessageText
+//
+// @param text Formatted text to be sent. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
+// @param disableWebPagePreview True, if rich web page previews for URLs in the message text should be disabled
+// @param clearDraft True, if a chat message draft should be deleted
+func NewInputMessageText(text *FormattedText, disableWebPagePreview bool, clearDraft bool) *InputMessageText {
+	inputMessageTextTemp := InputMessageText{
+		tdCommon: tdCommon{Type: "inputMessageText"},
+		Text:     *text,
+		DisableWebPagePreview: disableWebPagePreview,
+		ClearDraft:            clearDraft,
+	}
+
+	return &inputMessageTextTemp
+}
+
 // GetInputMessageContentEnum return the enum type of this object
 func (inputMessageText *InputMessageText) GetInputMessageContentEnum() InputMessageContentEnum {
 	return InputMessageTextType
@@ -5768,6 +9092,28 @@ type InputMessageAnimation struct {
 // MessageType return the string telegram-type of InputMessageAnimation
 func (inputMessageAnimation *InputMessageAnimation) MessageType() string {
 	return "inputMessageAnimation"
+}
+
+// NewInputMessageAnimation creates a new InputMessageAnimation
+//
+// @param animation Animation file to be sent
+// @param thumbnail Animation thumbnail, if available
+// @param duration Duration of the animation, in seconds
+// @param width Width of the animation; may be replaced by the server
+// @param height Height of the animation; may be replaced by the server
+// @param caption Animation caption; 0-200 characters
+func NewInputMessageAnimation(animation InputFile, thumbnail *InputThumbnail, duration int32, width int32, height int32, caption *FormattedText) *InputMessageAnimation {
+	inputMessageAnimationTemp := InputMessageAnimation{
+		tdCommon:  tdCommon{Type: "inputMessageAnimation"},
+		Animation: animation,
+		Thumbnail: *thumbnail,
+		Duration:  duration,
+		Width:     width,
+		Height:    height,
+		Caption:   *caption,
+	}
+
+	return &inputMessageAnimationTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -5824,6 +9170,28 @@ func (inputMessageAudio *InputMessageAudio) MessageType() string {
 	return "inputMessageAudio"
 }
 
+// NewInputMessageAudio creates a new InputMessageAudio
+//
+// @param audio Audio file to be sent
+// @param albumCoverThumbnail Thumbnail of the cover for the album, if available
+// @param duration Duration of the audio, in seconds; may be replaced by the server
+// @param title Title of the audio; 0-64 characters; may be replaced by the server
+// @param performer Performer of the audio; 0-64 characters, may be replaced by the server
+// @param caption Audio caption; 0-200 characters
+func NewInputMessageAudio(audio InputFile, albumCoverThumbnail *InputThumbnail, duration int32, title string, performer string, caption *FormattedText) *InputMessageAudio {
+	inputMessageAudioTemp := InputMessageAudio{
+		tdCommon:            tdCommon{Type: "inputMessageAudio"},
+		Audio:               audio,
+		AlbumCoverThumbnail: *albumCoverThumbnail,
+		Duration:            duration,
+		Title:               title,
+		Performer:           performer,
+		Caption:             *caption,
+	}
+
+	return &inputMessageAudioTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputMessageAudio *InputMessageAudio) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -5875,6 +9243,22 @@ func (inputMessageDocument *InputMessageDocument) MessageType() string {
 	return "inputMessageDocument"
 }
 
+// NewInputMessageDocument creates a new InputMessageDocument
+//
+// @param document Document to be sent
+// @param thumbnail Document thumbnail, if available
+// @param caption Document caption; 0-200 characters
+func NewInputMessageDocument(document InputFile, thumbnail *InputThumbnail, caption *FormattedText) *InputMessageDocument {
+	inputMessageDocumentTemp := InputMessageDocument{
+		tdCommon:  tdCommon{Type: "inputMessageDocument"},
+		Document:  document,
+		Thumbnail: *thumbnail,
+		Caption:   *caption,
+	}
+
+	return &inputMessageDocumentTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputMessageDocument *InputMessageDocument) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -5922,6 +9306,30 @@ type InputMessagePhoto struct {
 // MessageType return the string telegram-type of InputMessagePhoto
 func (inputMessagePhoto *InputMessagePhoto) MessageType() string {
 	return "inputMessagePhoto"
+}
+
+// NewInputMessagePhoto creates a new InputMessagePhoto
+//
+// @param photo Photo to send
+// @param thumbnail Photo thumbnail to be sent, this is sent to the other party in secret chats only
+// @param addedStickerFileIDs File identifiers of the stickers added to the photo, if applicable
+// @param width Photo width
+// @param height Photo height
+// @param caption Photo caption; 0-200 characters
+// @param tTL Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
+func NewInputMessagePhoto(photo InputFile, thumbnail *InputThumbnail, addedStickerFileIDs []int32, width int32, height int32, caption *FormattedText, tTL int32) *InputMessagePhoto {
+	inputMessagePhotoTemp := InputMessagePhoto{
+		tdCommon:            tdCommon{Type: "inputMessagePhoto"},
+		Photo:               photo,
+		Thumbnail:           *thumbnail,
+		AddedStickerFileIDs: addedStickerFileIDs,
+		Width:               width,
+		Height:              height,
+		Caption:             *caption,
+		TTL:                 tTL,
+	}
+
+	return &inputMessagePhotoTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -5978,6 +9386,24 @@ func (inputMessageSticker *InputMessageSticker) MessageType() string {
 	return "inputMessageSticker"
 }
 
+// NewInputMessageSticker creates a new InputMessageSticker
+//
+// @param sticker Sticker to be sent
+// @param thumbnail Sticker thumbnail, if available
+// @param width Sticker width
+// @param height Sticker height
+func NewInputMessageSticker(sticker InputFile, thumbnail *InputThumbnail, width int32, height int32) *InputMessageSticker {
+	inputMessageStickerTemp := InputMessageSticker{
+		tdCommon:  tdCommon{Type: "inputMessageSticker"},
+		Sticker:   sticker,
+		Thumbnail: *thumbnail,
+		Width:     width,
+		Height:    height,
+	}
+
+	return &inputMessageStickerTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputMessageSticker *InputMessageSticker) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -6029,6 +9455,34 @@ type InputMessageVideo struct {
 // MessageType return the string telegram-type of InputMessageVideo
 func (inputMessageVideo *InputMessageVideo) MessageType() string {
 	return "inputMessageVideo"
+}
+
+// NewInputMessageVideo creates a new InputMessageVideo
+//
+// @param video Video to be sent
+// @param thumbnail Video thumbnail, if available
+// @param addedStickerFileIDs File identifiers of the stickers added to the video, if applicable
+// @param duration Duration of the video, in seconds
+// @param width Video width
+// @param height Video height
+// @param supportsStreaming True, if the video should be tried to be streamed
+// @param caption Video caption; 0-200 characters
+// @param tTL Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
+func NewInputMessageVideo(video InputFile, thumbnail *InputThumbnail, addedStickerFileIDs []int32, duration int32, width int32, height int32, supportsStreaming bool, caption *FormattedText, tTL int32) *InputMessageVideo {
+	inputMessageVideoTemp := InputMessageVideo{
+		tdCommon:            tdCommon{Type: "inputMessageVideo"},
+		Video:               video,
+		Thumbnail:           *thumbnail,
+		AddedStickerFileIDs: addedStickerFileIDs,
+		Duration:            duration,
+		Width:               width,
+		Height:              height,
+		SupportsStreaming:   supportsStreaming,
+		Caption:             *caption,
+		TTL:                 tTL,
+	}
+
+	return &inputMessageVideoTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -6089,6 +9543,24 @@ func (inputMessageVideoNote *InputMessageVideoNote) MessageType() string {
 	return "inputMessageVideoNote"
 }
 
+// NewInputMessageVideoNote creates a new InputMessageVideoNote
+//
+// @param videoNote Video note to be sent
+// @param thumbnail Video thumbnail, if available
+// @param duration Duration of the video, in seconds
+// @param length Video width and height; must be positive and not greater than 640
+func NewInputMessageVideoNote(videoNote InputFile, thumbnail *InputThumbnail, duration int32, length int32) *InputMessageVideoNote {
+	inputMessageVideoNoteTemp := InputMessageVideoNote{
+		tdCommon:  tdCommon{Type: "inputMessageVideoNote"},
+		VideoNote: videoNote,
+		Thumbnail: *thumbnail,
+		Duration:  duration,
+		Length:    length,
+	}
+
+	return &inputMessageVideoNoteTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputMessageVideoNote *InputMessageVideoNote) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -6137,6 +9609,24 @@ func (inputMessageVoiceNote *InputMessageVoiceNote) MessageType() string {
 	return "inputMessageVoiceNote"
 }
 
+// NewInputMessageVoiceNote creates a new InputMessageVoiceNote
+//
+// @param voiceNote Voice note to be sent
+// @param duration Duration of the voice note, in seconds
+// @param waveform Waveform representation of the voice note, in 5-bit format
+// @param caption Voice note caption; 0-200 characters
+func NewInputMessageVoiceNote(voiceNote InputFile, duration int32, waveform []byte, caption *FormattedText) *InputMessageVoiceNote {
+	inputMessageVoiceNoteTemp := InputMessageVoiceNote{
+		tdCommon:  tdCommon{Type: "inputMessageVoiceNote"},
+		VoiceNote: voiceNote,
+		Duration:  duration,
+		Waveform:  waveform,
+		Caption:   *caption,
+	}
+
+	return &inputMessageVoiceNoteTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputMessageVoiceNote *InputMessageVoiceNote) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -6183,6 +9673,20 @@ func (inputMessageLocation *InputMessageLocation) MessageType() string {
 	return "inputMessageLocation"
 }
 
+// NewInputMessageLocation creates a new InputMessageLocation
+//
+// @param location Location to be sent
+// @param livePeriod Period for which the location can be updated, in seconds; should bebetween 60 and 86400 for a live location and 0 otherwise
+func NewInputMessageLocation(location *Location, livePeriod int32) *InputMessageLocation {
+	inputMessageLocationTemp := InputMessageLocation{
+		tdCommon:   tdCommon{Type: "inputMessageLocation"},
+		Location:   *location,
+		LivePeriod: livePeriod,
+	}
+
+	return &inputMessageLocationTemp
+}
+
 // GetInputMessageContentEnum return the enum type of this object
 func (inputMessageLocation *InputMessageLocation) GetInputMessageContentEnum() InputMessageContentEnum {
 	return InputMessageLocationType
@@ -6197,6 +9701,18 @@ type InputMessageVenue struct {
 // MessageType return the string telegram-type of InputMessageVenue
 func (inputMessageVenue *InputMessageVenue) MessageType() string {
 	return "inputMessageVenue"
+}
+
+// NewInputMessageVenue creates a new InputMessageVenue
+//
+// @param venue Venue to send
+func NewInputMessageVenue(venue *Venue) *InputMessageVenue {
+	inputMessageVenueTemp := InputMessageVenue{
+		tdCommon: tdCommon{Type: "inputMessageVenue"},
+		Venue:    *venue,
+	}
+
+	return &inputMessageVenueTemp
 }
 
 // GetInputMessageContentEnum return the enum type of this object
@@ -6215,6 +9731,18 @@ func (inputMessageContact *InputMessageContact) MessageType() string {
 	return "inputMessageContact"
 }
 
+// NewInputMessageContact creates a new InputMessageContact
+//
+// @param contact Contact to send
+func NewInputMessageContact(contact *Contact) *InputMessageContact {
+	inputMessageContactTemp := InputMessageContact{
+		tdCommon: tdCommon{Type: "inputMessageContact"},
+		Contact:  *contact,
+	}
+
+	return &inputMessageContactTemp
+}
+
 // GetInputMessageContentEnum return the enum type of this object
 func (inputMessageContact *InputMessageContact) GetInputMessageContentEnum() InputMessageContentEnum {
 	return InputMessageContactType
@@ -6230,6 +9758,20 @@ type InputMessageGame struct {
 // MessageType return the string telegram-type of InputMessageGame
 func (inputMessageGame *InputMessageGame) MessageType() string {
 	return "inputMessageGame"
+}
+
+// NewInputMessageGame creates a new InputMessageGame
+//
+// @param botUserID User identifier of the bot that owns the game
+// @param gameShortName Short name of the game
+func NewInputMessageGame(botUserID int32, gameShortName string) *InputMessageGame {
+	inputMessageGameTemp := InputMessageGame{
+		tdCommon:      tdCommon{Type: "inputMessageGame"},
+		BotUserID:     botUserID,
+		GameShortName: gameShortName,
+	}
+
+	return &inputMessageGameTemp
 }
 
 // GetInputMessageContentEnum return the enum type of this object
@@ -6258,6 +9800,38 @@ func (inputMessageInvoice *InputMessageInvoice) MessageType() string {
 	return "inputMessageInvoice"
 }
 
+// NewInputMessageInvoice creates a new InputMessageInvoice
+//
+// @param invoice Invoice
+// @param title Product title; 1-32 characters
+// @param description
+// @param photoURL Product photo URL; optional
+// @param photoSize Product photo size
+// @param photoWidth Product photo width
+// @param photoHeight Product photo height
+// @param payload The invoice payload
+// @param providerToken Payment provider token
+// @param providerData JSON-encoded data about the invoice, which will be shared with the payment provider
+// @param startParameter Unique invoice bot start_parameter for the generation of this invoice
+func NewInputMessageInvoice(invoice *Invoice, title string, description string, photoURL string, photoSize int32, photoWidth int32, photoHeight int32, payload []byte, providerToken string, providerData string, startParameter string) *InputMessageInvoice {
+	inputMessageInvoiceTemp := InputMessageInvoice{
+		tdCommon:       tdCommon{Type: "inputMessageInvoice"},
+		Invoice:        *invoice,
+		Title:          title,
+		Description:    description,
+		PhotoURL:       photoURL,
+		PhotoSize:      photoSize,
+		PhotoWidth:     photoWidth,
+		PhotoHeight:    photoHeight,
+		Payload:        payload,
+		ProviderToken:  providerToken,
+		ProviderData:   providerData,
+		StartParameter: startParameter,
+	}
+
+	return &inputMessageInvoiceTemp
+}
+
 // GetInputMessageContentEnum return the enum type of this object
 func (inputMessageInvoice *InputMessageInvoice) GetInputMessageContentEnum() InputMessageContentEnum {
 	return InputMessageInvoiceType
@@ -6276,6 +9850,22 @@ func (inputMessageForwarded *InputMessageForwarded) MessageType() string {
 	return "inputMessageForwarded"
 }
 
+// NewInputMessageForwarded creates a new InputMessageForwarded
+//
+// @param fromChatID Identifier for the chat this forwarded message came from
+// @param messageID Identifier of the message to forward
+// @param inGameShare True, if a game message should be shared within a launched game; applies only to game messages
+func NewInputMessageForwarded(fromChatID int64, messageID int64, inGameShare bool) *InputMessageForwarded {
+	inputMessageForwardedTemp := InputMessageForwarded{
+		tdCommon:    tdCommon{Type: "inputMessageForwarded"},
+		FromChatID:  fromChatID,
+		MessageID:   messageID,
+		InGameShare: inGameShare,
+	}
+
+	return &inputMessageForwardedTemp
+}
+
 // GetInputMessageContentEnum return the enum type of this object
 func (inputMessageForwarded *InputMessageForwarded) GetInputMessageContentEnum() InputMessageContentEnum {
 	return InputMessageForwardedType
@@ -6289,6 +9879,16 @@ type SearchMessagesFilterEmpty struct {
 // MessageType return the string telegram-type of SearchMessagesFilterEmpty
 func (searchMessagesFilterEmpty *SearchMessagesFilterEmpty) MessageType() string {
 	return "searchMessagesFilterEmpty"
+}
+
+// NewSearchMessagesFilterEmpty creates a new SearchMessagesFilterEmpty
+//
+func NewSearchMessagesFilterEmpty() *SearchMessagesFilterEmpty {
+	searchMessagesFilterEmptyTemp := SearchMessagesFilterEmpty{
+		tdCommon: tdCommon{Type: "searchMessagesFilterEmpty"},
+	}
+
+	return &searchMessagesFilterEmptyTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6306,6 +9906,16 @@ func (searchMessagesFilterAnimation *SearchMessagesFilterAnimation) MessageType(
 	return "searchMessagesFilterAnimation"
 }
 
+// NewSearchMessagesFilterAnimation creates a new SearchMessagesFilterAnimation
+//
+func NewSearchMessagesFilterAnimation() *SearchMessagesFilterAnimation {
+	searchMessagesFilterAnimationTemp := SearchMessagesFilterAnimation{
+		tdCommon: tdCommon{Type: "searchMessagesFilterAnimation"},
+	}
+
+	return &searchMessagesFilterAnimationTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterAnimation *SearchMessagesFilterAnimation) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterAnimationType
@@ -6319,6 +9929,16 @@ type SearchMessagesFilterAudio struct {
 // MessageType return the string telegram-type of SearchMessagesFilterAudio
 func (searchMessagesFilterAudio *SearchMessagesFilterAudio) MessageType() string {
 	return "searchMessagesFilterAudio"
+}
+
+// NewSearchMessagesFilterAudio creates a new SearchMessagesFilterAudio
+//
+func NewSearchMessagesFilterAudio() *SearchMessagesFilterAudio {
+	searchMessagesFilterAudioTemp := SearchMessagesFilterAudio{
+		tdCommon: tdCommon{Type: "searchMessagesFilterAudio"},
+	}
+
+	return &searchMessagesFilterAudioTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6336,6 +9956,16 @@ func (searchMessagesFilterDocument *SearchMessagesFilterDocument) MessageType() 
 	return "searchMessagesFilterDocument"
 }
 
+// NewSearchMessagesFilterDocument creates a new SearchMessagesFilterDocument
+//
+func NewSearchMessagesFilterDocument() *SearchMessagesFilterDocument {
+	searchMessagesFilterDocumentTemp := SearchMessagesFilterDocument{
+		tdCommon: tdCommon{Type: "searchMessagesFilterDocument"},
+	}
+
+	return &searchMessagesFilterDocumentTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterDocument *SearchMessagesFilterDocument) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterDocumentType
@@ -6349,6 +9979,16 @@ type SearchMessagesFilterPhoto struct {
 // MessageType return the string telegram-type of SearchMessagesFilterPhoto
 func (searchMessagesFilterPhoto *SearchMessagesFilterPhoto) MessageType() string {
 	return "searchMessagesFilterPhoto"
+}
+
+// NewSearchMessagesFilterPhoto creates a new SearchMessagesFilterPhoto
+//
+func NewSearchMessagesFilterPhoto() *SearchMessagesFilterPhoto {
+	searchMessagesFilterPhotoTemp := SearchMessagesFilterPhoto{
+		tdCommon: tdCommon{Type: "searchMessagesFilterPhoto"},
+	}
+
+	return &searchMessagesFilterPhotoTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6366,6 +10006,16 @@ func (searchMessagesFilterVideo *SearchMessagesFilterVideo) MessageType() string
 	return "searchMessagesFilterVideo"
 }
 
+// NewSearchMessagesFilterVideo creates a new SearchMessagesFilterVideo
+//
+func NewSearchMessagesFilterVideo() *SearchMessagesFilterVideo {
+	searchMessagesFilterVideoTemp := SearchMessagesFilterVideo{
+		tdCommon: tdCommon{Type: "searchMessagesFilterVideo"},
+	}
+
+	return &searchMessagesFilterVideoTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterVideo *SearchMessagesFilterVideo) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterVideoType
@@ -6379,6 +10029,16 @@ type SearchMessagesFilterVoiceNote struct {
 // MessageType return the string telegram-type of SearchMessagesFilterVoiceNote
 func (searchMessagesFilterVoiceNote *SearchMessagesFilterVoiceNote) MessageType() string {
 	return "searchMessagesFilterVoiceNote"
+}
+
+// NewSearchMessagesFilterVoiceNote creates a new SearchMessagesFilterVoiceNote
+//
+func NewSearchMessagesFilterVoiceNote() *SearchMessagesFilterVoiceNote {
+	searchMessagesFilterVoiceNoteTemp := SearchMessagesFilterVoiceNote{
+		tdCommon: tdCommon{Type: "searchMessagesFilterVoiceNote"},
+	}
+
+	return &searchMessagesFilterVoiceNoteTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6396,6 +10056,16 @@ func (searchMessagesFilterPhotoAndVideo *SearchMessagesFilterPhotoAndVideo) Mess
 	return "searchMessagesFilterPhotoAndVideo"
 }
 
+// NewSearchMessagesFilterPhotoAndVideo creates a new SearchMessagesFilterPhotoAndVideo
+//
+func NewSearchMessagesFilterPhotoAndVideo() *SearchMessagesFilterPhotoAndVideo {
+	searchMessagesFilterPhotoAndVideoTemp := SearchMessagesFilterPhotoAndVideo{
+		tdCommon: tdCommon{Type: "searchMessagesFilterPhotoAndVideo"},
+	}
+
+	return &searchMessagesFilterPhotoAndVideoTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterPhotoAndVideo *SearchMessagesFilterPhotoAndVideo) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterPhotoAndVideoType
@@ -6409,6 +10079,16 @@ type SearchMessagesFilterURL struct {
 // MessageType return the string telegram-type of SearchMessagesFilterURL
 func (searchMessagesFilterURL *SearchMessagesFilterURL) MessageType() string {
 	return "searchMessagesFilterUrl"
+}
+
+// NewSearchMessagesFilterURL creates a new SearchMessagesFilterURL
+//
+func NewSearchMessagesFilterURL() *SearchMessagesFilterURL {
+	searchMessagesFilterURLTemp := SearchMessagesFilterURL{
+		tdCommon: tdCommon{Type: "searchMessagesFilterUrl"},
+	}
+
+	return &searchMessagesFilterURLTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6426,6 +10106,16 @@ func (searchMessagesFilterChatPhoto *SearchMessagesFilterChatPhoto) MessageType(
 	return "searchMessagesFilterChatPhoto"
 }
 
+// NewSearchMessagesFilterChatPhoto creates a new SearchMessagesFilterChatPhoto
+//
+func NewSearchMessagesFilterChatPhoto() *SearchMessagesFilterChatPhoto {
+	searchMessagesFilterChatPhotoTemp := SearchMessagesFilterChatPhoto{
+		tdCommon: tdCommon{Type: "searchMessagesFilterChatPhoto"},
+	}
+
+	return &searchMessagesFilterChatPhotoTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterChatPhoto *SearchMessagesFilterChatPhoto) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterChatPhotoType
@@ -6439,6 +10129,16 @@ type SearchMessagesFilterCall struct {
 // MessageType return the string telegram-type of SearchMessagesFilterCall
 func (searchMessagesFilterCall *SearchMessagesFilterCall) MessageType() string {
 	return "searchMessagesFilterCall"
+}
+
+// NewSearchMessagesFilterCall creates a new SearchMessagesFilterCall
+//
+func NewSearchMessagesFilterCall() *SearchMessagesFilterCall {
+	searchMessagesFilterCallTemp := SearchMessagesFilterCall{
+		tdCommon: tdCommon{Type: "searchMessagesFilterCall"},
+	}
+
+	return &searchMessagesFilterCallTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6456,6 +10156,16 @@ func (searchMessagesFilterMissedCall *SearchMessagesFilterMissedCall) MessageTyp
 	return "searchMessagesFilterMissedCall"
 }
 
+// NewSearchMessagesFilterMissedCall creates a new SearchMessagesFilterMissedCall
+//
+func NewSearchMessagesFilterMissedCall() *SearchMessagesFilterMissedCall {
+	searchMessagesFilterMissedCallTemp := SearchMessagesFilterMissedCall{
+		tdCommon: tdCommon{Type: "searchMessagesFilterMissedCall"},
+	}
+
+	return &searchMessagesFilterMissedCallTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterMissedCall *SearchMessagesFilterMissedCall) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterMissedCallType
@@ -6469,6 +10179,16 @@ type SearchMessagesFilterVideoNote struct {
 // MessageType return the string telegram-type of SearchMessagesFilterVideoNote
 func (searchMessagesFilterVideoNote *SearchMessagesFilterVideoNote) MessageType() string {
 	return "searchMessagesFilterVideoNote"
+}
+
+// NewSearchMessagesFilterVideoNote creates a new SearchMessagesFilterVideoNote
+//
+func NewSearchMessagesFilterVideoNote() *SearchMessagesFilterVideoNote {
+	searchMessagesFilterVideoNoteTemp := SearchMessagesFilterVideoNote{
+		tdCommon: tdCommon{Type: "searchMessagesFilterVideoNote"},
+	}
+
+	return &searchMessagesFilterVideoNoteTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6486,6 +10206,16 @@ func (searchMessagesFilterVoiceAndVideoNote *SearchMessagesFilterVoiceAndVideoNo
 	return "searchMessagesFilterVoiceAndVideoNote"
 }
 
+// NewSearchMessagesFilterVoiceAndVideoNote creates a new SearchMessagesFilterVoiceAndVideoNote
+//
+func NewSearchMessagesFilterVoiceAndVideoNote() *SearchMessagesFilterVoiceAndVideoNote {
+	searchMessagesFilterVoiceAndVideoNoteTemp := SearchMessagesFilterVoiceAndVideoNote{
+		tdCommon: tdCommon{Type: "searchMessagesFilterVoiceAndVideoNote"},
+	}
+
+	return &searchMessagesFilterVoiceAndVideoNoteTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterVoiceAndVideoNote *SearchMessagesFilterVoiceAndVideoNote) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterVoiceAndVideoNoteType
@@ -6499,6 +10229,16 @@ type SearchMessagesFilterMention struct {
 // MessageType return the string telegram-type of SearchMessagesFilterMention
 func (searchMessagesFilterMention *SearchMessagesFilterMention) MessageType() string {
 	return "searchMessagesFilterMention"
+}
+
+// NewSearchMessagesFilterMention creates a new SearchMessagesFilterMention
+//
+func NewSearchMessagesFilterMention() *SearchMessagesFilterMention {
+	searchMessagesFilterMentionTemp := SearchMessagesFilterMention{
+		tdCommon: tdCommon{Type: "searchMessagesFilterMention"},
+	}
+
+	return &searchMessagesFilterMentionTemp
 }
 
 // GetSearchMessagesFilterEnum return the enum type of this object
@@ -6516,6 +10256,16 @@ func (searchMessagesFilterUnreadMention *SearchMessagesFilterUnreadMention) Mess
 	return "searchMessagesFilterUnreadMention"
 }
 
+// NewSearchMessagesFilterUnreadMention creates a new SearchMessagesFilterUnreadMention
+//
+func NewSearchMessagesFilterUnreadMention() *SearchMessagesFilterUnreadMention {
+	searchMessagesFilterUnreadMentionTemp := SearchMessagesFilterUnreadMention{
+		tdCommon: tdCommon{Type: "searchMessagesFilterUnreadMention"},
+	}
+
+	return &searchMessagesFilterUnreadMentionTemp
+}
+
 // GetSearchMessagesFilterEnum return the enum type of this object
 func (searchMessagesFilterUnreadMention *SearchMessagesFilterUnreadMention) GetSearchMessagesFilterEnum() SearchMessagesFilterEnum {
 	return SearchMessagesFilterUnreadMentionType
@@ -6531,6 +10281,16 @@ func (chatActionTyping *ChatActionTyping) MessageType() string {
 	return "chatActionTyping"
 }
 
+// NewChatActionTyping creates a new ChatActionTyping
+//
+func NewChatActionTyping() *ChatActionTyping {
+	chatActionTypingTemp := ChatActionTyping{
+		tdCommon: tdCommon{Type: "chatActionTyping"},
+	}
+
+	return &chatActionTypingTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionTyping *ChatActionTyping) GetChatActionEnum() ChatActionEnum {
 	return ChatActionTypingType
@@ -6544,6 +10304,16 @@ type ChatActionRecordingVideo struct {
 // MessageType return the string telegram-type of ChatActionRecordingVideo
 func (chatActionRecordingVideo *ChatActionRecordingVideo) MessageType() string {
 	return "chatActionRecordingVideo"
+}
+
+// NewChatActionRecordingVideo creates a new ChatActionRecordingVideo
+//
+func NewChatActionRecordingVideo() *ChatActionRecordingVideo {
+	chatActionRecordingVideoTemp := ChatActionRecordingVideo{
+		tdCommon: tdCommon{Type: "chatActionRecordingVideo"},
+	}
+
+	return &chatActionRecordingVideoTemp
 }
 
 // GetChatActionEnum return the enum type of this object
@@ -6562,6 +10332,18 @@ func (chatActionUploadingVideo *ChatActionUploadingVideo) MessageType() string {
 	return "chatActionUploadingVideo"
 }
 
+// NewChatActionUploadingVideo creates a new ChatActionUploadingVideo
+//
+// @param progress Upload progress, as a percentage
+func NewChatActionUploadingVideo(progress int32) *ChatActionUploadingVideo {
+	chatActionUploadingVideoTemp := ChatActionUploadingVideo{
+		tdCommon: tdCommon{Type: "chatActionUploadingVideo"},
+		Progress: progress,
+	}
+
+	return &chatActionUploadingVideoTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionUploadingVideo *ChatActionUploadingVideo) GetChatActionEnum() ChatActionEnum {
 	return ChatActionUploadingVideoType
@@ -6575,6 +10357,16 @@ type ChatActionRecordingVoiceNote struct {
 // MessageType return the string telegram-type of ChatActionRecordingVoiceNote
 func (chatActionRecordingVoiceNote *ChatActionRecordingVoiceNote) MessageType() string {
 	return "chatActionRecordingVoiceNote"
+}
+
+// NewChatActionRecordingVoiceNote creates a new ChatActionRecordingVoiceNote
+//
+func NewChatActionRecordingVoiceNote() *ChatActionRecordingVoiceNote {
+	chatActionRecordingVoiceNoteTemp := ChatActionRecordingVoiceNote{
+		tdCommon: tdCommon{Type: "chatActionRecordingVoiceNote"},
+	}
+
+	return &chatActionRecordingVoiceNoteTemp
 }
 
 // GetChatActionEnum return the enum type of this object
@@ -6593,6 +10385,18 @@ func (chatActionUploadingVoiceNote *ChatActionUploadingVoiceNote) MessageType() 
 	return "chatActionUploadingVoiceNote"
 }
 
+// NewChatActionUploadingVoiceNote creates a new ChatActionUploadingVoiceNote
+//
+// @param progress Upload progress, as a percentage
+func NewChatActionUploadingVoiceNote(progress int32) *ChatActionUploadingVoiceNote {
+	chatActionUploadingVoiceNoteTemp := ChatActionUploadingVoiceNote{
+		tdCommon: tdCommon{Type: "chatActionUploadingVoiceNote"},
+		Progress: progress,
+	}
+
+	return &chatActionUploadingVoiceNoteTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionUploadingVoiceNote *ChatActionUploadingVoiceNote) GetChatActionEnum() ChatActionEnum {
 	return ChatActionUploadingVoiceNoteType
@@ -6607,6 +10411,18 @@ type ChatActionUploadingPhoto struct {
 // MessageType return the string telegram-type of ChatActionUploadingPhoto
 func (chatActionUploadingPhoto *ChatActionUploadingPhoto) MessageType() string {
 	return "chatActionUploadingPhoto"
+}
+
+// NewChatActionUploadingPhoto creates a new ChatActionUploadingPhoto
+//
+// @param progress Upload progress, as a percentage
+func NewChatActionUploadingPhoto(progress int32) *ChatActionUploadingPhoto {
+	chatActionUploadingPhotoTemp := ChatActionUploadingPhoto{
+		tdCommon: tdCommon{Type: "chatActionUploadingPhoto"},
+		Progress: progress,
+	}
+
+	return &chatActionUploadingPhotoTemp
 }
 
 // GetChatActionEnum return the enum type of this object
@@ -6625,6 +10441,18 @@ func (chatActionUploadingDocument *ChatActionUploadingDocument) MessageType() st
 	return "chatActionUploadingDocument"
 }
 
+// NewChatActionUploadingDocument creates a new ChatActionUploadingDocument
+//
+// @param progress Upload progress, as a percentage
+func NewChatActionUploadingDocument(progress int32) *ChatActionUploadingDocument {
+	chatActionUploadingDocumentTemp := ChatActionUploadingDocument{
+		tdCommon: tdCommon{Type: "chatActionUploadingDocument"},
+		Progress: progress,
+	}
+
+	return &chatActionUploadingDocumentTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionUploadingDocument *ChatActionUploadingDocument) GetChatActionEnum() ChatActionEnum {
 	return ChatActionUploadingDocumentType
@@ -6638,6 +10466,16 @@ type ChatActionChoosingLocation struct {
 // MessageType return the string telegram-type of ChatActionChoosingLocation
 func (chatActionChoosingLocation *ChatActionChoosingLocation) MessageType() string {
 	return "chatActionChoosingLocation"
+}
+
+// NewChatActionChoosingLocation creates a new ChatActionChoosingLocation
+//
+func NewChatActionChoosingLocation() *ChatActionChoosingLocation {
+	chatActionChoosingLocationTemp := ChatActionChoosingLocation{
+		tdCommon: tdCommon{Type: "chatActionChoosingLocation"},
+	}
+
+	return &chatActionChoosingLocationTemp
 }
 
 // GetChatActionEnum return the enum type of this object
@@ -6655,6 +10493,16 @@ func (chatActionChoosingContact *ChatActionChoosingContact) MessageType() string
 	return "chatActionChoosingContact"
 }
 
+// NewChatActionChoosingContact creates a new ChatActionChoosingContact
+//
+func NewChatActionChoosingContact() *ChatActionChoosingContact {
+	chatActionChoosingContactTemp := ChatActionChoosingContact{
+		tdCommon: tdCommon{Type: "chatActionChoosingContact"},
+	}
+
+	return &chatActionChoosingContactTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionChoosingContact *ChatActionChoosingContact) GetChatActionEnum() ChatActionEnum {
 	return ChatActionChoosingContactType
@@ -6670,6 +10518,16 @@ func (chatActionStartPlayingGame *ChatActionStartPlayingGame) MessageType() stri
 	return "chatActionStartPlayingGame"
 }
 
+// NewChatActionStartPlayingGame creates a new ChatActionStartPlayingGame
+//
+func NewChatActionStartPlayingGame() *ChatActionStartPlayingGame {
+	chatActionStartPlayingGameTemp := ChatActionStartPlayingGame{
+		tdCommon: tdCommon{Type: "chatActionStartPlayingGame"},
+	}
+
+	return &chatActionStartPlayingGameTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionStartPlayingGame *ChatActionStartPlayingGame) GetChatActionEnum() ChatActionEnum {
 	return ChatActionStartPlayingGameType
@@ -6683,6 +10541,16 @@ type ChatActionRecordingVideoNote struct {
 // MessageType return the string telegram-type of ChatActionRecordingVideoNote
 func (chatActionRecordingVideoNote *ChatActionRecordingVideoNote) MessageType() string {
 	return "chatActionRecordingVideoNote"
+}
+
+// NewChatActionRecordingVideoNote creates a new ChatActionRecordingVideoNote
+//
+func NewChatActionRecordingVideoNote() *ChatActionRecordingVideoNote {
+	chatActionRecordingVideoNoteTemp := ChatActionRecordingVideoNote{
+		tdCommon: tdCommon{Type: "chatActionRecordingVideoNote"},
+	}
+
+	return &chatActionRecordingVideoNoteTemp
 }
 
 // GetChatActionEnum return the enum type of this object
@@ -6701,6 +10569,18 @@ func (chatActionUploadingVideoNote *ChatActionUploadingVideoNote) MessageType() 
 	return "chatActionUploadingVideoNote"
 }
 
+// NewChatActionUploadingVideoNote creates a new ChatActionUploadingVideoNote
+//
+// @param progress Upload progress, as a percentage
+func NewChatActionUploadingVideoNote(progress int32) *ChatActionUploadingVideoNote {
+	chatActionUploadingVideoNoteTemp := ChatActionUploadingVideoNote{
+		tdCommon: tdCommon{Type: "chatActionUploadingVideoNote"},
+		Progress: progress,
+	}
+
+	return &chatActionUploadingVideoNoteTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionUploadingVideoNote *ChatActionUploadingVideoNote) GetChatActionEnum() ChatActionEnum {
 	return ChatActionUploadingVideoNoteType
@@ -6716,6 +10596,16 @@ func (chatActionCancel *ChatActionCancel) MessageType() string {
 	return "chatActionCancel"
 }
 
+// NewChatActionCancel creates a new ChatActionCancel
+//
+func NewChatActionCancel() *ChatActionCancel {
+	chatActionCancelTemp := ChatActionCancel{
+		tdCommon: tdCommon{Type: "chatActionCancel"},
+	}
+
+	return &chatActionCancelTemp
+}
+
 // GetChatActionEnum return the enum type of this object
 func (chatActionCancel *ChatActionCancel) GetChatActionEnum() ChatActionEnum {
 	return ChatActionCancelType
@@ -6729,6 +10619,16 @@ type UserStatusEmpty struct {
 // MessageType return the string telegram-type of UserStatusEmpty
 func (userStatusEmpty *UserStatusEmpty) MessageType() string {
 	return "userStatusEmpty"
+}
+
+// NewUserStatusEmpty creates a new UserStatusEmpty
+//
+func NewUserStatusEmpty() *UserStatusEmpty {
+	userStatusEmptyTemp := UserStatusEmpty{
+		tdCommon: tdCommon{Type: "userStatusEmpty"},
+	}
+
+	return &userStatusEmptyTemp
 }
 
 // GetUserStatusEnum return the enum type of this object
@@ -6747,6 +10647,18 @@ func (userStatusOnline *UserStatusOnline) MessageType() string {
 	return "userStatusOnline"
 }
 
+// NewUserStatusOnline creates a new UserStatusOnline
+//
+// @param expires Point in time (Unix timestamp) when the user's online status will expire
+func NewUserStatusOnline(expires int32) *UserStatusOnline {
+	userStatusOnlineTemp := UserStatusOnline{
+		tdCommon: tdCommon{Type: "userStatusOnline"},
+		Expires:  expires,
+	}
+
+	return &userStatusOnlineTemp
+}
+
 // GetUserStatusEnum return the enum type of this object
 func (userStatusOnline *UserStatusOnline) GetUserStatusEnum() UserStatusEnum {
 	return UserStatusOnlineType
@@ -6761,6 +10673,18 @@ type UserStatusOffline struct {
 // MessageType return the string telegram-type of UserStatusOffline
 func (userStatusOffline *UserStatusOffline) MessageType() string {
 	return "userStatusOffline"
+}
+
+// NewUserStatusOffline creates a new UserStatusOffline
+//
+// @param wasOnline Point in time (Unix timestamp) when the user was last online
+func NewUserStatusOffline(wasOnline int32) *UserStatusOffline {
+	userStatusOfflineTemp := UserStatusOffline{
+		tdCommon:  tdCommon{Type: "userStatusOffline"},
+		WasOnline: wasOnline,
+	}
+
+	return &userStatusOfflineTemp
 }
 
 // GetUserStatusEnum return the enum type of this object
@@ -6778,6 +10702,16 @@ func (userStatusRecently *UserStatusRecently) MessageType() string {
 	return "userStatusRecently"
 }
 
+// NewUserStatusRecently creates a new UserStatusRecently
+//
+func NewUserStatusRecently() *UserStatusRecently {
+	userStatusRecentlyTemp := UserStatusRecently{
+		tdCommon: tdCommon{Type: "userStatusRecently"},
+	}
+
+	return &userStatusRecentlyTemp
+}
+
 // GetUserStatusEnum return the enum type of this object
 func (userStatusRecently *UserStatusRecently) GetUserStatusEnum() UserStatusEnum {
 	return UserStatusRecentlyType
@@ -6793,6 +10727,16 @@ func (userStatusLastWeek *UserStatusLastWeek) MessageType() string {
 	return "userStatusLastWeek"
 }
 
+// NewUserStatusLastWeek creates a new UserStatusLastWeek
+//
+func NewUserStatusLastWeek() *UserStatusLastWeek {
+	userStatusLastWeekTemp := UserStatusLastWeek{
+		tdCommon: tdCommon{Type: "userStatusLastWeek"},
+	}
+
+	return &userStatusLastWeekTemp
+}
+
 // GetUserStatusEnum return the enum type of this object
 func (userStatusLastWeek *UserStatusLastWeek) GetUserStatusEnum() UserStatusEnum {
 	return UserStatusLastWeekType
@@ -6806,6 +10750,16 @@ type UserStatusLastMonth struct {
 // MessageType return the string telegram-type of UserStatusLastMonth
 func (userStatusLastMonth *UserStatusLastMonth) MessageType() string {
 	return "userStatusLastMonth"
+}
+
+// NewUserStatusLastMonth creates a new UserStatusLastMonth
+//
+func NewUserStatusLastMonth() *UserStatusLastMonth {
+	userStatusLastMonthTemp := UserStatusLastMonth{
+		tdCommon: tdCommon{Type: "userStatusLastMonth"},
+	}
+
+	return &userStatusLastMonthTemp
 }
 
 // GetUserStatusEnum return the enum type of this object
@@ -6824,6 +10778,18 @@ func (stickers *Stickers) MessageType() string {
 	return "stickers"
 }
 
+// NewStickers creates a new Stickers
+//
+// @param stickers List of stickers
+func NewStickers(stickers []Sticker) *Stickers {
+	stickersTemp := Stickers{
+		tdCommon: tdCommon{Type: "stickers"},
+		Stickers: stickers,
+	}
+
+	return &stickersTemp
+}
+
 // StickerEmojis Represents a list of all emoji corresponding to a sticker in a sticker set. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
 type StickerEmojis struct {
 	tdCommon
@@ -6833,6 +10799,18 @@ type StickerEmojis struct {
 // MessageType return the string telegram-type of StickerEmojis
 func (stickerEmojis *StickerEmojis) MessageType() string {
 	return "stickerEmojis"
+}
+
+// NewStickerEmojis creates a new StickerEmojis
+//
+// @param emojis List of emojis
+func NewStickerEmojis(emojis []string) *StickerEmojis {
+	stickerEmojisTemp := StickerEmojis{
+		tdCommon: tdCommon{Type: "stickerEmojis"},
+		Emojis:   emojis,
+	}
+
+	return &stickerEmojisTemp
 }
 
 // StickerSet Represents a sticker set
@@ -6855,6 +10833,36 @@ func (stickerSet *StickerSet) MessageType() string {
 	return "stickerSet"
 }
 
+// NewStickerSet creates a new StickerSet
+//
+// @param iD Identifier of the sticker set
+// @param title Title of the sticker set
+// @param name Name of the sticker set
+// @param isInstalled True, if the sticker set has been installed by the current user
+// @param isArchived True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
+// @param isOfficial True, if the sticker set is official
+// @param isMasks True, if the stickers in the set are masks
+// @param isViewed True for already viewed trending sticker sets
+// @param stickers List of stickers in this set
+// @param emojis A list of emoji corresponding to the stickers in the same order
+func NewStickerSet(iD JSONInt64, title string, name string, isInstalled bool, isArchived bool, isOfficial bool, isMasks bool, isViewed bool, stickers []Sticker, emojis []StickerEmojis) *StickerSet {
+	stickerSetTemp := StickerSet{
+		tdCommon:    tdCommon{Type: "stickerSet"},
+		ID:          iD,
+		Title:       title,
+		Name:        name,
+		IsInstalled: isInstalled,
+		IsArchived:  isArchived,
+		IsOfficial:  isOfficial,
+		IsMasks:     isMasks,
+		IsViewed:    isViewed,
+		Stickers:    stickers,
+		Emojis:      emojis,
+	}
+
+	return &stickerSetTemp
+}
+
 // StickerSetInfo Represents short information about a sticker set
 type StickerSetInfo struct {
 	tdCommon
@@ -6875,6 +10883,36 @@ func (stickerSetInfo *StickerSetInfo) MessageType() string {
 	return "stickerSetInfo"
 }
 
+// NewStickerSetInfo creates a new StickerSetInfo
+//
+// @param iD Identifier of the sticker set
+// @param title Title of the sticker set
+// @param name Name of the sticker set
+// @param isInstalled True, if the sticker set has been installed by current user
+// @param isArchived True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
+// @param isOfficial True, if the sticker set is official
+// @param isMasks True, if the stickers in the set are masks
+// @param isViewed True for already viewed trending sticker sets
+// @param size Total number of stickers in the set
+// @param covers Contains up to the first 5 stickers from the set, depending on the context. If the client needs more stickers the full set should be requested
+func NewStickerSetInfo(iD JSONInt64, title string, name string, isInstalled bool, isArchived bool, isOfficial bool, isMasks bool, isViewed bool, size int32, covers []Sticker) *StickerSetInfo {
+	stickerSetInfoTemp := StickerSetInfo{
+		tdCommon:    tdCommon{Type: "stickerSetInfo"},
+		ID:          iD,
+		Title:       title,
+		Name:        name,
+		IsInstalled: isInstalled,
+		IsArchived:  isArchived,
+		IsOfficial:  isOfficial,
+		IsMasks:     isMasks,
+		IsViewed:    isViewed,
+		Size:        size,
+		Covers:      covers,
+	}
+
+	return &stickerSetInfoTemp
+}
+
 // StickerSets Represents a list of sticker sets
 type StickerSets struct {
 	tdCommon
@@ -6887,6 +10925,20 @@ func (stickerSets *StickerSets) MessageType() string {
 	return "stickerSets"
 }
 
+// NewStickerSets creates a new StickerSets
+//
+// @param totalCount Approximate total number of sticker sets found
+// @param sets List of sticker sets
+func NewStickerSets(totalCount int32, sets []StickerSetInfo) *StickerSets {
+	stickerSetsTemp := StickerSets{
+		tdCommon:   tdCommon{Type: "stickerSets"},
+		TotalCount: totalCount,
+		Sets:       sets,
+	}
+
+	return &stickerSetsTemp
+}
+
 // CallDiscardReasonEmpty The call wasn't discarded, or the reason is unknown
 type CallDiscardReasonEmpty struct {
 	tdCommon
@@ -6895,6 +10947,16 @@ type CallDiscardReasonEmpty struct {
 // MessageType return the string telegram-type of CallDiscardReasonEmpty
 func (callDiscardReasonEmpty *CallDiscardReasonEmpty) MessageType() string {
 	return "callDiscardReasonEmpty"
+}
+
+// NewCallDiscardReasonEmpty creates a new CallDiscardReasonEmpty
+//
+func NewCallDiscardReasonEmpty() *CallDiscardReasonEmpty {
+	callDiscardReasonEmptyTemp := CallDiscardReasonEmpty{
+		tdCommon: tdCommon{Type: "callDiscardReasonEmpty"},
+	}
+
+	return &callDiscardReasonEmptyTemp
 }
 
 // GetCallDiscardReasonEnum return the enum type of this object
@@ -6912,6 +10974,16 @@ func (callDiscardReasonMissed *CallDiscardReasonMissed) MessageType() string {
 	return "callDiscardReasonMissed"
 }
 
+// NewCallDiscardReasonMissed creates a new CallDiscardReasonMissed
+//
+func NewCallDiscardReasonMissed() *CallDiscardReasonMissed {
+	callDiscardReasonMissedTemp := CallDiscardReasonMissed{
+		tdCommon: tdCommon{Type: "callDiscardReasonMissed"},
+	}
+
+	return &callDiscardReasonMissedTemp
+}
+
 // GetCallDiscardReasonEnum return the enum type of this object
 func (callDiscardReasonMissed *CallDiscardReasonMissed) GetCallDiscardReasonEnum() CallDiscardReasonEnum {
 	return CallDiscardReasonMissedType
@@ -6925,6 +10997,16 @@ type CallDiscardReasonDeclined struct {
 // MessageType return the string telegram-type of CallDiscardReasonDeclined
 func (callDiscardReasonDeclined *CallDiscardReasonDeclined) MessageType() string {
 	return "callDiscardReasonDeclined"
+}
+
+// NewCallDiscardReasonDeclined creates a new CallDiscardReasonDeclined
+//
+func NewCallDiscardReasonDeclined() *CallDiscardReasonDeclined {
+	callDiscardReasonDeclinedTemp := CallDiscardReasonDeclined{
+		tdCommon: tdCommon{Type: "callDiscardReasonDeclined"},
+	}
+
+	return &callDiscardReasonDeclinedTemp
 }
 
 // GetCallDiscardReasonEnum return the enum type of this object
@@ -6942,6 +11024,16 @@ func (callDiscardReasonDisconnected *CallDiscardReasonDisconnected) MessageType(
 	return "callDiscardReasonDisconnected"
 }
 
+// NewCallDiscardReasonDisconnected creates a new CallDiscardReasonDisconnected
+//
+func NewCallDiscardReasonDisconnected() *CallDiscardReasonDisconnected {
+	callDiscardReasonDisconnectedTemp := CallDiscardReasonDisconnected{
+		tdCommon: tdCommon{Type: "callDiscardReasonDisconnected"},
+	}
+
+	return &callDiscardReasonDisconnectedTemp
+}
+
 // GetCallDiscardReasonEnum return the enum type of this object
 func (callDiscardReasonDisconnected *CallDiscardReasonDisconnected) GetCallDiscardReasonEnum() CallDiscardReasonEnum {
 	return CallDiscardReasonDisconnectedType
@@ -6955,6 +11047,16 @@ type CallDiscardReasonHungUp struct {
 // MessageType return the string telegram-type of CallDiscardReasonHungUp
 func (callDiscardReasonHungUp *CallDiscardReasonHungUp) MessageType() string {
 	return "callDiscardReasonHungUp"
+}
+
+// NewCallDiscardReasonHungUp creates a new CallDiscardReasonHungUp
+//
+func NewCallDiscardReasonHungUp() *CallDiscardReasonHungUp {
+	callDiscardReasonHungUpTemp := CallDiscardReasonHungUp{
+		tdCommon: tdCommon{Type: "callDiscardReasonHungUp"},
+	}
+
+	return &callDiscardReasonHungUpTemp
 }
 
 // GetCallDiscardReasonEnum return the enum type of this object
@@ -6976,6 +11078,24 @@ func (callProtocol *CallProtocol) MessageType() string {
 	return "callProtocol"
 }
 
+// NewCallProtocol creates a new CallProtocol
+//
+// @param uDPP2p True, if UDP peer-to-peer connections are supported
+// @param uDPReflector True, if connection through UDP reflectors is supported
+// @param minLayer Minimum supported API layer; use 65
+// @param maxLayer Maximum supported API layer; use 65
+func NewCallProtocol(uDPP2p bool, uDPReflector bool, minLayer int32, maxLayer int32) *CallProtocol {
+	callProtocolTemp := CallProtocol{
+		tdCommon:     tdCommon{Type: "callProtocol"},
+		UDPP2p:       uDPP2p,
+		UDPReflector: uDPReflector,
+		MinLayer:     minLayer,
+		MaxLayer:     maxLayer,
+	}
+
+	return &callProtocolTemp
+}
+
 // CallConnection Describes the address of UDP reflectors
 type CallConnection struct {
 	tdCommon
@@ -6991,6 +11111,26 @@ func (callConnection *CallConnection) MessageType() string {
 	return "callConnection"
 }
 
+// NewCallConnection creates a new CallConnection
+//
+// @param iD Reflector identifier
+// @param iP IPv4 reflector address
+// @param iPv6 IPv6 reflector address
+// @param port Reflector port number
+// @param peerTag Connection peer tag
+func NewCallConnection(iD JSONInt64, iP string, iPv6 string, port int32, peerTag []byte) *CallConnection {
+	callConnectionTemp := CallConnection{
+		tdCommon: tdCommon{Type: "callConnection"},
+		ID:       iD,
+		IP:       iP,
+		IPv6:     iPv6,
+		Port:     port,
+		PeerTag:  peerTag,
+	}
+
+	return &callConnectionTemp
+}
+
 // CallID Contains the call identifier
 type CallID struct {
 	tdCommon
@@ -7000,6 +11140,18 @@ type CallID struct {
 // MessageType return the string telegram-type of CallID
 func (callID *CallID) MessageType() string {
 	return "callId"
+}
+
+// NewCallID creates a new CallID
+//
+// @param iD Call identifier
+func NewCallID(iD int32) *CallID {
+	callIDTemp := CallID{
+		tdCommon: tdCommon{Type: "callId"},
+		ID:       iD,
+	}
+
+	return &callIDTemp
 }
 
 // CallStatePending The call is pending, waiting to be accepted by a user
@@ -7012,6 +11164,20 @@ type CallStatePending struct {
 // MessageType return the string telegram-type of CallStatePending
 func (callStatePending *CallStatePending) MessageType() string {
 	return "callStatePending"
+}
+
+// NewCallStatePending creates a new CallStatePending
+//
+// @param isCreated True, if the call has already been created by the server
+// @param isReceived True, if the call has already been received by the other party
+func NewCallStatePending(isCreated bool, isReceived bool) *CallStatePending {
+	callStatePendingTemp := CallStatePending{
+		tdCommon:   tdCommon{Type: "callStatePending"},
+		IsCreated:  isCreated,
+		IsReceived: isReceived,
+	}
+
+	return &callStatePendingTemp
 }
 
 // GetCallStateEnum return the enum type of this object
@@ -7027,6 +11193,16 @@ type CallStateExchangingKeys struct {
 // MessageType return the string telegram-type of CallStateExchangingKeys
 func (callStateExchangingKeys *CallStateExchangingKeys) MessageType() string {
 	return "callStateExchangingKeys"
+}
+
+// NewCallStateExchangingKeys creates a new CallStateExchangingKeys
+//
+func NewCallStateExchangingKeys() *CallStateExchangingKeys {
+	callStateExchangingKeysTemp := CallStateExchangingKeys{
+		tdCommon: tdCommon{Type: "callStateExchangingKeys"},
+	}
+
+	return &callStateExchangingKeysTemp
 }
 
 // GetCallStateEnum return the enum type of this object
@@ -7049,6 +11225,26 @@ func (callStateReady *CallStateReady) MessageType() string {
 	return "callStateReady"
 }
 
+// NewCallStateReady creates a new CallStateReady
+//
+// @param protocol Call protocols supported by the peer
+// @param connections Available UDP reflectors
+// @param config A JSON-encoded call config
+// @param encryptionKey Call encryption key
+// @param emojis Encryption key emojis fingerprint
+func NewCallStateReady(protocol *CallProtocol, connections []CallConnection, config string, encryptionKey []byte, emojis []string) *CallStateReady {
+	callStateReadyTemp := CallStateReady{
+		tdCommon:      tdCommon{Type: "callStateReady"},
+		Protocol:      *protocol,
+		Connections:   connections,
+		Config:        config,
+		EncryptionKey: encryptionKey,
+		Emojis:        emojis,
+	}
+
+	return &callStateReadyTemp
+}
+
 // GetCallStateEnum return the enum type of this object
 func (callStateReady *CallStateReady) GetCallStateEnum() CallStateEnum {
 	return CallStateReadyType
@@ -7062,6 +11258,16 @@ type CallStateHangingUp struct {
 // MessageType return the string telegram-type of CallStateHangingUp
 func (callStateHangingUp *CallStateHangingUp) MessageType() string {
 	return "callStateHangingUp"
+}
+
+// NewCallStateHangingUp creates a new CallStateHangingUp
+//
+func NewCallStateHangingUp() *CallStateHangingUp {
+	callStateHangingUpTemp := CallStateHangingUp{
+		tdCommon: tdCommon{Type: "callStateHangingUp"},
+	}
+
+	return &callStateHangingUpTemp
 }
 
 // GetCallStateEnum return the enum type of this object
@@ -7080,6 +11286,22 @@ type CallStateDiscarded struct {
 // MessageType return the string telegram-type of CallStateDiscarded
 func (callStateDiscarded *CallStateDiscarded) MessageType() string {
 	return "callStateDiscarded"
+}
+
+// NewCallStateDiscarded creates a new CallStateDiscarded
+//
+// @param reason The reason, why the call has ended
+// @param needRating True, if the call rating should be sent to the server
+// @param needDebugInformation True, if the call debug information should be sent to the server
+func NewCallStateDiscarded(reason CallDiscardReason, needRating bool, needDebugInformation bool) *CallStateDiscarded {
+	callStateDiscardedTemp := CallStateDiscarded{
+		tdCommon:             tdCommon{Type: "callStateDiscarded"},
+		Reason:               reason,
+		NeedRating:           needRating,
+		NeedDebugInformation: needDebugInformation,
+	}
+
+	return &callStateDiscardedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7125,6 +11347,18 @@ func (callStateError *CallStateError) MessageType() string {
 	return "callStateError"
 }
 
+// NewCallStateError creates a new CallStateError
+//
+// @param error Error. An error with the code 4005000 will be returned if an outgoing call is missed because of an expired timeout
+func NewCallStateError(error *Error) *CallStateError {
+	callStateErrorTemp := CallStateError{
+		tdCommon: tdCommon{Type: "callStateError"},
+		Error:    *error,
+	}
+
+	return &callStateErrorTemp
+}
+
 // GetCallStateEnum return the enum type of this object
 func (callStateError *CallStateError) GetCallStateEnum() CallStateEnum {
 	return CallStateErrorType
@@ -7142,6 +11376,24 @@ type Call struct {
 // MessageType return the string telegram-type of Call
 func (call *Call) MessageType() string {
 	return "call"
+}
+
+// NewCall creates a new Call
+//
+// @param iD Call identifier, not persistent
+// @param userID Peer user identifier
+// @param isOutgoing True, if the call is outgoing
+// @param state Call state
+func NewCall(iD int32, userID int32, isOutgoing bool, state CallState) *Call {
+	callTemp := Call{
+		tdCommon:   tdCommon{Type: "call"},
+		ID:         iD,
+		UserID:     userID,
+		IsOutgoing: isOutgoing,
+		State:      state,
+	}
+
+	return &callTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7185,6 +11437,18 @@ func (animations *Animations) MessageType() string {
 	return "animations"
 }
 
+// NewAnimations creates a new Animations
+//
+// @param animations List of animations
+func NewAnimations(animations []Animation) *Animations {
+	animationsTemp := Animations{
+		tdCommon:   tdCommon{Type: "animations"},
+		Animations: animations,
+	}
+
+	return &animationsTemp
+}
+
 // ImportedContacts Represents the result of an ImportContacts request
 type ImportedContacts struct {
 	tdCommon
@@ -7195,6 +11459,20 @@ type ImportedContacts struct {
 // MessageType return the string telegram-type of ImportedContacts
 func (importedContacts *ImportedContacts) MessageType() string {
 	return "importedContacts"
+}
+
+// NewImportedContacts creates a new ImportedContacts
+//
+// @param userIDs User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user
+// @param importerCount The number of users that imported the corresponding contact; 0 for already registered users or if unavailable
+func NewImportedContacts(userIDs []int32, importerCount []int32) *ImportedContacts {
+	importedContactsTemp := ImportedContacts{
+		tdCommon:      tdCommon{Type: "importedContacts"},
+		UserIDs:       userIDs,
+		ImporterCount: importerCount,
+	}
+
+	return &importedContactsTemp
 }
 
 // InputInlineQueryResultAnimatedGif Represents a link to an animated GIF
@@ -7214,6 +11492,34 @@ type InputInlineQueryResultAnimatedGif struct {
 // MessageType return the string telegram-type of InputInlineQueryResultAnimatedGif
 func (inputInlineQueryResultAnimatedGif *InputInlineQueryResultAnimatedGif) MessageType() string {
 	return "inputInlineQueryResultAnimatedGif"
+}
+
+// NewInputInlineQueryResultAnimatedGif creates a new InputInlineQueryResultAnimatedGif
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the query result
+// @param thumbnailURL URL of the static result thumbnail (JPEG or GIF), if it exists
+// @param gifURL The URL of the GIF-file (file size must not exceed 1MB)
+// @param gifDuration Duration of the GIF, in seconds
+// @param gifWidth Width of the GIF
+// @param gifHeight Height of the GIF
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultAnimatedGif(iD string, title string, thumbnailURL string, gifURL string, gifDuration int32, gifWidth int32, gifHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultAnimatedGif {
+	inputInlineQueryResultAnimatedGifTemp := InputInlineQueryResultAnimatedGif{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultAnimatedGif"},
+		ID:                  iD,
+		Title:               title,
+		ThumbnailURL:        thumbnailURL,
+		GifURL:              gifURL,
+		GifDuration:         gifDuration,
+		GifWidth:            gifWidth,
+		GifHeight:           gifHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultAnimatedGifTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7279,6 +11585,34 @@ type InputInlineQueryResultAnimatedMpeg4 struct {
 // MessageType return the string telegram-type of InputInlineQueryResultAnimatedMpeg4
 func (inputInlineQueryResultAnimatedMpeg4 *InputInlineQueryResultAnimatedMpeg4) MessageType() string {
 	return "inputInlineQueryResultAnimatedMpeg4"
+}
+
+// NewInputInlineQueryResultAnimatedMpeg4 creates a new InputInlineQueryResultAnimatedMpeg4
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the result
+// @param thumbnailURL URL of the static result thumbnail (JPEG or GIF), if it exists
+// @param mpeg4URL The URL of the MPEG4-file (file size must not exceed 1MB)
+// @param mpeg4Duration Duration of the video, in seconds
+// @param mpeg4Width Width of the video
+// @param mpeg4Height Height of the video
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultAnimatedMpeg4(iD string, title string, thumbnailURL string, mpeg4URL string, mpeg4Duration int32, mpeg4Width int32, mpeg4Height int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultAnimatedMpeg4 {
+	inputInlineQueryResultAnimatedMpeg4Temp := InputInlineQueryResultAnimatedMpeg4{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultAnimatedMpeg4"},
+		ID:                  iD,
+		Title:               title,
+		ThumbnailURL:        thumbnailURL,
+		Mpeg4URL:            mpeg4URL,
+		Mpeg4Duration:       mpeg4Duration,
+		Mpeg4Width:          mpeg4Width,
+		Mpeg4Height:         mpeg4Height,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultAnimatedMpeg4Temp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7347,6 +11681,36 @@ func (inputInlineQueryResultArticle *InputInlineQueryResultArticle) MessageType(
 	return "inputInlineQueryResultArticle"
 }
 
+// NewInputInlineQueryResultArticle creates a new InputInlineQueryResultArticle
+//
+// @param iD Unique identifier of the query result
+// @param uRL URL of the result, if it exists
+// @param hideURL True, if the URL must be not shown
+// @param title Title of the result
+// @param description
+// @param thumbnailURL URL of the result thumbnail, if it exists
+// @param thumbnailWidth Thumbnail width, if known
+// @param thumbnailHeight Thumbnail height, if known
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultArticle(iD string, uRL string, hideURL bool, title string, description string, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultArticle {
+	inputInlineQueryResultArticleTemp := InputInlineQueryResultArticle{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultArticle"},
+		ID:                  iD,
+		URL:                 uRL,
+		HideURL:             hideURL,
+		Title:               title,
+		Description:         description,
+		ThumbnailURL:        thumbnailURL,
+		ThumbnailWidth:      thumbnailWidth,
+		ThumbnailHeight:     thumbnailHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultArticleTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultArticle *InputInlineQueryResultArticle) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -7412,6 +11776,30 @@ func (inputInlineQueryResultAudio *InputInlineQueryResultAudio) MessageType() st
 	return "inputInlineQueryResultAudio"
 }
 
+// NewInputInlineQueryResultAudio creates a new InputInlineQueryResultAudio
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the audio file
+// @param performer Performer of the audio file
+// @param audioURL The URL of the audio file
+// @param audioDuration Audio file duration, in seconds
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultAudio(iD string, title string, performer string, audioURL string, audioDuration int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultAudio {
+	inputInlineQueryResultAudioTemp := InputInlineQueryResultAudio{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultAudio"},
+		ID:                  iD,
+		Title:               title,
+		Performer:           performer,
+		AudioURL:            audioURL,
+		AudioDuration:       audioDuration,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultAudioTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultAudio *InputInlineQueryResultAudio) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -7469,6 +11857,30 @@ type InputInlineQueryResultContact struct {
 // MessageType return the string telegram-type of InputInlineQueryResultContact
 func (inputInlineQueryResultContact *InputInlineQueryResultContact) MessageType() string {
 	return "inputInlineQueryResultContact"
+}
+
+// NewInputInlineQueryResultContact creates a new InputInlineQueryResultContact
+//
+// @param iD Unique identifier of the query result
+// @param contact User contact
+// @param thumbnailURL URL of the result thumbnail, if it exists
+// @param thumbnailWidth Thumbnail width, if known
+// @param thumbnailHeight Thumbnail height, if known
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultContact(iD string, contact *Contact, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultContact {
+	inputInlineQueryResultContactTemp := InputInlineQueryResultContact{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultContact"},
+		ID:                  iD,
+		Contact:             *contact,
+		ThumbnailURL:        thumbnailURL,
+		ThumbnailWidth:      thumbnailWidth,
+		ThumbnailHeight:     thumbnailHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultContactTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7533,6 +11945,36 @@ func (inputInlineQueryResultDocument *InputInlineQueryResultDocument) MessageTyp
 	return "inputInlineQueryResultDocument"
 }
 
+// NewInputInlineQueryResultDocument creates a new InputInlineQueryResultDocument
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the resulting file
+// @param description
+// @param documentURL URL of the file
+// @param mimeType MIME type of the file content; only "application/pdf" and "application/zip" are currently allowed
+// @param thumbnailURL The URL of the file thumbnail, if it exists
+// @param thumbnailWidth Width of the thumbnail
+// @param thumbnailHeight Height of the thumbnail
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageDocument, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultDocument(iD string, title string, description string, documentURL string, mimeType string, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultDocument {
+	inputInlineQueryResultDocumentTemp := InputInlineQueryResultDocument{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultDocument"},
+		ID:                  iD,
+		Title:               title,
+		Description:         description,
+		DocumentURL:         documentURL,
+		MimeType:            mimeType,
+		ThumbnailURL:        thumbnailURL,
+		ThumbnailWidth:      thumbnailWidth,
+		ThumbnailHeight:     thumbnailHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultDocumentTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultDocument *InputInlineQueryResultDocument) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -7594,6 +12036,22 @@ func (inputInlineQueryResultGame *InputInlineQueryResultGame) MessageType() stri
 	return "inputInlineQueryResultGame"
 }
 
+// NewInputInlineQueryResultGame creates a new InputInlineQueryResultGame
+//
+// @param iD Unique identifier of the query result
+// @param gameShortName Short name of the game
+// @param replyMarkup Message reply markup. Must be of type replyMarkupInlineKeyboard or null
+func NewInputInlineQueryResultGame(iD string, gameShortName string, replyMarkup ReplyMarkup) *InputInlineQueryResultGame {
+	inputInlineQueryResultGameTemp := InputInlineQueryResultGame{
+		tdCommon:      tdCommon{Type: "inputInlineQueryResultGame"},
+		ID:            iD,
+		GameShortName: gameShortName,
+		ReplyMarkup:   replyMarkup,
+	}
+
+	return &inputInlineQueryResultGameTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultGame *InputInlineQueryResultGame) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -7644,6 +12102,34 @@ type InputInlineQueryResultLocation struct {
 // MessageType return the string telegram-type of InputInlineQueryResultLocation
 func (inputInlineQueryResultLocation *InputInlineQueryResultLocation) MessageType() string {
 	return "inputInlineQueryResultLocation"
+}
+
+// NewInputInlineQueryResultLocation creates a new InputInlineQueryResultLocation
+//
+// @param iD Unique identifier of the query result
+// @param location Location result
+// @param livePeriod Amount of time relative to the message sent time until the location can be updated, in seconds
+// @param title Title of the result
+// @param thumbnailURL URL of the result thumbnail, if it exists
+// @param thumbnailWidth Thumbnail width, if known
+// @param thumbnailHeight Thumbnail height, if known
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultLocation(iD string, location *Location, livePeriod int32, title string, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultLocation {
+	inputInlineQueryResultLocationTemp := InputInlineQueryResultLocation{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultLocation"},
+		ID:                  iD,
+		Location:            *location,
+		LivePeriod:          livePeriod,
+		Title:               title,
+		ThumbnailURL:        thumbnailURL,
+		ThumbnailWidth:      thumbnailWidth,
+		ThumbnailHeight:     thumbnailHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultLocationTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7711,6 +12197,34 @@ func (inputInlineQueryResultPhoto *InputInlineQueryResultPhoto) MessageType() st
 	return "inputInlineQueryResultPhoto"
 }
 
+// NewInputInlineQueryResultPhoto creates a new InputInlineQueryResultPhoto
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the result, if known
+// @param description
+// @param thumbnailURL URL of the photo thumbnail, if it exists
+// @param photoURL The URL of the JPEG photo (photo size must not exceed 5MB)
+// @param photoWidth Width of the photo
+// @param photoHeight Height of the photo
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultPhoto(iD string, title string, description string, thumbnailURL string, photoURL string, photoWidth int32, photoHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultPhoto {
+	inputInlineQueryResultPhotoTemp := InputInlineQueryResultPhoto{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultPhoto"},
+		ID:                  iD,
+		Title:               title,
+		Description:         description,
+		ThumbnailURL:        thumbnailURL,
+		PhotoURL:            photoURL,
+		PhotoWidth:          photoWidth,
+		PhotoHeight:         photoHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultPhotoTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultPhoto *InputInlineQueryResultPhoto) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -7774,6 +12288,30 @@ func (inputInlineQueryResultSticker *InputInlineQueryResultSticker) MessageType(
 	return "inputInlineQueryResultSticker"
 }
 
+// NewInputInlineQueryResultSticker creates a new InputInlineQueryResultSticker
+//
+// @param iD Unique identifier of the query result
+// @param thumbnailURL URL of the sticker thumbnail, if it exists
+// @param stickerURL The URL of the WEBP sticker (sticker file size must not exceed 5MB)
+// @param stickerWidth Width of the sticker
+// @param stickerHeight Height of the sticker
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, inputMessageSticker, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultSticker(iD string, thumbnailURL string, stickerURL string, stickerWidth int32, stickerHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultSticker {
+	inputInlineQueryResultStickerTemp := InputInlineQueryResultSticker{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultSticker"},
+		ID:                  iD,
+		ThumbnailURL:        thumbnailURL,
+		StickerURL:          stickerURL,
+		StickerWidth:        stickerWidth,
+		StickerHeight:       stickerHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultStickerTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultSticker *InputInlineQueryResultSticker) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -7831,6 +12369,30 @@ type InputInlineQueryResultVenue struct {
 // MessageType return the string telegram-type of InputInlineQueryResultVenue
 func (inputInlineQueryResultVenue *InputInlineQueryResultVenue) MessageType() string {
 	return "inputInlineQueryResultVenue"
+}
+
+// NewInputInlineQueryResultVenue creates a new InputInlineQueryResultVenue
+//
+// @param iD Unique identifier of the query result
+// @param venue Venue result
+// @param thumbnailURL URL of the result thumbnail, if it exists
+// @param thumbnailWidth Thumbnail width, if known
+// @param thumbnailHeight Thumbnail height, if known
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultVenue(iD string, venue *Venue, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultVenue {
+	inputInlineQueryResultVenueTemp := InputInlineQueryResultVenue{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultVenue"},
+		ID:                  iD,
+		Venue:               *venue,
+		ThumbnailURL:        thumbnailURL,
+		ThumbnailWidth:      thumbnailWidth,
+		ThumbnailHeight:     thumbnailHeight,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultVenueTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7894,6 +12456,38 @@ type InputInlineQueryResultVideo struct {
 // MessageType return the string telegram-type of InputInlineQueryResultVideo
 func (inputInlineQueryResultVideo *InputInlineQueryResultVideo) MessageType() string {
 	return "inputInlineQueryResultVideo"
+}
+
+// NewInputInlineQueryResultVideo creates a new InputInlineQueryResultVideo
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the result
+// @param description
+// @param thumbnailURL The URL of the video thumbnail (JPEG), if it exists
+// @param videoURL URL of the embedded video player or video file
+// @param mimeType MIME type of the content of the video URL, only "text/html" or "video/mp4" are currently supported
+// @param videoWidth Width of the video
+// @param videoHeight Height of the video
+// @param videoDuration Video duration, in seconds
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultVideo(iD string, title string, description string, thumbnailURL string, videoURL string, mimeType string, videoWidth int32, videoHeight int32, videoDuration int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultVideo {
+	inputInlineQueryResultVideoTemp := InputInlineQueryResultVideo{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultVideo"},
+		ID:                  iD,
+		Title:               title,
+		Description:         description,
+		ThumbnailURL:        thumbnailURL,
+		VideoURL:            videoURL,
+		MimeType:            mimeType,
+		VideoWidth:          videoWidth,
+		VideoHeight:         videoHeight,
+		VideoDuration:       videoDuration,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultVideoTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -7962,6 +12556,28 @@ func (inputInlineQueryResultVoiceNote *InputInlineQueryResultVoiceNote) MessageT
 	return "inputInlineQueryResultVoiceNote"
 }
 
+// NewInputInlineQueryResultVoiceNote creates a new InputInlineQueryResultVoiceNote
+//
+// @param iD Unique identifier of the query result
+// @param title Title of the voice note
+// @param voiceNoteURL The URL of the voice note file
+// @param voiceNoteDuration Duration of the voice note, in seconds
+// @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVoiceNote, InputMessageLocation, InputMessageVenue or InputMessageContact
+func NewInputInlineQueryResultVoiceNote(iD string, title string, voiceNoteURL string, voiceNoteDuration int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultVoiceNote {
+	inputInlineQueryResultVoiceNoteTemp := InputInlineQueryResultVoiceNote{
+		tdCommon:            tdCommon{Type: "inputInlineQueryResultVoiceNote"},
+		ID:                  iD,
+		Title:               title,
+		VoiceNoteURL:        voiceNoteURL,
+		VoiceNoteDuration:   voiceNoteDuration,
+		ReplyMarkup:         replyMarkup,
+		InputMessageContent: inputMessageContent,
+	}
+
+	return &inputInlineQueryResultVoiceNoteTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (inputInlineQueryResultVoiceNote *InputInlineQueryResultVoiceNote) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -8018,6 +12634,28 @@ func (inlineQueryResultArticle *InlineQueryResultArticle) MessageType() string {
 	return "inlineQueryResultArticle"
 }
 
+// NewInlineQueryResultArticle creates a new InlineQueryResultArticle
+//
+// @param iD Unique identifier of the query result
+// @param uRL URL of the result, if it exists
+// @param hideURL True, if the URL must be not shown
+// @param title Title of the result
+// @param description
+// @param thumbnail Result thumbnail; may be null
+func NewInlineQueryResultArticle(iD string, uRL string, hideURL bool, title string, description string, thumbnail *PhotoSize) *InlineQueryResultArticle {
+	inlineQueryResultArticleTemp := InlineQueryResultArticle{
+		tdCommon:    tdCommon{Type: "inlineQueryResultArticle"},
+		ID:          iD,
+		URL:         uRL,
+		HideURL:     hideURL,
+		Title:       title,
+		Description: description,
+		Thumbnail:   *thumbnail,
+	}
+
+	return &inlineQueryResultArticleTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultArticle *InlineQueryResultArticle) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultArticleType
@@ -8034,6 +12672,22 @@ type InlineQueryResultContact struct {
 // MessageType return the string telegram-type of InlineQueryResultContact
 func (inlineQueryResultContact *InlineQueryResultContact) MessageType() string {
 	return "inlineQueryResultContact"
+}
+
+// NewInlineQueryResultContact creates a new InlineQueryResultContact
+//
+// @param iD Unique identifier of the query result
+// @param contact A user contact
+// @param thumbnail Result thumbnail; may be null
+func NewInlineQueryResultContact(iD string, contact *Contact, thumbnail *PhotoSize) *InlineQueryResultContact {
+	inlineQueryResultContactTemp := InlineQueryResultContact{
+		tdCommon:  tdCommon{Type: "inlineQueryResultContact"},
+		ID:        iD,
+		Contact:   *contact,
+		Thumbnail: *thumbnail,
+	}
+
+	return &inlineQueryResultContactTemp
 }
 
 // GetInlineQueryResultEnum return the enum type of this object
@@ -8055,6 +12709,24 @@ func (inlineQueryResultLocation *InlineQueryResultLocation) MessageType() string
 	return "inlineQueryResultLocation"
 }
 
+// NewInlineQueryResultLocation creates a new InlineQueryResultLocation
+//
+// @param iD Unique identifier of the query result
+// @param location Location result
+// @param title Title of the result
+// @param thumbnail Result thumbnail; may be null
+func NewInlineQueryResultLocation(iD string, location *Location, title string, thumbnail *PhotoSize) *InlineQueryResultLocation {
+	inlineQueryResultLocationTemp := InlineQueryResultLocation{
+		tdCommon:  tdCommon{Type: "inlineQueryResultLocation"},
+		ID:        iD,
+		Location:  *location,
+		Title:     title,
+		Thumbnail: *thumbnail,
+	}
+
+	return &inlineQueryResultLocationTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultLocation *InlineQueryResultLocation) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultLocationType
@@ -8073,6 +12745,22 @@ func (inlineQueryResultVenue *InlineQueryResultVenue) MessageType() string {
 	return "inlineQueryResultVenue"
 }
 
+// NewInlineQueryResultVenue creates a new InlineQueryResultVenue
+//
+// @param iD Unique identifier of the query result
+// @param venue Venue result
+// @param thumbnail Result thumbnail; may be null
+func NewInlineQueryResultVenue(iD string, venue *Venue, thumbnail *PhotoSize) *InlineQueryResultVenue {
+	inlineQueryResultVenueTemp := InlineQueryResultVenue{
+		tdCommon:  tdCommon{Type: "inlineQueryResultVenue"},
+		ID:        iD,
+		Venue:     *venue,
+		Thumbnail: *thumbnail,
+	}
+
+	return &inlineQueryResultVenueTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultVenue *InlineQueryResultVenue) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultVenueType
@@ -8088,6 +12776,20 @@ type InlineQueryResultGame struct {
 // MessageType return the string telegram-type of InlineQueryResultGame
 func (inlineQueryResultGame *InlineQueryResultGame) MessageType() string {
 	return "inlineQueryResultGame"
+}
+
+// NewInlineQueryResultGame creates a new InlineQueryResultGame
+//
+// @param iD Unique identifier of the query result
+// @param game Game result
+func NewInlineQueryResultGame(iD string, game *Game) *InlineQueryResultGame {
+	inlineQueryResultGameTemp := InlineQueryResultGame{
+		tdCommon: tdCommon{Type: "inlineQueryResultGame"},
+		ID:       iD,
+		Game:     *game,
+	}
+
+	return &inlineQueryResultGameTemp
 }
 
 // GetInlineQueryResultEnum return the enum type of this object
@@ -8108,6 +12810,22 @@ func (inlineQueryResultAnimation *InlineQueryResultAnimation) MessageType() stri
 	return "inlineQueryResultAnimation"
 }
 
+// NewInlineQueryResultAnimation creates a new InlineQueryResultAnimation
+//
+// @param iD Unique identifier of the query result
+// @param animation Animation file
+// @param title Animation title
+func NewInlineQueryResultAnimation(iD string, animation *Animation, title string) *InlineQueryResultAnimation {
+	inlineQueryResultAnimationTemp := InlineQueryResultAnimation{
+		tdCommon:  tdCommon{Type: "inlineQueryResultAnimation"},
+		ID:        iD,
+		Animation: *animation,
+		Title:     title,
+	}
+
+	return &inlineQueryResultAnimationTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultAnimation *InlineQueryResultAnimation) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultAnimationType
@@ -8123,6 +12841,20 @@ type InlineQueryResultAudio struct {
 // MessageType return the string telegram-type of InlineQueryResultAudio
 func (inlineQueryResultAudio *InlineQueryResultAudio) MessageType() string {
 	return "inlineQueryResultAudio"
+}
+
+// NewInlineQueryResultAudio creates a new InlineQueryResultAudio
+//
+// @param iD Unique identifier of the query result
+// @param audio Audio file
+func NewInlineQueryResultAudio(iD string, audio *Audio) *InlineQueryResultAudio {
+	inlineQueryResultAudioTemp := InlineQueryResultAudio{
+		tdCommon: tdCommon{Type: "inlineQueryResultAudio"},
+		ID:       iD,
+		Audio:    *audio,
+	}
+
+	return &inlineQueryResultAudioTemp
 }
 
 // GetInlineQueryResultEnum return the enum type of this object
@@ -8144,6 +12876,24 @@ func (inlineQueryResultDocument *InlineQueryResultDocument) MessageType() string
 	return "inlineQueryResultDocument"
 }
 
+// NewInlineQueryResultDocument creates a new InlineQueryResultDocument
+//
+// @param iD Unique identifier of the query result
+// @param document Document
+// @param title Document title
+// @param description
+func NewInlineQueryResultDocument(iD string, document *Document, title string, description string) *InlineQueryResultDocument {
+	inlineQueryResultDocumentTemp := InlineQueryResultDocument{
+		tdCommon:    tdCommon{Type: "inlineQueryResultDocument"},
+		ID:          iD,
+		Document:    *document,
+		Title:       title,
+		Description: description,
+	}
+
+	return &inlineQueryResultDocumentTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultDocument *InlineQueryResultDocument) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultDocumentType
@@ -8163,6 +12913,24 @@ func (inlineQueryResultPhoto *InlineQueryResultPhoto) MessageType() string {
 	return "inlineQueryResultPhoto"
 }
 
+// NewInlineQueryResultPhoto creates a new InlineQueryResultPhoto
+//
+// @param iD Unique identifier of the query result
+// @param photo Photo
+// @param title Title of the result, if known
+// @param description
+func NewInlineQueryResultPhoto(iD string, photo *Photo, title string, description string) *InlineQueryResultPhoto {
+	inlineQueryResultPhotoTemp := InlineQueryResultPhoto{
+		tdCommon:    tdCommon{Type: "inlineQueryResultPhoto"},
+		ID:          iD,
+		Photo:       *photo,
+		Title:       title,
+		Description: description,
+	}
+
+	return &inlineQueryResultPhotoTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultPhoto *InlineQueryResultPhoto) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultPhotoType
@@ -8178,6 +12946,20 @@ type InlineQueryResultSticker struct {
 // MessageType return the string telegram-type of InlineQueryResultSticker
 func (inlineQueryResultSticker *InlineQueryResultSticker) MessageType() string {
 	return "inlineQueryResultSticker"
+}
+
+// NewInlineQueryResultSticker creates a new InlineQueryResultSticker
+//
+// @param iD Unique identifier of the query result
+// @param sticker Sticker
+func NewInlineQueryResultSticker(iD string, sticker *Sticker) *InlineQueryResultSticker {
+	inlineQueryResultStickerTemp := InlineQueryResultSticker{
+		tdCommon: tdCommon{Type: "inlineQueryResultSticker"},
+		ID:       iD,
+		Sticker:  *sticker,
+	}
+
+	return &inlineQueryResultStickerTemp
 }
 
 // GetInlineQueryResultEnum return the enum type of this object
@@ -8199,6 +12981,24 @@ func (inlineQueryResultVideo *InlineQueryResultVideo) MessageType() string {
 	return "inlineQueryResultVideo"
 }
 
+// NewInlineQueryResultVideo creates a new InlineQueryResultVideo
+//
+// @param iD Unique identifier of the query result
+// @param video Video
+// @param title Title of the video
+// @param description
+func NewInlineQueryResultVideo(iD string, video *Video, title string, description string) *InlineQueryResultVideo {
+	inlineQueryResultVideoTemp := InlineQueryResultVideo{
+		tdCommon:    tdCommon{Type: "inlineQueryResultVideo"},
+		ID:          iD,
+		Video:       *video,
+		Title:       title,
+		Description: description,
+	}
+
+	return &inlineQueryResultVideoTemp
+}
+
 // GetInlineQueryResultEnum return the enum type of this object
 func (inlineQueryResultVideo *InlineQueryResultVideo) GetInlineQueryResultEnum() InlineQueryResultEnum {
 	return InlineQueryResultVideoType
@@ -8215,6 +13015,22 @@ type InlineQueryResultVoiceNote struct {
 // MessageType return the string telegram-type of InlineQueryResultVoiceNote
 func (inlineQueryResultVoiceNote *InlineQueryResultVoiceNote) MessageType() string {
 	return "inlineQueryResultVoiceNote"
+}
+
+// NewInlineQueryResultVoiceNote creates a new InlineQueryResultVoiceNote
+//
+// @param iD Unique identifier of the query result
+// @param voiceNote Voice note
+// @param title Title of the voice note
+func NewInlineQueryResultVoiceNote(iD string, voiceNote *VoiceNote, title string) *InlineQueryResultVoiceNote {
+	inlineQueryResultVoiceNoteTemp := InlineQueryResultVoiceNote{
+		tdCommon:  tdCommon{Type: "inlineQueryResultVoiceNote"},
+		ID:        iD,
+		VoiceNote: *voiceNote,
+		Title:     title,
+	}
+
+	return &inlineQueryResultVoiceNoteTemp
 }
 
 // GetInlineQueryResultEnum return the enum type of this object
@@ -8237,6 +13053,26 @@ func (inlineQueryResults *InlineQueryResults) MessageType() string {
 	return "inlineQueryResults"
 }
 
+// NewInlineQueryResults creates a new InlineQueryResults
+//
+// @param inlineQueryID Unique identifier of the inline query
+// @param nextOffset The offset for the next request. If empty, there are no more results
+// @param results Results of the query
+// @param switchPmText If non-empty, this text should be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter
+// @param switchPmParameter Parameter for the bot start message
+func NewInlineQueryResults(inlineQueryID JSONInt64, nextOffset string, results []InlineQueryResult, switchPmText string, switchPmParameter string) *InlineQueryResults {
+	inlineQueryResultsTemp := InlineQueryResults{
+		tdCommon:          tdCommon{Type: "inlineQueryResults"},
+		InlineQueryID:     inlineQueryID,
+		NextOffset:        nextOffset,
+		Results:           results,
+		SwitchPmText:      switchPmText,
+		SwitchPmParameter: switchPmParameter,
+	}
+
+	return &inlineQueryResultsTemp
+}
+
 // CallbackQueryPayloadData The payload from a general callback button
 type CallbackQueryPayloadData struct {
 	tdCommon
@@ -8246,6 +13082,18 @@ type CallbackQueryPayloadData struct {
 // MessageType return the string telegram-type of CallbackQueryPayloadData
 func (callbackQueryPayloadData *CallbackQueryPayloadData) MessageType() string {
 	return "callbackQueryPayloadData"
+}
+
+// NewCallbackQueryPayloadData creates a new CallbackQueryPayloadData
+//
+// @param data Data that was attached to the callback button
+func NewCallbackQueryPayloadData(data []byte) *CallbackQueryPayloadData {
+	callbackQueryPayloadDataTemp := CallbackQueryPayloadData{
+		tdCommon: tdCommon{Type: "callbackQueryPayloadData"},
+		Data:     data,
+	}
+
+	return &callbackQueryPayloadDataTemp
 }
 
 // GetCallbackQueryPayloadEnum return the enum type of this object
@@ -8262,6 +13110,18 @@ type CallbackQueryPayloadGame struct {
 // MessageType return the string telegram-type of CallbackQueryPayloadGame
 func (callbackQueryPayloadGame *CallbackQueryPayloadGame) MessageType() string {
 	return "callbackQueryPayloadGame"
+}
+
+// NewCallbackQueryPayloadGame creates a new CallbackQueryPayloadGame
+//
+// @param gameShortName A short name of the game that was attached to the callback button
+func NewCallbackQueryPayloadGame(gameShortName string) *CallbackQueryPayloadGame {
+	callbackQueryPayloadGameTemp := CallbackQueryPayloadGame{
+		tdCommon:      tdCommon{Type: "callbackQueryPayloadGame"},
+		GameShortName: gameShortName,
+	}
+
+	return &callbackQueryPayloadGameTemp
 }
 
 // GetCallbackQueryPayloadEnum return the enum type of this object
@@ -8282,6 +13142,22 @@ func (callbackQueryAnswer *CallbackQueryAnswer) MessageType() string {
 	return "callbackQueryAnswer"
 }
 
+// NewCallbackQueryAnswer creates a new CallbackQueryAnswer
+//
+// @param text Text of the answer
+// @param showAlert True, if an alert should be shown to the user instead of a toast notification
+// @param uRL URL to be opened
+func NewCallbackQueryAnswer(text string, showAlert bool, uRL string) *CallbackQueryAnswer {
+	callbackQueryAnswerTemp := CallbackQueryAnswer{
+		tdCommon:  tdCommon{Type: "callbackQueryAnswer"},
+		Text:      text,
+		ShowAlert: showAlert,
+		URL:       uRL,
+	}
+
+	return &callbackQueryAnswerTemp
+}
+
 // CustomRequestResult Contains the result of a custom request
 type CustomRequestResult struct {
 	tdCommon
@@ -8291,6 +13167,18 @@ type CustomRequestResult struct {
 // MessageType return the string telegram-type of CustomRequestResult
 func (customRequestResult *CustomRequestResult) MessageType() string {
 	return "customRequestResult"
+}
+
+// NewCustomRequestResult creates a new CustomRequestResult
+//
+// @param result A JSON-serialized result
+func NewCustomRequestResult(result string) *CustomRequestResult {
+	customRequestResultTemp := CustomRequestResult{
+		tdCommon: tdCommon{Type: "customRequestResult"},
+		Result:   result,
+	}
+
+	return &customRequestResultTemp
 }
 
 // GameHighScore Contains one row of the game high score table
@@ -8306,6 +13194,22 @@ func (gameHighScore *GameHighScore) MessageType() string {
 	return "gameHighScore"
 }
 
+// NewGameHighScore creates a new GameHighScore
+//
+// @param position Position in the high score table
+// @param userID User identifier
+// @param score User score
+func NewGameHighScore(position int32, userID int32, score int32) *GameHighScore {
+	gameHighScoreTemp := GameHighScore{
+		tdCommon: tdCommon{Type: "gameHighScore"},
+		Position: position,
+		UserID:   userID,
+		Score:    score,
+	}
+
+	return &gameHighScoreTemp
+}
+
 // GameHighScores Contains a list of game high scores
 type GameHighScores struct {
 	tdCommon
@@ -8315,6 +13219,18 @@ type GameHighScores struct {
 // MessageType return the string telegram-type of GameHighScores
 func (gameHighScores *GameHighScores) MessageType() string {
 	return "gameHighScores"
+}
+
+// NewGameHighScores creates a new GameHighScores
+//
+// @param scores A list of game high scores
+func NewGameHighScores(scores []GameHighScore) *GameHighScores {
+	gameHighScoresTemp := GameHighScores{
+		tdCommon: tdCommon{Type: "gameHighScores"},
+		Scores:   scores,
+	}
+
+	return &gameHighScoresTemp
 }
 
 // ChatEventMessageEdited A message was edited
@@ -8327,6 +13243,20 @@ type ChatEventMessageEdited struct {
 // MessageType return the string telegram-type of ChatEventMessageEdited
 func (chatEventMessageEdited *ChatEventMessageEdited) MessageType() string {
 	return "chatEventMessageEdited"
+}
+
+// NewChatEventMessageEdited creates a new ChatEventMessageEdited
+//
+// @param oldMessage The original message before the edit
+// @param newMessage The message after it was edited
+func NewChatEventMessageEdited(oldMessage *Message, newMessage *Message) *ChatEventMessageEdited {
+	chatEventMessageEditedTemp := ChatEventMessageEdited{
+		tdCommon:   tdCommon{Type: "chatEventMessageEdited"},
+		OldMessage: *oldMessage,
+		NewMessage: *newMessage,
+	}
+
+	return &chatEventMessageEditedTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8345,6 +13275,18 @@ func (chatEventMessageDeleted *ChatEventMessageDeleted) MessageType() string {
 	return "chatEventMessageDeleted"
 }
 
+// NewChatEventMessageDeleted creates a new ChatEventMessageDeleted
+//
+// @param message Deleted message
+func NewChatEventMessageDeleted(message *Message) *ChatEventMessageDeleted {
+	chatEventMessageDeletedTemp := ChatEventMessageDeleted{
+		tdCommon: tdCommon{Type: "chatEventMessageDeleted"},
+		Message:  *message,
+	}
+
+	return &chatEventMessageDeletedTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventMessageDeleted *ChatEventMessageDeleted) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventMessageDeletedType
@@ -8359,6 +13301,18 @@ type ChatEventMessagePinned struct {
 // MessageType return the string telegram-type of ChatEventMessagePinned
 func (chatEventMessagePinned *ChatEventMessagePinned) MessageType() string {
 	return "chatEventMessagePinned"
+}
+
+// NewChatEventMessagePinned creates a new ChatEventMessagePinned
+//
+// @param message Pinned message
+func NewChatEventMessagePinned(message *Message) *ChatEventMessagePinned {
+	chatEventMessagePinnedTemp := ChatEventMessagePinned{
+		tdCommon: tdCommon{Type: "chatEventMessagePinned"},
+		Message:  *message,
+	}
+
+	return &chatEventMessagePinnedTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8376,6 +13330,16 @@ func (chatEventMessageUnpinned *ChatEventMessageUnpinned) MessageType() string {
 	return "chatEventMessageUnpinned"
 }
 
+// NewChatEventMessageUnpinned creates a new ChatEventMessageUnpinned
+//
+func NewChatEventMessageUnpinned() *ChatEventMessageUnpinned {
+	chatEventMessageUnpinnedTemp := ChatEventMessageUnpinned{
+		tdCommon: tdCommon{Type: "chatEventMessageUnpinned"},
+	}
+
+	return &chatEventMessageUnpinnedTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventMessageUnpinned *ChatEventMessageUnpinned) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventMessageUnpinnedType
@@ -8389,6 +13353,16 @@ type ChatEventMemberJoined struct {
 // MessageType return the string telegram-type of ChatEventMemberJoined
 func (chatEventMemberJoined *ChatEventMemberJoined) MessageType() string {
 	return "chatEventMemberJoined"
+}
+
+// NewChatEventMemberJoined creates a new ChatEventMemberJoined
+//
+func NewChatEventMemberJoined() *ChatEventMemberJoined {
+	chatEventMemberJoinedTemp := ChatEventMemberJoined{
+		tdCommon: tdCommon{Type: "chatEventMemberJoined"},
+	}
+
+	return &chatEventMemberJoinedTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8406,6 +13380,16 @@ func (chatEventMemberLeft *ChatEventMemberLeft) MessageType() string {
 	return "chatEventMemberLeft"
 }
 
+// NewChatEventMemberLeft creates a new ChatEventMemberLeft
+//
+func NewChatEventMemberLeft() *ChatEventMemberLeft {
+	chatEventMemberLeftTemp := ChatEventMemberLeft{
+		tdCommon: tdCommon{Type: "chatEventMemberLeft"},
+	}
+
+	return &chatEventMemberLeftTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventMemberLeft *ChatEventMemberLeft) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventMemberLeftType
@@ -8421,6 +13405,20 @@ type ChatEventMemberInvited struct {
 // MessageType return the string telegram-type of ChatEventMemberInvited
 func (chatEventMemberInvited *ChatEventMemberInvited) MessageType() string {
 	return "chatEventMemberInvited"
+}
+
+// NewChatEventMemberInvited creates a new ChatEventMemberInvited
+//
+// @param userID New member user identifier
+// @param status New member status
+func NewChatEventMemberInvited(userID int32, status ChatMemberStatus) *ChatEventMemberInvited {
+	chatEventMemberInvitedTemp := ChatEventMemberInvited{
+		tdCommon: tdCommon{Type: "chatEventMemberInvited"},
+		UserID:   userID,
+		Status:   status,
+	}
+
+	return &chatEventMemberInvitedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -8465,6 +13463,22 @@ type ChatEventMemberPromoted struct {
 // MessageType return the string telegram-type of ChatEventMemberPromoted
 func (chatEventMemberPromoted *ChatEventMemberPromoted) MessageType() string {
 	return "chatEventMemberPromoted"
+}
+
+// NewChatEventMemberPromoted creates a new ChatEventMemberPromoted
+//
+// @param userID Chat member user identifier
+// @param oldStatus Previous status of the chat member
+// @param newStatus New status of the chat member
+func NewChatEventMemberPromoted(userID int32, oldStatus ChatMemberStatus, newStatus ChatMemberStatus) *ChatEventMemberPromoted {
+	chatEventMemberPromotedTemp := ChatEventMemberPromoted{
+		tdCommon:  tdCommon{Type: "chatEventMemberPromoted"},
+		UserID:    userID,
+		OldStatus: oldStatus,
+		NewStatus: newStatus,
+	}
+
+	return &chatEventMemberPromotedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -8514,6 +13528,22 @@ func (chatEventMemberRestricted *ChatEventMemberRestricted) MessageType() string
 	return "chatEventMemberRestricted"
 }
 
+// NewChatEventMemberRestricted creates a new ChatEventMemberRestricted
+//
+// @param userID Chat member user identifier
+// @param oldStatus Previous status of the chat member
+// @param newStatus New status of the chat member
+func NewChatEventMemberRestricted(userID int32, oldStatus ChatMemberStatus, newStatus ChatMemberStatus) *ChatEventMemberRestricted {
+	chatEventMemberRestrictedTemp := ChatEventMemberRestricted{
+		tdCommon:  tdCommon{Type: "chatEventMemberRestricted"},
+		UserID:    userID,
+		OldStatus: oldStatus,
+		NewStatus: newStatus,
+	}
+
+	return &chatEventMemberRestrictedTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (chatEventMemberRestricted *ChatEventMemberRestricted) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -8560,6 +13590,20 @@ func (chatEventTitleChanged *ChatEventTitleChanged) MessageType() string {
 	return "chatEventTitleChanged"
 }
 
+// NewChatEventTitleChanged creates a new ChatEventTitleChanged
+//
+// @param oldTitle Previous chat title
+// @param newTitle New chat title
+func NewChatEventTitleChanged(oldTitle string, newTitle string) *ChatEventTitleChanged {
+	chatEventTitleChangedTemp := ChatEventTitleChanged{
+		tdCommon: tdCommon{Type: "chatEventTitleChanged"},
+		OldTitle: oldTitle,
+		NewTitle: newTitle,
+	}
+
+	return &chatEventTitleChangedTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventTitleChanged *ChatEventTitleChanged) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventTitleChangedType
@@ -8575,6 +13619,20 @@ type ChatEventDescriptionChanged struct {
 // MessageType return the string telegram-type of ChatEventDescriptionChanged
 func (chatEventDescriptionChanged *ChatEventDescriptionChanged) MessageType() string {
 	return "chatEventDescriptionChanged"
+}
+
+// NewChatEventDescriptionChanged creates a new ChatEventDescriptionChanged
+//
+// @param oldDescription Previous chat description
+// @param newDescription New chat description
+func NewChatEventDescriptionChanged(oldDescription string, newDescription string) *ChatEventDescriptionChanged {
+	chatEventDescriptionChangedTemp := ChatEventDescriptionChanged{
+		tdCommon:       tdCommon{Type: "chatEventDescriptionChanged"},
+		OldDescription: oldDescription,
+		NewDescription: newDescription,
+	}
+
+	return &chatEventDescriptionChangedTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8594,6 +13652,20 @@ func (chatEventUsernameChanged *ChatEventUsernameChanged) MessageType() string {
 	return "chatEventUsernameChanged"
 }
 
+// NewChatEventUsernameChanged creates a new ChatEventUsernameChanged
+//
+// @param oldUsername Previous chat username
+// @param newUsername New chat username
+func NewChatEventUsernameChanged(oldUsername string, newUsername string) *ChatEventUsernameChanged {
+	chatEventUsernameChangedTemp := ChatEventUsernameChanged{
+		tdCommon:    tdCommon{Type: "chatEventUsernameChanged"},
+		OldUsername: oldUsername,
+		NewUsername: newUsername,
+	}
+
+	return &chatEventUsernameChangedTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventUsernameChanged *ChatEventUsernameChanged) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventUsernameChangedType
@@ -8609,6 +13681,20 @@ type ChatEventPhotoChanged struct {
 // MessageType return the string telegram-type of ChatEventPhotoChanged
 func (chatEventPhotoChanged *ChatEventPhotoChanged) MessageType() string {
 	return "chatEventPhotoChanged"
+}
+
+// NewChatEventPhotoChanged creates a new ChatEventPhotoChanged
+//
+// @param oldPhoto Previous chat photo value; may be null
+// @param newPhoto New chat photo value; may be null
+func NewChatEventPhotoChanged(oldPhoto *ChatPhoto, newPhoto *ChatPhoto) *ChatEventPhotoChanged {
+	chatEventPhotoChangedTemp := ChatEventPhotoChanged{
+		tdCommon: tdCommon{Type: "chatEventPhotoChanged"},
+		OldPhoto: *oldPhoto,
+		NewPhoto: *newPhoto,
+	}
+
+	return &chatEventPhotoChangedTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8627,6 +13713,18 @@ func (chatEventInvitesToggled *ChatEventInvitesToggled) MessageType() string {
 	return "chatEventInvitesToggled"
 }
 
+// NewChatEventInvitesToggled creates a new ChatEventInvitesToggled
+//
+// @param anyoneCanInvite New value of anyone_can_invite
+func NewChatEventInvitesToggled(anyoneCanInvite bool) *ChatEventInvitesToggled {
+	chatEventInvitesToggledTemp := ChatEventInvitesToggled{
+		tdCommon:        tdCommon{Type: "chatEventInvitesToggled"},
+		AnyoneCanInvite: anyoneCanInvite,
+	}
+
+	return &chatEventInvitesToggledTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventInvitesToggled *ChatEventInvitesToggled) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventInvitesToggledType
@@ -8641,6 +13739,18 @@ type ChatEventSignMessagesToggled struct {
 // MessageType return the string telegram-type of ChatEventSignMessagesToggled
 func (chatEventSignMessagesToggled *ChatEventSignMessagesToggled) MessageType() string {
 	return "chatEventSignMessagesToggled"
+}
+
+// NewChatEventSignMessagesToggled creates a new ChatEventSignMessagesToggled
+//
+// @param signMessages New value of sign_messages
+func NewChatEventSignMessagesToggled(signMessages bool) *ChatEventSignMessagesToggled {
+	chatEventSignMessagesToggledTemp := ChatEventSignMessagesToggled{
+		tdCommon:     tdCommon{Type: "chatEventSignMessagesToggled"},
+		SignMessages: signMessages,
+	}
+
+	return &chatEventSignMessagesToggledTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8660,6 +13770,20 @@ func (chatEventStickerSetChanged *ChatEventStickerSetChanged) MessageType() stri
 	return "chatEventStickerSetChanged"
 }
 
+// NewChatEventStickerSetChanged creates a new ChatEventStickerSetChanged
+//
+// @param oldStickerSetID Previous identifier of the chat sticker set; 0 if none
+// @param newStickerSetID New identifier of the chat sticker set; 0 if none
+func NewChatEventStickerSetChanged(oldStickerSetID JSONInt64, newStickerSetID JSONInt64) *ChatEventStickerSetChanged {
+	chatEventStickerSetChangedTemp := ChatEventStickerSetChanged{
+		tdCommon:        tdCommon{Type: "chatEventStickerSetChanged"},
+		OldStickerSetID: oldStickerSetID,
+		NewStickerSetID: newStickerSetID,
+	}
+
+	return &chatEventStickerSetChangedTemp
+}
+
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventStickerSetChanged *ChatEventStickerSetChanged) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventStickerSetChangedType
@@ -8674,6 +13798,18 @@ type ChatEventIsAllHistoryAvailableToggled struct {
 // MessageType return the string telegram-type of ChatEventIsAllHistoryAvailableToggled
 func (chatEventIsAllHistoryAvailableToggled *ChatEventIsAllHistoryAvailableToggled) MessageType() string {
 	return "chatEventIsAllHistoryAvailableToggled"
+}
+
+// NewChatEventIsAllHistoryAvailableToggled creates a new ChatEventIsAllHistoryAvailableToggled
+//
+// @param isAllHistoryAvailable New value of is_all_history_available
+func NewChatEventIsAllHistoryAvailableToggled(isAllHistoryAvailable bool) *ChatEventIsAllHistoryAvailableToggled {
+	chatEventIsAllHistoryAvailableToggledTemp := ChatEventIsAllHistoryAvailableToggled{
+		tdCommon:              tdCommon{Type: "chatEventIsAllHistoryAvailableToggled"},
+		IsAllHistoryAvailable: isAllHistoryAvailable,
+	}
+
+	return &chatEventIsAllHistoryAvailableToggledTemp
 }
 
 // GetChatEventActionEnum return the enum type of this object
@@ -8693,6 +13829,24 @@ type ChatEvent struct {
 // MessageType return the string telegram-type of ChatEvent
 func (chatEvent *ChatEvent) MessageType() string {
 	return "chatEvent"
+}
+
+// NewChatEvent creates a new ChatEvent
+//
+// @param iD Chat event identifier
+// @param date Point in time (Unix timestamp) when the event happened
+// @param userID Identifier of the user who performed the action that triggered the event
+// @param action Action performed by the user
+func NewChatEvent(iD JSONInt64, date int32, userID int32, action ChatEventAction) *ChatEvent {
+	chatEventTemp := ChatEvent{
+		tdCommon: tdCommon{Type: "chatEvent"},
+		ID:       iD,
+		Date:     date,
+		UserID:   userID,
+		Action:   action,
+	}
+
+	return &chatEventTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -8736,6 +13890,18 @@ func (chatEvents *ChatEvents) MessageType() string {
 	return "chatEvents"
 }
 
+// NewChatEvents creates a new ChatEvents
+//
+// @param events List of events
+func NewChatEvents(events []ChatEvent) *ChatEvents {
+	chatEventsTemp := ChatEvents{
+		tdCommon: tdCommon{Type: "chatEvents"},
+		Events:   events,
+	}
+
+	return &chatEventsTemp
+}
+
 // ChatEventLogFilters Represents a set of filters used to obtain a chat event log
 type ChatEventLogFilters struct {
 	tdCommon
@@ -8756,6 +13922,36 @@ func (chatEventLogFilters *ChatEventLogFilters) MessageType() string {
 	return "chatEventLogFilters"
 }
 
+// NewChatEventLogFilters creates a new ChatEventLogFilters
+//
+// @param messageEdits True, if message edits should be returned
+// @param messageDeletions True, if message deletions should be returned
+// @param messagePins True, if pin/unpin events should be returned
+// @param memberJoins True, if members joining events should be returned
+// @param memberLeaves True, if members leaving events should be returned
+// @param memberInvites True, if invited member events should be returned
+// @param memberPromotions True, if member promotion/demotion events should be returned
+// @param memberRestrictions True, if member restricted/unrestricted/banned/unbanned events should be returned
+// @param infoChanges True, if changes in chat information should be returned
+// @param settingChanges True, if changes in chat settings should be returned
+func NewChatEventLogFilters(messageEdits bool, messageDeletions bool, messagePins bool, memberJoins bool, memberLeaves bool, memberInvites bool, memberPromotions bool, memberRestrictions bool, infoChanges bool, settingChanges bool) *ChatEventLogFilters {
+	chatEventLogFiltersTemp := ChatEventLogFilters{
+		tdCommon:           tdCommon{Type: "chatEventLogFilters"},
+		MessageEdits:       messageEdits,
+		MessageDeletions:   messageDeletions,
+		MessagePins:        messagePins,
+		MemberJoins:        memberJoins,
+		MemberLeaves:       memberLeaves,
+		MemberInvites:      memberInvites,
+		MemberPromotions:   memberPromotions,
+		MemberRestrictions: memberRestrictions,
+		InfoChanges:        infoChanges,
+		SettingChanges:     settingChanges,
+	}
+
+	return &chatEventLogFiltersTemp
+}
+
 // DeviceTokenGoogleCloudMessaging A token for Google Cloud Messaging
 type DeviceTokenGoogleCloudMessaging struct {
 	tdCommon
@@ -8765,6 +13961,18 @@ type DeviceTokenGoogleCloudMessaging struct {
 // MessageType return the string telegram-type of DeviceTokenGoogleCloudMessaging
 func (deviceTokenGoogleCloudMessaging *DeviceTokenGoogleCloudMessaging) MessageType() string {
 	return "deviceTokenGoogleCloudMessaging"
+}
+
+// NewDeviceTokenGoogleCloudMessaging creates a new DeviceTokenGoogleCloudMessaging
+//
+// @param token Device registration token, may be empty to de-register a device
+func NewDeviceTokenGoogleCloudMessaging(token string) *DeviceTokenGoogleCloudMessaging {
+	deviceTokenGoogleCloudMessagingTemp := DeviceTokenGoogleCloudMessaging{
+		tdCommon: tdCommon{Type: "deviceTokenGoogleCloudMessaging"},
+		Token:    token,
+	}
+
+	return &deviceTokenGoogleCloudMessagingTemp
 }
 
 // GetDeviceTokenEnum return the enum type of this object
@@ -8784,6 +13992,20 @@ func (deviceTokenApplePush *DeviceTokenApplePush) MessageType() string {
 	return "deviceTokenApplePush"
 }
 
+// NewDeviceTokenApplePush creates a new DeviceTokenApplePush
+//
+// @param deviceToken Device token, may be empty to de-register a device
+// @param isAppSandbox True, if App Sandbox is enabled
+func NewDeviceTokenApplePush(deviceToken string, isAppSandbox bool) *DeviceTokenApplePush {
+	deviceTokenApplePushTemp := DeviceTokenApplePush{
+		tdCommon:     tdCommon{Type: "deviceTokenApplePush"},
+		DeviceToken:  deviceToken,
+		IsAppSandbox: isAppSandbox,
+	}
+
+	return &deviceTokenApplePushTemp
+}
+
 // GetDeviceTokenEnum return the enum type of this object
 func (deviceTokenApplePush *DeviceTokenApplePush) GetDeviceTokenEnum() DeviceTokenEnum {
 	return DeviceTokenApplePushType
@@ -8799,6 +14021,20 @@ type DeviceTokenApplePushVoIP struct {
 // MessageType return the string telegram-type of DeviceTokenApplePushVoIP
 func (deviceTokenApplePushVoIP *DeviceTokenApplePushVoIP) MessageType() string {
 	return "deviceTokenApplePushVoIP"
+}
+
+// NewDeviceTokenApplePushVoIP creates a new DeviceTokenApplePushVoIP
+//
+// @param deviceToken Device token, may be empty to de-register a device
+// @param isAppSandbox True, if App Sandbox is enabled
+func NewDeviceTokenApplePushVoIP(deviceToken string, isAppSandbox bool) *DeviceTokenApplePushVoIP {
+	deviceTokenApplePushVoIPTemp := DeviceTokenApplePushVoIP{
+		tdCommon:     tdCommon{Type: "deviceTokenApplePushVoIP"},
+		DeviceToken:  deviceToken,
+		IsAppSandbox: isAppSandbox,
+	}
+
+	return &deviceTokenApplePushVoIPTemp
 }
 
 // GetDeviceTokenEnum return the enum type of this object
@@ -8817,6 +14053,18 @@ func (deviceTokenWindowsPush *DeviceTokenWindowsPush) MessageType() string {
 	return "deviceTokenWindowsPush"
 }
 
+// NewDeviceTokenWindowsPush creates a new DeviceTokenWindowsPush
+//
+// @param accessToken The access token that will be used to send notifications, may be empty to de-register a device
+func NewDeviceTokenWindowsPush(accessToken string) *DeviceTokenWindowsPush {
+	deviceTokenWindowsPushTemp := DeviceTokenWindowsPush{
+		tdCommon:    tdCommon{Type: "deviceTokenWindowsPush"},
+		AccessToken: accessToken,
+	}
+
+	return &deviceTokenWindowsPushTemp
+}
+
 // GetDeviceTokenEnum return the enum type of this object
 func (deviceTokenWindowsPush *DeviceTokenWindowsPush) GetDeviceTokenEnum() DeviceTokenEnum {
 	return DeviceTokenWindowsPushType
@@ -8833,6 +14081,18 @@ func (deviceTokenMicrosoftPush *DeviceTokenMicrosoftPush) MessageType() string {
 	return "deviceTokenMicrosoftPush"
 }
 
+// NewDeviceTokenMicrosoftPush creates a new DeviceTokenMicrosoftPush
+//
+// @param channelURI Push notification channel URI, may be empty to de-register a device
+func NewDeviceTokenMicrosoftPush(channelURI string) *DeviceTokenMicrosoftPush {
+	deviceTokenMicrosoftPushTemp := DeviceTokenMicrosoftPush{
+		tdCommon:   tdCommon{Type: "deviceTokenMicrosoftPush"},
+		ChannelURI: channelURI,
+	}
+
+	return &deviceTokenMicrosoftPushTemp
+}
+
 // GetDeviceTokenEnum return the enum type of this object
 func (deviceTokenMicrosoftPush *DeviceTokenMicrosoftPush) GetDeviceTokenEnum() DeviceTokenEnum {
 	return DeviceTokenMicrosoftPushType
@@ -8847,6 +14107,18 @@ type DeviceTokenMicrosoftPushVoIP struct {
 // MessageType return the string telegram-type of DeviceTokenMicrosoftPushVoIP
 func (deviceTokenMicrosoftPushVoIP *DeviceTokenMicrosoftPushVoIP) MessageType() string {
 	return "deviceTokenMicrosoftPushVoIP"
+}
+
+// NewDeviceTokenMicrosoftPushVoIP creates a new DeviceTokenMicrosoftPushVoIP
+//
+// @param channelURI Push notification channel URI, may be empty to de-register a device
+func NewDeviceTokenMicrosoftPushVoIP(channelURI string) *DeviceTokenMicrosoftPushVoIP {
+	deviceTokenMicrosoftPushVoIPTemp := DeviceTokenMicrosoftPushVoIP{
+		tdCommon:   tdCommon{Type: "deviceTokenMicrosoftPushVoIP"},
+		ChannelURI: channelURI,
+	}
+
+	return &deviceTokenMicrosoftPushVoIPTemp
 }
 
 // GetDeviceTokenEnum return the enum type of this object
@@ -8867,6 +14139,22 @@ func (deviceTokenWebPush *DeviceTokenWebPush) MessageType() string {
 	return "deviceTokenWebPush"
 }
 
+// NewDeviceTokenWebPush creates a new DeviceTokenWebPush
+//
+// @param endpoint Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+// @param p256dhBase64url Base64url-encoded P-256 elliptic curve Diffie-Hellman public key
+// @param authBase64url Base64url-encoded authentication secret
+func NewDeviceTokenWebPush(endpoint string, p256dhBase64url string, authBase64url string) *DeviceTokenWebPush {
+	deviceTokenWebPushTemp := DeviceTokenWebPush{
+		tdCommon:        tdCommon{Type: "deviceTokenWebPush"},
+		Endpoint:        endpoint,
+		P256dhBase64url: p256dhBase64url,
+		AuthBase64url:   authBase64url,
+	}
+
+	return &deviceTokenWebPushTemp
+}
+
 // GetDeviceTokenEnum return the enum type of this object
 func (deviceTokenWebPush *DeviceTokenWebPush) GetDeviceTokenEnum() DeviceTokenEnum {
 	return DeviceTokenWebPushType
@@ -8881,6 +14169,18 @@ type DeviceTokenSimplePush struct {
 // MessageType return the string telegram-type of DeviceTokenSimplePush
 func (deviceTokenSimplePush *DeviceTokenSimplePush) MessageType() string {
 	return "deviceTokenSimplePush"
+}
+
+// NewDeviceTokenSimplePush creates a new DeviceTokenSimplePush
+//
+// @param endpoint Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+func NewDeviceTokenSimplePush(endpoint string) *DeviceTokenSimplePush {
+	deviceTokenSimplePushTemp := DeviceTokenSimplePush{
+		tdCommon: tdCommon{Type: "deviceTokenSimplePush"},
+		Endpoint: endpoint,
+	}
+
+	return &deviceTokenSimplePushTemp
 }
 
 // GetDeviceTokenEnum return the enum type of this object
@@ -8899,6 +14199,18 @@ func (deviceTokenUbuntuPush *DeviceTokenUbuntuPush) MessageType() string {
 	return "deviceTokenUbuntuPush"
 }
 
+// NewDeviceTokenUbuntuPush creates a new DeviceTokenUbuntuPush
+//
+// @param token Token, may be empty to de-register a device
+func NewDeviceTokenUbuntuPush(token string) *DeviceTokenUbuntuPush {
+	deviceTokenUbuntuPushTemp := DeviceTokenUbuntuPush{
+		tdCommon: tdCommon{Type: "deviceTokenUbuntuPush"},
+		Token:    token,
+	}
+
+	return &deviceTokenUbuntuPushTemp
+}
+
 // GetDeviceTokenEnum return the enum type of this object
 func (deviceTokenUbuntuPush *DeviceTokenUbuntuPush) GetDeviceTokenEnum() DeviceTokenEnum {
 	return DeviceTokenUbuntuPushType
@@ -8915,6 +14227,18 @@ func (deviceTokenBlackBerryPush *DeviceTokenBlackBerryPush) MessageType() string
 	return "deviceTokenBlackBerryPush"
 }
 
+// NewDeviceTokenBlackBerryPush creates a new DeviceTokenBlackBerryPush
+//
+// @param token Token, may be empty to de-register a device
+func NewDeviceTokenBlackBerryPush(token string) *DeviceTokenBlackBerryPush {
+	deviceTokenBlackBerryPushTemp := DeviceTokenBlackBerryPush{
+		tdCommon: tdCommon{Type: "deviceTokenBlackBerryPush"},
+		Token:    token,
+	}
+
+	return &deviceTokenBlackBerryPushTemp
+}
+
 // GetDeviceTokenEnum return the enum type of this object
 func (deviceTokenBlackBerryPush *DeviceTokenBlackBerryPush) GetDeviceTokenEnum() DeviceTokenEnum {
 	return DeviceTokenBlackBerryPushType
@@ -8929,6 +14253,18 @@ type DeviceTokenTizenPush struct {
 // MessageType return the string telegram-type of DeviceTokenTizenPush
 func (deviceTokenTizenPush *DeviceTokenTizenPush) MessageType() string {
 	return "deviceTokenTizenPush"
+}
+
+// NewDeviceTokenTizenPush creates a new DeviceTokenTizenPush
+//
+// @param regID Push service registration identifier, may be empty to de-register a device
+func NewDeviceTokenTizenPush(regID string) *DeviceTokenTizenPush {
+	deviceTokenTizenPushTemp := DeviceTokenTizenPush{
+		tdCommon: tdCommon{Type: "deviceTokenTizenPush"},
+		RegID:    regID,
+	}
+
+	return &deviceTokenTizenPushTemp
 }
 
 // GetDeviceTokenEnum return the enum type of this object
@@ -8949,6 +14285,22 @@ func (wallpaper *Wallpaper) MessageType() string {
 	return "wallpaper"
 }
 
+// NewWallpaper creates a new Wallpaper
+//
+// @param iD Unique persistent wallpaper identifier
+// @param sizes Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message
+// @param color Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified
+func NewWallpaper(iD int32, sizes []PhotoSize, color int32) *Wallpaper {
+	wallpaperTemp := Wallpaper{
+		tdCommon: tdCommon{Type: "wallpaper"},
+		ID:       iD,
+		Sizes:    sizes,
+		Color:    color,
+	}
+
+	return &wallpaperTemp
+}
+
 // Wallpapers Contains a list of wallpapers
 type Wallpapers struct {
 	tdCommon
@@ -8958,6 +14310,18 @@ type Wallpapers struct {
 // MessageType return the string telegram-type of Wallpapers
 func (wallpapers *Wallpapers) MessageType() string {
 	return "wallpapers"
+}
+
+// NewWallpapers creates a new Wallpapers
+//
+// @param wallpapers A list of wallpapers
+func NewWallpapers(wallpapers []Wallpaper) *Wallpapers {
+	wallpapersTemp := Wallpapers{
+		tdCommon:   tdCommon{Type: "wallpapers"},
+		Wallpapers: wallpapers,
+	}
+
+	return &wallpapersTemp
 }
 
 // Hashtags Contains a list of hashtags
@@ -8971,6 +14335,18 @@ func (hashtags *Hashtags) MessageType() string {
 	return "hashtags"
 }
 
+// NewHashtags creates a new Hashtags
+//
+// @param hashtags A list of hashtags
+func NewHashtags(hashtags []string) *Hashtags {
+	hashtagsTemp := Hashtags{
+		tdCommon: tdCommon{Type: "hashtags"},
+		Hashtags: hashtags,
+	}
+
+	return &hashtagsTemp
+}
+
 // CheckChatUsernameResultOk The username can be set
 type CheckChatUsernameResultOk struct {
 	tdCommon
@@ -8979,6 +14355,16 @@ type CheckChatUsernameResultOk struct {
 // MessageType return the string telegram-type of CheckChatUsernameResultOk
 func (checkChatUsernameResultOk *CheckChatUsernameResultOk) MessageType() string {
 	return "checkChatUsernameResultOk"
+}
+
+// NewCheckChatUsernameResultOk creates a new CheckChatUsernameResultOk
+//
+func NewCheckChatUsernameResultOk() *CheckChatUsernameResultOk {
+	checkChatUsernameResultOkTemp := CheckChatUsernameResultOk{
+		tdCommon: tdCommon{Type: "checkChatUsernameResultOk"},
+	}
+
+	return &checkChatUsernameResultOkTemp
 }
 
 // GetCheckChatUsernameResultEnum return the enum type of this object
@@ -8996,6 +14382,16 @@ func (checkChatUsernameResultUsernameInvalid *CheckChatUsernameResultUsernameInv
 	return "checkChatUsernameResultUsernameInvalid"
 }
 
+// NewCheckChatUsernameResultUsernameInvalid creates a new CheckChatUsernameResultUsernameInvalid
+//
+func NewCheckChatUsernameResultUsernameInvalid() *CheckChatUsernameResultUsernameInvalid {
+	checkChatUsernameResultUsernameInvalidTemp := CheckChatUsernameResultUsernameInvalid{
+		tdCommon: tdCommon{Type: "checkChatUsernameResultUsernameInvalid"},
+	}
+
+	return &checkChatUsernameResultUsernameInvalidTemp
+}
+
 // GetCheckChatUsernameResultEnum return the enum type of this object
 func (checkChatUsernameResultUsernameInvalid *CheckChatUsernameResultUsernameInvalid) GetCheckChatUsernameResultEnum() CheckChatUsernameResultEnum {
 	return CheckChatUsernameResultUsernameInvalidType
@@ -9009,6 +14405,16 @@ type CheckChatUsernameResultUsernameOccupied struct {
 // MessageType return the string telegram-type of CheckChatUsernameResultUsernameOccupied
 func (checkChatUsernameResultUsernameOccupied *CheckChatUsernameResultUsernameOccupied) MessageType() string {
 	return "checkChatUsernameResultUsernameOccupied"
+}
+
+// NewCheckChatUsernameResultUsernameOccupied creates a new CheckChatUsernameResultUsernameOccupied
+//
+func NewCheckChatUsernameResultUsernameOccupied() *CheckChatUsernameResultUsernameOccupied {
+	checkChatUsernameResultUsernameOccupiedTemp := CheckChatUsernameResultUsernameOccupied{
+		tdCommon: tdCommon{Type: "checkChatUsernameResultUsernameOccupied"},
+	}
+
+	return &checkChatUsernameResultUsernameOccupiedTemp
 }
 
 // GetCheckChatUsernameResultEnum return the enum type of this object
@@ -9026,6 +14432,16 @@ func (checkChatUsernameResultPublicChatsTooMuch *CheckChatUsernameResultPublicCh
 	return "checkChatUsernameResultPublicChatsTooMuch"
 }
 
+// NewCheckChatUsernameResultPublicChatsTooMuch creates a new CheckChatUsernameResultPublicChatsTooMuch
+//
+func NewCheckChatUsernameResultPublicChatsTooMuch() *CheckChatUsernameResultPublicChatsTooMuch {
+	checkChatUsernameResultPublicChatsTooMuchTemp := CheckChatUsernameResultPublicChatsTooMuch{
+		tdCommon: tdCommon{Type: "checkChatUsernameResultPublicChatsTooMuch"},
+	}
+
+	return &checkChatUsernameResultPublicChatsTooMuchTemp
+}
+
 // GetCheckChatUsernameResultEnum return the enum type of this object
 func (checkChatUsernameResultPublicChatsTooMuch *CheckChatUsernameResultPublicChatsTooMuch) GetCheckChatUsernameResultEnum() CheckChatUsernameResultEnum {
 	return CheckChatUsernameResultPublicChatsTooMuchType
@@ -9039,6 +14455,16 @@ type CheckChatUsernameResultPublicGroupsUnavailable struct {
 // MessageType return the string telegram-type of CheckChatUsernameResultPublicGroupsUnavailable
 func (checkChatUsernameResultPublicGroupsUnavailable *CheckChatUsernameResultPublicGroupsUnavailable) MessageType() string {
 	return "checkChatUsernameResultPublicGroupsUnavailable"
+}
+
+// NewCheckChatUsernameResultPublicGroupsUnavailable creates a new CheckChatUsernameResultPublicGroupsUnavailable
+//
+func NewCheckChatUsernameResultPublicGroupsUnavailable() *CheckChatUsernameResultPublicGroupsUnavailable {
+	checkChatUsernameResultPublicGroupsUnavailableTemp := CheckChatUsernameResultPublicGroupsUnavailable{
+		tdCommon: tdCommon{Type: "checkChatUsernameResultPublicGroupsUnavailable"},
+	}
+
+	return &checkChatUsernameResultPublicGroupsUnavailableTemp
 }
 
 // GetCheckChatUsernameResultEnum return the enum type of this object
@@ -9057,6 +14483,18 @@ func (optionValueBoolean *OptionValueBoolean) MessageType() string {
 	return "optionValueBoolean"
 }
 
+// NewOptionValueBoolean creates a new OptionValueBoolean
+//
+// @param value The value of the option
+func NewOptionValueBoolean(value bool) *OptionValueBoolean {
+	optionValueBooleanTemp := OptionValueBoolean{
+		tdCommon: tdCommon{Type: "optionValueBoolean"},
+		Value:    value,
+	}
+
+	return &optionValueBooleanTemp
+}
+
 // GetOptionValueEnum return the enum type of this object
 func (optionValueBoolean *OptionValueBoolean) GetOptionValueEnum() OptionValueEnum {
 	return OptionValueBooleanType
@@ -9070,6 +14508,16 @@ type OptionValueEmpty struct {
 // MessageType return the string telegram-type of OptionValueEmpty
 func (optionValueEmpty *OptionValueEmpty) MessageType() string {
 	return "optionValueEmpty"
+}
+
+// NewOptionValueEmpty creates a new OptionValueEmpty
+//
+func NewOptionValueEmpty() *OptionValueEmpty {
+	optionValueEmptyTemp := OptionValueEmpty{
+		tdCommon: tdCommon{Type: "optionValueEmpty"},
+	}
+
+	return &optionValueEmptyTemp
 }
 
 // GetOptionValueEnum return the enum type of this object
@@ -9088,6 +14536,18 @@ func (optionValueInteger *OptionValueInteger) MessageType() string {
 	return "optionValueInteger"
 }
 
+// NewOptionValueInteger creates a new OptionValueInteger
+//
+// @param value The value of the option
+func NewOptionValueInteger(value int32) *OptionValueInteger {
+	optionValueIntegerTemp := OptionValueInteger{
+		tdCommon: tdCommon{Type: "optionValueInteger"},
+		Value:    value,
+	}
+
+	return &optionValueIntegerTemp
+}
+
 // GetOptionValueEnum return the enum type of this object
 func (optionValueInteger *OptionValueInteger) GetOptionValueEnum() OptionValueEnum {
 	return OptionValueIntegerType
@@ -9102,6 +14562,18 @@ type OptionValueString struct {
 // MessageType return the string telegram-type of OptionValueString
 func (optionValueString *OptionValueString) MessageType() string {
 	return "optionValueString"
+}
+
+// NewOptionValueString creates a new OptionValueString
+//
+// @param value The value of the option
+func NewOptionValueString(value string) *OptionValueString {
+	optionValueStringTemp := OptionValueString{
+		tdCommon: tdCommon{Type: "optionValueString"},
+		Value:    value,
+	}
+
+	return &optionValueStringTemp
 }
 
 // GetOptionValueEnum return the enum type of this object
@@ -9119,6 +14591,16 @@ func (userPrivacySettingRuleAllowAll *UserPrivacySettingRuleAllowAll) MessageTyp
 	return "userPrivacySettingRuleAllowAll"
 }
 
+// NewUserPrivacySettingRuleAllowAll creates a new UserPrivacySettingRuleAllowAll
+//
+func NewUserPrivacySettingRuleAllowAll() *UserPrivacySettingRuleAllowAll {
+	userPrivacySettingRuleAllowAllTemp := UserPrivacySettingRuleAllowAll{
+		tdCommon: tdCommon{Type: "userPrivacySettingRuleAllowAll"},
+	}
+
+	return &userPrivacySettingRuleAllowAllTemp
+}
+
 // GetUserPrivacySettingRuleEnum return the enum type of this object
 func (userPrivacySettingRuleAllowAll *UserPrivacySettingRuleAllowAll) GetUserPrivacySettingRuleEnum() UserPrivacySettingRuleEnum {
 	return UserPrivacySettingRuleAllowAllType
@@ -9132,6 +14614,16 @@ type UserPrivacySettingRuleAllowContacts struct {
 // MessageType return the string telegram-type of UserPrivacySettingRuleAllowContacts
 func (userPrivacySettingRuleAllowContacts *UserPrivacySettingRuleAllowContacts) MessageType() string {
 	return "userPrivacySettingRuleAllowContacts"
+}
+
+// NewUserPrivacySettingRuleAllowContacts creates a new UserPrivacySettingRuleAllowContacts
+//
+func NewUserPrivacySettingRuleAllowContacts() *UserPrivacySettingRuleAllowContacts {
+	userPrivacySettingRuleAllowContactsTemp := UserPrivacySettingRuleAllowContacts{
+		tdCommon: tdCommon{Type: "userPrivacySettingRuleAllowContacts"},
+	}
+
+	return &userPrivacySettingRuleAllowContactsTemp
 }
 
 // GetUserPrivacySettingRuleEnum return the enum type of this object
@@ -9150,6 +14642,18 @@ func (userPrivacySettingRuleAllowUsers *UserPrivacySettingRuleAllowUsers) Messag
 	return "userPrivacySettingRuleAllowUsers"
 }
 
+// NewUserPrivacySettingRuleAllowUsers creates a new UserPrivacySettingRuleAllowUsers
+//
+// @param userIDs The user identifiers
+func NewUserPrivacySettingRuleAllowUsers(userIDs []int32) *UserPrivacySettingRuleAllowUsers {
+	userPrivacySettingRuleAllowUsersTemp := UserPrivacySettingRuleAllowUsers{
+		tdCommon: tdCommon{Type: "userPrivacySettingRuleAllowUsers"},
+		UserIDs:  userIDs,
+	}
+
+	return &userPrivacySettingRuleAllowUsersTemp
+}
+
 // GetUserPrivacySettingRuleEnum return the enum type of this object
 func (userPrivacySettingRuleAllowUsers *UserPrivacySettingRuleAllowUsers) GetUserPrivacySettingRuleEnum() UserPrivacySettingRuleEnum {
 	return UserPrivacySettingRuleAllowUsersType
@@ -9165,6 +14669,16 @@ func (userPrivacySettingRuleRestrictAll *UserPrivacySettingRuleRestrictAll) Mess
 	return "userPrivacySettingRuleRestrictAll"
 }
 
+// NewUserPrivacySettingRuleRestrictAll creates a new UserPrivacySettingRuleRestrictAll
+//
+func NewUserPrivacySettingRuleRestrictAll() *UserPrivacySettingRuleRestrictAll {
+	userPrivacySettingRuleRestrictAllTemp := UserPrivacySettingRuleRestrictAll{
+		tdCommon: tdCommon{Type: "userPrivacySettingRuleRestrictAll"},
+	}
+
+	return &userPrivacySettingRuleRestrictAllTemp
+}
+
 // GetUserPrivacySettingRuleEnum return the enum type of this object
 func (userPrivacySettingRuleRestrictAll *UserPrivacySettingRuleRestrictAll) GetUserPrivacySettingRuleEnum() UserPrivacySettingRuleEnum {
 	return UserPrivacySettingRuleRestrictAllType
@@ -9178,6 +14692,16 @@ type UserPrivacySettingRuleRestrictContacts struct {
 // MessageType return the string telegram-type of UserPrivacySettingRuleRestrictContacts
 func (userPrivacySettingRuleRestrictContacts *UserPrivacySettingRuleRestrictContacts) MessageType() string {
 	return "userPrivacySettingRuleRestrictContacts"
+}
+
+// NewUserPrivacySettingRuleRestrictContacts creates a new UserPrivacySettingRuleRestrictContacts
+//
+func NewUserPrivacySettingRuleRestrictContacts() *UserPrivacySettingRuleRestrictContacts {
+	userPrivacySettingRuleRestrictContactsTemp := UserPrivacySettingRuleRestrictContacts{
+		tdCommon: tdCommon{Type: "userPrivacySettingRuleRestrictContacts"},
+	}
+
+	return &userPrivacySettingRuleRestrictContactsTemp
 }
 
 // GetUserPrivacySettingRuleEnum return the enum type of this object
@@ -9196,6 +14720,18 @@ func (userPrivacySettingRuleRestrictUsers *UserPrivacySettingRuleRestrictUsers) 
 	return "userPrivacySettingRuleRestrictUsers"
 }
 
+// NewUserPrivacySettingRuleRestrictUsers creates a new UserPrivacySettingRuleRestrictUsers
+//
+// @param userIDs The user identifiers
+func NewUserPrivacySettingRuleRestrictUsers(userIDs []int32) *UserPrivacySettingRuleRestrictUsers {
+	userPrivacySettingRuleRestrictUsersTemp := UserPrivacySettingRuleRestrictUsers{
+		tdCommon: tdCommon{Type: "userPrivacySettingRuleRestrictUsers"},
+		UserIDs:  userIDs,
+	}
+
+	return &userPrivacySettingRuleRestrictUsersTemp
+}
+
 // GetUserPrivacySettingRuleEnum return the enum type of this object
 func (userPrivacySettingRuleRestrictUsers *UserPrivacySettingRuleRestrictUsers) GetUserPrivacySettingRuleEnum() UserPrivacySettingRuleEnum {
 	return UserPrivacySettingRuleRestrictUsersType
@@ -9212,6 +14748,18 @@ func (userPrivacySettingRules *UserPrivacySettingRules) MessageType() string {
 	return "userPrivacySettingRules"
 }
 
+// NewUserPrivacySettingRules creates a new UserPrivacySettingRules
+//
+// @param rules A list of rules
+func NewUserPrivacySettingRules(rules []UserPrivacySettingRule) *UserPrivacySettingRules {
+	userPrivacySettingRulesTemp := UserPrivacySettingRules{
+		tdCommon: tdCommon{Type: "userPrivacySettingRules"},
+		Rules:    rules,
+	}
+
+	return &userPrivacySettingRulesTemp
+}
+
 // UserPrivacySettingShowStatus A privacy setting for managing whether the user's online status is visible
 type UserPrivacySettingShowStatus struct {
 	tdCommon
@@ -9220,6 +14768,16 @@ type UserPrivacySettingShowStatus struct {
 // MessageType return the string telegram-type of UserPrivacySettingShowStatus
 func (userPrivacySettingShowStatus *UserPrivacySettingShowStatus) MessageType() string {
 	return "userPrivacySettingShowStatus"
+}
+
+// NewUserPrivacySettingShowStatus creates a new UserPrivacySettingShowStatus
+//
+func NewUserPrivacySettingShowStatus() *UserPrivacySettingShowStatus {
+	userPrivacySettingShowStatusTemp := UserPrivacySettingShowStatus{
+		tdCommon: tdCommon{Type: "userPrivacySettingShowStatus"},
+	}
+
+	return &userPrivacySettingShowStatusTemp
 }
 
 // GetUserPrivacySettingEnum return the enum type of this object
@@ -9237,6 +14795,16 @@ func (userPrivacySettingAllowChatInvites *UserPrivacySettingAllowChatInvites) Me
 	return "userPrivacySettingAllowChatInvites"
 }
 
+// NewUserPrivacySettingAllowChatInvites creates a new UserPrivacySettingAllowChatInvites
+//
+func NewUserPrivacySettingAllowChatInvites() *UserPrivacySettingAllowChatInvites {
+	userPrivacySettingAllowChatInvitesTemp := UserPrivacySettingAllowChatInvites{
+		tdCommon: tdCommon{Type: "userPrivacySettingAllowChatInvites"},
+	}
+
+	return &userPrivacySettingAllowChatInvitesTemp
+}
+
 // GetUserPrivacySettingEnum return the enum type of this object
 func (userPrivacySettingAllowChatInvites *UserPrivacySettingAllowChatInvites) GetUserPrivacySettingEnum() UserPrivacySettingEnum {
 	return UserPrivacySettingAllowChatInvitesType
@@ -9250,6 +14818,16 @@ type UserPrivacySettingAllowCalls struct {
 // MessageType return the string telegram-type of UserPrivacySettingAllowCalls
 func (userPrivacySettingAllowCalls *UserPrivacySettingAllowCalls) MessageType() string {
 	return "userPrivacySettingAllowCalls"
+}
+
+// NewUserPrivacySettingAllowCalls creates a new UserPrivacySettingAllowCalls
+//
+func NewUserPrivacySettingAllowCalls() *UserPrivacySettingAllowCalls {
+	userPrivacySettingAllowCallsTemp := UserPrivacySettingAllowCalls{
+		tdCommon: tdCommon{Type: "userPrivacySettingAllowCalls"},
+	}
+
+	return &userPrivacySettingAllowCallsTemp
 }
 
 // GetUserPrivacySettingEnum return the enum type of this object
@@ -9266,6 +14844,18 @@ type AccountTTL struct {
 // MessageType return the string telegram-type of AccountTTL
 func (accountTTL *AccountTTL) MessageType() string {
 	return "accountTtl"
+}
+
+// NewAccountTTL creates a new AccountTTL
+//
+// @param days Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
+func NewAccountTTL(days int32) *AccountTTL {
+	accountTTLTemp := AccountTTL{
+		tdCommon: tdCommon{Type: "accountTtl"},
+		Days:     days,
+	}
+
+	return &accountTTLTemp
 }
 
 // Session Contains information about one session in a Telegram application used by the current user
@@ -9292,6 +14882,44 @@ func (session *Session) MessageType() string {
 	return "session"
 }
 
+// NewSession creates a new Session
+//
+// @param iD Session identifier
+// @param isCurrent True, if this session is the current session
+// @param aPIID Telegram API identifier, as provided by the application
+// @param applicationName Name of the application, as provided by the application
+// @param applicationVersion The version of the application, as provided by the application
+// @param isOfficialApplication True, if the application is an official application or uses the api_id of an official application
+// @param deviceModel Model of the device the application has been run or is running on, as provided by the application
+// @param platform Operating system the application has been run or is running on, as provided by the application
+// @param systemVersion Version of the operating system the application has been run or is running on, as provided by the application
+// @param logInDate Point in time (Unix timestamp) when the user has logged in
+// @param lastActiveDate Point in time (Unix timestamp) when the session was last used
+// @param iP IP address from which the session was created, in human-readable format
+// @param country A two-letter country code for the country from which the session was created, based on the IP address
+// @param region Region code from which the session was created, based on the IP address
+func NewSession(iD JSONInt64, isCurrent bool, aPIID int32, applicationName string, applicationVersion string, isOfficialApplication bool, deviceModel string, platform string, systemVersion string, logInDate int32, lastActiveDate int32, iP string, country string, region string) *Session {
+	sessionTemp := Session{
+		tdCommon:              tdCommon{Type: "session"},
+		ID:                    iD,
+		IsCurrent:             isCurrent,
+		APIID:                 aPIID,
+		ApplicationName:       applicationName,
+		ApplicationVersion:    applicationVersion,
+		IsOfficialApplication: isOfficialApplication,
+		DeviceModel:           deviceModel,
+		Platform:              platform,
+		SystemVersion:         systemVersion,
+		LogInDate:             logInDate,
+		LastActiveDate:        lastActiveDate,
+		IP:                    iP,
+		Country:               country,
+		Region:                region,
+	}
+
+	return &sessionTemp
+}
+
 // Sessions Contains a list of sessions
 type Sessions struct {
 	tdCommon
@@ -9301,6 +14929,18 @@ type Sessions struct {
 // MessageType return the string telegram-type of Sessions
 func (sessions *Sessions) MessageType() string {
 	return "sessions"
+}
+
+// NewSessions creates a new Sessions
+//
+// @param sessions List of sessions
+func NewSessions(sessions []Session) *Sessions {
+	sessionsTemp := Sessions{
+		tdCommon: tdCommon{Type: "sessions"},
+		Sessions: sessions,
+	}
+
+	return &sessionsTemp
 }
 
 // ConnectedWebsite Contains information about one website the current user is logged in with Telegram
@@ -9322,6 +14962,34 @@ func (connectedWebsite *ConnectedWebsite) MessageType() string {
 	return "connectedWebsite"
 }
 
+// NewConnectedWebsite creates a new ConnectedWebsite
+//
+// @param iD Website identifier
+// @param domainName The domain name of the website
+// @param botUserID User identifier of a bot linked with the website
+// @param browser The version of a browser used to log in
+// @param platform Operating system the browser is running on
+// @param logInDate Point in time (Unix timestamp) when the user was logged in
+// @param lastActiveDate Point in time (Unix timestamp) when obtained authorization was last used
+// @param iP IP address from which the user was logged in, in human-readable format
+// @param location Human-readable description of a country and a region, from which the user was logged in, based on the IP address
+func NewConnectedWebsite(iD JSONInt64, domainName string, botUserID int32, browser string, platform string, logInDate int32, lastActiveDate int32, iP string, location string) *ConnectedWebsite {
+	connectedWebsiteTemp := ConnectedWebsite{
+		tdCommon:       tdCommon{Type: "connectedWebsite"},
+		ID:             iD,
+		DomainName:     domainName,
+		BotUserID:      botUserID,
+		Browser:        browser,
+		Platform:       platform,
+		LogInDate:      logInDate,
+		LastActiveDate: lastActiveDate,
+		IP:             iP,
+		Location:       location,
+	}
+
+	return &connectedWebsiteTemp
+}
+
 // ConnectedWebsites Contains a list of websites the current user is logged in with Telegram
 type ConnectedWebsites struct {
 	tdCommon
@@ -9331,6 +14999,18 @@ type ConnectedWebsites struct {
 // MessageType return the string telegram-type of ConnectedWebsites
 func (connectedWebsites *ConnectedWebsites) MessageType() string {
 	return "connectedWebsites"
+}
+
+// NewConnectedWebsites creates a new ConnectedWebsites
+//
+// @param websites List of connected websites
+func NewConnectedWebsites(websites []ConnectedWebsite) *ConnectedWebsites {
+	connectedWebsitesTemp := ConnectedWebsites{
+		tdCommon: tdCommon{Type: "connectedWebsites"},
+		Websites: websites,
+	}
+
+	return &connectedWebsitesTemp
 }
 
 // ChatReportSpamState Contains information about the availability of the "Report spam" action for a chat
@@ -9344,6 +15024,18 @@ func (chatReportSpamState *ChatReportSpamState) MessageType() string {
 	return "chatReportSpamState"
 }
 
+// NewChatReportSpamState creates a new ChatReportSpamState
+//
+// @param canReportSpam True, if a prompt with the "Report spam" action should be shown to the user
+func NewChatReportSpamState(canReportSpam bool) *ChatReportSpamState {
+	chatReportSpamStateTemp := ChatReportSpamState{
+		tdCommon:      tdCommon{Type: "chatReportSpamState"},
+		CanReportSpam: canReportSpam,
+	}
+
+	return &chatReportSpamStateTemp
+}
+
 // ChatReportReasonSpam The chat contains spam messages
 type ChatReportReasonSpam struct {
 	tdCommon
@@ -9352,6 +15044,16 @@ type ChatReportReasonSpam struct {
 // MessageType return the string telegram-type of ChatReportReasonSpam
 func (chatReportReasonSpam *ChatReportReasonSpam) MessageType() string {
 	return "chatReportReasonSpam"
+}
+
+// NewChatReportReasonSpam creates a new ChatReportReasonSpam
+//
+func NewChatReportReasonSpam() *ChatReportReasonSpam {
+	chatReportReasonSpamTemp := ChatReportReasonSpam{
+		tdCommon: tdCommon{Type: "chatReportReasonSpam"},
+	}
+
+	return &chatReportReasonSpamTemp
 }
 
 // GetChatReportReasonEnum return the enum type of this object
@@ -9369,6 +15071,16 @@ func (chatReportReasonViolence *ChatReportReasonViolence) MessageType() string {
 	return "chatReportReasonViolence"
 }
 
+// NewChatReportReasonViolence creates a new ChatReportReasonViolence
+//
+func NewChatReportReasonViolence() *ChatReportReasonViolence {
+	chatReportReasonViolenceTemp := ChatReportReasonViolence{
+		tdCommon: tdCommon{Type: "chatReportReasonViolence"},
+	}
+
+	return &chatReportReasonViolenceTemp
+}
+
 // GetChatReportReasonEnum return the enum type of this object
 func (chatReportReasonViolence *ChatReportReasonViolence) GetChatReportReasonEnum() ChatReportReasonEnum {
 	return ChatReportReasonViolenceType
@@ -9382,6 +15094,16 @@ type ChatReportReasonPornography struct {
 // MessageType return the string telegram-type of ChatReportReasonPornography
 func (chatReportReasonPornography *ChatReportReasonPornography) MessageType() string {
 	return "chatReportReasonPornography"
+}
+
+// NewChatReportReasonPornography creates a new ChatReportReasonPornography
+//
+func NewChatReportReasonPornography() *ChatReportReasonPornography {
+	chatReportReasonPornographyTemp := ChatReportReasonPornography{
+		tdCommon: tdCommon{Type: "chatReportReasonPornography"},
+	}
+
+	return &chatReportReasonPornographyTemp
 }
 
 // GetChatReportReasonEnum return the enum type of this object
@@ -9398,6 +15120,18 @@ type ChatReportReasonCustom struct {
 // MessageType return the string telegram-type of ChatReportReasonCustom
 func (chatReportReasonCustom *ChatReportReasonCustom) MessageType() string {
 	return "chatReportReasonCustom"
+}
+
+// NewChatReportReasonCustom creates a new ChatReportReasonCustom
+//
+// @param text Report text
+func NewChatReportReasonCustom(text string) *ChatReportReasonCustom {
+	chatReportReasonCustomTemp := ChatReportReasonCustom{
+		tdCommon: tdCommon{Type: "chatReportReasonCustom"},
+		Text:     text,
+	}
+
+	return &chatReportReasonCustomTemp
 }
 
 // GetChatReportReasonEnum return the enum type of this object
@@ -9417,6 +15151,20 @@ func (publicMessageLink *PublicMessageLink) MessageType() string {
 	return "publicMessageLink"
 }
 
+// NewPublicMessageLink creates a new PublicMessageLink
+//
+// @param link Message link
+// @param hTML HTML-code for embedding the message
+func NewPublicMessageLink(link string, hTML string) *PublicMessageLink {
+	publicMessageLinkTemp := PublicMessageLink{
+		tdCommon: tdCommon{Type: "publicMessageLink"},
+		Link:     link,
+		HTML:     hTML,
+	}
+
+	return &publicMessageLinkTemp
+}
+
 // FileTypeNone The data is not a file
 type FileTypeNone struct {
 	tdCommon
@@ -9425,6 +15173,16 @@ type FileTypeNone struct {
 // MessageType return the string telegram-type of FileTypeNone
 func (fileTypeNone *FileTypeNone) MessageType() string {
 	return "fileTypeNone"
+}
+
+// NewFileTypeNone creates a new FileTypeNone
+//
+func NewFileTypeNone() *FileTypeNone {
+	fileTypeNoneTemp := FileTypeNone{
+		tdCommon: tdCommon{Type: "fileTypeNone"},
+	}
+
+	return &fileTypeNoneTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9442,6 +15200,16 @@ func (fileTypeAnimation *FileTypeAnimation) MessageType() string {
 	return "fileTypeAnimation"
 }
 
+// NewFileTypeAnimation creates a new FileTypeAnimation
+//
+func NewFileTypeAnimation() *FileTypeAnimation {
+	fileTypeAnimationTemp := FileTypeAnimation{
+		tdCommon: tdCommon{Type: "fileTypeAnimation"},
+	}
+
+	return &fileTypeAnimationTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeAnimation *FileTypeAnimation) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeAnimationType
@@ -9455,6 +15223,16 @@ type FileTypeAudio struct {
 // MessageType return the string telegram-type of FileTypeAudio
 func (fileTypeAudio *FileTypeAudio) MessageType() string {
 	return "fileTypeAudio"
+}
+
+// NewFileTypeAudio creates a new FileTypeAudio
+//
+func NewFileTypeAudio() *FileTypeAudio {
+	fileTypeAudioTemp := FileTypeAudio{
+		tdCommon: tdCommon{Type: "fileTypeAudio"},
+	}
+
+	return &fileTypeAudioTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9472,6 +15250,16 @@ func (fileTypeDocument *FileTypeDocument) MessageType() string {
 	return "fileTypeDocument"
 }
 
+// NewFileTypeDocument creates a new FileTypeDocument
+//
+func NewFileTypeDocument() *FileTypeDocument {
+	fileTypeDocumentTemp := FileTypeDocument{
+		tdCommon: tdCommon{Type: "fileTypeDocument"},
+	}
+
+	return &fileTypeDocumentTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeDocument *FileTypeDocument) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeDocumentType
@@ -9485,6 +15273,16 @@ type FileTypePhoto struct {
 // MessageType return the string telegram-type of FileTypePhoto
 func (fileTypePhoto *FileTypePhoto) MessageType() string {
 	return "fileTypePhoto"
+}
+
+// NewFileTypePhoto creates a new FileTypePhoto
+//
+func NewFileTypePhoto() *FileTypePhoto {
+	fileTypePhotoTemp := FileTypePhoto{
+		tdCommon: tdCommon{Type: "fileTypePhoto"},
+	}
+
+	return &fileTypePhotoTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9502,6 +15300,16 @@ func (fileTypeProfilePhoto *FileTypeProfilePhoto) MessageType() string {
 	return "fileTypeProfilePhoto"
 }
 
+// NewFileTypeProfilePhoto creates a new FileTypeProfilePhoto
+//
+func NewFileTypeProfilePhoto() *FileTypeProfilePhoto {
+	fileTypeProfilePhotoTemp := FileTypeProfilePhoto{
+		tdCommon: tdCommon{Type: "fileTypeProfilePhoto"},
+	}
+
+	return &fileTypeProfilePhotoTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeProfilePhoto *FileTypeProfilePhoto) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeProfilePhotoType
@@ -9515,6 +15323,16 @@ type FileTypeSecret struct {
 // MessageType return the string telegram-type of FileTypeSecret
 func (fileTypeSecret *FileTypeSecret) MessageType() string {
 	return "fileTypeSecret"
+}
+
+// NewFileTypeSecret creates a new FileTypeSecret
+//
+func NewFileTypeSecret() *FileTypeSecret {
+	fileTypeSecretTemp := FileTypeSecret{
+		tdCommon: tdCommon{Type: "fileTypeSecret"},
+	}
+
+	return &fileTypeSecretTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9532,6 +15350,16 @@ func (fileTypeSticker *FileTypeSticker) MessageType() string {
 	return "fileTypeSticker"
 }
 
+// NewFileTypeSticker creates a new FileTypeSticker
+//
+func NewFileTypeSticker() *FileTypeSticker {
+	fileTypeStickerTemp := FileTypeSticker{
+		tdCommon: tdCommon{Type: "fileTypeSticker"},
+	}
+
+	return &fileTypeStickerTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeSticker *FileTypeSticker) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeStickerType
@@ -9545,6 +15373,16 @@ type FileTypeThumbnail struct {
 // MessageType return the string telegram-type of FileTypeThumbnail
 func (fileTypeThumbnail *FileTypeThumbnail) MessageType() string {
 	return "fileTypeThumbnail"
+}
+
+// NewFileTypeThumbnail creates a new FileTypeThumbnail
+//
+func NewFileTypeThumbnail() *FileTypeThumbnail {
+	fileTypeThumbnailTemp := FileTypeThumbnail{
+		tdCommon: tdCommon{Type: "fileTypeThumbnail"},
+	}
+
+	return &fileTypeThumbnailTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9562,6 +15400,16 @@ func (fileTypeUnknown *FileTypeUnknown) MessageType() string {
 	return "fileTypeUnknown"
 }
 
+// NewFileTypeUnknown creates a new FileTypeUnknown
+//
+func NewFileTypeUnknown() *FileTypeUnknown {
+	fileTypeUnknownTemp := FileTypeUnknown{
+		tdCommon: tdCommon{Type: "fileTypeUnknown"},
+	}
+
+	return &fileTypeUnknownTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeUnknown *FileTypeUnknown) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeUnknownType
@@ -9575,6 +15423,16 @@ type FileTypeVideo struct {
 // MessageType return the string telegram-type of FileTypeVideo
 func (fileTypeVideo *FileTypeVideo) MessageType() string {
 	return "fileTypeVideo"
+}
+
+// NewFileTypeVideo creates a new FileTypeVideo
+//
+func NewFileTypeVideo() *FileTypeVideo {
+	fileTypeVideoTemp := FileTypeVideo{
+		tdCommon: tdCommon{Type: "fileTypeVideo"},
+	}
+
+	return &fileTypeVideoTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9592,6 +15450,16 @@ func (fileTypeVideoNote *FileTypeVideoNote) MessageType() string {
 	return "fileTypeVideoNote"
 }
 
+// NewFileTypeVideoNote creates a new FileTypeVideoNote
+//
+func NewFileTypeVideoNote() *FileTypeVideoNote {
+	fileTypeVideoNoteTemp := FileTypeVideoNote{
+		tdCommon: tdCommon{Type: "fileTypeVideoNote"},
+	}
+
+	return &fileTypeVideoNoteTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeVideoNote *FileTypeVideoNote) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeVideoNoteType
@@ -9605,6 +15473,16 @@ type FileTypeVoiceNote struct {
 // MessageType return the string telegram-type of FileTypeVoiceNote
 func (fileTypeVoiceNote *FileTypeVoiceNote) MessageType() string {
 	return "fileTypeVoiceNote"
+}
+
+// NewFileTypeVoiceNote creates a new FileTypeVoiceNote
+//
+func NewFileTypeVoiceNote() *FileTypeVoiceNote {
+	fileTypeVoiceNoteTemp := FileTypeVoiceNote{
+		tdCommon: tdCommon{Type: "fileTypeVoiceNote"},
+	}
+
+	return &fileTypeVoiceNoteTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9622,6 +15500,16 @@ func (fileTypeWallpaper *FileTypeWallpaper) MessageType() string {
 	return "fileTypeWallpaper"
 }
 
+// NewFileTypeWallpaper creates a new FileTypeWallpaper
+//
+func NewFileTypeWallpaper() *FileTypeWallpaper {
+	fileTypeWallpaperTemp := FileTypeWallpaper{
+		tdCommon: tdCommon{Type: "fileTypeWallpaper"},
+	}
+
+	return &fileTypeWallpaperTemp
+}
+
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeWallpaper *FileTypeWallpaper) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeWallpaperType
@@ -9635,6 +15523,16 @@ type FileTypeSecretThumbnail struct {
 // MessageType return the string telegram-type of FileTypeSecretThumbnail
 func (fileTypeSecretThumbnail *FileTypeSecretThumbnail) MessageType() string {
 	return "fileTypeSecretThumbnail"
+}
+
+// NewFileTypeSecretThumbnail creates a new FileTypeSecretThumbnail
+//
+func NewFileTypeSecretThumbnail() *FileTypeSecretThumbnail {
+	fileTypeSecretThumbnailTemp := FileTypeSecretThumbnail{
+		tdCommon: tdCommon{Type: "fileTypeSecretThumbnail"},
+	}
+
+	return &fileTypeSecretThumbnailTemp
 }
 
 // GetFileTypeEnum return the enum type of this object
@@ -9653,6 +15551,22 @@ type StorageStatisticsByFileType struct {
 // MessageType return the string telegram-type of StorageStatisticsByFileType
 func (storageStatisticsByFileType *StorageStatisticsByFileType) MessageType() string {
 	return "storageStatisticsByFileType"
+}
+
+// NewStorageStatisticsByFileType creates a new StorageStatisticsByFileType
+//
+// @param fileType File type
+// @param size Total size of the files
+// @param count Total number of files
+func NewStorageStatisticsByFileType(fileType FileType, size int64, count int32) *StorageStatisticsByFileType {
+	storageStatisticsByFileTypeTemp := StorageStatisticsByFileType{
+		tdCommon: tdCommon{Type: "storageStatisticsByFileType"},
+		FileType: fileType,
+		Size:     size,
+		Count:    count,
+	}
+
+	return &storageStatisticsByFileTypeTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -9696,6 +15610,24 @@ func (storageStatisticsByChat *StorageStatisticsByChat) MessageType() string {
 	return "storageStatisticsByChat"
 }
 
+// NewStorageStatisticsByChat creates a new StorageStatisticsByChat
+//
+// @param chatID Chat identifier; 0 if none
+// @param size Total size of the files in the chat
+// @param count Total number of files in the chat
+// @param byFileType Statistics split by file types
+func NewStorageStatisticsByChat(chatID int64, size int64, count int32, byFileType []StorageStatisticsByFileType) *StorageStatisticsByChat {
+	storageStatisticsByChatTemp := StorageStatisticsByChat{
+		tdCommon:   tdCommon{Type: "storageStatisticsByChat"},
+		ChatID:     chatID,
+		Size:       size,
+		Count:      count,
+		ByFileType: byFileType,
+	}
+
+	return &storageStatisticsByChatTemp
+}
+
 // StorageStatistics Contains the exact storage usage statistics split by chats and file type
 type StorageStatistics struct {
 	tdCommon
@@ -9707,6 +15639,22 @@ type StorageStatistics struct {
 // MessageType return the string telegram-type of StorageStatistics
 func (storageStatistics *StorageStatistics) MessageType() string {
 	return "storageStatistics"
+}
+
+// NewStorageStatistics creates a new StorageStatistics
+//
+// @param size Total size of files
+// @param count Total number of files
+// @param byChat Statistics split by chats
+func NewStorageStatistics(size int64, count int32, byChat []StorageStatisticsByChat) *StorageStatistics {
+	storageStatisticsTemp := StorageStatistics{
+		tdCommon: tdCommon{Type: "storageStatistics"},
+		Size:     size,
+		Count:    count,
+		ByChat:   byChat,
+	}
+
+	return &storageStatisticsTemp
 }
 
 // StorageStatisticsFast Contains approximate storage usage statistics, excluding files of unknown file type
@@ -9722,6 +15670,22 @@ func (storageStatisticsFast *StorageStatisticsFast) MessageType() string {
 	return "storageStatisticsFast"
 }
 
+// NewStorageStatisticsFast creates a new StorageStatisticsFast
+//
+// @param filesSize Approximate total size of files
+// @param fileCount Approximate number of files
+// @param databaseSize Size of the database
+func NewStorageStatisticsFast(filesSize int64, fileCount int32, databaseSize int64) *StorageStatisticsFast {
+	storageStatisticsFastTemp := StorageStatisticsFast{
+		tdCommon:     tdCommon{Type: "storageStatisticsFast"},
+		FilesSize:    filesSize,
+		FileCount:    fileCount,
+		DatabaseSize: databaseSize,
+	}
+
+	return &storageStatisticsFastTemp
+}
+
 // NetworkTypeNone The network is not available
 type NetworkTypeNone struct {
 	tdCommon
@@ -9730,6 +15694,16 @@ type NetworkTypeNone struct {
 // MessageType return the string telegram-type of NetworkTypeNone
 func (networkTypeNone *NetworkTypeNone) MessageType() string {
 	return "networkTypeNone"
+}
+
+// NewNetworkTypeNone creates a new NetworkTypeNone
+//
+func NewNetworkTypeNone() *NetworkTypeNone {
+	networkTypeNoneTemp := NetworkTypeNone{
+		tdCommon: tdCommon{Type: "networkTypeNone"},
+	}
+
+	return &networkTypeNoneTemp
 }
 
 // GetNetworkTypeEnum return the enum type of this object
@@ -9747,6 +15721,16 @@ func (networkTypeMobile *NetworkTypeMobile) MessageType() string {
 	return "networkTypeMobile"
 }
 
+// NewNetworkTypeMobile creates a new NetworkTypeMobile
+//
+func NewNetworkTypeMobile() *NetworkTypeMobile {
+	networkTypeMobileTemp := NetworkTypeMobile{
+		tdCommon: tdCommon{Type: "networkTypeMobile"},
+	}
+
+	return &networkTypeMobileTemp
+}
+
 // GetNetworkTypeEnum return the enum type of this object
 func (networkTypeMobile *NetworkTypeMobile) GetNetworkTypeEnum() NetworkTypeEnum {
 	return NetworkTypeMobileType
@@ -9760,6 +15744,16 @@ type NetworkTypeMobileRoaming struct {
 // MessageType return the string telegram-type of NetworkTypeMobileRoaming
 func (networkTypeMobileRoaming *NetworkTypeMobileRoaming) MessageType() string {
 	return "networkTypeMobileRoaming"
+}
+
+// NewNetworkTypeMobileRoaming creates a new NetworkTypeMobileRoaming
+//
+func NewNetworkTypeMobileRoaming() *NetworkTypeMobileRoaming {
+	networkTypeMobileRoamingTemp := NetworkTypeMobileRoaming{
+		tdCommon: tdCommon{Type: "networkTypeMobileRoaming"},
+	}
+
+	return &networkTypeMobileRoamingTemp
 }
 
 // GetNetworkTypeEnum return the enum type of this object
@@ -9777,6 +15771,16 @@ func (networkTypeWiFi *NetworkTypeWiFi) MessageType() string {
 	return "networkTypeWiFi"
 }
 
+// NewNetworkTypeWiFi creates a new NetworkTypeWiFi
+//
+func NewNetworkTypeWiFi() *NetworkTypeWiFi {
+	networkTypeWiFiTemp := NetworkTypeWiFi{
+		tdCommon: tdCommon{Type: "networkTypeWiFi"},
+	}
+
+	return &networkTypeWiFiTemp
+}
+
 // GetNetworkTypeEnum return the enum type of this object
 func (networkTypeWiFi *NetworkTypeWiFi) GetNetworkTypeEnum() NetworkTypeEnum {
 	return NetworkTypeWiFiType
@@ -9790,6 +15794,16 @@ type NetworkTypeOther struct {
 // MessageType return the string telegram-type of NetworkTypeOther
 func (networkTypeOther *NetworkTypeOther) MessageType() string {
 	return "networkTypeOther"
+}
+
+// NewNetworkTypeOther creates a new NetworkTypeOther
+//
+func NewNetworkTypeOther() *NetworkTypeOther {
+	networkTypeOtherTemp := NetworkTypeOther{
+		tdCommon: tdCommon{Type: "networkTypeOther"},
+	}
+
+	return &networkTypeOtherTemp
 }
 
 // GetNetworkTypeEnum return the enum type of this object
@@ -9809,6 +15823,24 @@ type NetworkStatisticsEntryFile struct {
 // MessageType return the string telegram-type of NetworkStatisticsEntryFile
 func (networkStatisticsEntryFile *NetworkStatisticsEntryFile) MessageType() string {
 	return "networkStatisticsEntryFile"
+}
+
+// NewNetworkStatisticsEntryFile creates a new NetworkStatisticsEntryFile
+//
+// @param fileType Type of the file the data is part of
+// @param networkType Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
+// @param sentBytes Total number of bytes sent
+// @param receivedBytes Total number of bytes received
+func NewNetworkStatisticsEntryFile(fileType FileType, networkType NetworkType, sentBytes int64, receivedBytes int64) *NetworkStatisticsEntryFile {
+	networkStatisticsEntryFileTemp := NetworkStatisticsEntryFile{
+		tdCommon:      tdCommon{Type: "networkStatisticsEntryFile"},
+		FileType:      fileType,
+		NetworkType:   networkType,
+		SentBytes:     sentBytes,
+		ReceivedBytes: receivedBytes,
+	}
+
+	return &networkStatisticsEntryFileTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -9860,6 +15892,24 @@ func (networkStatisticsEntryCall *NetworkStatisticsEntryCall) MessageType() stri
 	return "networkStatisticsEntryCall"
 }
 
+// NewNetworkStatisticsEntryCall creates a new NetworkStatisticsEntryCall
+//
+// @param networkType Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
+// @param sentBytes Total number of bytes sent
+// @param receivedBytes Total number of bytes received
+// @param duration Total call duration, in seconds
+func NewNetworkStatisticsEntryCall(networkType NetworkType, sentBytes int64, receivedBytes int64, duration float64) *NetworkStatisticsEntryCall {
+	networkStatisticsEntryCallTemp := NetworkStatisticsEntryCall{
+		tdCommon:      tdCommon{Type: "networkStatisticsEntryCall"},
+		NetworkType:   networkType,
+		SentBytes:     sentBytes,
+		ReceivedBytes: receivedBytes,
+		Duration:      duration,
+	}
+
+	return &networkStatisticsEntryCallTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (networkStatisticsEntryCall *NetworkStatisticsEntryCall) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -9906,6 +15956,20 @@ func (networkStatistics *NetworkStatistics) MessageType() string {
 	return "networkStatistics"
 }
 
+// NewNetworkStatistics creates a new NetworkStatistics
+//
+// @param sinceDate Point in time (Unix timestamp) when the app began collecting statistics
+// @param entries Network statistics entries
+func NewNetworkStatistics(sinceDate int32, entries []NetworkStatisticsEntry) *NetworkStatistics {
+	networkStatisticsTemp := NetworkStatistics{
+		tdCommon:  tdCommon{Type: "networkStatistics"},
+		SinceDate: sinceDate,
+		Entries:   entries,
+	}
+
+	return &networkStatisticsTemp
+}
+
 // ConnectionStateWaitingForNetwork Currently waiting for the network to become available. Use SetNetworkType to change the available network type
 type ConnectionStateWaitingForNetwork struct {
 	tdCommon
@@ -9914,6 +15978,16 @@ type ConnectionStateWaitingForNetwork struct {
 // MessageType return the string telegram-type of ConnectionStateWaitingForNetwork
 func (connectionStateWaitingForNetwork *ConnectionStateWaitingForNetwork) MessageType() string {
 	return "connectionStateWaitingForNetwork"
+}
+
+// NewConnectionStateWaitingForNetwork creates a new ConnectionStateWaitingForNetwork
+//
+func NewConnectionStateWaitingForNetwork() *ConnectionStateWaitingForNetwork {
+	connectionStateWaitingForNetworkTemp := ConnectionStateWaitingForNetwork{
+		tdCommon: tdCommon{Type: "connectionStateWaitingForNetwork"},
+	}
+
+	return &connectionStateWaitingForNetworkTemp
 }
 
 // GetConnectionStateEnum return the enum type of this object
@@ -9931,6 +16005,16 @@ func (connectionStateConnectingToProxy *ConnectionStateConnectingToProxy) Messag
 	return "connectionStateConnectingToProxy"
 }
 
+// NewConnectionStateConnectingToProxy creates a new ConnectionStateConnectingToProxy
+//
+func NewConnectionStateConnectingToProxy() *ConnectionStateConnectingToProxy {
+	connectionStateConnectingToProxyTemp := ConnectionStateConnectingToProxy{
+		tdCommon: tdCommon{Type: "connectionStateConnectingToProxy"},
+	}
+
+	return &connectionStateConnectingToProxyTemp
+}
+
 // GetConnectionStateEnum return the enum type of this object
 func (connectionStateConnectingToProxy *ConnectionStateConnectingToProxy) GetConnectionStateEnum() ConnectionStateEnum {
 	return ConnectionStateConnectingToProxyType
@@ -9944,6 +16028,16 @@ type ConnectionStateConnecting struct {
 // MessageType return the string telegram-type of ConnectionStateConnecting
 func (connectionStateConnecting *ConnectionStateConnecting) MessageType() string {
 	return "connectionStateConnecting"
+}
+
+// NewConnectionStateConnecting creates a new ConnectionStateConnecting
+//
+func NewConnectionStateConnecting() *ConnectionStateConnecting {
+	connectionStateConnectingTemp := ConnectionStateConnecting{
+		tdCommon: tdCommon{Type: "connectionStateConnecting"},
+	}
+
+	return &connectionStateConnectingTemp
 }
 
 // GetConnectionStateEnum return the enum type of this object
@@ -9961,6 +16055,16 @@ func (connectionStateUpdating *ConnectionStateUpdating) MessageType() string {
 	return "connectionStateUpdating"
 }
 
+// NewConnectionStateUpdating creates a new ConnectionStateUpdating
+//
+func NewConnectionStateUpdating() *ConnectionStateUpdating {
+	connectionStateUpdatingTemp := ConnectionStateUpdating{
+		tdCommon: tdCommon{Type: "connectionStateUpdating"},
+	}
+
+	return &connectionStateUpdatingTemp
+}
+
 // GetConnectionStateEnum return the enum type of this object
 func (connectionStateUpdating *ConnectionStateUpdating) GetConnectionStateEnum() ConnectionStateEnum {
 	return ConnectionStateUpdatingType
@@ -9974,6 +16078,16 @@ type ConnectionStateReady struct {
 // MessageType return the string telegram-type of ConnectionStateReady
 func (connectionStateReady *ConnectionStateReady) MessageType() string {
 	return "connectionStateReady"
+}
+
+// NewConnectionStateReady creates a new ConnectionStateReady
+//
+func NewConnectionStateReady() *ConnectionStateReady {
+	connectionStateReadyTemp := ConnectionStateReady{
+		tdCommon: tdCommon{Type: "connectionStateReady"},
+	}
+
+	return &connectionStateReadyTemp
 }
 
 // GetConnectionStateEnum return the enum type of this object
@@ -9991,6 +16105,16 @@ func (topChatCategoryUsers *TopChatCategoryUsers) MessageType() string {
 	return "topChatCategoryUsers"
 }
 
+// NewTopChatCategoryUsers creates a new TopChatCategoryUsers
+//
+func NewTopChatCategoryUsers() *TopChatCategoryUsers {
+	topChatCategoryUsersTemp := TopChatCategoryUsers{
+		tdCommon: tdCommon{Type: "topChatCategoryUsers"},
+	}
+
+	return &topChatCategoryUsersTemp
+}
+
 // GetTopChatCategoryEnum return the enum type of this object
 func (topChatCategoryUsers *TopChatCategoryUsers) GetTopChatCategoryEnum() TopChatCategoryEnum {
 	return TopChatCategoryUsersType
@@ -10004,6 +16128,16 @@ type TopChatCategoryBots struct {
 // MessageType return the string telegram-type of TopChatCategoryBots
 func (topChatCategoryBots *TopChatCategoryBots) MessageType() string {
 	return "topChatCategoryBots"
+}
+
+// NewTopChatCategoryBots creates a new TopChatCategoryBots
+//
+func NewTopChatCategoryBots() *TopChatCategoryBots {
+	topChatCategoryBotsTemp := TopChatCategoryBots{
+		tdCommon: tdCommon{Type: "topChatCategoryBots"},
+	}
+
+	return &topChatCategoryBotsTemp
 }
 
 // GetTopChatCategoryEnum return the enum type of this object
@@ -10021,6 +16155,16 @@ func (topChatCategoryGroups *TopChatCategoryGroups) MessageType() string {
 	return "topChatCategoryGroups"
 }
 
+// NewTopChatCategoryGroups creates a new TopChatCategoryGroups
+//
+func NewTopChatCategoryGroups() *TopChatCategoryGroups {
+	topChatCategoryGroupsTemp := TopChatCategoryGroups{
+		tdCommon: tdCommon{Type: "topChatCategoryGroups"},
+	}
+
+	return &topChatCategoryGroupsTemp
+}
+
 // GetTopChatCategoryEnum return the enum type of this object
 func (topChatCategoryGroups *TopChatCategoryGroups) GetTopChatCategoryEnum() TopChatCategoryEnum {
 	return TopChatCategoryGroupsType
@@ -10034,6 +16178,16 @@ type TopChatCategoryChannels struct {
 // MessageType return the string telegram-type of TopChatCategoryChannels
 func (topChatCategoryChannels *TopChatCategoryChannels) MessageType() string {
 	return "topChatCategoryChannels"
+}
+
+// NewTopChatCategoryChannels creates a new TopChatCategoryChannels
+//
+func NewTopChatCategoryChannels() *TopChatCategoryChannels {
+	topChatCategoryChannelsTemp := TopChatCategoryChannels{
+		tdCommon: tdCommon{Type: "topChatCategoryChannels"},
+	}
+
+	return &topChatCategoryChannelsTemp
 }
 
 // GetTopChatCategoryEnum return the enum type of this object
@@ -10051,6 +16205,16 @@ func (topChatCategoryInlineBots *TopChatCategoryInlineBots) MessageType() string
 	return "topChatCategoryInlineBots"
 }
 
+// NewTopChatCategoryInlineBots creates a new TopChatCategoryInlineBots
+//
+func NewTopChatCategoryInlineBots() *TopChatCategoryInlineBots {
+	topChatCategoryInlineBotsTemp := TopChatCategoryInlineBots{
+		tdCommon: tdCommon{Type: "topChatCategoryInlineBots"},
+	}
+
+	return &topChatCategoryInlineBotsTemp
+}
+
 // GetTopChatCategoryEnum return the enum type of this object
 func (topChatCategoryInlineBots *TopChatCategoryInlineBots) GetTopChatCategoryEnum() TopChatCategoryEnum {
 	return TopChatCategoryInlineBotsType
@@ -10064,6 +16228,16 @@ type TopChatCategoryCalls struct {
 // MessageType return the string telegram-type of TopChatCategoryCalls
 func (topChatCategoryCalls *TopChatCategoryCalls) MessageType() string {
 	return "topChatCategoryCalls"
+}
+
+// NewTopChatCategoryCalls creates a new TopChatCategoryCalls
+//
+func NewTopChatCategoryCalls() *TopChatCategoryCalls {
+	topChatCategoryCallsTemp := TopChatCategoryCalls{
+		tdCommon: tdCommon{Type: "topChatCategoryCalls"},
+	}
+
+	return &topChatCategoryCallsTemp
 }
 
 // GetTopChatCategoryEnum return the enum type of this object
@@ -10082,6 +16256,18 @@ func (tMeURLTypeUser *TMeURLTypeUser) MessageType() string {
 	return "tMeUrlTypeUser"
 }
 
+// NewTMeURLTypeUser creates a new TMeURLTypeUser
+//
+// @param userID Identifier of the user
+func NewTMeURLTypeUser(userID int32) *TMeURLTypeUser {
+	tMeURLTypeUserTemp := TMeURLTypeUser{
+		tdCommon: tdCommon{Type: "tMeUrlTypeUser"},
+		UserID:   userID,
+	}
+
+	return &tMeURLTypeUserTemp
+}
+
 // GetTMeURLTypeEnum return the enum type of this object
 func (tMeURLTypeUser *TMeURLTypeUser) GetTMeURLTypeEnum() TMeURLTypeEnum {
 	return TMeURLTypeUserType
@@ -10096,6 +16282,18 @@ type TMeURLTypeSupergroup struct {
 // MessageType return the string telegram-type of TMeURLTypeSupergroup
 func (tMeURLTypeSupergroup *TMeURLTypeSupergroup) MessageType() string {
 	return "tMeUrlTypeSupergroup"
+}
+
+// NewTMeURLTypeSupergroup creates a new TMeURLTypeSupergroup
+//
+// @param supergroupID Identifier of the supergroup or channel
+func NewTMeURLTypeSupergroup(supergroupID int64) *TMeURLTypeSupergroup {
+	tMeURLTypeSupergroupTemp := TMeURLTypeSupergroup{
+		tdCommon:     tdCommon{Type: "tMeUrlTypeSupergroup"},
+		SupergroupID: supergroupID,
+	}
+
+	return &tMeURLTypeSupergroupTemp
 }
 
 // GetTMeURLTypeEnum return the enum type of this object
@@ -10114,6 +16312,18 @@ func (tMeURLTypeChatInvite *TMeURLTypeChatInvite) MessageType() string {
 	return "tMeUrlTypeChatInvite"
 }
 
+// NewTMeURLTypeChatInvite creates a new TMeURLTypeChatInvite
+//
+// @param info Chat invite link info
+func NewTMeURLTypeChatInvite(info *ChatInviteLinkInfo) *TMeURLTypeChatInvite {
+	tMeURLTypeChatInviteTemp := TMeURLTypeChatInvite{
+		tdCommon: tdCommon{Type: "tMeUrlTypeChatInvite"},
+		Info:     *info,
+	}
+
+	return &tMeURLTypeChatInviteTemp
+}
+
 // GetTMeURLTypeEnum return the enum type of this object
 func (tMeURLTypeChatInvite *TMeURLTypeChatInvite) GetTMeURLTypeEnum() TMeURLTypeEnum {
 	return TMeURLTypeChatInviteType
@@ -10128,6 +16338,18 @@ type TMeURLTypeStickerSet struct {
 // MessageType return the string telegram-type of TMeURLTypeStickerSet
 func (tMeURLTypeStickerSet *TMeURLTypeStickerSet) MessageType() string {
 	return "tMeUrlTypeStickerSet"
+}
+
+// NewTMeURLTypeStickerSet creates a new TMeURLTypeStickerSet
+//
+// @param stickerSetID Identifier of the sticker set
+func NewTMeURLTypeStickerSet(stickerSetID JSONInt64) *TMeURLTypeStickerSet {
+	tMeURLTypeStickerSetTemp := TMeURLTypeStickerSet{
+		tdCommon:     tdCommon{Type: "tMeUrlTypeStickerSet"},
+		StickerSetID: stickerSetID,
+	}
+
+	return &tMeURLTypeStickerSetTemp
 }
 
 // GetTMeURLTypeEnum return the enum type of this object
@@ -10145,6 +16367,20 @@ type TMeURL struct {
 // MessageType return the string telegram-type of TMeURL
 func (tMeURL *TMeURL) MessageType() string {
 	return "tMeUrl"
+}
+
+// NewTMeURL creates a new TMeURL
+//
+// @param uRL URL
+// @param typeParam Type of the URL
+func NewTMeURL(uRL string, typeParam *TMeURLType) *TMeURL {
+	tMeURLTemp := TMeURL{
+		tdCommon: tdCommon{Type: "tMeUrl"},
+		URL:      uRL,
+		Type:     *typeParam,
+	}
+
+	return &tMeURLTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10184,6 +16420,18 @@ func (tMeURLs *TMeURLs) MessageType() string {
 	return "tMeUrls"
 }
 
+// NewTMeURLs creates a new TMeURLs
+//
+// @param uRLs List of URLs
+func NewTMeURLs(uRLs []TMeURL) *TMeURLs {
+	tMeURLsTemp := TMeURLs{
+		tdCommon: tdCommon{Type: "tMeUrls"},
+		URLs:     uRLs,
+	}
+
+	return &tMeURLsTemp
+}
+
 // Count Contains a counter
 type Count struct {
 	tdCommon
@@ -10193,6 +16441,18 @@ type Count struct {
 // MessageType return the string telegram-type of Count
 func (count *Count) MessageType() string {
 	return "count"
+}
+
+// NewCount creates a new Count
+//
+// @param count Count
+func NewCount(count int32) *Count {
+	countTemp := Count{
+		tdCommon: tdCommon{Type: "count"},
+		Count:    count,
+	}
+
+	return &countTemp
 }
 
 // Text Contains some text
@@ -10206,6 +16466,18 @@ func (text *Text) MessageType() string {
 	return "text"
 }
 
+// NewText creates a new Text
+//
+// @param text Text
+func NewText(text string) *Text {
+	textTemp := Text{
+		tdCommon: tdCommon{Type: "text"},
+		Text:     text,
+	}
+
+	return &textTemp
+}
+
 // TextParseModeMarkdown The text should be parsed in markdown-style
 type TextParseModeMarkdown struct {
 	tdCommon
@@ -10214,6 +16486,16 @@ type TextParseModeMarkdown struct {
 // MessageType return the string telegram-type of TextParseModeMarkdown
 func (textParseModeMarkdown *TextParseModeMarkdown) MessageType() string {
 	return "textParseModeMarkdown"
+}
+
+// NewTextParseModeMarkdown creates a new TextParseModeMarkdown
+//
+func NewTextParseModeMarkdown() *TextParseModeMarkdown {
+	textParseModeMarkdownTemp := TextParseModeMarkdown{
+		tdCommon: tdCommon{Type: "textParseModeMarkdown"},
+	}
+
+	return &textParseModeMarkdownTemp
 }
 
 // GetTextParseModeEnum return the enum type of this object
@@ -10231,6 +16513,16 @@ func (textParseModeHTML *TextParseModeHTML) MessageType() string {
 	return "textParseModeHTML"
 }
 
+// NewTextParseModeHTML creates a new TextParseModeHTML
+//
+func NewTextParseModeHTML() *TextParseModeHTML {
+	textParseModeHTMLTemp := TextParseModeHTML{
+		tdCommon: tdCommon{Type: "textParseModeHTML"},
+	}
+
+	return &textParseModeHTMLTemp
+}
+
 // GetTextParseModeEnum return the enum type of this object
 func (textParseModeHTML *TextParseModeHTML) GetTextParseModeEnum() TextParseModeEnum {
 	return TextParseModeHTMLType
@@ -10244,6 +16536,16 @@ type ProxyEmpty struct {
 // MessageType return the string telegram-type of ProxyEmpty
 func (proxyEmpty *ProxyEmpty) MessageType() string {
 	return "proxyEmpty"
+}
+
+// NewProxyEmpty creates a new ProxyEmpty
+//
+func NewProxyEmpty() *ProxyEmpty {
+	proxyEmptyTemp := ProxyEmpty{
+		tdCommon: tdCommon{Type: "proxyEmpty"},
+	}
+
+	return &proxyEmptyTemp
 }
 
 // GetProxyEnum return the enum type of this object
@@ -10265,6 +16567,24 @@ func (proxySocks5 *ProxySocks5) MessageType() string {
 	return "proxySocks5"
 }
 
+// NewProxySocks5 creates a new ProxySocks5
+//
+// @param server Proxy server IP address
+// @param port Proxy server port
+// @param username Username for logging in
+// @param password Password for logging in
+func NewProxySocks5(server string, port int32, username string, password string) *ProxySocks5 {
+	proxySocks5Temp := ProxySocks5{
+		tdCommon: tdCommon{Type: "proxySocks5"},
+		Server:   server,
+		Port:     port,
+		Username: username,
+		Password: password,
+	}
+
+	return &proxySocks5Temp
+}
+
 // GetProxyEnum return the enum type of this object
 func (proxySocks5 *ProxySocks5) GetProxyEnum() ProxyEnum {
 	return ProxySocks5Type
@@ -10281,6 +16601,22 @@ type InputSticker struct {
 // MessageType return the string telegram-type of InputSticker
 func (inputSticker *InputSticker) MessageType() string {
 	return "inputSticker"
+}
+
+// NewInputSticker creates a new InputSticker
+//
+// @param pngSticker PNG image with the sticker; must be up to 512 kB in size and fit in a 512x512 square
+// @param emojis Emoji corresponding to the sticker
+// @param maskPosition For masks, position where the mask should be placed; may be null
+func NewInputSticker(pngSticker InputFile, emojis string, maskPosition *MaskPosition) *InputSticker {
+	inputStickerTemp := InputSticker{
+		tdCommon:     tdCommon{Type: "inputSticker"},
+		PngSticker:   pngSticker,
+		Emojis:       emojis,
+		MaskPosition: *maskPosition,
+	}
+
+	return &inputStickerTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10319,6 +16655,18 @@ type UpdateAuthorizationState struct {
 // MessageType return the string telegram-type of UpdateAuthorizationState
 func (updateAuthorizationState *UpdateAuthorizationState) MessageType() string {
 	return "updateAuthorizationState"
+}
+
+// NewUpdateAuthorizationState creates a new UpdateAuthorizationState
+//
+// @param authorizationState New authorization state
+func NewUpdateAuthorizationState(authorizationState AuthorizationState) *UpdateAuthorizationState {
+	updateAuthorizationStateTemp := UpdateAuthorizationState{
+		tdCommon:           tdCommon{Type: "updateAuthorizationState"},
+		AuthorizationState: authorizationState,
+	}
+
+	return &updateAuthorizationStateTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10362,6 +16710,22 @@ func (updateNewMessage *UpdateNewMessage) MessageType() string {
 	return "updateNewMessage"
 }
 
+// NewUpdateNewMessage creates a new UpdateNewMessage
+//
+// @param message The new message
+// @param disableNotification True, if this message must not generate a notification
+// @param containsMention True, if the message contains a mention of the current user
+func NewUpdateNewMessage(message *Message, disableNotification bool, containsMention bool) *UpdateNewMessage {
+	updateNewMessageTemp := UpdateNewMessage{
+		tdCommon:            tdCommon{Type: "updateNewMessage"},
+		Message:             *message,
+		DisableNotification: disableNotification,
+		ContainsMention:     containsMention,
+	}
+
+	return &updateNewMessageTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateNewMessage *UpdateNewMessage) GetUpdateEnum() UpdateEnum {
 	return UpdateNewMessageType
@@ -10379,6 +16743,20 @@ func (updateMessageSendAcknowledged *UpdateMessageSendAcknowledged) MessageType(
 	return "updateMessageSendAcknowledged"
 }
 
+// NewUpdateMessageSendAcknowledged creates a new UpdateMessageSendAcknowledged
+//
+// @param chatID The chat identifier of the sent message
+// @param messageID A temporary message identifier
+func NewUpdateMessageSendAcknowledged(chatID int64, messageID int64) *UpdateMessageSendAcknowledged {
+	updateMessageSendAcknowledgedTemp := UpdateMessageSendAcknowledged{
+		tdCommon:  tdCommon{Type: "updateMessageSendAcknowledged"},
+		ChatID:    chatID,
+		MessageID: messageID,
+	}
+
+	return &updateMessageSendAcknowledgedTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateMessageSendAcknowledged *UpdateMessageSendAcknowledged) GetUpdateEnum() UpdateEnum {
 	return UpdateMessageSendAcknowledgedType
@@ -10394,6 +16772,20 @@ type UpdateMessageSendSucceeded struct {
 // MessageType return the string telegram-type of UpdateMessageSendSucceeded
 func (updateMessageSendSucceeded *UpdateMessageSendSucceeded) MessageType() string {
 	return "updateMessageSendSucceeded"
+}
+
+// NewUpdateMessageSendSucceeded creates a new UpdateMessageSendSucceeded
+//
+// @param message Information about the sent message. Usually only the message identifier, date, and content are changed, but almost all other fields can also change
+// @param oldMessageID The previous temporary message identifier
+func NewUpdateMessageSendSucceeded(message *Message, oldMessageID int64) *UpdateMessageSendSucceeded {
+	updateMessageSendSucceededTemp := UpdateMessageSendSucceeded{
+		tdCommon:     tdCommon{Type: "updateMessageSendSucceeded"},
+		Message:      *message,
+		OldMessageID: oldMessageID,
+	}
+
+	return &updateMessageSendSucceededTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10415,6 +16807,24 @@ func (updateMessageSendFailed *UpdateMessageSendFailed) MessageType() string {
 	return "updateMessageSendFailed"
 }
 
+// NewUpdateMessageSendFailed creates a new UpdateMessageSendFailed
+//
+// @param message Contains information about the message that failed to send
+// @param oldMessageID The previous temporary message identifier
+// @param errorCode An error code
+// @param errorMessage Error message
+func NewUpdateMessageSendFailed(message *Message, oldMessageID int64, errorCode int32, errorMessage string) *UpdateMessageSendFailed {
+	updateMessageSendFailedTemp := UpdateMessageSendFailed{
+		tdCommon:     tdCommon{Type: "updateMessageSendFailed"},
+		Message:      *message,
+		OldMessageID: oldMessageID,
+		ErrorCode:    errorCode,
+		ErrorMessage: errorMessage,
+	}
+
+	return &updateMessageSendFailedTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateMessageSendFailed *UpdateMessageSendFailed) GetUpdateEnum() UpdateEnum {
 	return UpdateMessageSendFailedType
@@ -10431,6 +16841,22 @@ type UpdateMessageContent struct {
 // MessageType return the string telegram-type of UpdateMessageContent
 func (updateMessageContent *UpdateMessageContent) MessageType() string {
 	return "updateMessageContent"
+}
+
+// NewUpdateMessageContent creates a new UpdateMessageContent
+//
+// @param chatID Chat identifier
+// @param messageID Message identifier
+// @param newContent New message content
+func NewUpdateMessageContent(chatID int64, messageID int64, newContent MessageContent) *UpdateMessageContent {
+	updateMessageContentTemp := UpdateMessageContent{
+		tdCommon:   tdCommon{Type: "updateMessageContent"},
+		ChatID:     chatID,
+		MessageID:  messageID,
+		NewContent: newContent,
+	}
+
+	return &updateMessageContentTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10478,6 +16904,24 @@ type UpdateMessageEdited struct {
 // MessageType return the string telegram-type of UpdateMessageEdited
 func (updateMessageEdited *UpdateMessageEdited) MessageType() string {
 	return "updateMessageEdited"
+}
+
+// NewUpdateMessageEdited creates a new UpdateMessageEdited
+//
+// @param chatID Chat identifier
+// @param messageID Message identifier
+// @param editDate Point in time (Unix timestamp) when the message was edited
+// @param replyMarkup New message reply markup; may be null
+func NewUpdateMessageEdited(chatID int64, messageID int64, editDate int32, replyMarkup ReplyMarkup) *UpdateMessageEdited {
+	updateMessageEditedTemp := UpdateMessageEdited{
+		tdCommon:    tdCommon{Type: "updateMessageEdited"},
+		ChatID:      chatID,
+		MessageID:   messageID,
+		EditDate:    editDate,
+		ReplyMarkup: replyMarkup,
+	}
+
+	return &updateMessageEditedTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10528,6 +16972,22 @@ func (updateMessageViews *UpdateMessageViews) MessageType() string {
 	return "updateMessageViews"
 }
 
+// NewUpdateMessageViews creates a new UpdateMessageViews
+//
+// @param chatID Chat identifier
+// @param messageID Message identifier
+// @param views New value of the view count
+func NewUpdateMessageViews(chatID int64, messageID int64, views int32) *UpdateMessageViews {
+	updateMessageViewsTemp := UpdateMessageViews{
+		tdCommon:  tdCommon{Type: "updateMessageViews"},
+		ChatID:    chatID,
+		MessageID: messageID,
+		Views:     views,
+	}
+
+	return &updateMessageViewsTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateMessageViews *UpdateMessageViews) GetUpdateEnum() UpdateEnum {
 	return UpdateMessageViewsType
@@ -10543,6 +17003,20 @@ type UpdateMessageContentOpened struct {
 // MessageType return the string telegram-type of UpdateMessageContentOpened
 func (updateMessageContentOpened *UpdateMessageContentOpened) MessageType() string {
 	return "updateMessageContentOpened"
+}
+
+// NewUpdateMessageContentOpened creates a new UpdateMessageContentOpened
+//
+// @param chatID Chat identifier
+// @param messageID Message identifier
+func NewUpdateMessageContentOpened(chatID int64, messageID int64) *UpdateMessageContentOpened {
+	updateMessageContentOpenedTemp := UpdateMessageContentOpened{
+		tdCommon:  tdCommon{Type: "updateMessageContentOpened"},
+		ChatID:    chatID,
+		MessageID: messageID,
+	}
+
+	return &updateMessageContentOpenedTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10563,6 +17037,22 @@ func (updateMessageMentionRead *UpdateMessageMentionRead) MessageType() string {
 	return "updateMessageMentionRead"
 }
 
+// NewUpdateMessageMentionRead creates a new UpdateMessageMentionRead
+//
+// @param chatID Chat identifier
+// @param messageID Message identifier
+// @param unreadMentionCount The new number of unread mention messages left in the chat
+func NewUpdateMessageMentionRead(chatID int64, messageID int64, unreadMentionCount int32) *UpdateMessageMentionRead {
+	updateMessageMentionReadTemp := UpdateMessageMentionRead{
+		tdCommon:           tdCommon{Type: "updateMessageMentionRead"},
+		ChatID:             chatID,
+		MessageID:          messageID,
+		UnreadMentionCount: unreadMentionCount,
+	}
+
+	return &updateMessageMentionReadTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateMessageMentionRead *UpdateMessageMentionRead) GetUpdateEnum() UpdateEnum {
 	return UpdateMessageMentionReadType
@@ -10577,6 +17067,18 @@ type UpdateNewChat struct {
 // MessageType return the string telegram-type of UpdateNewChat
 func (updateNewChat *UpdateNewChat) MessageType() string {
 	return "updateNewChat"
+}
+
+// NewUpdateNewChat creates a new UpdateNewChat
+//
+// @param chat The chat
+func NewUpdateNewChat(chat *Chat) *UpdateNewChat {
+	updateNewChatTemp := UpdateNewChat{
+		tdCommon: tdCommon{Type: "updateNewChat"},
+		Chat:     *chat,
+	}
+
+	return &updateNewChatTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10596,6 +17098,20 @@ func (updateChatTitle *UpdateChatTitle) MessageType() string {
 	return "updateChatTitle"
 }
 
+// NewUpdateChatTitle creates a new UpdateChatTitle
+//
+// @param chatID Chat identifier
+// @param title The new chat title
+func NewUpdateChatTitle(chatID int64, title string) *UpdateChatTitle {
+	updateChatTitleTemp := UpdateChatTitle{
+		tdCommon: tdCommon{Type: "updateChatTitle"},
+		ChatID:   chatID,
+		Title:    title,
+	}
+
+	return &updateChatTitleTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateChatTitle *UpdateChatTitle) GetUpdateEnum() UpdateEnum {
 	return UpdateChatTitleType
@@ -10611,6 +17127,20 @@ type UpdateChatPhoto struct {
 // MessageType return the string telegram-type of UpdateChatPhoto
 func (updateChatPhoto *UpdateChatPhoto) MessageType() string {
 	return "updateChatPhoto"
+}
+
+// NewUpdateChatPhoto creates a new UpdateChatPhoto
+//
+// @param chatID Chat identifier
+// @param photo The new chat photo; may be null
+func NewUpdateChatPhoto(chatID int64, photo *ChatPhoto) *UpdateChatPhoto {
+	updateChatPhotoTemp := UpdateChatPhoto{
+		tdCommon: tdCommon{Type: "updateChatPhoto"},
+		ChatID:   chatID,
+		Photo:    *photo,
+	}
+
+	return &updateChatPhotoTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10631,6 +17161,22 @@ func (updateChatLastMessage *UpdateChatLastMessage) MessageType() string {
 	return "updateChatLastMessage"
 }
 
+// NewUpdateChatLastMessage creates a new UpdateChatLastMessage
+//
+// @param chatID Chat identifier
+// @param lastMessage The new last message in the chat; may be null
+// @param order New value of the chat order
+func NewUpdateChatLastMessage(chatID int64, lastMessage *Message, order JSONInt64) *UpdateChatLastMessage {
+	updateChatLastMessageTemp := UpdateChatLastMessage{
+		tdCommon:    tdCommon{Type: "updateChatLastMessage"},
+		ChatID:      chatID,
+		LastMessage: *lastMessage,
+		Order:       order,
+	}
+
+	return &updateChatLastMessageTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateChatLastMessage *UpdateChatLastMessage) GetUpdateEnum() UpdateEnum {
 	return UpdateChatLastMessageType
@@ -10646,6 +17192,20 @@ type UpdateChatOrder struct {
 // MessageType return the string telegram-type of UpdateChatOrder
 func (updateChatOrder *UpdateChatOrder) MessageType() string {
 	return "updateChatOrder"
+}
+
+// NewUpdateChatOrder creates a new UpdateChatOrder
+//
+// @param chatID Chat identifier
+// @param order New value of the order
+func NewUpdateChatOrder(chatID int64, order JSONInt64) *UpdateChatOrder {
+	updateChatOrderTemp := UpdateChatOrder{
+		tdCommon: tdCommon{Type: "updateChatOrder"},
+		ChatID:   chatID,
+		Order:    order,
+	}
+
+	return &updateChatOrderTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10666,6 +17226,22 @@ func (updateChatIsPinned *UpdateChatIsPinned) MessageType() string {
 	return "updateChatIsPinned"
 }
 
+// NewUpdateChatIsPinned creates a new UpdateChatIsPinned
+//
+// @param chatID Chat identifier
+// @param isPinned New value of is_pinned
+// @param order New value of the chat order
+func NewUpdateChatIsPinned(chatID int64, isPinned bool, order JSONInt64) *UpdateChatIsPinned {
+	updateChatIsPinnedTemp := UpdateChatIsPinned{
+		tdCommon: tdCommon{Type: "updateChatIsPinned"},
+		ChatID:   chatID,
+		IsPinned: isPinned,
+		Order:    order,
+	}
+
+	return &updateChatIsPinnedTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateChatIsPinned *UpdateChatIsPinned) GetUpdateEnum() UpdateEnum {
 	return UpdateChatIsPinnedType
@@ -10682,6 +17258,22 @@ type UpdateChatReadInbox struct {
 // MessageType return the string telegram-type of UpdateChatReadInbox
 func (updateChatReadInbox *UpdateChatReadInbox) MessageType() string {
 	return "updateChatReadInbox"
+}
+
+// NewUpdateChatReadInbox creates a new UpdateChatReadInbox
+//
+// @param chatID Chat identifier
+// @param lastReadInboxMessageID Identifier of the last read incoming message
+// @param unreadCount The number of unread messages left in the chat
+func NewUpdateChatReadInbox(chatID int64, lastReadInboxMessageID int64, unreadCount int32) *UpdateChatReadInbox {
+	updateChatReadInboxTemp := UpdateChatReadInbox{
+		tdCommon:               tdCommon{Type: "updateChatReadInbox"},
+		ChatID:                 chatID,
+		LastReadInboxMessageID: lastReadInboxMessageID,
+		UnreadCount:            unreadCount,
+	}
+
+	return &updateChatReadInboxTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10701,6 +17293,20 @@ func (updateChatReadOutbox *UpdateChatReadOutbox) MessageType() string {
 	return "updateChatReadOutbox"
 }
 
+// NewUpdateChatReadOutbox creates a new UpdateChatReadOutbox
+//
+// @param chatID Chat identifier
+// @param lastReadOutboxMessageID Identifier of last read outgoing message
+func NewUpdateChatReadOutbox(chatID int64, lastReadOutboxMessageID int64) *UpdateChatReadOutbox {
+	updateChatReadOutboxTemp := UpdateChatReadOutbox{
+		tdCommon:                tdCommon{Type: "updateChatReadOutbox"},
+		ChatID:                  chatID,
+		LastReadOutboxMessageID: lastReadOutboxMessageID,
+	}
+
+	return &updateChatReadOutboxTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateChatReadOutbox *UpdateChatReadOutbox) GetUpdateEnum() UpdateEnum {
 	return UpdateChatReadOutboxType
@@ -10718,6 +17324,20 @@ func (updateChatUnreadMentionCount *UpdateChatUnreadMentionCount) MessageType() 
 	return "updateChatUnreadMentionCount"
 }
 
+// NewUpdateChatUnreadMentionCount creates a new UpdateChatUnreadMentionCount
+//
+// @param chatID Chat identifier
+// @param unreadMentionCount The number of unread mention messages left in the chat
+func NewUpdateChatUnreadMentionCount(chatID int64, unreadMentionCount int32) *UpdateChatUnreadMentionCount {
+	updateChatUnreadMentionCountTemp := UpdateChatUnreadMentionCount{
+		tdCommon:           tdCommon{Type: "updateChatUnreadMentionCount"},
+		ChatID:             chatID,
+		UnreadMentionCount: unreadMentionCount,
+	}
+
+	return &updateChatUnreadMentionCountTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateChatUnreadMentionCount *UpdateChatUnreadMentionCount) GetUpdateEnum() UpdateEnum {
 	return UpdateChatUnreadMentionCountType
@@ -10733,6 +17353,20 @@ type UpdateNotificationSettings struct {
 // MessageType return the string telegram-type of UpdateNotificationSettings
 func (updateNotificationSettings *UpdateNotificationSettings) MessageType() string {
 	return "updateNotificationSettings"
+}
+
+// NewUpdateNotificationSettings creates a new UpdateNotificationSettings
+//
+// @param scope Types of chats for which notification settings were updated
+// @param notificationSettings The new notification settings
+func NewUpdateNotificationSettings(scope NotificationSettingsScope, notificationSettings *NotificationSettings) *UpdateNotificationSettings {
+	updateNotificationSettingsTemp := UpdateNotificationSettings{
+		tdCommon:             tdCommon{Type: "updateNotificationSettings"},
+		Scope:                scope,
+		NotificationSettings: *notificationSettings,
+	}
+
+	return &updateNotificationSettingsTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10777,6 +17411,20 @@ func (updateChatReplyMarkup *UpdateChatReplyMarkup) MessageType() string {
 	return "updateChatReplyMarkup"
 }
 
+// NewUpdateChatReplyMarkup creates a new UpdateChatReplyMarkup
+//
+// @param chatID Chat identifier
+// @param replyMarkupMessageID Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
+func NewUpdateChatReplyMarkup(chatID int64, replyMarkupMessageID int64) *UpdateChatReplyMarkup {
+	updateChatReplyMarkupTemp := UpdateChatReplyMarkup{
+		tdCommon:             tdCommon{Type: "updateChatReplyMarkup"},
+		ChatID:               chatID,
+		ReplyMarkupMessageID: replyMarkupMessageID,
+	}
+
+	return &updateChatReplyMarkupTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateChatReplyMarkup *UpdateChatReplyMarkup) GetUpdateEnum() UpdateEnum {
 	return UpdateChatReplyMarkupType
@@ -10793,6 +17441,22 @@ type UpdateChatDraftMessage struct {
 // MessageType return the string telegram-type of UpdateChatDraftMessage
 func (updateChatDraftMessage *UpdateChatDraftMessage) MessageType() string {
 	return "updateChatDraftMessage"
+}
+
+// NewUpdateChatDraftMessage creates a new UpdateChatDraftMessage
+//
+// @param chatID Chat identifier
+// @param draftMessage The new draft message; may be null
+// @param order New value of the chat order
+func NewUpdateChatDraftMessage(chatID int64, draftMessage *DraftMessage, order JSONInt64) *UpdateChatDraftMessage {
+	updateChatDraftMessageTemp := UpdateChatDraftMessage{
+		tdCommon:     tdCommon{Type: "updateChatDraftMessage"},
+		ChatID:       chatID,
+		DraftMessage: *draftMessage,
+		Order:        order,
+	}
+
+	return &updateChatDraftMessageTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10814,6 +17478,24 @@ func (updateDeleteMessages *UpdateDeleteMessages) MessageType() string {
 	return "updateDeleteMessages"
 }
 
+// NewUpdateDeleteMessages creates a new UpdateDeleteMessages
+//
+// @param chatID Chat identifier
+// @param messageIDs Identifiers of the deleted messages
+// @param isPermanent True, if the messages are permanently deleted by a user (as opposed to just becoming unaccessible)
+// @param fromCache True, if the messages are deleted only from the cache and can possibly be retrieved again in the future
+func NewUpdateDeleteMessages(chatID int64, messageIDs []int64, isPermanent bool, fromCache bool) *UpdateDeleteMessages {
+	updateDeleteMessagesTemp := UpdateDeleteMessages{
+		tdCommon:    tdCommon{Type: "updateDeleteMessages"},
+		ChatID:      chatID,
+		MessageIDs:  messageIDs,
+		IsPermanent: isPermanent,
+		FromCache:   fromCache,
+	}
+
+	return &updateDeleteMessagesTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateDeleteMessages *UpdateDeleteMessages) GetUpdateEnum() UpdateEnum {
 	return UpdateDeleteMessagesType
@@ -10830,6 +17512,22 @@ type UpdateUserChatAction struct {
 // MessageType return the string telegram-type of UpdateUserChatAction
 func (updateUserChatAction *UpdateUserChatAction) MessageType() string {
 	return "updateUserChatAction"
+}
+
+// NewUpdateUserChatAction creates a new UpdateUserChatAction
+//
+// @param chatID Chat identifier
+// @param userID Identifier of a user performing an action
+// @param action The action description
+func NewUpdateUserChatAction(chatID int64, userID int32, action ChatAction) *UpdateUserChatAction {
+	updateUserChatActionTemp := UpdateUserChatAction{
+		tdCommon: tdCommon{Type: "updateUserChatAction"},
+		ChatID:   chatID,
+		UserID:   userID,
+		Action:   action,
+	}
+
+	return &updateUserChatActionTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -10877,6 +17575,20 @@ func (updateUserStatus *UpdateUserStatus) MessageType() string {
 	return "updateUserStatus"
 }
 
+// NewUpdateUserStatus creates a new UpdateUserStatus
+//
+// @param userID User identifier
+// @param status New status of the user
+func NewUpdateUserStatus(userID int32, status UserStatus) *UpdateUserStatus {
+	updateUserStatusTemp := UpdateUserStatus{
+		tdCommon: tdCommon{Type: "updateUserStatus"},
+		UserID:   userID,
+		Status:   status,
+	}
+
+	return &updateUserStatusTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (updateUserStatus *UpdateUserStatus) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -10919,6 +17631,18 @@ func (updateUser *UpdateUser) MessageType() string {
 	return "updateUser"
 }
 
+// NewUpdateUser creates a new UpdateUser
+//
+// @param user New data about the user
+func NewUpdateUser(user *User) *UpdateUser {
+	updateUserTemp := UpdateUser{
+		tdCommon: tdCommon{Type: "updateUser"},
+		User:     *user,
+	}
+
+	return &updateUserTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateUser *UpdateUser) GetUpdateEnum() UpdateEnum {
 	return UpdateUserType
@@ -10933,6 +17657,18 @@ type UpdateBasicGroup struct {
 // MessageType return the string telegram-type of UpdateBasicGroup
 func (updateBasicGroup *UpdateBasicGroup) MessageType() string {
 	return "updateBasicGroup"
+}
+
+// NewUpdateBasicGroup creates a new UpdateBasicGroup
+//
+// @param basicGroup New data about the group
+func NewUpdateBasicGroup(basicGroup *BasicGroup) *UpdateBasicGroup {
+	updateBasicGroupTemp := UpdateBasicGroup{
+		tdCommon:   tdCommon{Type: "updateBasicGroup"},
+		BasicGroup: *basicGroup,
+	}
+
+	return &updateBasicGroupTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10951,6 +17687,18 @@ func (updateSupergroup *UpdateSupergroup) MessageType() string {
 	return "updateSupergroup"
 }
 
+// NewUpdateSupergroup creates a new UpdateSupergroup
+//
+// @param supergroup New data about the supergroup
+func NewUpdateSupergroup(supergroup *Supergroup) *UpdateSupergroup {
+	updateSupergroupTemp := UpdateSupergroup{
+		tdCommon:   tdCommon{Type: "updateSupergroup"},
+		Supergroup: *supergroup,
+	}
+
+	return &updateSupergroupTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateSupergroup *UpdateSupergroup) GetUpdateEnum() UpdateEnum {
 	return UpdateSupergroupType
@@ -10965,6 +17713,18 @@ type UpdateSecretChat struct {
 // MessageType return the string telegram-type of UpdateSecretChat
 func (updateSecretChat *UpdateSecretChat) MessageType() string {
 	return "updateSecretChat"
+}
+
+// NewUpdateSecretChat creates a new UpdateSecretChat
+//
+// @param secretChat New data about the secret chat
+func NewUpdateSecretChat(secretChat *SecretChat) *UpdateSecretChat {
+	updateSecretChatTemp := UpdateSecretChat{
+		tdCommon:   tdCommon{Type: "updateSecretChat"},
+		SecretChat: *secretChat,
+	}
+
+	return &updateSecretChatTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -10984,6 +17744,20 @@ func (updateUserFullInfo *UpdateUserFullInfo) MessageType() string {
 	return "updateUserFullInfo"
 }
 
+// NewUpdateUserFullInfo creates a new UpdateUserFullInfo
+//
+// @param userID User identifier
+// @param userFullInfo New full information about the user
+func NewUpdateUserFullInfo(userID int32, userFullInfo *UserFullInfo) *UpdateUserFullInfo {
+	updateUserFullInfoTemp := UpdateUserFullInfo{
+		tdCommon:     tdCommon{Type: "updateUserFullInfo"},
+		UserID:       userID,
+		UserFullInfo: *userFullInfo,
+	}
+
+	return &updateUserFullInfoTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateUserFullInfo *UpdateUserFullInfo) GetUpdateEnum() UpdateEnum {
 	return UpdateUserFullInfoType
@@ -10999,6 +17773,20 @@ type UpdateBasicGroupFullInfo struct {
 // MessageType return the string telegram-type of UpdateBasicGroupFullInfo
 func (updateBasicGroupFullInfo *UpdateBasicGroupFullInfo) MessageType() string {
 	return "updateBasicGroupFullInfo"
+}
+
+// NewUpdateBasicGroupFullInfo creates a new UpdateBasicGroupFullInfo
+//
+// @param basicGroupID Identifier of a basic group
+// @param basicGroupFullInfo New full information about the group
+func NewUpdateBasicGroupFullInfo(basicGroupID int32, basicGroupFullInfo *BasicGroupFullInfo) *UpdateBasicGroupFullInfo {
+	updateBasicGroupFullInfoTemp := UpdateBasicGroupFullInfo{
+		tdCommon:           tdCommon{Type: "updateBasicGroupFullInfo"},
+		BasicGroupID:       basicGroupID,
+		BasicGroupFullInfo: *basicGroupFullInfo,
+	}
+
+	return &updateBasicGroupFullInfoTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -11018,6 +17806,20 @@ func (updateSupergroupFullInfo *UpdateSupergroupFullInfo) MessageType() string {
 	return "updateSupergroupFullInfo"
 }
 
+// NewUpdateSupergroupFullInfo creates a new UpdateSupergroupFullInfo
+//
+// @param supergroupID Identifier of the supergroup or channel
+// @param supergroupFullInfo New full information about the supergroup
+func NewUpdateSupergroupFullInfo(supergroupID int32, supergroupFullInfo *SupergroupFullInfo) *UpdateSupergroupFullInfo {
+	updateSupergroupFullInfoTemp := UpdateSupergroupFullInfo{
+		tdCommon:           tdCommon{Type: "updateSupergroupFullInfo"},
+		SupergroupID:       supergroupID,
+		SupergroupFullInfo: *supergroupFullInfo,
+	}
+
+	return &updateSupergroupFullInfoTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateSupergroupFullInfo *UpdateSupergroupFullInfo) GetUpdateEnum() UpdateEnum {
 	return UpdateSupergroupFullInfoType
@@ -11033,6 +17835,20 @@ type UpdateServiceNotification struct {
 // MessageType return the string telegram-type of UpdateServiceNotification
 func (updateServiceNotification *UpdateServiceNotification) MessageType() string {
 	return "updateServiceNotification"
+}
+
+// NewUpdateServiceNotification creates a new UpdateServiceNotification
+//
+// @param typeParam Notification type
+// @param content Notification content
+func NewUpdateServiceNotification(typeParam string, content MessageContent) *UpdateServiceNotification {
+	updateServiceNotificationTemp := UpdateServiceNotification{
+		tdCommon: tdCommon{Type: "updateServiceNotification"},
+		Type:     typeParam,
+		Content:  content,
+	}
+
+	return &updateServiceNotificationTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -11077,6 +17893,18 @@ func (updateFile *UpdateFile) MessageType() string {
 	return "updateFile"
 }
 
+// NewUpdateFile creates a new UpdateFile
+//
+// @param file New data about the file
+func NewUpdateFile(file *File) *UpdateFile {
+	updateFileTemp := UpdateFile{
+		tdCommon: tdCommon{Type: "updateFile"},
+		File:     *file,
+	}
+
+	return &updateFileTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateFile *UpdateFile) GetUpdateEnum() UpdateEnum {
 	return UpdateFileType
@@ -11096,6 +17924,24 @@ func (updateFileGenerationStart *UpdateFileGenerationStart) MessageType() string
 	return "updateFileGenerationStart"
 }
 
+// NewUpdateFileGenerationStart creates a new UpdateFileGenerationStart
+//
+// @param generationID Unique identifier for the generation process
+// @param originalPath The path to a file from which a new file is generated, may be empty
+// @param destinationPath The path to a file that should be created and where the new file should be generated
+// @param conversion String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains a HTTP/HTTPS URL of a file, which should be downloaded by the client
+func NewUpdateFileGenerationStart(generationID JSONInt64, originalPath string, destinationPath string, conversion string) *UpdateFileGenerationStart {
+	updateFileGenerationStartTemp := UpdateFileGenerationStart{
+		tdCommon:        tdCommon{Type: "updateFileGenerationStart"},
+		GenerationID:    generationID,
+		OriginalPath:    originalPath,
+		DestinationPath: destinationPath,
+		Conversion:      conversion,
+	}
+
+	return &updateFileGenerationStartTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateFileGenerationStart *UpdateFileGenerationStart) GetUpdateEnum() UpdateEnum {
 	return UpdateFileGenerationStartType
@@ -11110,6 +17956,18 @@ type UpdateFileGenerationStop struct {
 // MessageType return the string telegram-type of UpdateFileGenerationStop
 func (updateFileGenerationStop *UpdateFileGenerationStop) MessageType() string {
 	return "updateFileGenerationStop"
+}
+
+// NewUpdateFileGenerationStop creates a new UpdateFileGenerationStop
+//
+// @param generationID Unique identifier for the generation process
+func NewUpdateFileGenerationStop(generationID JSONInt64) *UpdateFileGenerationStop {
+	updateFileGenerationStopTemp := UpdateFileGenerationStop{
+		tdCommon:     tdCommon{Type: "updateFileGenerationStop"},
+		GenerationID: generationID,
+	}
+
+	return &updateFileGenerationStopTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -11128,6 +17986,18 @@ func (updateCall *UpdateCall) MessageType() string {
 	return "updateCall"
 }
 
+// NewUpdateCall creates a new UpdateCall
+//
+// @param call New data about a call
+func NewUpdateCall(call *Call) *UpdateCall {
+	updateCallTemp := UpdateCall{
+		tdCommon: tdCommon{Type: "updateCall"},
+		Call:     *call,
+	}
+
+	return &updateCallTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateCall *UpdateCall) GetUpdateEnum() UpdateEnum {
 	return UpdateCallType
@@ -11143,6 +18013,20 @@ type UpdateUserPrivacySettingRules struct {
 // MessageType return the string telegram-type of UpdateUserPrivacySettingRules
 func (updateUserPrivacySettingRules *UpdateUserPrivacySettingRules) MessageType() string {
 	return "updateUserPrivacySettingRules"
+}
+
+// NewUpdateUserPrivacySettingRules creates a new UpdateUserPrivacySettingRules
+//
+// @param setting The privacy setting
+// @param rules New privacy rules
+func NewUpdateUserPrivacySettingRules(setting UserPrivacySetting, rules *UserPrivacySettingRules) *UpdateUserPrivacySettingRules {
+	updateUserPrivacySettingRulesTemp := UpdateUserPrivacySettingRules{
+		tdCommon: tdCommon{Type: "updateUserPrivacySettingRules"},
+		Setting:  setting,
+		Rules:    *rules,
+	}
+
+	return &updateUserPrivacySettingRulesTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -11187,6 +18071,20 @@ func (updateUnreadMessageCount *UpdateUnreadMessageCount) MessageType() string {
 	return "updateUnreadMessageCount"
 }
 
+// NewUpdateUnreadMessageCount creates a new UpdateUnreadMessageCount
+//
+// @param unreadCount Total number of unread messages
+// @param unreadUnmutedCount Total number of unread messages in unmuted chats
+func NewUpdateUnreadMessageCount(unreadCount int32, unreadUnmutedCount int32) *UpdateUnreadMessageCount {
+	updateUnreadMessageCountTemp := UpdateUnreadMessageCount{
+		tdCommon:           tdCommon{Type: "updateUnreadMessageCount"},
+		UnreadCount:        unreadCount,
+		UnreadUnmutedCount: unreadUnmutedCount,
+	}
+
+	return &updateUnreadMessageCountTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateUnreadMessageCount *UpdateUnreadMessageCount) GetUpdateEnum() UpdateEnum {
 	return UpdateUnreadMessageCountType
@@ -11202,6 +18100,20 @@ type UpdateOption struct {
 // MessageType return the string telegram-type of UpdateOption
 func (updateOption *UpdateOption) MessageType() string {
 	return "updateOption"
+}
+
+// NewUpdateOption creates a new UpdateOption
+//
+// @param name The option name
+// @param value The new option value
+func NewUpdateOption(name string, value OptionValue) *UpdateOption {
+	updateOptionTemp := UpdateOption{
+		tdCommon: tdCommon{Type: "updateOption"},
+		Name:     name,
+		Value:    value,
+	}
+
+	return &updateOptionTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -11247,6 +18159,20 @@ func (updateInstalledStickerSets *UpdateInstalledStickerSets) MessageType() stri
 	return "updateInstalledStickerSets"
 }
 
+// NewUpdateInstalledStickerSets creates a new UpdateInstalledStickerSets
+//
+// @param isMasks True, if the list of installed mask sticker sets was updated
+// @param stickerSetIDs The new list of installed ordinary sticker sets
+func NewUpdateInstalledStickerSets(isMasks bool, stickerSetIDs []JSONInt64) *UpdateInstalledStickerSets {
+	updateInstalledStickerSetsTemp := UpdateInstalledStickerSets{
+		tdCommon:      tdCommon{Type: "updateInstalledStickerSets"},
+		IsMasks:       isMasks,
+		StickerSetIDs: stickerSetIDs,
+	}
+
+	return &updateInstalledStickerSetsTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateInstalledStickerSets *UpdateInstalledStickerSets) GetUpdateEnum() UpdateEnum {
 	return UpdateInstalledStickerSetsType
@@ -11261,6 +18187,18 @@ type UpdateTrendingStickerSets struct {
 // MessageType return the string telegram-type of UpdateTrendingStickerSets
 func (updateTrendingStickerSets *UpdateTrendingStickerSets) MessageType() string {
 	return "updateTrendingStickerSets"
+}
+
+// NewUpdateTrendingStickerSets creates a new UpdateTrendingStickerSets
+//
+// @param stickerSets The new list of trending sticker sets
+func NewUpdateTrendingStickerSets(stickerSets *StickerSets) *UpdateTrendingStickerSets {
+	updateTrendingStickerSetsTemp := UpdateTrendingStickerSets{
+		tdCommon:    tdCommon{Type: "updateTrendingStickerSets"},
+		StickerSets: *stickerSets,
+	}
+
+	return &updateTrendingStickerSetsTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -11280,6 +18218,20 @@ func (updateRecentStickers *UpdateRecentStickers) MessageType() string {
 	return "updateRecentStickers"
 }
 
+// NewUpdateRecentStickers creates a new UpdateRecentStickers
+//
+// @param isAttached True, if the list of stickers attached to photo or video files was updated, otherwise the list of sent stickers is updated
+// @param stickerIDs The new list of file identifiers of recently used stickers
+func NewUpdateRecentStickers(isAttached bool, stickerIDs []int32) *UpdateRecentStickers {
+	updateRecentStickersTemp := UpdateRecentStickers{
+		tdCommon:   tdCommon{Type: "updateRecentStickers"},
+		IsAttached: isAttached,
+		StickerIDs: stickerIDs,
+	}
+
+	return &updateRecentStickersTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateRecentStickers *UpdateRecentStickers) GetUpdateEnum() UpdateEnum {
 	return UpdateRecentStickersType
@@ -11294,6 +18246,18 @@ type UpdateFavoriteStickers struct {
 // MessageType return the string telegram-type of UpdateFavoriteStickers
 func (updateFavoriteStickers *UpdateFavoriteStickers) MessageType() string {
 	return "updateFavoriteStickers"
+}
+
+// NewUpdateFavoriteStickers creates a new UpdateFavoriteStickers
+//
+// @param stickerIDs The new list of file identifiers of favorite stickers
+func NewUpdateFavoriteStickers(stickerIDs []int32) *UpdateFavoriteStickers {
+	updateFavoriteStickersTemp := UpdateFavoriteStickers{
+		tdCommon:   tdCommon{Type: "updateFavoriteStickers"},
+		StickerIDs: stickerIDs,
+	}
+
+	return &updateFavoriteStickersTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -11312,6 +18276,18 @@ func (updateSavedAnimations *UpdateSavedAnimations) MessageType() string {
 	return "updateSavedAnimations"
 }
 
+// NewUpdateSavedAnimations creates a new UpdateSavedAnimations
+//
+// @param animationIDs The new list of file identifiers of saved animations
+func NewUpdateSavedAnimations(animationIDs []int32) *UpdateSavedAnimations {
+	updateSavedAnimationsTemp := UpdateSavedAnimations{
+		tdCommon:     tdCommon{Type: "updateSavedAnimations"},
+		AnimationIDs: animationIDs,
+	}
+
+	return &updateSavedAnimationsTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateSavedAnimations *UpdateSavedAnimations) GetUpdateEnum() UpdateEnum {
 	return UpdateSavedAnimationsType
@@ -11326,6 +18302,18 @@ type UpdateConnectionState struct {
 // MessageType return the string telegram-type of UpdateConnectionState
 func (updateConnectionState *UpdateConnectionState) MessageType() string {
 	return "updateConnectionState"
+}
+
+// NewUpdateConnectionState creates a new UpdateConnectionState
+//
+// @param state The new connection state
+func NewUpdateConnectionState(state ConnectionState) *UpdateConnectionState {
+	updateConnectionStateTemp := UpdateConnectionState{
+		tdCommon: tdCommon{Type: "updateConnectionState"},
+		State:    state,
+	}
+
+	return &updateConnectionStateTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -11371,6 +18359,26 @@ func (updateNewInlineQuery *UpdateNewInlineQuery) MessageType() string {
 	return "updateNewInlineQuery"
 }
 
+// NewUpdateNewInlineQuery creates a new UpdateNewInlineQuery
+//
+// @param iD Unique query identifier
+// @param senderUserID Identifier of the user who sent the query
+// @param userLocation User location, provided by the client; may be null
+// @param query Text of the query
+// @param offset Offset of the first entry to return
+func NewUpdateNewInlineQuery(iD JSONInt64, senderUserID int32, userLocation *Location, query string, offset string) *UpdateNewInlineQuery {
+	updateNewInlineQueryTemp := UpdateNewInlineQuery{
+		tdCommon:     tdCommon{Type: "updateNewInlineQuery"},
+		ID:           iD,
+		SenderUserID: senderUserID,
+		UserLocation: *userLocation,
+		Query:        query,
+		Offset:       offset,
+	}
+
+	return &updateNewInlineQueryTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateNewInlineQuery *UpdateNewInlineQuery) GetUpdateEnum() UpdateEnum {
 	return UpdateNewInlineQueryType
@@ -11389,6 +18397,26 @@ type UpdateNewChosenInlineResult struct {
 // MessageType return the string telegram-type of UpdateNewChosenInlineResult
 func (updateNewChosenInlineResult *UpdateNewChosenInlineResult) MessageType() string {
 	return "updateNewChosenInlineResult"
+}
+
+// NewUpdateNewChosenInlineResult creates a new UpdateNewChosenInlineResult
+//
+// @param senderUserID Identifier of the user who sent the query
+// @param userLocation User location, provided by the client; may be null
+// @param query Text of the query
+// @param resultID Identifier of the chosen result
+// @param inlineMessageID Identifier of the sent inline message, if known
+func NewUpdateNewChosenInlineResult(senderUserID int32, userLocation *Location, query string, resultID string, inlineMessageID string) *UpdateNewChosenInlineResult {
+	updateNewChosenInlineResultTemp := UpdateNewChosenInlineResult{
+		tdCommon:        tdCommon{Type: "updateNewChosenInlineResult"},
+		SenderUserID:    senderUserID,
+		UserLocation:    *userLocation,
+		Query:           query,
+		ResultID:        resultID,
+		InlineMessageID: inlineMessageID,
+	}
+
+	return &updateNewChosenInlineResultTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -11410,6 +18438,28 @@ type UpdateNewCallbackQuery struct {
 // MessageType return the string telegram-type of UpdateNewCallbackQuery
 func (updateNewCallbackQuery *UpdateNewCallbackQuery) MessageType() string {
 	return "updateNewCallbackQuery"
+}
+
+// NewUpdateNewCallbackQuery creates a new UpdateNewCallbackQuery
+//
+// @param iD Unique query identifier
+// @param senderUserID Identifier of the user who sent the query
+// @param chatID Identifier of the chat, in which the query was sent
+// @param messageID Identifier of the message, from which the query originated
+// @param chatInstance Identifier that uniquely corresponds to the chat to which the message was sent
+// @param payload Query payload
+func NewUpdateNewCallbackQuery(iD JSONInt64, senderUserID int32, chatID int64, messageID int64, chatInstance JSONInt64, payload CallbackQueryPayload) *UpdateNewCallbackQuery {
+	updateNewCallbackQueryTemp := UpdateNewCallbackQuery{
+		tdCommon:     tdCommon{Type: "updateNewCallbackQuery"},
+		ID:           iD,
+		SenderUserID: senderUserID,
+		ChatID:       chatID,
+		MessageID:    messageID,
+		ChatInstance: chatInstance,
+		Payload:      payload,
+	}
+
+	return &updateNewCallbackQueryTemp
 }
 
 // UnmarshalJSON unmarshal to json
@@ -11466,6 +18516,26 @@ func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) MessageType() 
 	return "updateNewInlineCallbackQuery"
 }
 
+// NewUpdateNewInlineCallbackQuery creates a new UpdateNewInlineCallbackQuery
+//
+// @param iD Unique query identifier
+// @param senderUserID Identifier of the user who sent the query
+// @param inlineMessageID Identifier of the inline message, from which the query originated
+// @param chatInstance An identifier uniquely corresponding to the chat a message was sent to
+// @param payload Query payload
+func NewUpdateNewInlineCallbackQuery(iD JSONInt64, senderUserID int32, inlineMessageID string, chatInstance JSONInt64, payload CallbackQueryPayload) *UpdateNewInlineCallbackQuery {
+	updateNewInlineCallbackQueryTemp := UpdateNewInlineCallbackQuery{
+		tdCommon:        tdCommon{Type: "updateNewInlineCallbackQuery"},
+		ID:              iD,
+		SenderUserID:    senderUserID,
+		InlineMessageID: inlineMessageID,
+		ChatInstance:    chatInstance,
+		Payload:         payload,
+	}
+
+	return &updateNewInlineCallbackQueryTemp
+}
+
 // UnmarshalJSON unmarshal to json
 func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
@@ -11517,6 +18587,24 @@ func (updateNewShippingQuery *UpdateNewShippingQuery) MessageType() string {
 	return "updateNewShippingQuery"
 }
 
+// NewUpdateNewShippingQuery creates a new UpdateNewShippingQuery
+//
+// @param iD Unique query identifier
+// @param senderUserID Identifier of the user who sent the query
+// @param invoicePayload Invoice payload
+// @param shippingAddress User shipping address
+func NewUpdateNewShippingQuery(iD JSONInt64, senderUserID int32, invoicePayload string, shippingAddress *ShippingAddress) *UpdateNewShippingQuery {
+	updateNewShippingQueryTemp := UpdateNewShippingQuery{
+		tdCommon:        tdCommon{Type: "updateNewShippingQuery"},
+		ID:              iD,
+		SenderUserID:    senderUserID,
+		InvoicePayload:  invoicePayload,
+		ShippingAddress: *shippingAddress,
+	}
+
+	return &updateNewShippingQueryTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateNewShippingQuery *UpdateNewShippingQuery) GetUpdateEnum() UpdateEnum {
 	return UpdateNewShippingQueryType
@@ -11539,6 +18627,30 @@ func (updateNewPreCheckoutQuery *UpdateNewPreCheckoutQuery) MessageType() string
 	return "updateNewPreCheckoutQuery"
 }
 
+// NewUpdateNewPreCheckoutQuery creates a new UpdateNewPreCheckoutQuery
+//
+// @param iD Unique query identifier
+// @param senderUserID Identifier of the user who sent the query
+// @param currency Currency for the product price
+// @param totalAmount Total price for the product, in the minimal quantity of the currency
+// @param invoicePayload Invoice payload
+// @param shippingOptionID Identifier of a shipping option chosen by the user; may be empty if not applicable
+// @param orderInfo Information about the order; may be null
+func NewUpdateNewPreCheckoutQuery(iD JSONInt64, senderUserID int32, currency string, totalAmount int64, invoicePayload []byte, shippingOptionID string, orderInfo *OrderInfo) *UpdateNewPreCheckoutQuery {
+	updateNewPreCheckoutQueryTemp := UpdateNewPreCheckoutQuery{
+		tdCommon:         tdCommon{Type: "updateNewPreCheckoutQuery"},
+		ID:               iD,
+		SenderUserID:     senderUserID,
+		Currency:         currency,
+		TotalAmount:      totalAmount,
+		InvoicePayload:   invoicePayload,
+		ShippingOptionID: shippingOptionID,
+		OrderInfo:        *orderInfo,
+	}
+
+	return &updateNewPreCheckoutQueryTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateNewPreCheckoutQuery *UpdateNewPreCheckoutQuery) GetUpdateEnum() UpdateEnum {
 	return UpdateNewPreCheckoutQueryType
@@ -11553,6 +18665,18 @@ type UpdateNewCustomEvent struct {
 // MessageType return the string telegram-type of UpdateNewCustomEvent
 func (updateNewCustomEvent *UpdateNewCustomEvent) MessageType() string {
 	return "updateNewCustomEvent"
+}
+
+// NewUpdateNewCustomEvent creates a new UpdateNewCustomEvent
+//
+// @param event A JSON-serialized event
+func NewUpdateNewCustomEvent(event string) *UpdateNewCustomEvent {
+	updateNewCustomEventTemp := UpdateNewCustomEvent{
+		tdCommon: tdCommon{Type: "updateNewCustomEvent"},
+		Event:    event,
+	}
+
+	return &updateNewCustomEventTemp
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -11573,6 +18697,22 @@ func (updateNewCustomQuery *UpdateNewCustomQuery) MessageType() string {
 	return "updateNewCustomQuery"
 }
 
+// NewUpdateNewCustomQuery creates a new UpdateNewCustomQuery
+//
+// @param iD The query identifier
+// @param data JSON-serialized query data
+// @param timeout Query timeout
+func NewUpdateNewCustomQuery(iD JSONInt64, data string, timeout int32) *UpdateNewCustomQuery {
+	updateNewCustomQueryTemp := UpdateNewCustomQuery{
+		tdCommon: tdCommon{Type: "updateNewCustomQuery"},
+		ID:       iD,
+		Data:     data,
+		Timeout:  timeout,
+	}
+
+	return &updateNewCustomQueryTemp
+}
+
 // GetUpdateEnum return the enum type of this object
 func (updateNewCustomQuery *UpdateNewCustomQuery) GetUpdateEnum() UpdateEnum {
 	return UpdateNewCustomQueryType
@@ -11589,6 +18729,18 @@ func (testInt *TestInt) MessageType() string {
 	return "testInt"
 }
 
+// NewTestInt creates a new TestInt
+//
+// @param value Number
+func NewTestInt(value int32) *TestInt {
+	testIntTemp := TestInt{
+		tdCommon: tdCommon{Type: "testInt"},
+		Value:    value,
+	}
+
+	return &testIntTemp
+}
+
 // TestString A simple object containing a string; for testing only
 type TestString struct {
 	tdCommon
@@ -11598,6 +18750,18 @@ type TestString struct {
 // MessageType return the string telegram-type of TestString
 func (testString *TestString) MessageType() string {
 	return "testString"
+}
+
+// NewTestString creates a new TestString
+//
+// @param value String
+func NewTestString(value string) *TestString {
+	testStringTemp := TestString{
+		tdCommon: tdCommon{Type: "testString"},
+		Value:    value,
+	}
+
+	return &testStringTemp
 }
 
 // TestBytes A simple object containing a sequence of bytes; for testing only
@@ -11611,6 +18775,18 @@ func (testBytes *TestBytes) MessageType() string {
 	return "testBytes"
 }
 
+// NewTestBytes creates a new TestBytes
+//
+// @param value Bytes
+func NewTestBytes(value []byte) *TestBytes {
+	testBytesTemp := TestBytes{
+		tdCommon: tdCommon{Type: "testBytes"},
+		Value:    value,
+	}
+
+	return &testBytesTemp
+}
+
 // TestVectorInt A simple object containing a vector of numbers; for testing only
 type TestVectorInt struct {
 	tdCommon
@@ -11620,6 +18796,18 @@ type TestVectorInt struct {
 // MessageType return the string telegram-type of TestVectorInt
 func (testVectorInt *TestVectorInt) MessageType() string {
 	return "testVectorInt"
+}
+
+// NewTestVectorInt creates a new TestVectorInt
+//
+// @param value Vector of numbers
+func NewTestVectorInt(value []int32) *TestVectorInt {
+	testVectorIntTemp := TestVectorInt{
+		tdCommon: tdCommon{Type: "testVectorInt"},
+		Value:    value,
+	}
+
+	return &testVectorIntTemp
 }
 
 // TestVectorIntObject A simple object containing a vector of objects that hold a number; for testing only
@@ -11633,6 +18821,18 @@ func (testVectorIntObject *TestVectorIntObject) MessageType() string {
 	return "testVectorIntObject"
 }
 
+// NewTestVectorIntObject creates a new TestVectorIntObject
+//
+// @param value Vector of objects
+func NewTestVectorIntObject(value []TestInt) *TestVectorIntObject {
+	testVectorIntObjectTemp := TestVectorIntObject{
+		tdCommon: tdCommon{Type: "testVectorIntObject"},
+		Value:    value,
+	}
+
+	return &testVectorIntObjectTemp
+}
+
 // TestVectorString A simple object containing a vector of strings; for testing only
 type TestVectorString struct {
 	tdCommon
@@ -11644,6 +18844,18 @@ func (testVectorString *TestVectorString) MessageType() string {
 	return "testVectorString"
 }
 
+// NewTestVectorString creates a new TestVectorString
+//
+// @param value Vector of strings
+func NewTestVectorString(value []string) *TestVectorString {
+	testVectorStringTemp := TestVectorString{
+		tdCommon: tdCommon{Type: "testVectorString"},
+		Value:    value,
+	}
+
+	return &testVectorStringTemp
+}
+
 // TestVectorStringObject A simple object containing a vector of objects that hold a string; for testing only
 type TestVectorStringObject struct {
 	tdCommon
@@ -11653,6 +18865,18 @@ type TestVectorStringObject struct {
 // MessageType return the string telegram-type of TestVectorStringObject
 func (testVectorStringObject *TestVectorStringObject) MessageType() string {
 	return "testVectorStringObject"
+}
+
+// NewTestVectorStringObject creates a new TestVectorStringObject
+//
+// @param value Vector of objects
+func NewTestVectorStringObject(value []TestString) *TestVectorStringObject {
+	testVectorStringObjectTemp := TestVectorStringObject{
+		tdCommon: tdCommon{Type: "testVectorStringObject"},
+		Value:    value,
+	}
+
+	return &testVectorStringObjectTemp
 }
 
 func unmarshalAuthenticationCodeType(rawMsg *json.RawMessage) (AuthenticationCodeType, error) {

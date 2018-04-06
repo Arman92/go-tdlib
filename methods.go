@@ -73,7 +73,7 @@ func (client *Client) GetAuthorizationState() (AuthorizationState, error) {
 
 // SetTdlibParameters Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters
 // @param parameters Parameters
-func (client *Client) SetTdlibParameters(parameters TdlibParameters) (*Ok, error) {
+func (client *Client) SetTdlibParameters(parameters *TdlibParameters) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":      "setTdlibParameters",
 		"parameters": parameters,
@@ -1772,7 +1772,7 @@ func (client *Client) EditMessageText(chatID int64, messageID int64, replyMarkup
 // @param messageID Identifier of the message
 // @param replyMarkup Tew message reply markup; for bots only
 // @param location New location content of the message; may be null. Pass null to stop sharing the live location
-func (client *Client) EditMessageLiveLocation(chatID int64, messageID int64, replyMarkup ReplyMarkup, location Location) (*Message, error) {
+func (client *Client) EditMessageLiveLocation(chatID int64, messageID int64, replyMarkup ReplyMarkup, location *Location) (*Message, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":        "editMessageLiveLocation",
 		"chat_id":      chatID,
@@ -1800,7 +1800,7 @@ func (client *Client) EditMessageLiveLocation(chatID int64, messageID int64, rep
 // @param messageID Identifier of the message
 // @param replyMarkup The new message reply markup; for bots only
 // @param caption New message content caption; 0-200 characters
-func (client *Client) EditMessageCaption(chatID int64, messageID int64, replyMarkup ReplyMarkup, caption FormattedText) (*Message, error) {
+func (client *Client) EditMessageCaption(chatID int64, messageID int64, replyMarkup ReplyMarkup, caption *FormattedText) (*Message, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":        "editMessageCaption",
 		"chat_id":      chatID,
@@ -1879,7 +1879,7 @@ func (client *Client) EditInlineMessageText(inlineMessageID string, replyMarkup 
 // @param inlineMessageID Inline message identifier
 // @param replyMarkup New message reply markup
 // @param location New location content of the message; may be null. Pass null to stop sharing the live location
-func (client *Client) EditInlineMessageLiveLocation(inlineMessageID string, replyMarkup ReplyMarkup, location Location) (*Ok, error) {
+func (client *Client) EditInlineMessageLiveLocation(inlineMessageID string, replyMarkup ReplyMarkup, location *Location) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":             "editInlineMessageLiveLocation",
 		"inline_message_id": inlineMessageID,
@@ -1905,7 +1905,7 @@ func (client *Client) EditInlineMessageLiveLocation(inlineMessageID string, repl
 // @param inlineMessageID Inline message identifier
 // @param replyMarkup New message reply markup
 // @param caption New message content caption; 0-200 characters
-func (client *Client) EditInlineMessageCaption(inlineMessageID string, replyMarkup ReplyMarkup, caption FormattedText) (*Ok, error) {
+func (client *Client) EditInlineMessageCaption(inlineMessageID string, replyMarkup ReplyMarkup, caption *FormattedText) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":             "editInlineMessageCaption",
 		"inline_message_id": inlineMessageID,
@@ -2047,7 +2047,7 @@ func (client *Client) GetFileExtension(mimeType string) (*Text, error) {
 // @param userLocation Location of the user, only if needed
 // @param query Text of the query
 // @param offset Offset of the first entry to return
-func (client *Client) GetInlineQueryResults(botUserID int32, chatID int64, userLocation Location, query string, offset string) (*InlineQueryResults, error) {
+func (client *Client) GetInlineQueryResults(botUserID int32, chatID int64, userLocation *Location, query string, offset string) (*InlineQueryResults, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "getInlineQueryResults",
 		"bot_user_id":   botUserID,
@@ -2726,7 +2726,7 @@ func (client *Client) SetChatPhoto(chatID int64, photo InputFile) (*Ok, error) {
 // SetChatDraftMessage Changes the draft message in a chat
 // @param chatID Chat identifier
 // @param draftMessage New draft message; may be null
-func (client *Client) SetChatDraftMessage(chatID int64, draftMessage DraftMessage) (*Ok, error) {
+func (client *Client) SetChatDraftMessage(chatID int64, draftMessage *DraftMessage) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "setChatDraftMessage",
 		"chat_id":       chatID,
@@ -3090,7 +3090,7 @@ func (client *Client) SetFileGenerationProgress(generationID JSONInt64, expected
 // FinishFileGeneration Finishes the file generation
 // @param generationID The identifier of the generation process
 // @param error If set, means that file generation has failed and should be terminated
-func (client *Client) FinishFileGeneration(generationID JSONInt64, error Error) (*Ok, error) {
+func (client *Client) FinishFileGeneration(generationID JSONInt64, error *Error) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "finishFileGeneration",
 		"generation_id": generationID,
@@ -3202,7 +3202,7 @@ func (client *Client) JoinChatByInviteLink(inviteLink string) (*Chat, error) {
 // CreateCall Creates a new call
 // @param userID Identifier of the user to be called
 // @param protocol Description of the call protocols supported by the client
-func (client *Client) CreateCall(userID int32, protocol CallProtocol) (*CallID, error) {
+func (client *Client) CreateCall(userID int32, protocol *CallProtocol) (*CallID, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "createCall",
 		"user_id":  userID,
@@ -3226,7 +3226,7 @@ func (client *Client) CreateCall(userID int32, protocol CallProtocol) (*CallID, 
 // AcceptCall Accepts an incoming call
 // @param callID Call identifier
 // @param protocol Description of the call protocols supported by the client
-func (client *Client) AcceptCall(callID int32, protocol CallProtocol) (*Ok, error) {
+func (client *Client) AcceptCall(callID int32, protocol *CallProtocol) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "acceptCall",
 		"call_id":  callID,
@@ -4161,7 +4161,7 @@ func (client *Client) RemoveRecentHashtag(hashtag string) (*Ok, error) {
 
 // GetWebPagePreview Returns a web page preview by the text of the message. Do not call this function too often. Returns a 404 error if the web page has no preview
 // @param text Message text with formatting
-func (client *Client) GetWebPagePreview(text FormattedText) (*WebPage, error) {
+func (client *Client) GetWebPagePreview(text *FormattedText) (*WebPage, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "getWebPagePreview",
 		"text":  text,
@@ -4230,7 +4230,7 @@ func (client *Client) GetNotificationSettings(scope NotificationSettingsScope) (
 // SetNotificationSettings Changes notification settings for a given scope
 // @param scope Scope for which to change the notification settings
 // @param notificationSettings The new notification settings for the given scope
-func (client *Client) SetNotificationSettings(scope NotificationSettingsScope, notificationSettings NotificationSettings) (*Ok, error) {
+func (client *Client) SetNotificationSettings(scope NotificationSettingsScope, notificationSettings *NotificationSettings) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":                 "setNotificationSettings",
 		"scope":                 scope,
@@ -4896,7 +4896,7 @@ func (client *Client) CloseSecretChat(secretChatID int32) (*Ok, error) {
 // @param limit Maximum number of events to return; up to 100
 // @param filters The types of events to return. By default, all types will be returned
 // @param userIDs User identifiers by which to filter events. By default, events relating to all users will be returned
-func (client *Client) GetChatEventLog(chatID int64, query string, fromEventID JSONInt64, limit int32, filters ChatEventLogFilters, userIDs []int32) (*ChatEvents, error) {
+func (client *Client) GetChatEventLog(chatID int64, query string, fromEventID JSONInt64, limit int32, filters *ChatEventLogFilters, userIDs []int32) (*ChatEvents, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "getChatEventLog",
 		"chat_id":       chatID,
@@ -4950,7 +4950,7 @@ func (client *Client) GetPaymentForm(chatID int64, messageID int64) (*PaymentFor
 // @param messageID Message identifier
 // @param orderInfo The order information, provided by the user
 // @param allowSave True, if the order information can be saved
-func (client *Client) ValidateOrderInfo(chatID int64, messageID int64, orderInfo OrderInfo, allowSave bool) (*ValidatedOrderInfo, error) {
+func (client *Client) ValidateOrderInfo(chatID int64, messageID int64, orderInfo *OrderInfo, allowSave bool) (*ValidatedOrderInfo, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":      "validateOrderInfo",
 		"chat_id":    chatID,
@@ -5176,7 +5176,7 @@ func (client *Client) GetRecentlyVisitedTMeURLs(referrer string) (*TMeURLs, erro
 // SetUserPrivacySettingRules Changes user privacy settings
 // @param setting The privacy setting
 // @param rules The new privacy rules
-func (client *Client) SetUserPrivacySettingRules(setting UserPrivacySetting, rules UserPrivacySettingRules) (*Ok, error) {
+func (client *Client) SetUserPrivacySettingRules(setting UserPrivacySetting, rules *UserPrivacySettingRules) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "setUserPrivacySettingRules",
 		"setting": setting,
@@ -5288,7 +5288,7 @@ func (client *Client) SetOption(name string, value OptionValue) (*Ok, error) {
 
 // SetAccountTTL Changes the period of inactivity after which the account of the current user will automatically be deleted
 // @param tTL New account TTL
-func (client *Client) SetAccountTTL(tTL AccountTTL) (*Ok, error) {
+func (client *Client) SetAccountTTL(tTL *AccountTTL) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "setAccountTtl",
 		"ttl":   tTL,
@@ -5668,7 +5668,7 @@ func (client *Client) CreateNewStickerSet(userID int32, title string, name strin
 // @param userID Sticker set owner
 // @param name Sticker set name
 // @param sticker Sticker to add to the set
-func (client *Client) AddStickerToSet(userID int32, name string, sticker InputSticker) (*StickerSet, error) {
+func (client *Client) AddStickerToSet(userID int32, name string, sticker *InputSticker) (*StickerSet, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "addStickerToSet",
 		"user_id": userID,
