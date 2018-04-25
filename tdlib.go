@@ -108,12 +108,13 @@ func NewClient(config Config) *Client {
 					client.receiverLock.Lock()
 					for _, receiver := range client.receivers {
 						if msgType == receiver.Instance.MessageType() {
-							err := json.Unmarshal(updateBytes, &receiver.Instance)
+							var newMsg TdMessage
+							err := json.Unmarshal(updateBytes, &newMsg)
 							if err != nil {
 								fmt.Printf("Error unmarhaling to type %v", err)
 							}
-							if receiver.FilterFunc(&receiver.Instance) {
-								receiver.Chan <- receiver.Instance
+							if receiver.FilterFunc(&newMsg) {
+								receiver.Chan <- newMsg
 							}
 						}
 					}
