@@ -14,6 +14,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"reflect"
 	"sync"
 	"time"
 	"unsafe"
@@ -109,6 +110,8 @@ func NewClient(config Config) *Client {
 					for _, receiver := range client.receivers {
 						if msgType == receiver.Instance.MessageType() {
 							var newMsg TdMessage
+							newMsg = reflect.New(reflect.ValueOf(receiver.Instance).Elem().Type()).Interface().(TdMessage)
+
 							err := json.Unmarshal(updateBytes, &newMsg)
 							if err != nil {
 								fmt.Printf("Error unmarhaling to type %v", err)

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -48,22 +47,11 @@ func main() {
 	}
 
 	// Send "/start" text every 5 seconds to Forsquare bot chat
-	go func() {
-		// Should get chatID somehow, check out "getChats" example
-		chatID := int64(198529620) // Foursquare bot chat id
+	// Should get chatID somehow, check out "getChats" example
+	chatID := int64(198529620) // Foursquare bot chat id
 
-		inputMsgTxt := tdlib.NewInputMessageText(tdlib.NewFormattedText("/start", nil), true, true)
-		client.SendMessage(chatID, 0, false, true, nil, inputMsgTxt)
-
-		time.Sleep(5 * time.Second)
-	}()
-
-	// rawUpdates gets all updates comming from tdlib
-	rawUpdates := client.GetRawUpdatesChannel(100)
-	for update := range rawUpdates {
-		// Show all updates
-		fmt.Println(update.Data)
-		fmt.Print("\n\n")
-	}
+	inputMsg := tdlib.NewInputMessagePhoto(tdlib.NewInputFileLocal("./bunny.jpg"), nil, nil, 400, 400,
+		tdlib.NewFormattedText("A photo sent from go-tdlib!", nil), 0)
+	client.SendMessage(chatID, 0, false, false, nil, inputMsg)
 
 }
