@@ -20,12 +20,12 @@ So you can use every single type and method in Tdlib.
 * Supports all tdjson functions: Send(), Execute(), Receive(), Destroy(), SetFilePath(), SetLogVerbosityLevel()
 * Supports all tdlib functions and types
 
-## Installtion
+## Installation
 
 First of all you need to clone the Tdlib repo and build it:
 ```bash
 git clone git@github.com:tdlib/td.git
-cd tdlib
+cd td
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
