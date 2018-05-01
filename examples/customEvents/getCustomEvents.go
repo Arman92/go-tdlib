@@ -64,7 +64,7 @@ func main() {
 		for newMsg := range receiver.Chan {
 			fmt.Println(newMsg)
 			updateMsg := (newMsg).(*tdlib.UpdateNewMessage)
-			// We assume the message content is simple text: (should be more sophosticated for general use)
+			// We assume the message content is simple text: (should be more sophisticated for general use)
 			msgText := updateMsg.Message.Content.(*tdlib.MessageText)
 			fmt.Println("MsgText:  ", msgText.Text)
 			fmt.Print("\n\n")
