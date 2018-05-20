@@ -38,6 +38,14 @@ make install
 If hit any build errors, refer to [Tdlib build instructions](https://github.com/tdlib/td#building)
 I'm using static linking against tdlib so it won't require to build the whole tdlib source files.
 
+## Docker
+You can use prebuilt tdlib with following Docker image: 
+
+***Windows:***
+``` shell
+docker pull mihaildemidoff/tdlib-go
+```
+
 ## Example
 Here is a simple example for authorization and fetching updates:
 ```golang
