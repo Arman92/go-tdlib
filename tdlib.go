@@ -42,6 +42,7 @@ type EventReceiver struct {
 // Client is the Telegram TdLib client
 type Client struct {
 	Client       unsafe.Pointer
+	Config       Config
 	rawUpdates   chan UpdateMsg
 	receivers    []EventReceiver
 	waiters      sync.Map
@@ -57,15 +58,16 @@ type Config struct {
 	SystemVersion      string // Version of the operating system the application is being run on; must be non-empty.
 	ApplicationVersion string // Application version; must be non-empty.
 	// Optional fields
-	UseTestDataCenter      bool   // if set to true, the Telegram test environment will be used instead of the production environment.
-	DatabaseDirectory      string // The path to the directory for the persistent database; if empty, the current working directory will be used.
-	FileDirectory          string // The path to the directory for storing files; if empty, database_directory will be used.
-	UseFileDatabase        bool   // If set to true, information about downloaded and uploaded files will be saved between application restarts.
-	UseChatInfoDatabase    bool   // If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database.
-	UseMessageDatabase     bool   // If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database.
-	UseSecretChats         bool   // If set to true, support for secret chats will be enabled.
-	EnableStorageOptimizer bool   // If set to true, old files will automatically be deleted.
-	IgnoreFileNames        bool   // If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name.
+	UseTestDataCenter      bool         // if set to true, the Telegram test environment will be used instead of the production environment.
+	DatabaseDirectory      string       // The path to the directory for the persistent database; if empty, the current working directory will be used.
+	FileDirectory          string       // The path to the directory for storing files; if empty, database_directory will be used.
+	UseFileDatabase        bool         // If set to true, information about downloaded and uploaded files will be saved between application restarts.
+	UseChatInfoDatabase    bool         // If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database.
+	UseMessageDatabase     bool         // If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database.
+	UseSecretChats         bool         // If set to true, support for secret chats will be enabled.
+	EnableStorageOptimizer bool         // If set to true, old files will automatically be deleted.
+	IgnoreFileNames        bool         // If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name.
+	SocksProxy             *ProxySocks5 // Pass a ProxySocks5 if you need socks5 proxy. Username and password can be nil
 }
 
 // NewClient Creates a new instance of TDLib.
@@ -78,6 +80,7 @@ func NewClient(config Config) *Client {
 	client := Client{Client: C.td_json_client_create()}
 	client.receivers = make([]EventReceiver, 0, 1)
 	client.receiverLock = &sync.Mutex{}
+	client.Config = config
 
 	go func() {
 		for {
@@ -297,6 +300,14 @@ func (client *Client) Authorize() (AuthorizationState, error) {
 
 		if ok == nil || err != nil {
 			return nil, err
+		}
+
+		if client.Config.SocksProxy != nil {
+			ok, err = client.SetProxy(NewProxySocks5(client.Config.SocksProxy.Server, client.Config.SocksProxy.Port,
+				client.Config.SocksProxy.Username, client.Config.SocksProxy.Password))
+			if ok == nil || err != nil {
+				return nil, err
+			}
 		}
 	}
 
