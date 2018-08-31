@@ -159,7 +159,7 @@ func NewClient(config Config) *Client {
 
 // GetRawUpdatesChannel creates a general channel that fetches every update comming from tdlib
 func (client *Client) GetRawUpdatesChannel(capacity int) chan UpdateMsg {
-	client.rawUpdates = make(chan UpdateMsg, 1000)
+	client.rawUpdates = make(chan UpdateMsg, capacity)
 	return client.rawUpdates
 }
 
