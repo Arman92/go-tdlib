@@ -121,6 +121,18 @@ const (
 	ChatMemberStatusBannedType        ChatMemberStatusEnum = "chatMemberStatusBanned"
 )
 
+// ChatMembersFilterEnum Alias for abstract ChatMembersFilter 'Sub-Classes', used as constant-enum here
+type ChatMembersFilterEnum string
+
+// ChatMembersFilter enums
+const (
+	ChatMembersFilterAdministratorsType ChatMembersFilterEnum = "chatMembersFilterAdministrators"
+	ChatMembersFilterMembersType        ChatMembersFilterEnum = "chatMembersFilterMembers"
+	ChatMembersFilterRestrictedType     ChatMembersFilterEnum = "chatMembersFilterRestricted"
+	ChatMembersFilterBannedType         ChatMembersFilterEnum = "chatMembersFilterBanned"
+	ChatMembersFilterBotsType           ChatMembersFilterEnum = "chatMembersFilterBots"
+)
+
 // SupergroupMembersFilterEnum Alias for abstract SupergroupMembersFilter 'Sub-Classes', used as constant-enum here
 type SupergroupMembersFilterEnum string
 
@@ -167,10 +179,8 @@ type NotificationSettingsScopeEnum string
 
 // NotificationSettingsScope enums
 const (
-	NotificationSettingsScopeChatType            NotificationSettingsScopeEnum = "notificationSettingsScopeChat"
-	NotificationSettingsScopePrivateChatsType    NotificationSettingsScopeEnum = "notificationSettingsScopePrivateChats"
-	NotificationSettingsScopeBasicGroupChatsType NotificationSettingsScopeEnum = "notificationSettingsScopeBasicGroupChats"
-	NotificationSettingsScopeAllChatsType        NotificationSettingsScopeEnum = "notificationSettingsScopeAllChats"
+	NotificationSettingsScopePrivateChatsType NotificationSettingsScopeEnum = "notificationSettingsScopePrivateChats"
+	NotificationSettingsScopeGroupChatsType   NotificationSettingsScopeEnum = "notificationSettingsScopeGroupChats"
 )
 
 // ChatTypeEnum Alias for abstract ChatType 'Sub-Classes', used as constant-enum here
@@ -274,6 +284,98 @@ const (
 	InputCredentialsApplePayType   InputCredentialsEnum = "inputCredentialsApplePay"
 )
 
+// PassportElementTypeEnum Alias for abstract PassportElementType 'Sub-Classes', used as constant-enum here
+type PassportElementTypeEnum string
+
+// PassportElementType enums
+const (
+	PassportElementTypePersonalDetailsType       PassportElementTypeEnum = "passportElementTypePersonalDetails"
+	PassportElementTypePassportType              PassportElementTypeEnum = "passportElementTypePassport"
+	PassportElementTypeDriverLicenseType         PassportElementTypeEnum = "passportElementTypeDriverLicense"
+	PassportElementTypeIDentityCardType          PassportElementTypeEnum = "passportElementTypeIDentityCard"
+	PassportElementTypeInternalPassportType      PassportElementTypeEnum = "passportElementTypeInternalPassport"
+	PassportElementTypeAddressType               PassportElementTypeEnum = "passportElementTypeAddress"
+	PassportElementTypeUtilityBillType           PassportElementTypeEnum = "passportElementTypeUtilityBill"
+	PassportElementTypeBankStatementType         PassportElementTypeEnum = "passportElementTypeBankStatement"
+	PassportElementTypeRentalAgreementType       PassportElementTypeEnum = "passportElementTypeRentalAgreement"
+	PassportElementTypePassportRegistrationType  PassportElementTypeEnum = "passportElementTypePassportRegistration"
+	PassportElementTypeTemporaryRegistrationType PassportElementTypeEnum = "passportElementTypeTemporaryRegistration"
+	PassportElementTypePhoneNumberType           PassportElementTypeEnum = "passportElementTypePhoneNumber"
+	PassportElementTypeEmailAddressType          PassportElementTypeEnum = "passportElementTypeEmailAddress"
+)
+
+// PassportElementEnum Alias for abstract PassportElement 'Sub-Classes', used as constant-enum here
+type PassportElementEnum string
+
+// PassportElement enums
+const (
+	PassportElementPersonalDetailsType       PassportElementEnum = "passportElementPersonalDetails"
+	PassportElementPassportType              PassportElementEnum = "passportElementPassport"
+	PassportElementDriverLicenseType         PassportElementEnum = "passportElementDriverLicense"
+	PassportElementIDentityCardType          PassportElementEnum = "passportElementIDentityCard"
+	PassportElementInternalPassportType      PassportElementEnum = "passportElementInternalPassport"
+	PassportElementAddressType               PassportElementEnum = "passportElementAddress"
+	PassportElementUtilityBillType           PassportElementEnum = "passportElementUtilityBill"
+	PassportElementBankStatementType         PassportElementEnum = "passportElementBankStatement"
+	PassportElementRentalAgreementType       PassportElementEnum = "passportElementRentalAgreement"
+	PassportElementPassportRegistrationType  PassportElementEnum = "passportElementPassportRegistration"
+	PassportElementTemporaryRegistrationType PassportElementEnum = "passportElementTemporaryRegistration"
+	PassportElementPhoneNumberType           PassportElementEnum = "passportElementPhoneNumber"
+	PassportElementEmailAddressType          PassportElementEnum = "passportElementEmailAddress"
+)
+
+// InputPassportElementEnum Alias for abstract InputPassportElement 'Sub-Classes', used as constant-enum here
+type InputPassportElementEnum string
+
+// InputPassportElement enums
+const (
+	InputPassportElementPersonalDetailsType       InputPassportElementEnum = "inputPassportElementPersonalDetails"
+	InputPassportElementPassportType              InputPassportElementEnum = "inputPassportElementPassport"
+	InputPassportElementDriverLicenseType         InputPassportElementEnum = "inputPassportElementDriverLicense"
+	InputPassportElementIDentityCardType          InputPassportElementEnum = "inputPassportElementIDentityCard"
+	InputPassportElementInternalPassportType      InputPassportElementEnum = "inputPassportElementInternalPassport"
+	InputPassportElementAddressType               InputPassportElementEnum = "inputPassportElementAddress"
+	InputPassportElementUtilityBillType           InputPassportElementEnum = "inputPassportElementUtilityBill"
+	InputPassportElementBankStatementType         InputPassportElementEnum = "inputPassportElementBankStatement"
+	InputPassportElementRentalAgreementType       InputPassportElementEnum = "inputPassportElementRentalAgreement"
+	InputPassportElementPassportRegistrationType  InputPassportElementEnum = "inputPassportElementPassportRegistration"
+	InputPassportElementTemporaryRegistrationType InputPassportElementEnum = "inputPassportElementTemporaryRegistration"
+	InputPassportElementPhoneNumberType           InputPassportElementEnum = "inputPassportElementPhoneNumber"
+	InputPassportElementEmailAddressType          InputPassportElementEnum = "inputPassportElementEmailAddress"
+)
+
+// PassportElementErrorSourceEnum Alias for abstract PassportElementErrorSource 'Sub-Classes', used as constant-enum here
+type PassportElementErrorSourceEnum string
+
+// PassportElementErrorSource enums
+const (
+	PassportElementErrorSourceUnspecifiedType      PassportElementErrorSourceEnum = "passportElementErrorSourceUnspecified"
+	PassportElementErrorSourceDataFieldType        PassportElementErrorSourceEnum = "passportElementErrorSourceDataField"
+	PassportElementErrorSourceFrontSideType        PassportElementErrorSourceEnum = "passportElementErrorSourceFrontSide"
+	PassportElementErrorSourceReverseSideType      PassportElementErrorSourceEnum = "passportElementErrorSourceReverseSide"
+	PassportElementErrorSourceSelfieType           PassportElementErrorSourceEnum = "passportElementErrorSourceSelfie"
+	PassportElementErrorSourceTranslationFileType  PassportElementErrorSourceEnum = "passportElementErrorSourceTranslationFile"
+	PassportElementErrorSourceTranslationFilesType PassportElementErrorSourceEnum = "passportElementErrorSourceTranslationFiles"
+	PassportElementErrorSourceFileType             PassportElementErrorSourceEnum = "passportElementErrorSourceFile"
+	PassportElementErrorSourceFilesType            PassportElementErrorSourceEnum = "passportElementErrorSourceFiles"
+)
+
+// InputPassportElementErrorSourceEnum Alias for abstract InputPassportElementErrorSource 'Sub-Classes', used as constant-enum here
+type InputPassportElementErrorSourceEnum string
+
+// InputPassportElementErrorSource enums
+const (
+	InputPassportElementErrorSourceUnspecifiedType      InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceUnspecified"
+	InputPassportElementErrorSourceDataFieldType        InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceDataField"
+	InputPassportElementErrorSourceFrontSideType        InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceFrontSide"
+	InputPassportElementErrorSourceReverseSideType      InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceReverseSide"
+	InputPassportElementErrorSourceSelfieType           InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceSelfie"
+	InputPassportElementErrorSourceTranslationFileType  InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceTranslationFile"
+	InputPassportElementErrorSourceTranslationFilesType InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceTranslationFiles"
+	InputPassportElementErrorSourceFileType             InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceFile"
+	InputPassportElementErrorSourceFilesType            InputPassportElementErrorSourceEnum = "inputPassportElementErrorSourceFiles"
+)
+
 // MessageContentEnum Alias for abstract MessageContent 'Sub-Classes', used as constant-enum here
 type MessageContentEnum string
 
@@ -315,6 +417,8 @@ const (
 	MessagePaymentSuccessfulBotType MessageContentEnum = "messagePaymentSuccessfulBot"
 	MessageContactRegisteredType    MessageContentEnum = "messageContactRegistered"
 	MessageWebsiteConnectedType     MessageContentEnum = "messageWebsiteConnected"
+	MessagePassportDataSentType     MessageContentEnum = "messagePassportDataSent"
+	MessagePassportDataReceivedType MessageContentEnum = "messagePassportDataReceived"
 	MessageUnsupportedType          MessageContentEnum = "messageUnsupported"
 )
 
@@ -514,6 +618,16 @@ const (
 	ChatEventIsAllHistoryAvailableToggledType ChatEventActionEnum = "chatEventIsAllHistoryAvailableToggled"
 )
 
+// LanguagePackStringValueEnum Alias for abstract LanguagePackStringValue 'Sub-Classes', used as constant-enum here
+type LanguagePackStringValueEnum string
+
+// LanguagePackStringValue enums
+const (
+	LanguagePackStringValueOrdinaryType   LanguagePackStringValueEnum = "languagePackStringValueOrdinary"
+	LanguagePackStringValuePluralizedType LanguagePackStringValueEnum = "languagePackStringValuePluralized"
+	LanguagePackStringValueDeletedType    LanguagePackStringValueEnum = "languagePackStringValueDeleted"
+)
+
 // DeviceTokenEnum Alias for abstract DeviceToken 'Sub-Classes', used as constant-enum here
 type DeviceTokenEnum string
 
@@ -586,6 +700,7 @@ const (
 	ChatReportReasonSpamType        ChatReportReasonEnum = "chatReportReasonSpam"
 	ChatReportReasonViolenceType    ChatReportReasonEnum = "chatReportReasonViolence"
 	ChatReportReasonPornographyType ChatReportReasonEnum = "chatReportReasonPornography"
+	ChatReportReasonCopyrightType   ChatReportReasonEnum = "chatReportReasonCopyright"
 	ChatReportReasonCustomType      ChatReportReasonEnum = "chatReportReasonCustom"
 )
 
@@ -601,6 +716,8 @@ const (
 	FileTypePhotoType           FileTypeEnum = "fileTypePhoto"
 	FileTypeProfilePhotoType    FileTypeEnum = "fileTypeProfilePhoto"
 	FileTypeSecretType          FileTypeEnum = "fileTypeSecret"
+	FileTypeSecretThumbnailType FileTypeEnum = "fileTypeSecretThumbnail"
+	FileTypeSecureType          FileTypeEnum = "fileTypeSecure"
 	FileTypeStickerType         FileTypeEnum = "fileTypeSticker"
 	FileTypeThumbnailType       FileTypeEnum = "fileTypeThumbnail"
 	FileTypeUnknownType         FileTypeEnum = "fileTypeUnknown"
@@ -608,7 +725,6 @@ const (
 	FileTypeVideoNoteType       FileTypeEnum = "fileTypeVideoNote"
 	FileTypeVoiceNoteType       FileTypeEnum = "fileTypeVoiceNote"
 	FileTypeWallpaperType       FileTypeEnum = "fileTypeWallpaper"
-	FileTypeSecretThumbnailType FileTypeEnum = "fileTypeSecretThumbnail"
 )
 
 // NetworkTypeEnum Alias for abstract NetworkType 'Sub-Classes', used as constant-enum here
@@ -677,13 +793,14 @@ const (
 	TextParseModeHTMLType     TextParseModeEnum = "textParseModeHTML"
 )
 
-// ProxyEnum Alias for abstract Proxy 'Sub-Classes', used as constant-enum here
-type ProxyEnum string
+// ProxyTypeEnum Alias for abstract ProxyType 'Sub-Classes', used as constant-enum here
+type ProxyTypeEnum string
 
-// Proxy enums
+// ProxyType enums
 const (
-	ProxyEmptyType  ProxyEnum = "proxyEmpty"
-	ProxySocks5Type ProxyEnum = "proxySocks5"
+	ProxyTypeSocks5Type  ProxyTypeEnum = "proxyTypeSocks5"
+	ProxyTypeHttpType    ProxyTypeEnum = "proxyTypeHttp"
+	ProxyTypeMtprotoType ProxyTypeEnum = "proxyTypeMtproto"
 )
 
 // UpdateEnum Alias for abstract Update 'Sub-Classes', used as constant-enum here
@@ -691,60 +808,67 @@ type UpdateEnum string
 
 // Update enums
 const (
-	UpdateAuthorizationStateType      UpdateEnum = "updateAuthorizationState"
-	UpdateNewMessageType              UpdateEnum = "updateNewMessage"
-	UpdateMessageSendAcknowledgedType UpdateEnum = "updateMessageSendAcknowledged"
-	UpdateMessageSendSucceededType    UpdateEnum = "updateMessageSendSucceeded"
-	UpdateMessageSendFailedType       UpdateEnum = "updateMessageSendFailed"
-	UpdateMessageContentType          UpdateEnum = "updateMessageContent"
-	UpdateMessageEditedType           UpdateEnum = "updateMessageEdited"
-	UpdateMessageViewsType            UpdateEnum = "updateMessageViews"
-	UpdateMessageContentOpenedType    UpdateEnum = "updateMessageContentOpened"
-	UpdateMessageMentionReadType      UpdateEnum = "updateMessageMentionRead"
-	UpdateNewChatType                 UpdateEnum = "updateNewChat"
-	UpdateChatTitleType               UpdateEnum = "updateChatTitle"
-	UpdateChatPhotoType               UpdateEnum = "updateChatPhoto"
-	UpdateChatLastMessageType         UpdateEnum = "updateChatLastMessage"
-	UpdateChatOrderType               UpdateEnum = "updateChatOrder"
-	UpdateChatIsPinnedType            UpdateEnum = "updateChatIsPinned"
-	UpdateChatReadInboxType           UpdateEnum = "updateChatReadInbox"
-	UpdateChatReadOutboxType          UpdateEnum = "updateChatReadOutbox"
-	UpdateChatUnreadMentionCountType  UpdateEnum = "updateChatUnreadMentionCount"
-	UpdateNotificationSettingsType    UpdateEnum = "updateNotificationSettings"
-	UpdateChatReplyMarkupType         UpdateEnum = "updateChatReplyMarkup"
-	UpdateChatDraftMessageType        UpdateEnum = "updateChatDraftMessage"
-	UpdateDeleteMessagesType          UpdateEnum = "updateDeleteMessages"
-	UpdateUserChatActionType          UpdateEnum = "updateUserChatAction"
-	UpdateUserStatusType              UpdateEnum = "updateUserStatus"
-	UpdateUserType                    UpdateEnum = "updateUser"
-	UpdateBasicGroupType              UpdateEnum = "updateBasicGroup"
-	UpdateSupergroupType              UpdateEnum = "updateSupergroup"
-	UpdateSecretChatType              UpdateEnum = "updateSecretChat"
-	UpdateUserFullInfoType            UpdateEnum = "updateUserFullInfo"
-	UpdateBasicGroupFullInfoType      UpdateEnum = "updateBasicGroupFullInfo"
-	UpdateSupergroupFullInfoType      UpdateEnum = "updateSupergroupFullInfo"
-	UpdateServiceNotificationType     UpdateEnum = "updateServiceNotification"
-	UpdateFileType                    UpdateEnum = "updateFile"
-	UpdateFileGenerationStartType     UpdateEnum = "updateFileGenerationStart"
-	UpdateFileGenerationStopType      UpdateEnum = "updateFileGenerationStop"
-	UpdateCallType                    UpdateEnum = "updateCall"
-	UpdateUserPrivacySettingRulesType UpdateEnum = "updateUserPrivacySettingRules"
-	UpdateUnreadMessageCountType      UpdateEnum = "updateUnreadMessageCount"
-	UpdateOptionType                  UpdateEnum = "updateOption"
-	UpdateInstalledStickerSetsType    UpdateEnum = "updateInstalledStickerSets"
-	UpdateTrendingStickerSetsType     UpdateEnum = "updateTrendingStickerSets"
-	UpdateRecentStickersType          UpdateEnum = "updateRecentStickers"
-	UpdateFavoriteStickersType        UpdateEnum = "updateFavoriteStickers"
-	UpdateSavedAnimationsType         UpdateEnum = "updateSavedAnimations"
-	UpdateConnectionStateType         UpdateEnum = "updateConnectionState"
-	UpdateNewInlineQueryType          UpdateEnum = "updateNewInlineQuery"
-	UpdateNewChosenInlineResultType   UpdateEnum = "updateNewChosenInlineResult"
-	UpdateNewCallbackQueryType        UpdateEnum = "updateNewCallbackQuery"
-	UpdateNewInlineCallbackQueryType  UpdateEnum = "updateNewInlineCallbackQuery"
-	UpdateNewShippingQueryType        UpdateEnum = "updateNewShippingQuery"
-	UpdateNewPreCheckoutQueryType     UpdateEnum = "updateNewPreCheckoutQuery"
-	UpdateNewCustomEventType          UpdateEnum = "updateNewCustomEvent"
-	UpdateNewCustomQueryType          UpdateEnum = "updateNewCustomQuery"
+	UpdateAuthorizationStateType             UpdateEnum = "updateAuthorizationState"
+	UpdateNewMessageType                     UpdateEnum = "updateNewMessage"
+	UpdateMessageSendAcknowledgedType        UpdateEnum = "updateMessageSendAcknowledged"
+	UpdateMessageSendSucceededType           UpdateEnum = "updateMessageSendSucceeded"
+	UpdateMessageSendFailedType              UpdateEnum = "updateMessageSendFailed"
+	UpdateMessageContentType                 UpdateEnum = "updateMessageContent"
+	UpdateMessageEditedType                  UpdateEnum = "updateMessageEdited"
+	UpdateMessageViewsType                   UpdateEnum = "updateMessageViews"
+	UpdateMessageContentOpenedType           UpdateEnum = "updateMessageContentOpened"
+	UpdateMessageMentionReadType             UpdateEnum = "updateMessageMentionRead"
+	UpdateNewChatType                        UpdateEnum = "updateNewChat"
+	UpdateChatTitleType                      UpdateEnum = "updateChatTitle"
+	UpdateChatPhotoType                      UpdateEnum = "updateChatPhoto"
+	UpdateChatLastMessageType                UpdateEnum = "updateChatLastMessage"
+	UpdateChatOrderType                      UpdateEnum = "updateChatOrder"
+	UpdateChatIsPinnedType                   UpdateEnum = "updateChatIsPinned"
+	UpdateChatIsMarkedAsUnreadType           UpdateEnum = "updateChatIsMarkedAsUnread"
+	UpdateChatIsSponsoredType                UpdateEnum = "updateChatIsSponsored"
+	UpdateChatDefaultDisableNotificationType UpdateEnum = "updateChatDefaultDisableNotification"
+	UpdateChatReadInboxType                  UpdateEnum = "updateChatReadInbox"
+	UpdateChatReadOutboxType                 UpdateEnum = "updateChatReadOutbox"
+	UpdateChatUnreadMentionCountType         UpdateEnum = "updateChatUnreadMentionCount"
+	UpdateChatNotificationSettingsType       UpdateEnum = "updateChatNotificationSettings"
+	UpdateScopeNotificationSettingsType      UpdateEnum = "updateScopeNotificationSettings"
+	UpdateChatReplyMarkupType                UpdateEnum = "updateChatReplyMarkup"
+	UpdateChatDraftMessageType               UpdateEnum = "updateChatDraftMessage"
+	UpdateDeleteMessagesType                 UpdateEnum = "updateDeleteMessages"
+	UpdateUserChatActionType                 UpdateEnum = "updateUserChatAction"
+	UpdateUserStatusType                     UpdateEnum = "updateUserStatus"
+	UpdateUserType                           UpdateEnum = "updateUser"
+	UpdateBasicGroupType                     UpdateEnum = "updateBasicGroup"
+	UpdateSupergroupType                     UpdateEnum = "updateSupergroup"
+	UpdateSecretChatType                     UpdateEnum = "updateSecretChat"
+	UpdateUserFullInfoType                   UpdateEnum = "updateUserFullInfo"
+	UpdateBasicGroupFullInfoType             UpdateEnum = "updateBasicGroupFullInfo"
+	UpdateSupergroupFullInfoType             UpdateEnum = "updateSupergroupFullInfo"
+	UpdateServiceNotificationType            UpdateEnum = "updateServiceNotification"
+	UpdateFileType                           UpdateEnum = "updateFile"
+	UpdateFileGenerationStartType            UpdateEnum = "updateFileGenerationStart"
+	UpdateFileGenerationStopType             UpdateEnum = "updateFileGenerationStop"
+	UpdateCallType                           UpdateEnum = "updateCall"
+	UpdateUserPrivacySettingRulesType        UpdateEnum = "updateUserPrivacySettingRules"
+	UpdateUnreadMessageCountType             UpdateEnum = "updateUnreadMessageCount"
+	UpdateUnreadChatCountType                UpdateEnum = "updateUnreadChatCount"
+	UpdateOptionType                         UpdateEnum = "updateOption"
+	UpdateInstalledStickerSetsType           UpdateEnum = "updateInstalledStickerSets"
+	UpdateTrendingStickerSetsType            UpdateEnum = "updateTrendingStickerSets"
+	UpdateRecentStickersType                 UpdateEnum = "updateRecentStickers"
+	UpdateFavoriteStickersType               UpdateEnum = "updateFavoriteStickers"
+	UpdateSavedAnimationsType                UpdateEnum = "updateSavedAnimations"
+	UpdateLanguagePackStringsType            UpdateEnum = "updateLanguagePackStrings"
+	UpdateConnectionStateType                UpdateEnum = "updateConnectionState"
+	UpdateTermsOfServiceType                 UpdateEnum = "updateTermsOfService"
+	UpdateNewInlineQueryType                 UpdateEnum = "updateNewInlineQuery"
+	UpdateNewChosenInlineResultType          UpdateEnum = "updateNewChosenInlineResult"
+	UpdateNewCallbackQueryType               UpdateEnum = "updateNewCallbackQuery"
+	UpdateNewInlineCallbackQueryType         UpdateEnum = "updateNewInlineCallbackQuery"
+	UpdateNewShippingQueryType               UpdateEnum = "updateNewShippingQuery"
+	UpdateNewPreCheckoutQueryType            UpdateEnum = "updateNewPreCheckoutQuery"
+	UpdateNewCustomEventType                 UpdateEnum = "updateNewCustomEvent"
+	UpdateNewCustomQueryType                 UpdateEnum = "updateNewCustomQuery"
 ) // AuthenticationCodeType Provides information about the method by which an authentication code is delivered to the user
 type AuthenticationCodeType interface {
 	GetAuthenticationCodeTypeEnum() AuthenticationCodeTypeEnum
@@ -780,6 +904,11 @@ type ChatMemberStatus interface {
 	GetChatMemberStatusEnum() ChatMemberStatusEnum
 }
 
+// ChatMembersFilter Specifies the kind of chat members to return in searchChatMembers
+type ChatMembersFilter interface {
+	GetChatMembersFilterEnum() ChatMembersFilterEnum
+}
+
 // SupergroupMembersFilter Specifies the kind of chat members to return in getSupergroupMembers
 type SupergroupMembersFilter interface {
 	GetSupergroupMembersFilterEnum() SupergroupMembersFilterEnum
@@ -800,7 +929,7 @@ type MessageSendingState interface {
 	GetMessageSendingStateEnum() MessageSendingStateEnum
 }
 
-// NotificationSettingsScope Describes the types of chats for which notification settings are applied
+// NotificationSettingsScope Describes the types of chats to which notification settings are applied
 type NotificationSettingsScope interface {
 	GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum
 }
@@ -838,6 +967,31 @@ type PageBlock interface {
 // InputCredentials Contains information about the payment method chosen by the user
 type InputCredentials interface {
 	GetInputCredentialsEnum() InputCredentialsEnum
+}
+
+// PassportElementType Contains the type of a Telegram Passport element
+type PassportElementType interface {
+	GetPassportElementTypeEnum() PassportElementTypeEnum
+}
+
+// PassportElement Contains information about a Telegram Passport element
+type PassportElement interface {
+	GetPassportElementEnum() PassportElementEnum
+}
+
+// InputPassportElement Contains information about a Telegram Passport element to be saved
+type InputPassportElement interface {
+	GetInputPassportElementEnum() InputPassportElementEnum
+}
+
+// PassportElementErrorSource Contains the description of an error in a Telegram Passport element
+type PassportElementErrorSource interface {
+	GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum
+}
+
+// InputPassportElementErrorSource Contains the description of an error in a Telegram Passport element; for bots only
+type InputPassportElementErrorSource interface {
+	GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum
 }
 
 // MessageContent Contains the content of a message
@@ -898,6 +1052,11 @@ type CallbackQueryPayload interface {
 // ChatEventAction Represents a chat event
 type ChatEventAction interface {
 	GetChatEventActionEnum() ChatEventActionEnum
+}
+
+// LanguagePackStringValue Represents the value of a string in a language pack
+type LanguagePackStringValue interface {
+	GetLanguagePackStringValueEnum() LanguagePackStringValueEnum
 }
 
 // DeviceToken Represents a data needed to subscribe for push notifications. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org
@@ -965,9 +1124,9 @@ type TextParseMode interface {
 	GetTextParseModeEnum() TextParseModeEnum
 }
 
-// Proxy Contains information about a proxy server
-type Proxy interface {
-	GetProxyEnum() ProxyEnum
+// ProxyType Describes the type of the proxy server
+type ProxyType interface {
+	GetProxyTypeEnum() ProxyTypeEnum
 }
 
 // Update Contains notifications about data changes
@@ -1260,6 +1419,167 @@ func (authenticationCodeInfo *AuthenticationCodeInfo) UnmarshalJSON(b []byte) er
 	return nil
 }
 
+// EmailAddressAuthenticationCodeInfo Information about the email address authentication code that was sent
+type EmailAddressAuthenticationCodeInfo struct {
+	tdCommon
+	EmailAddressPattern string `json:"email_address_pattern"` // Pattern of the email address to which an authentication code was sent
+	Length              int32  `json:"length"`                // Length of the code; 0 if unknown
+}
+
+// MessageType return the string telegram-type of EmailAddressAuthenticationCodeInfo
+func (emailAddressAuthenticationCodeInfo *EmailAddressAuthenticationCodeInfo) MessageType() string {
+	return "emailAddressAuthenticationCodeInfo"
+}
+
+// NewEmailAddressAuthenticationCodeInfo creates a new EmailAddressAuthenticationCodeInfo
+//
+// @param emailAddressPattern Pattern of the email address to which an authentication code was sent
+// @param length Length of the code; 0 if unknown
+func NewEmailAddressAuthenticationCodeInfo(emailAddressPattern string, length int32) *EmailAddressAuthenticationCodeInfo {
+	emailAddressAuthenticationCodeInfoTemp := EmailAddressAuthenticationCodeInfo{
+		tdCommon:            tdCommon{Type: "emailAddressAuthenticationCodeInfo"},
+		EmailAddressPattern: emailAddressPattern,
+		Length:              length,
+	}
+
+	return &emailAddressAuthenticationCodeInfoTemp
+}
+
+// TextEntity Represents a part of the text that needs to be formatted in some unusual way
+type TextEntity struct {
+	tdCommon
+	Offset int32          `json:"offset"` // Offset of the entity in UTF-16 code points
+	Length int32          `json:"length"` // Length of the entity, in UTF-16 code points
+	Type   TextEntityType `json:"type"`   // Type of the entity
+}
+
+// MessageType return the string telegram-type of TextEntity
+func (textEntity *TextEntity) MessageType() string {
+	return "textEntity"
+}
+
+// NewTextEntity creates a new TextEntity
+//
+// @param offset Offset of the entity in UTF-16 code points
+// @param length Length of the entity, in UTF-16 code points
+// @param typeParam Type of the entity
+func NewTextEntity(offset int32, length int32, typeParam TextEntityType) *TextEntity {
+	textEntityTemp := TextEntity{
+		tdCommon: tdCommon{Type: "textEntity"},
+		Offset:   offset,
+		Length:   length,
+		Type:     typeParam,
+	}
+
+	return &textEntityTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (textEntity *TextEntity) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Offset int32 `json:"offset"` // Offset of the entity in UTF-16 code points
+		Length int32 `json:"length"` // Length of the entity, in UTF-16 code points
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	textEntity.tdCommon = tempObj.tdCommon
+	textEntity.Offset = tempObj.Offset
+	textEntity.Length = tempObj.Length
+
+	fieldType, _ := unmarshalTextEntityType(objMap["type"])
+	textEntity.Type = fieldType
+
+	return nil
+}
+
+// TextEntities Contains a list of text entities
+type TextEntities struct {
+	tdCommon
+	Entities []TextEntity `json:"entities"` // List of text entities
+}
+
+// MessageType return the string telegram-type of TextEntities
+func (textEntities *TextEntities) MessageType() string {
+	return "textEntities"
+}
+
+// NewTextEntities creates a new TextEntities
+//
+// @param entities List of text entities
+func NewTextEntities(entities []TextEntity) *TextEntities {
+	textEntitiesTemp := TextEntities{
+		tdCommon: tdCommon{Type: "textEntities"},
+		Entities: entities,
+	}
+
+	return &textEntitiesTemp
+}
+
+// FormattedText A text with some entities
+type FormattedText struct {
+	tdCommon
+	Text     string       `json:"text"`     // The text
+	Entities []TextEntity `json:"entities"` // Entities contained in the text
+}
+
+// MessageType return the string telegram-type of FormattedText
+func (formattedText *FormattedText) MessageType() string {
+	return "formattedText"
+}
+
+// NewFormattedText creates a new FormattedText
+//
+// @param text The text
+// @param entities Entities contained in the text
+func NewFormattedText(text string, entities []TextEntity) *FormattedText {
+	formattedTextTemp := FormattedText{
+		tdCommon: tdCommon{Type: "formattedText"},
+		Text:     text,
+		Entities: entities,
+	}
+
+	return &formattedTextTemp
+}
+
+// TermsOfService Contains Telegram terms of service
+type TermsOfService struct {
+	tdCommon
+	Text       *FormattedText `json:"text"`         // Text of the terms of service
+	MinUserAge int32          `json:"min_user_age"` // Mininum age of a user to be able to accept the terms; 0 if any
+	ShowPopup  bool           `json:"show_popup"`   // True, if a blocking popup with terms of service must be shown to the user
+}
+
+// MessageType return the string telegram-type of TermsOfService
+func (termsOfService *TermsOfService) MessageType() string {
+	return "termsOfService"
+}
+
+// NewTermsOfService creates a new TermsOfService
+//
+// @param text Text of the terms of service
+// @param minUserAge Mininum age of a user to be able to accept the terms; 0 if any
+// @param showPopup True, if a blocking popup with terms of service must be shown to the user
+func NewTermsOfService(text *FormattedText, minUserAge int32, showPopup bool) *TermsOfService {
+	termsOfServiceTemp := TermsOfService{
+		tdCommon:   tdCommon{Type: "termsOfService"},
+		Text:       text,
+		MinUserAge: minUserAge,
+		ShowPopup:  showPopup,
+	}
+
+	return &termsOfServiceTemp
+}
+
 // AuthorizationStateWaitTdlibParameters TDLib needs TdlibParameters for initialization
 type AuthorizationStateWaitTdlibParameters struct {
 	tdCommon
@@ -1341,8 +1661,9 @@ func (authorizationStateWaitPhoneNumber *AuthorizationStateWaitPhoneNumber) GetA
 // AuthorizationStateWaitCode TDLib needs the user's authentication code to finalize authorization
 type AuthorizationStateWaitCode struct {
 	tdCommon
-	IsRegistered bool                    `json:"is_registered"` // True, if the user is already registered
-	CodeInfo     *AuthenticationCodeInfo `json:"code_info"`     // Information about the authorization code that was sent
+	IsRegistered   bool                    `json:"is_registered"`    // True, if the user is already registered
+	TermsOfService *TermsOfService         `json:"terms_of_service"` // Telegram terms of service, which should be accepted before user can continue registration; may be null
+	CodeInfo       *AuthenticationCodeInfo `json:"code_info"`        // Information about the authorization code that was sent
 }
 
 // MessageType return the string telegram-type of AuthorizationStateWaitCode
@@ -1353,12 +1674,14 @@ func (authorizationStateWaitCode *AuthorizationStateWaitCode) MessageType() stri
 // NewAuthorizationStateWaitCode creates a new AuthorizationStateWaitCode
 //
 // @param isRegistered True, if the user is already registered
+// @param termsOfService Telegram terms of service, which should be accepted before user can continue registration; may be null
 // @param codeInfo Information about the authorization code that was sent
-func NewAuthorizationStateWaitCode(isRegistered bool, codeInfo *AuthenticationCodeInfo) *AuthorizationStateWaitCode {
+func NewAuthorizationStateWaitCode(isRegistered bool, termsOfService *TermsOfService, codeInfo *AuthenticationCodeInfo) *AuthorizationStateWaitCode {
 	authorizationStateWaitCodeTemp := AuthorizationStateWaitCode{
-		tdCommon:     tdCommon{Type: "authorizationStateWaitCode"},
-		IsRegistered: isRegistered,
-		CodeInfo:     codeInfo,
+		tdCommon:       tdCommon{Type: "authorizationStateWaitCode"},
+		IsRegistered:   isRegistered,
+		TermsOfService: termsOfService,
+		CodeInfo:       codeInfo,
 	}
 
 	return &authorizationStateWaitCodeTemp
@@ -1506,10 +1829,11 @@ func (authorizationStateClosed *AuthorizationStateClosed) GetAuthorizationStateE
 // PasswordState Represents the current state of 2-step verification
 type PasswordState struct {
 	tdCommon
-	HasPassword                            bool   `json:"has_password"`                               // True if a 2-step verification password has been set up
+	HasPassword                            bool   `json:"has_password"`                               // True if a 2-step verification password is set
 	PasswordHint                           string `json:"password_hint"`                              // Hint for the password; can be empty
-	HasRecoveryEmailAddress                bool   `json:"has_recovery_email_address"`                 // True if a recovery email has been set up
-	UnconfirmedRecoveryEmailAddressPattern string `json:"unconfirmed_recovery_email_address_pattern"` // Pattern of the email address to which a confirmation email was sent
+	HasRecoveryEmailAddress                bool   `json:"has_recovery_email_address"`                 // True if a recovery email is set
+	HasPassportData                        bool   `json:"has_passport_data"`                          // True if some Telegram Passport elements were saved
+	UnconfirmedRecoveryEmailAddressPattern string `json:"unconfirmed_recovery_email_address_pattern"` // Pattern of the email address to which the confirmation email was sent
 }
 
 // MessageType return the string telegram-type of PasswordState
@@ -1519,43 +1843,22 @@ func (passwordState *PasswordState) MessageType() string {
 
 // NewPasswordState creates a new PasswordState
 //
-// @param hasPassword True if a 2-step verification password has been set up
+// @param hasPassword True if a 2-step verification password is set
 // @param passwordHint Hint for the password; can be empty
-// @param hasRecoveryEmailAddress True if a recovery email has been set up
-// @param unconfirmedRecoveryEmailAddressPattern Pattern of the email address to which a confirmation email was sent
-func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, unconfirmedRecoveryEmailAddressPattern string) *PasswordState {
+// @param hasRecoveryEmailAddress True if a recovery email is set
+// @param hasPassportData True if some Telegram Passport elements were saved
+// @param unconfirmedRecoveryEmailAddressPattern Pattern of the email address to which the confirmation email was sent
+func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, hasPassportData bool, unconfirmedRecoveryEmailAddressPattern string) *PasswordState {
 	passwordStateTemp := PasswordState{
 		tdCommon:                               tdCommon{Type: "passwordState"},
 		HasPassword:                            hasPassword,
 		PasswordHint:                           passwordHint,
 		HasRecoveryEmailAddress:                hasRecoveryEmailAddress,
+		HasPassportData:                        hasPassportData,
 		UnconfirmedRecoveryEmailAddressPattern: unconfirmedRecoveryEmailAddressPattern,
 	}
 
 	return &passwordStateTemp
-}
-
-// PasswordRecoveryInfo Contains information available to the user after requesting password recovery
-type PasswordRecoveryInfo struct {
-	tdCommon
-	RecoveryEmailAddressPattern string `json:"recovery_email_address_pattern"` // Pattern of the email address to which a recovery email was sent
-}
-
-// MessageType return the string telegram-type of PasswordRecoveryInfo
-func (passwordRecoveryInfo *PasswordRecoveryInfo) MessageType() string {
-	return "passwordRecoveryInfo"
-}
-
-// NewPasswordRecoveryInfo creates a new PasswordRecoveryInfo
-//
-// @param recoveryEmailAddressPattern Pattern of the email address to which a recovery email was sent
-func NewPasswordRecoveryInfo(recoveryEmailAddressPattern string) *PasswordRecoveryInfo {
-	passwordRecoveryInfoTemp := PasswordRecoveryInfo{
-		tdCommon:                    tdCommon{Type: "passwordRecoveryInfo"},
-		RecoveryEmailAddressPattern: recoveryEmailAddressPattern,
-	}
-
-	return &passwordRecoveryInfoTemp
 }
 
 // RecoveryEmailAddress Contains information about the current recovery email address
@@ -1651,7 +1954,7 @@ func NewLocalFile(path string, canBeDownloaded bool, canBeDeleted bool, isDownlo
 // RemoteFile Represents a remote file
 type RemoteFile struct {
 	tdCommon
-	ID                   string `json:"id"`                     // Remote file identifier, may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known.
+	ID                   string `json:"id"`                     // Remote file identifier; may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known.
 	IsUploadingActive    bool   `json:"is_uploading_active"`    // True, if the file is currently being uploaded (or a remote copy is being generated by some other means)
 	IsUploadingCompleted bool   `json:"is_uploading_completed"` // True, if a remote copy is fully available
 	UploadedSize         int32  `json:"uploaded_size"`          // Size of the remote available part of the file; 0 if unknown
@@ -1664,7 +1967,7 @@ func (remoteFile *RemoteFile) MessageType() string {
 
 // NewRemoteFile creates a new RemoteFile
 //
-// @param iD Remote file identifier, may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known.
+// @param iD Remote file identifier; may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known.
 // @param isUploadingActive True, if the file is currently being uploaded (or a remote copy is being generated by some other means)
 // @param isUploadingCompleted True, if a remote copy is fully available
 // @param uploadedSize Size of the remote available part of the file; 0 if unknown
@@ -1802,7 +2105,7 @@ func (inputFileLocal *InputFileLocal) GetInputFileEnum() InputFileEnum {
 // InputFileGenerated A file generated by the client
 type InputFileGenerated struct {
 	tdCommon
-	OriginalPath string `json:"original_path"` // Local path to a file from which the file is generated, may be empty if there is no such file
+	OriginalPath string `json:"original_path"` // Local path to a file from which the file is generated; may be empty if there is no such file
 	Conversion   string `json:"conversion"`    // String specifying the conversion applied to the original file; should be persistent across application restarts
 	ExpectedSize int32  `json:"expected_size"` // Expected size of the generated file; 0 if unknown
 }
@@ -1814,7 +2117,7 @@ func (inputFileGenerated *InputFileGenerated) MessageType() string {
 
 // NewInputFileGenerated creates a new InputFileGenerated
 //
-// @param originalPath Local path to a file from which the file is generated, may be empty if there is no such file
+// @param originalPath Local path to a file from which the file is generated; may be empty if there is no such file
 // @param conversion String specifying the conversion applied to the original file; should be persistent across application restarts
 // @param expectedSize Expected size of the generated file; 0 if unknown
 func NewInputFileGenerated(originalPath string, conversion string, expectedSize int32) *InputFileGenerated {
@@ -2024,112 +2327,6 @@ func (maskPosition *MaskPosition) UnmarshalJSON(b []byte) error {
 	maskPosition.Point = fieldPoint
 
 	return nil
-}
-
-// TextEntity Represents a part of the text that needs to be formatted in some unusual way
-type TextEntity struct {
-	tdCommon
-	Offset int32          `json:"offset"` // Offset of the entity in UTF-16 code points
-	Length int32          `json:"length"` // Length of the entity, in UTF-16 code points
-	Type   TextEntityType `json:"type"`   // Type of the entity
-}
-
-// MessageType return the string telegram-type of TextEntity
-func (textEntity *TextEntity) MessageType() string {
-	return "textEntity"
-}
-
-// NewTextEntity creates a new TextEntity
-//
-// @param offset Offset of the entity in UTF-16 code points
-// @param length Length of the entity, in UTF-16 code points
-// @param typeParam Type of the entity
-func NewTextEntity(offset int32, length int32, typeParam TextEntityType) *TextEntity {
-	textEntityTemp := TextEntity{
-		tdCommon: tdCommon{Type: "textEntity"},
-		Offset:   offset,
-		Length:   length,
-		Type:     typeParam,
-	}
-
-	return &textEntityTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (textEntity *TextEntity) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		Offset int32 `json:"offset"` // Offset of the entity in UTF-16 code points
-		Length int32 `json:"length"` // Length of the entity, in UTF-16 code points
-
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	textEntity.tdCommon = tempObj.tdCommon
-	textEntity.Offset = tempObj.Offset
-	textEntity.Length = tempObj.Length
-
-	fieldType, _ := unmarshalTextEntityType(objMap["type"])
-	textEntity.Type = fieldType
-
-	return nil
-}
-
-// TextEntities Contains a list of text entities
-type TextEntities struct {
-	tdCommon
-	Entities []TextEntity `json:"entities"` // List of text entities
-}
-
-// MessageType return the string telegram-type of TextEntities
-func (textEntities *TextEntities) MessageType() string {
-	return "textEntities"
-}
-
-// NewTextEntities creates a new TextEntities
-//
-// @param entities List of text entities
-func NewTextEntities(entities []TextEntity) *TextEntities {
-	textEntitiesTemp := TextEntities{
-		tdCommon: tdCommon{Type: "textEntities"},
-		Entities: entities,
-	}
-
-	return &textEntitiesTemp
-}
-
-// FormattedText A text with some entities
-type FormattedText struct {
-	tdCommon
-	Text     string       `json:"text"`     // The text
-	Entities []TextEntity `json:"entities"` // Entities contained in the text
-}
-
-// MessageType return the string telegram-type of FormattedText
-func (formattedText *FormattedText) MessageType() string {
-	return "formattedText"
-}
-
-// NewFormattedText creates a new FormattedText
-//
-// @param text The text
-// @param entities Entities contained in the text
-func NewFormattedText(text string, entities []TextEntity) *FormattedText {
-	formattedTextTemp := FormattedText{
-		tdCommon: tdCommon{Type: "formattedText"},
-		Text:     text,
-		Entities: entities,
-	}
-
-	return &formattedTextTemp
 }
 
 // Animation Describes an animation file. The animation must be encoded in GIF or MPEG4 format
@@ -2436,6 +2633,7 @@ type Contact struct {
 	PhoneNumber string `json:"phone_number"` // Phone number of the user
 	FirstName   string `json:"first_name"`   // First name of the user; 1-255 characters in length
 	LastName    string `json:"last_name"`    // Last name of the user
+	Vcard       string `json:"vcard"`        // Additional data about the user in a form of vCard; 0-2048 bytes in length
 	UserID      int32  `json:"user_id"`      // Identifier of the user, if known; otherwise 0
 }
 
@@ -2449,13 +2647,15 @@ func (contact *Contact) MessageType() string {
 // @param phoneNumber Phone number of the user
 // @param firstName First name of the user; 1-255 characters in length
 // @param lastName Last name of the user
+// @param vcard Additional data about the user in a form of vCard; 0-2048 bytes in length
 // @param userID Identifier of the user, if known; otherwise 0
-func NewContact(phoneNumber string, firstName string, lastName string, userID int32) *Contact {
+func NewContact(phoneNumber string, firstName string, lastName string, vcard string, userID int32) *Contact {
 	contactTemp := Contact{
 		tdCommon:    tdCommon{Type: "contact"},
 		PhoneNumber: phoneNumber,
 		FirstName:   firstName,
 		LastName:    lastName,
+		Vcard:       vcard,
 		UserID:      userID,
 	}
 
@@ -2496,6 +2696,7 @@ type Venue struct {
 	Address  string    `json:"address"`  // Venue address; as defined by the sender
 	Provider string    `json:"provider"` // Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported
 	ID       string    `json:"id"`       // Identifier of the venue in the provider database; as defined by the sender
+	Type     string    `json:"type"`     // Type of the venue in the provider database; as defined by the sender
 }
 
 // MessageType return the string telegram-type of Venue
@@ -2510,7 +2711,8 @@ func (venue *Venue) MessageType() string {
 // @param address Venue address; as defined by the sender
 // @param provider Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported
 // @param iD Identifier of the venue in the provider database; as defined by the sender
-func NewVenue(location *Location, title string, address string, provider string, iD string) *Venue {
+// @param typeParam Type of the venue in the provider database; as defined by the sender
+func NewVenue(location *Location, title string, address string, provider string, iD string, typeParam string) *Venue {
 	venueTemp := Venue{
 		tdCommon: tdCommon{Type: "venue"},
 		Location: location,
@@ -2518,6 +2720,7 @@ func NewVenue(location *Location, title string, address string, provider string,
 		Address:  address,
 		Provider: provider,
 		ID:       iD,
+		Type:     typeParam,
 	}
 
 	return &venueTemp
@@ -3361,6 +3564,131 @@ func NewChatMembers(totalCount int32, members []ChatMember) *ChatMembers {
 	return &chatMembersTemp
 }
 
+// ChatMembersFilterAdministrators Returns the creator and administrators
+type ChatMembersFilterAdministrators struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatMembersFilterAdministrators
+func (chatMembersFilterAdministrators *ChatMembersFilterAdministrators) MessageType() string {
+	return "chatMembersFilterAdministrators"
+}
+
+// NewChatMembersFilterAdministrators creates a new ChatMembersFilterAdministrators
+//
+func NewChatMembersFilterAdministrators() *ChatMembersFilterAdministrators {
+	chatMembersFilterAdministratorsTemp := ChatMembersFilterAdministrators{
+		tdCommon: tdCommon{Type: "chatMembersFilterAdministrators"},
+	}
+
+	return &chatMembersFilterAdministratorsTemp
+}
+
+// GetChatMembersFilterEnum return the enum type of this object
+func (chatMembersFilterAdministrators *ChatMembersFilterAdministrators) GetChatMembersFilterEnum() ChatMembersFilterEnum {
+	return ChatMembersFilterAdministratorsType
+}
+
+// ChatMembersFilterMembers Returns all chat members, including restricted chat members
+type ChatMembersFilterMembers struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatMembersFilterMembers
+func (chatMembersFilterMembers *ChatMembersFilterMembers) MessageType() string {
+	return "chatMembersFilterMembers"
+}
+
+// NewChatMembersFilterMembers creates a new ChatMembersFilterMembers
+//
+func NewChatMembersFilterMembers() *ChatMembersFilterMembers {
+	chatMembersFilterMembersTemp := ChatMembersFilterMembers{
+		tdCommon: tdCommon{Type: "chatMembersFilterMembers"},
+	}
+
+	return &chatMembersFilterMembersTemp
+}
+
+// GetChatMembersFilterEnum return the enum type of this object
+func (chatMembersFilterMembers *ChatMembersFilterMembers) GetChatMembersFilterEnum() ChatMembersFilterEnum {
+	return ChatMembersFilterMembersType
+}
+
+// ChatMembersFilterRestricted Returns users under certain restrictions in the chat; can be used only by administrators in a supergroup
+type ChatMembersFilterRestricted struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatMembersFilterRestricted
+func (chatMembersFilterRestricted *ChatMembersFilterRestricted) MessageType() string {
+	return "chatMembersFilterRestricted"
+}
+
+// NewChatMembersFilterRestricted creates a new ChatMembersFilterRestricted
+//
+func NewChatMembersFilterRestricted() *ChatMembersFilterRestricted {
+	chatMembersFilterRestrictedTemp := ChatMembersFilterRestricted{
+		tdCommon: tdCommon{Type: "chatMembersFilterRestricted"},
+	}
+
+	return &chatMembersFilterRestrictedTemp
+}
+
+// GetChatMembersFilterEnum return the enum type of this object
+func (chatMembersFilterRestricted *ChatMembersFilterRestricted) GetChatMembersFilterEnum() ChatMembersFilterEnum {
+	return ChatMembersFilterRestrictedType
+}
+
+// ChatMembersFilterBanned Returns users banned from the chat; can be used only by administrators in a supergroup or in a channel
+type ChatMembersFilterBanned struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatMembersFilterBanned
+func (chatMembersFilterBanned *ChatMembersFilterBanned) MessageType() string {
+	return "chatMembersFilterBanned"
+}
+
+// NewChatMembersFilterBanned creates a new ChatMembersFilterBanned
+//
+func NewChatMembersFilterBanned() *ChatMembersFilterBanned {
+	chatMembersFilterBannedTemp := ChatMembersFilterBanned{
+		tdCommon: tdCommon{Type: "chatMembersFilterBanned"},
+	}
+
+	return &chatMembersFilterBannedTemp
+}
+
+// GetChatMembersFilterEnum return the enum type of this object
+func (chatMembersFilterBanned *ChatMembersFilterBanned) GetChatMembersFilterEnum() ChatMembersFilterEnum {
+	return ChatMembersFilterBannedType
+}
+
+// ChatMembersFilterBots Returns bot members of the chat
+type ChatMembersFilterBots struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatMembersFilterBots
+func (chatMembersFilterBots *ChatMembersFilterBots) MessageType() string {
+	return "chatMembersFilterBots"
+}
+
+// NewChatMembersFilterBots creates a new ChatMembersFilterBots
+//
+func NewChatMembersFilterBots() *ChatMembersFilterBots {
+	chatMembersFilterBotsTemp := ChatMembersFilterBots{
+		tdCommon: tdCommon{Type: "chatMembersFilterBots"},
+	}
+
+	return &chatMembersFilterBotsTemp
+}
+
+// GetChatMembersFilterEnum return the enum type of this object
+func (chatMembersFilterBots *ChatMembersFilterBots) GetChatMembersFilterEnum() ChatMembersFilterEnum {
+	return ChatMembersFilterBotsType
+}
+
 // SupergroupMembersFilterRecent Returns recently active users in reverse chronological order
 type SupergroupMembersFilterRecent struct {
 	tdCommon
@@ -4057,7 +4385,7 @@ func (messageSendingStateFailed *MessageSendingStateFailed) GetMessageSendingSta
 // Message Describes a message
 type Message struct {
 	tdCommon
-	ID                      int64               `json:"id"`                           // Unique message identifier
+	ID                      int64               `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
 	SenderUserID            int32               `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
 	ChatID                  int64               `json:"chat_id"`                      // Chat identifier
 	SendingState            MessageSendingState `json:"sending_state"`                // Information about the sending state of the message; may be null
@@ -4089,7 +4417,7 @@ func (message *Message) MessageType() string {
 
 // NewMessage creates a new Message
 //
-// @param iD Unique message identifier
+// @param iD Message identifier, unique for the chat to which the message belongs
 // @param senderUserID Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
 // @param chatID Chat identifier
 // @param sendingState Information about the sending state of the message; may be null
@@ -4126,18 +4454,18 @@ func NewMessage(iD int64, senderUserID int32, chatID int64, sendingState Message
 		CanBeDeletedForAllUsers: canBeDeletedForAllUsers,
 		IsChannelPost:           isChannelPost,
 		ContainsUnreadMention:   containsUnreadMention,
-		Date:             date,
-		EditDate:         editDate,
-		ForwardInfo:      forwardInfo,
-		ReplyToMessageID: replyToMessageID,
-		TTL:              tTL,
-		TTLExpiresIn:     tTLExpiresIn,
-		ViaBotUserID:     viaBotUserID,
-		AuthorSignature:  authorSignature,
-		Views:            views,
-		MediaAlbumID:     mediaAlbumID,
-		Content:          content,
-		ReplyMarkup:      replyMarkup,
+		Date:                    date,
+		EditDate:                editDate,
+		ForwardInfo:             forwardInfo,
+		ReplyToMessageID:        replyToMessageID,
+		TTL:                     tTL,
+		TTLExpiresIn:            tTLExpiresIn,
+		ViaBotUserID:            viaBotUserID,
+		AuthorSignature:         authorSignature,
+		Views:                   views,
+		MediaAlbumID:            mediaAlbumID,
+		Content:                 content,
+		ReplyMarkup:             replyMarkup,
 	}
 
 	return &messageTemp
@@ -4152,7 +4480,7 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		ID                      int64     `json:"id"`                           // Unique message identifier
+		ID                      int64     `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
 		SenderUserID            int32     `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts
 		ChatID                  int64     `json:"chat_id"`                      // Chat identifier
 		IsOutgoing              bool      `json:"is_outgoing"`                  // True, if the message is outgoing
@@ -4266,35 +4594,7 @@ func NewFoundMessages(messages []Message, nextFromSearchID JSONInt64) *FoundMess
 	return &foundMessagesTemp
 }
 
-// NotificationSettingsScopeChat Notification settings applied to a particular chat
-type NotificationSettingsScopeChat struct {
-	tdCommon
-	ChatID int64 `json:"chat_id"` // Chat identifier
-}
-
-// MessageType return the string telegram-type of NotificationSettingsScopeChat
-func (notificationSettingsScopeChat *NotificationSettingsScopeChat) MessageType() string {
-	return "notificationSettingsScopeChat"
-}
-
-// NewNotificationSettingsScopeChat creates a new NotificationSettingsScopeChat
-//
-// @param chatID Chat identifier
-func NewNotificationSettingsScopeChat(chatID int64) *NotificationSettingsScopeChat {
-	notificationSettingsScopeChatTemp := NotificationSettingsScopeChat{
-		tdCommon: tdCommon{Type: "notificationSettingsScopeChat"},
-		ChatID:   chatID,
-	}
-
-	return &notificationSettingsScopeChatTemp
-}
-
-// GetNotificationSettingsScopeEnum return the enum type of this object
-func (notificationSettingsScopeChat *NotificationSettingsScopeChat) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
-	return NotificationSettingsScopeChatType
-}
-
-// NotificationSettingsScopePrivateChats Notification settings applied to all private chats
+// NotificationSettingsScopePrivateChats Notification settings applied to all private and secret chats when the corresponding chat setting has a default value
 type NotificationSettingsScopePrivateChats struct {
 	tdCommon
 }
@@ -4319,83 +4619,96 @@ func (notificationSettingsScopePrivateChats *NotificationSettingsScopePrivateCha
 	return NotificationSettingsScopePrivateChatsType
 }
 
-// NotificationSettingsScopeBasicGroupChats Notification settings applied to all basic groups and channels. (Supergroups have no common settings)
-type NotificationSettingsScopeBasicGroupChats struct {
+// NotificationSettingsScopeGroupChats Notification settings applied to all basic groups, supergroups and channels when the corresponding chat setting has a default value
+type NotificationSettingsScopeGroupChats struct {
 	tdCommon
 }
 
-// MessageType return the string telegram-type of NotificationSettingsScopeBasicGroupChats
-func (notificationSettingsScopeBasicGroupChats *NotificationSettingsScopeBasicGroupChats) MessageType() string {
-	return "notificationSettingsScopeBasicGroupChats"
+// MessageType return the string telegram-type of NotificationSettingsScopeGroupChats
+func (notificationSettingsScopeGroupChats *NotificationSettingsScopeGroupChats) MessageType() string {
+	return "notificationSettingsScopeGroupChats"
 }
 
-// NewNotificationSettingsScopeBasicGroupChats creates a new NotificationSettingsScopeBasicGroupChats
+// NewNotificationSettingsScopeGroupChats creates a new NotificationSettingsScopeGroupChats
 //
-func NewNotificationSettingsScopeBasicGroupChats() *NotificationSettingsScopeBasicGroupChats {
-	notificationSettingsScopeBasicGroupChatsTemp := NotificationSettingsScopeBasicGroupChats{
-		tdCommon: tdCommon{Type: "notificationSettingsScopeBasicGroupChats"},
+func NewNotificationSettingsScopeGroupChats() *NotificationSettingsScopeGroupChats {
+	notificationSettingsScopeGroupChatsTemp := NotificationSettingsScopeGroupChats{
+		tdCommon: tdCommon{Type: "notificationSettingsScopeGroupChats"},
 	}
 
-	return &notificationSettingsScopeBasicGroupChatsTemp
+	return &notificationSettingsScopeGroupChatsTemp
 }
 
 // GetNotificationSettingsScopeEnum return the enum type of this object
-func (notificationSettingsScopeBasicGroupChats *NotificationSettingsScopeBasicGroupChats) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
-	return NotificationSettingsScopeBasicGroupChatsType
+func (notificationSettingsScopeGroupChats *NotificationSettingsScopeGroupChats) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
+	return NotificationSettingsScopeGroupChatsType
 }
 
-// NotificationSettingsScopeAllChats Notification settings applied to all chats
-type NotificationSettingsScopeAllChats struct {
+// ChatNotificationSettings Contains information about notification settings for a chat
+type ChatNotificationSettings struct {
 	tdCommon
+	UseDefaultMuteFor     bool   `json:"use_default_mute_for"`     // If true, mute_for is ignored and the value for the relevant type of chat is used instead
+	MuteFor               int32  `json:"mute_for"`                 // Time left before notifications will be unmuted, in seconds
+	UseDefaultSound       bool   `json:"use_default_sound"`        // If true, sound is ignored and the value for the relevant type of chat is used instead
+	Sound                 string `json:"sound"`                    // The name of an audio file to be used for notification sounds; only applies to iOS applications
+	UseDefaultShowPreview bool   `json:"use_default_show_preview"` // If true, show_preview is ignored and the value for the relevant type of chat is used instead
+	ShowPreview           bool   `json:"show_preview"`             // True, if message content should be displayed in notifications
 }
 
-// MessageType return the string telegram-type of NotificationSettingsScopeAllChats
-func (notificationSettingsScopeAllChats *NotificationSettingsScopeAllChats) MessageType() string {
-	return "notificationSettingsScopeAllChats"
+// MessageType return the string telegram-type of ChatNotificationSettings
+func (chatNotificationSettings *ChatNotificationSettings) MessageType() string {
+	return "chatNotificationSettings"
 }
 
-// NewNotificationSettingsScopeAllChats creates a new NotificationSettingsScopeAllChats
+// NewChatNotificationSettings creates a new ChatNotificationSettings
 //
-func NewNotificationSettingsScopeAllChats() *NotificationSettingsScopeAllChats {
-	notificationSettingsScopeAllChatsTemp := NotificationSettingsScopeAllChats{
-		tdCommon: tdCommon{Type: "notificationSettingsScopeAllChats"},
+// @param useDefaultMuteFor If true, mute_for is ignored and the value for the relevant type of chat is used instead
+// @param muteFor Time left before notifications will be unmuted, in seconds
+// @param useDefaultSound If true, sound is ignored and the value for the relevant type of chat is used instead
+// @param sound The name of an audio file to be used for notification sounds; only applies to iOS applications
+// @param useDefaultShowPreview If true, show_preview is ignored and the value for the relevant type of chat is used instead
+// @param showPreview True, if message content should be displayed in notifications
+func NewChatNotificationSettings(useDefaultMuteFor bool, muteFor int32, useDefaultSound bool, sound string, useDefaultShowPreview bool, showPreview bool) *ChatNotificationSettings {
+	chatNotificationSettingsTemp := ChatNotificationSettings{
+		tdCommon:              tdCommon{Type: "chatNotificationSettings"},
+		UseDefaultMuteFor:     useDefaultMuteFor,
+		MuteFor:               muteFor,
+		UseDefaultSound:       useDefaultSound,
+		Sound:                 sound,
+		UseDefaultShowPreview: useDefaultShowPreview,
+		ShowPreview:           showPreview,
 	}
 
-	return &notificationSettingsScopeAllChatsTemp
+	return &chatNotificationSettingsTemp
 }
 
-// GetNotificationSettingsScopeEnum return the enum type of this object
-func (notificationSettingsScopeAllChats *NotificationSettingsScopeAllChats) GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum {
-	return NotificationSettingsScopeAllChatsType
-}
-
-// NotificationSettings Contains information about notification settings for a chat or several chats
-type NotificationSettings struct {
+// ScopeNotificationSettings Contains information about notification settings for several chats
+type ScopeNotificationSettings struct {
 	tdCommon
 	MuteFor     int32  `json:"mute_for"`     // Time left before notifications will be unmuted, in seconds
-	Sound       string `json:"sound"`        // An audio file name for notification sounds; only applies to iOS applications
+	Sound       string `json:"sound"`        // The name of an audio file to be used for notification sounds; only applies to iOS applications
 	ShowPreview bool   `json:"show_preview"` // True, if message content should be displayed in notifications
 }
 
-// MessageType return the string telegram-type of NotificationSettings
-func (notificationSettings *NotificationSettings) MessageType() string {
-	return "notificationSettings"
+// MessageType return the string telegram-type of ScopeNotificationSettings
+func (scopeNotificationSettings *ScopeNotificationSettings) MessageType() string {
+	return "scopeNotificationSettings"
 }
 
-// NewNotificationSettings creates a new NotificationSettings
+// NewScopeNotificationSettings creates a new ScopeNotificationSettings
 //
 // @param muteFor Time left before notifications will be unmuted, in seconds
-// @param sound An audio file name for notification sounds; only applies to iOS applications
+// @param sound The name of an audio file to be used for notification sounds; only applies to iOS applications
 // @param showPreview True, if message content should be displayed in notifications
-func NewNotificationSettings(muteFor int32, sound string, showPreview bool) *NotificationSettings {
-	notificationSettingsTemp := NotificationSettings{
-		tdCommon:    tdCommon{Type: "notificationSettings"},
+func NewScopeNotificationSettings(muteFor int32, sound string, showPreview bool) *ScopeNotificationSettings {
+	scopeNotificationSettingsTemp := ScopeNotificationSettings{
+		tdCommon:    tdCommon{Type: "scopeNotificationSettings"},
 		MuteFor:     muteFor,
 		Sound:       sound,
 		ShowPreview: showPreview,
 	}
 
-	return &notificationSettingsTemp
+	return &scopeNotificationSettingsTemp
 }
 
 // DraftMessage Contains information about a message draft
@@ -4571,22 +4884,25 @@ func (chatTypeSecret *ChatTypeSecret) GetChatTypeEnum() ChatTypeEnum {
 // Chat A chat. (Can be a private chat, basic group, supergroup, or secret chat)
 type Chat struct {
 	tdCommon
-	ID                      int64                 `json:"id"`                          // Chat unique identifier
-	Type                    ChatType              `json:"type"`                        // Type of the chat
-	Title                   string                `json:"title"`                       // Chat title
-	Photo                   *ChatPhoto            `json:"photo"`                       // Chat photo; may be null
-	LastMessage             *Message              `json:"last_message"`                // Last message in the chat; may be null
-	Order                   JSONInt64             `json:"order"`                       // Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
-	IsPinned                bool                  `json:"is_pinned"`                   // True, if the chat is pinned
-	CanBeReported           bool                  `json:"can_be_reported"`             // True, if the chat can be reported to Telegram moderators through reportChat
-	UnreadCount             int32                 `json:"unread_count"`                // Number of unread messages in the chat
-	LastReadInboxMessageID  int64                 `json:"last_read_inbox_message_id"`  // Identifier of the last read incoming message
-	LastReadOutboxMessageID int64                 `json:"last_read_outbox_message_id"` // Identifier of the last read outgoing message
-	UnreadMentionCount      int32                 `json:"unread_mention_count"`        // Number of unread messages with a mention/reply in the chat
-	NotificationSettings    *NotificationSettings `json:"notification_settings"`       // Notification settings for this chat
-	ReplyMarkupMessageID    int64                 `json:"reply_markup_message_id"`     // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
-	DraftMessage            *DraftMessage         `json:"draft_message"`               // A draft of a message in the chat; may be null
-	ClientData              string                `json:"client_data"`                 // Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
+	ID                         int64                     `json:"id"`                           // Chat unique identifier
+	Type                       ChatType                  `json:"type"`                         // Type of the chat
+	Title                      string                    `json:"title"`                        // Chat title
+	Photo                      *ChatPhoto                `json:"photo"`                        // Chat photo; may be null
+	LastMessage                *Message                  `json:"last_message"`                 // Last message in the chat; may be null
+	Order                      JSONInt64                 `json:"order"`                        // Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
+	IsPinned                   bool                      `json:"is_pinned"`                    // True, if the chat is pinned
+	IsMarkedAsUnread           bool                      `json:"is_marked_as_unread"`          // True, if the chat is marked as unread
+	IsSponsored                bool                      `json:"is_sponsored"`                 // True, if the chat is sponsored by the user's MTProxy server
+	CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat
+	DefaultDisableNotification bool                      `json:"default_disable_notification"` // Default value of the disable_notification parameter, used when a message is sent to the chat
+	UnreadCount                int32                     `json:"unread_count"`                 // Number of unread messages in the chat
+	LastReadInboxMessageID     int64                     `json:"last_read_inbox_message_id"`   // Identifier of the last read incoming message
+	LastReadOutboxMessageID    int64                     `json:"last_read_outbox_message_id"`  // Identifier of the last read outgoing message
+	UnreadMentionCount         int32                     `json:"unread_mention_count"`         // Number of unread messages with a mention/reply in the chat
+	NotificationSettings       *ChatNotificationSettings `json:"notification_settings"`        // Notification settings for this chat
+	ReplyMarkupMessageID       int64                     `json:"reply_markup_message_id"`      // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
+	DraftMessage               *DraftMessage             `json:"draft_message"`                // A draft of a message in the chat; may be null
+	ClientData                 string                    `json:"client_data"`                  // Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
 }
 
 // MessageType return the string telegram-type of Chat
@@ -4603,7 +4919,10 @@ func (chat *Chat) MessageType() string {
 // @param lastMessage Last message in the chat; may be null
 // @param order Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
 // @param isPinned True, if the chat is pinned
+// @param isMarkedAsUnread True, if the chat is marked as unread
+// @param isSponsored True, if the chat is sponsored by the user's MTProxy server
 // @param canBeReported True, if the chat can be reported to Telegram moderators through reportChat
+// @param defaultDisableNotification Default value of the disable_notification parameter, used when a message is sent to the chat
 // @param unreadCount Number of unread messages in the chat
 // @param lastReadInboxMessageID Identifier of the last read incoming message
 // @param lastReadOutboxMessageID Identifier of the last read outgoing message
@@ -4612,25 +4931,28 @@ func (chat *Chat) MessageType() string {
 // @param replyMarkupMessageID Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 // @param draftMessage A draft of a message in the chat; may be null
 // @param clientData Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
-func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastMessage *Message, order JSONInt64, isPinned bool, canBeReported bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *NotificationSettings, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
+func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhoto, lastMessage *Message, order JSONInt64, isPinned bool, isMarkedAsUnread bool, isSponsored bool, canBeReported bool, defaultDisableNotification bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *ChatNotificationSettings, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
 	chatTemp := Chat{
-		tdCommon:                tdCommon{Type: "chat"},
-		ID:                      iD,
-		Type:                    typeParam,
-		Title:                   title,
-		Photo:                   photo,
-		LastMessage:             lastMessage,
-		Order:                   order,
-		IsPinned:                isPinned,
-		CanBeReported:           canBeReported,
-		UnreadCount:             unreadCount,
-		LastReadInboxMessageID:  lastReadInboxMessageID,
-		LastReadOutboxMessageID: lastReadOutboxMessageID,
-		UnreadMentionCount:      unreadMentionCount,
-		NotificationSettings:    notificationSettings,
-		ReplyMarkupMessageID:    replyMarkupMessageID,
-		DraftMessage:            draftMessage,
-		ClientData:              clientData,
+		tdCommon:                   tdCommon{Type: "chat"},
+		ID:                         iD,
+		Type:                       typeParam,
+		Title:                      title,
+		Photo:                      photo,
+		LastMessage:                lastMessage,
+		Order:                      order,
+		IsPinned:                   isPinned,
+		IsMarkedAsUnread:           isMarkedAsUnread,
+		IsSponsored:                isSponsored,
+		CanBeReported:              canBeReported,
+		DefaultDisableNotification: defaultDisableNotification,
+		UnreadCount:                unreadCount,
+		LastReadInboxMessageID:     lastReadInboxMessageID,
+		LastReadOutboxMessageID:    lastReadOutboxMessageID,
+		UnreadMentionCount:         unreadMentionCount,
+		NotificationSettings:       notificationSettings,
+		ReplyMarkupMessageID:       replyMarkupMessageID,
+		DraftMessage:               draftMessage,
+		ClientData:                 clientData,
 	}
 
 	return &chatTemp
@@ -4645,21 +4967,24 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		ID                      int64                 `json:"id"`                          // Chat unique identifier
-		Title                   string                `json:"title"`                       // Chat title
-		Photo                   *ChatPhoto            `json:"photo"`                       // Chat photo; may be null
-		LastMessage             *Message              `json:"last_message"`                // Last message in the chat; may be null
-		Order                   JSONInt64             `json:"order"`                       // Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
-		IsPinned                bool                  `json:"is_pinned"`                   // True, if the chat is pinned
-		CanBeReported           bool                  `json:"can_be_reported"`             // True, if the chat can be reported to Telegram moderators through reportChat
-		UnreadCount             int32                 `json:"unread_count"`                // Number of unread messages in the chat
-		LastReadInboxMessageID  int64                 `json:"last_read_inbox_message_id"`  // Identifier of the last read incoming message
-		LastReadOutboxMessageID int64                 `json:"last_read_outbox_message_id"` // Identifier of the last read outgoing message
-		UnreadMentionCount      int32                 `json:"unread_mention_count"`        // Number of unread messages with a mention/reply in the chat
-		NotificationSettings    *NotificationSettings `json:"notification_settings"`       // Notification settings for this chat
-		ReplyMarkupMessageID    int64                 `json:"reply_markup_message_id"`     // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
-		DraftMessage            *DraftMessage         `json:"draft_message"`               // A draft of a message in the chat; may be null
-		ClientData              string                `json:"client_data"`                 // Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
+		ID                         int64                     `json:"id"`                           // Chat unique identifier
+		Title                      string                    `json:"title"`                        // Chat title
+		Photo                      *ChatPhoto                `json:"photo"`                        // Chat photo; may be null
+		LastMessage                *Message                  `json:"last_message"`                 // Last message in the chat; may be null
+		Order                      JSONInt64                 `json:"order"`                        // Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined
+		IsPinned                   bool                      `json:"is_pinned"`                    // True, if the chat is pinned
+		IsMarkedAsUnread           bool                      `json:"is_marked_as_unread"`          // True, if the chat is marked as unread
+		IsSponsored                bool                      `json:"is_sponsored"`                 // True, if the chat is sponsored by the user's MTProxy server
+		CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat
+		DefaultDisableNotification bool                      `json:"default_disable_notification"` // Default value of the disable_notification parameter, used when a message is sent to the chat
+		UnreadCount                int32                     `json:"unread_count"`                 // Number of unread messages in the chat
+		LastReadInboxMessageID     int64                     `json:"last_read_inbox_message_id"`   // Identifier of the last read incoming message
+		LastReadOutboxMessageID    int64                     `json:"last_read_outbox_message_id"`  // Identifier of the last read outgoing message
+		UnreadMentionCount         int32                     `json:"unread_mention_count"`         // Number of unread messages with a mention/reply in the chat
+		NotificationSettings       *ChatNotificationSettings `json:"notification_settings"`        // Notification settings for this chat
+		ReplyMarkupMessageID       int64                     `json:"reply_markup_message_id"`      // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
+		DraftMessage               *DraftMessage             `json:"draft_message"`                // A draft of a message in the chat; may be null
+		ClientData                 string                    `json:"client_data"`                  // Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -4673,7 +4998,10 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 	chat.LastMessage = tempObj.LastMessage
 	chat.Order = tempObj.Order
 	chat.IsPinned = tempObj.IsPinned
+	chat.IsMarkedAsUnread = tempObj.IsMarkedAsUnread
+	chat.IsSponsored = tempObj.IsSponsored
 	chat.CanBeReported = tempObj.CanBeReported
+	chat.DefaultDisableNotification = tempObj.DefaultDisableNotification
 	chat.UnreadCount = tempObj.UnreadCount
 	chat.LastReadInboxMessageID = tempObj.LastReadInboxMessageID
 	chat.LastReadOutboxMessageID = tempObj.LastReadOutboxMessageID
@@ -4941,7 +5269,7 @@ func (keyboardButton *KeyboardButton) UnmarshalJSON(b []byte) error {
 // InlineKeyboardButtonTypeURL A button that opens a specified URL
 type InlineKeyboardButtonTypeURL struct {
 	tdCommon
-	URL string `json:"url"` // URL to open
+	URL string `json:"url"` // HTTP or tg:// URL to open
 }
 
 // MessageType return the string telegram-type of InlineKeyboardButtonTypeURL
@@ -4951,7 +5279,7 @@ func (inlineKeyboardButtonTypeURL *InlineKeyboardButtonTypeURL) MessageType() st
 
 // NewInlineKeyboardButtonTypeURL creates a new InlineKeyboardButtonTypeURL
 //
-// @param uRL URL to open
+// @param uRL HTTP or tg:// URL to open
 func NewInlineKeyboardButtonTypeURL(uRL string) *InlineKeyboardButtonTypeURL {
 	inlineKeyboardButtonTypeURLTemp := InlineKeyboardButtonTypeURL{
 		tdCommon: tdCommon{Type: "inlineKeyboardButtonTypeUrl"},
@@ -6999,6 +7327,44 @@ func NewWebPage(uRL string, displayURL string, typeParam string, siteName string
 	return &webPageTemp
 }
 
+// Address Describes an address
+type Address struct {
+	tdCommon
+	CountryCode string `json:"country_code"` // A two-letter ISO 3166-1 alpha-2 country code
+	State       string `json:"state"`        // State, if applicable
+	City        string `json:"city"`         // City
+	StreetLine1 string `json:"street_line1"` // First line of the address
+	StreetLine2 string `json:"street_line2"` // Second line of the address
+	PostalCode  string `json:"postal_code"`  // Address postal code
+}
+
+// MessageType return the string telegram-type of Address
+func (address *Address) MessageType() string {
+	return "address"
+}
+
+// NewAddress creates a new Address
+//
+// @param countryCode A two-letter ISO 3166-1 alpha-2 country code
+// @param state State, if applicable
+// @param city City
+// @param streetLine1 First line of the address
+// @param streetLine2 Second line of the address
+// @param postalCode Address postal code
+func NewAddress(countryCode string, state string, city string, streetLine1 string, streetLine2 string, postalCode string) *Address {
+	addressTemp := Address{
+		tdCommon:    tdCommon{Type: "address"},
+		CountryCode: countryCode,
+		State:       state,
+		City:        city,
+		StreetLine1: streetLine1,
+		StreetLine2: streetLine2,
+		PostalCode:  postalCode,
+	}
+
+	return &addressTemp
+}
+
 // LabeledPricePart Portion of the price of a product (e.g., "delivery cost", "tax amount")
 type LabeledPricePart struct {
 	tdCommon
@@ -7075,51 +7441,13 @@ func NewInvoice(currency string, priceParts []LabeledPricePart, isTest bool, nee
 	return &invoiceTemp
 }
 
-// ShippingAddress Describes a shipping address
-type ShippingAddress struct {
-	tdCommon
-	CountryCode string `json:"country_code"` // Two-letter ISO 3166-1 alpha-2 country code
-	State       string `json:"state"`        // State, if applicable
-	City        string `json:"city"`         // City
-	StreetLine1 string `json:"street_line1"` // First line of the address
-	StreetLine2 string `json:"street_line2"` // Second line of the address
-	PostalCode  string `json:"postal_code"`  // Address postal code
-}
-
-// MessageType return the string telegram-type of ShippingAddress
-func (shippingAddress *ShippingAddress) MessageType() string {
-	return "shippingAddress"
-}
-
-// NewShippingAddress creates a new ShippingAddress
-//
-// @param countryCode Two-letter ISO 3166-1 alpha-2 country code
-// @param state State, if applicable
-// @param city City
-// @param streetLine1 First line of the address
-// @param streetLine2 Second line of the address
-// @param postalCode Address postal code
-func NewShippingAddress(countryCode string, state string, city string, streetLine1 string, streetLine2 string, postalCode string) *ShippingAddress {
-	shippingAddressTemp := ShippingAddress{
-		tdCommon:    tdCommon{Type: "shippingAddress"},
-		CountryCode: countryCode,
-		State:       state,
-		City:        city,
-		StreetLine1: streetLine1,
-		StreetLine2: streetLine2,
-		PostalCode:  postalCode,
-	}
-
-	return &shippingAddressTemp
-}
-
 // OrderInfo Order information
 type OrderInfo struct {
 	tdCommon
-	Name            string           `json:"name"`             // Name of the user
-	PhoneNumber     string           `json:"phone_number"`     // Phone number of the user
-	EmailAddress    string           `json:"email_address"`    // Email address of the user
-	ShippingAddress *ShippingAddress `json:"shipping_address"` // Shipping address for this order; may be null
+	Name            string   `json:"name"`             // Name of the user
+	PhoneNumber     string   `json:"phone_number"`     // Phone number of the user
+	EmailAddress    string   `json:"email_address"`    // Email address of the user
+	ShippingAddress *Address `json:"shipping_address"` // Shipping address for this order; may be null
 }
 
 // MessageType return the string telegram-type of OrderInfo
@@ -7133,7 +7461,7 @@ func (orderInfo *OrderInfo) MessageType() string {
 // @param phoneNumber Phone number of the user
 // @param emailAddress Email address of the user
 // @param shippingAddress Shipping address for this order; may be null
-func NewOrderInfo(name string, phoneNumber string, emailAddress string, shippingAddress *ShippingAddress) *OrderInfo {
+func NewOrderInfo(name string, phoneNumber string, emailAddress string, shippingAddress *Address) *OrderInfo {
 	orderInfoTemp := OrderInfo{
 		tdCommon:        tdCommon{Type: "orderInfo"},
 		Name:            name,
@@ -7466,8 +7794,8 @@ func (paymentReceipt *PaymentReceipt) MessageType() string {
 // @param credentialsTitle Title of the saved credentials
 func NewPaymentReceipt(date int32, paymentsProviderUserID int32, invoice *Invoice, orderInfo *OrderInfo, shippingOption *ShippingOption, credentialsTitle string) *PaymentReceipt {
 	paymentReceiptTemp := PaymentReceipt{
-		tdCommon: tdCommon{Type: "paymentReceipt"},
-		Date:     date,
+		tdCommon:               tdCommon{Type: "paymentReceipt"},
+		Date:                   date,
 		PaymentsProviderUserID: paymentsProviderUserID,
 		Invoice:                invoice,
 		OrderInfo:              orderInfo,
@@ -7476,6 +7804,2183 @@ func NewPaymentReceipt(date int32, paymentsProviderUserID int32, invoice *Invoic
 	}
 
 	return &paymentReceiptTemp
+}
+
+// DatedFile File with the date it was uploaded
+type DatedFile struct {
+	tdCommon
+	File *File `json:"file"` // The file
+	Date int32 `json:"date"` // Point in time (Unix timestamp) when the file was uploaded
+}
+
+// MessageType return the string telegram-type of DatedFile
+func (datedFile *DatedFile) MessageType() string {
+	return "datedFile"
+}
+
+// NewDatedFile creates a new DatedFile
+//
+// @param file The file
+// @param date Point in time (Unix timestamp) when the file was uploaded
+func NewDatedFile(file *File, date int32) *DatedFile {
+	datedFileTemp := DatedFile{
+		tdCommon: tdCommon{Type: "datedFile"},
+		File:     file,
+		Date:     date,
+	}
+
+	return &datedFileTemp
+}
+
+// PassportElementTypePersonalDetails A Telegram Passport element containing the user's personal details
+type PassportElementTypePersonalDetails struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypePersonalDetails
+func (passportElementTypePersonalDetails *PassportElementTypePersonalDetails) MessageType() string {
+	return "passportElementTypePersonalDetails"
+}
+
+// NewPassportElementTypePersonalDetails creates a new PassportElementTypePersonalDetails
+//
+func NewPassportElementTypePersonalDetails() *PassportElementTypePersonalDetails {
+	passportElementTypePersonalDetailsTemp := PassportElementTypePersonalDetails{
+		tdCommon: tdCommon{Type: "passportElementTypePersonalDetails"},
+	}
+
+	return &passportElementTypePersonalDetailsTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypePersonalDetails *PassportElementTypePersonalDetails) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypePersonalDetailsType
+}
+
+// PassportElementTypePassport A Telegram Passport element containing the user's passport
+type PassportElementTypePassport struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypePassport
+func (passportElementTypePassport *PassportElementTypePassport) MessageType() string {
+	return "passportElementTypePassport"
+}
+
+// NewPassportElementTypePassport creates a new PassportElementTypePassport
+//
+func NewPassportElementTypePassport() *PassportElementTypePassport {
+	passportElementTypePassportTemp := PassportElementTypePassport{
+		tdCommon: tdCommon{Type: "passportElementTypePassport"},
+	}
+
+	return &passportElementTypePassportTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypePassport *PassportElementTypePassport) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypePassportType
+}
+
+// PassportElementTypeDriverLicense A Telegram Passport element containing the user's driver license
+type PassportElementTypeDriverLicense struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeDriverLicense
+func (passportElementTypeDriverLicense *PassportElementTypeDriverLicense) MessageType() string {
+	return "passportElementTypeDriverLicense"
+}
+
+// NewPassportElementTypeDriverLicense creates a new PassportElementTypeDriverLicense
+//
+func NewPassportElementTypeDriverLicense() *PassportElementTypeDriverLicense {
+	passportElementTypeDriverLicenseTemp := PassportElementTypeDriverLicense{
+		tdCommon: tdCommon{Type: "passportElementTypeDriverLicense"},
+	}
+
+	return &passportElementTypeDriverLicenseTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeDriverLicense *PassportElementTypeDriverLicense) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeDriverLicenseType
+}
+
+// PassportElementTypeIDentityCard A Telegram Passport element containing the user's identity card
+type PassportElementTypeIDentityCard struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeIDentityCard
+func (passportElementTypeIDentityCard *PassportElementTypeIDentityCard) MessageType() string {
+	return "passportElementTypeIdentityCard"
+}
+
+// NewPassportElementTypeIDentityCard creates a new PassportElementTypeIDentityCard
+//
+func NewPassportElementTypeIDentityCard() *PassportElementTypeIDentityCard {
+	passportElementTypeIDentityCardTemp := PassportElementTypeIDentityCard{
+		tdCommon: tdCommon{Type: "passportElementTypeIdentityCard"},
+	}
+
+	return &passportElementTypeIDentityCardTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeIDentityCard *PassportElementTypeIDentityCard) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeIDentityCardType
+}
+
+// PassportElementTypeInternalPassport A Telegram Passport element containing the user's internal passport
+type PassportElementTypeInternalPassport struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeInternalPassport
+func (passportElementTypeInternalPassport *PassportElementTypeInternalPassport) MessageType() string {
+	return "passportElementTypeInternalPassport"
+}
+
+// NewPassportElementTypeInternalPassport creates a new PassportElementTypeInternalPassport
+//
+func NewPassportElementTypeInternalPassport() *PassportElementTypeInternalPassport {
+	passportElementTypeInternalPassportTemp := PassportElementTypeInternalPassport{
+		tdCommon: tdCommon{Type: "passportElementTypeInternalPassport"},
+	}
+
+	return &passportElementTypeInternalPassportTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeInternalPassport *PassportElementTypeInternalPassport) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeInternalPassportType
+}
+
+// PassportElementTypeAddress A Telegram Passport element containing the user's address
+type PassportElementTypeAddress struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeAddress
+func (passportElementTypeAddress *PassportElementTypeAddress) MessageType() string {
+	return "passportElementTypeAddress"
+}
+
+// NewPassportElementTypeAddress creates a new PassportElementTypeAddress
+//
+func NewPassportElementTypeAddress() *PassportElementTypeAddress {
+	passportElementTypeAddressTemp := PassportElementTypeAddress{
+		tdCommon: tdCommon{Type: "passportElementTypeAddress"},
+	}
+
+	return &passportElementTypeAddressTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeAddress *PassportElementTypeAddress) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeAddressType
+}
+
+// PassportElementTypeUtilityBill A Telegram Passport element containing the user's utility bill
+type PassportElementTypeUtilityBill struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeUtilityBill
+func (passportElementTypeUtilityBill *PassportElementTypeUtilityBill) MessageType() string {
+	return "passportElementTypeUtilityBill"
+}
+
+// NewPassportElementTypeUtilityBill creates a new PassportElementTypeUtilityBill
+//
+func NewPassportElementTypeUtilityBill() *PassportElementTypeUtilityBill {
+	passportElementTypeUtilityBillTemp := PassportElementTypeUtilityBill{
+		tdCommon: tdCommon{Type: "passportElementTypeUtilityBill"},
+	}
+
+	return &passportElementTypeUtilityBillTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeUtilityBill *PassportElementTypeUtilityBill) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeUtilityBillType
+}
+
+// PassportElementTypeBankStatement A Telegram Passport element containing the user's bank statement
+type PassportElementTypeBankStatement struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeBankStatement
+func (passportElementTypeBankStatement *PassportElementTypeBankStatement) MessageType() string {
+	return "passportElementTypeBankStatement"
+}
+
+// NewPassportElementTypeBankStatement creates a new PassportElementTypeBankStatement
+//
+func NewPassportElementTypeBankStatement() *PassportElementTypeBankStatement {
+	passportElementTypeBankStatementTemp := PassportElementTypeBankStatement{
+		tdCommon: tdCommon{Type: "passportElementTypeBankStatement"},
+	}
+
+	return &passportElementTypeBankStatementTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeBankStatement *PassportElementTypeBankStatement) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeBankStatementType
+}
+
+// PassportElementTypeRentalAgreement A Telegram Passport element containing the user's rental agreement
+type PassportElementTypeRentalAgreement struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeRentalAgreement
+func (passportElementTypeRentalAgreement *PassportElementTypeRentalAgreement) MessageType() string {
+	return "passportElementTypeRentalAgreement"
+}
+
+// NewPassportElementTypeRentalAgreement creates a new PassportElementTypeRentalAgreement
+//
+func NewPassportElementTypeRentalAgreement() *PassportElementTypeRentalAgreement {
+	passportElementTypeRentalAgreementTemp := PassportElementTypeRentalAgreement{
+		tdCommon: tdCommon{Type: "passportElementTypeRentalAgreement"},
+	}
+
+	return &passportElementTypeRentalAgreementTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeRentalAgreement *PassportElementTypeRentalAgreement) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeRentalAgreementType
+}
+
+// PassportElementTypePassportRegistration A Telegram Passport element containing the registration page of the user's passport
+type PassportElementTypePassportRegistration struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypePassportRegistration
+func (passportElementTypePassportRegistration *PassportElementTypePassportRegistration) MessageType() string {
+	return "passportElementTypePassportRegistration"
+}
+
+// NewPassportElementTypePassportRegistration creates a new PassportElementTypePassportRegistration
+//
+func NewPassportElementTypePassportRegistration() *PassportElementTypePassportRegistration {
+	passportElementTypePassportRegistrationTemp := PassportElementTypePassportRegistration{
+		tdCommon: tdCommon{Type: "passportElementTypePassportRegistration"},
+	}
+
+	return &passportElementTypePassportRegistrationTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypePassportRegistration *PassportElementTypePassportRegistration) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypePassportRegistrationType
+}
+
+// PassportElementTypeTemporaryRegistration A Telegram Passport element containing the user's temporary registration
+type PassportElementTypeTemporaryRegistration struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeTemporaryRegistration
+func (passportElementTypeTemporaryRegistration *PassportElementTypeTemporaryRegistration) MessageType() string {
+	return "passportElementTypeTemporaryRegistration"
+}
+
+// NewPassportElementTypeTemporaryRegistration creates a new PassportElementTypeTemporaryRegistration
+//
+func NewPassportElementTypeTemporaryRegistration() *PassportElementTypeTemporaryRegistration {
+	passportElementTypeTemporaryRegistrationTemp := PassportElementTypeTemporaryRegistration{
+		tdCommon: tdCommon{Type: "passportElementTypeTemporaryRegistration"},
+	}
+
+	return &passportElementTypeTemporaryRegistrationTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeTemporaryRegistration *PassportElementTypeTemporaryRegistration) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeTemporaryRegistrationType
+}
+
+// PassportElementTypePhoneNumber A Telegram Passport element containing the user's phone number
+type PassportElementTypePhoneNumber struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypePhoneNumber
+func (passportElementTypePhoneNumber *PassportElementTypePhoneNumber) MessageType() string {
+	return "passportElementTypePhoneNumber"
+}
+
+// NewPassportElementTypePhoneNumber creates a new PassportElementTypePhoneNumber
+//
+func NewPassportElementTypePhoneNumber() *PassportElementTypePhoneNumber {
+	passportElementTypePhoneNumberTemp := PassportElementTypePhoneNumber{
+		tdCommon: tdCommon{Type: "passportElementTypePhoneNumber"},
+	}
+
+	return &passportElementTypePhoneNumberTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypePhoneNumber *PassportElementTypePhoneNumber) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypePhoneNumberType
+}
+
+// PassportElementTypeEmailAddress A Telegram Passport element containing the user's email address
+type PassportElementTypeEmailAddress struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementTypeEmailAddress
+func (passportElementTypeEmailAddress *PassportElementTypeEmailAddress) MessageType() string {
+	return "passportElementTypeEmailAddress"
+}
+
+// NewPassportElementTypeEmailAddress creates a new PassportElementTypeEmailAddress
+//
+func NewPassportElementTypeEmailAddress() *PassportElementTypeEmailAddress {
+	passportElementTypeEmailAddressTemp := PassportElementTypeEmailAddress{
+		tdCommon: tdCommon{Type: "passportElementTypeEmailAddress"},
+	}
+
+	return &passportElementTypeEmailAddressTemp
+}
+
+// GetPassportElementTypeEnum return the enum type of this object
+func (passportElementTypeEmailAddress *PassportElementTypeEmailAddress) GetPassportElementTypeEnum() PassportElementTypeEnum {
+	return PassportElementTypeEmailAddressType
+}
+
+// Date Represents a date according to the Gregorian calendar
+type Date struct {
+	tdCommon
+	Day   int32 `json:"day"`   // Day of the month, 1-31
+	Month int32 `json:"month"` // Month, 1-12
+	Year  int32 `json:"year"`  // Year, 1-9999
+}
+
+// MessageType return the string telegram-type of Date
+func (date *Date) MessageType() string {
+	return "date"
+}
+
+// NewDate creates a new Date
+//
+// @param day Day of the month, 1-31
+// @param month Month, 1-12
+// @param year Year, 1-9999
+func NewDate(day int32, month int32, year int32) *Date {
+	dateTemp := Date{
+		tdCommon: tdCommon{Type: "date"},
+		Day:      day,
+		Month:    month,
+		Year:     year,
+	}
+
+	return &dateTemp
+}
+
+// PersonalDetails Contains the user's personal details
+type PersonalDetails struct {
+	tdCommon
+	FirstName            string `json:"first_name"`             // First name of the user written in English; 1-255 characters
+	MiddleName           string `json:"middle_name"`            // Middle name of the user written in English; 0-255 characters
+	LastName             string `json:"last_name"`              // Last name of the user written in English; 1-255 characters
+	NativeFirstName      string `json:"native_first_name"`      // Native first name of the user; 1-255 characters
+	NativeMiddleName     string `json:"native_middle_name"`     // Native middle name of the user; 0-255 characters
+	NativeLastName       string `json:"native_last_name"`       // Native last name of the user; 1-255 characters
+	Birthdate            *Date  `json:"birthdate"`              // Birthdate of the user
+	Gender               string `json:"gender"`                 // Gender of the user, "male" or "female"
+	CountryCode          string `json:"country_code"`           // A two-letter ISO 3166-1 alpha-2 country code of the user's country
+	ResidenceCountryCode string `json:"residence_country_code"` // A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
+}
+
+// MessageType return the string telegram-type of PersonalDetails
+func (personalDetails *PersonalDetails) MessageType() string {
+	return "personalDetails"
+}
+
+// NewPersonalDetails creates a new PersonalDetails
+//
+// @param firstName First name of the user written in English; 1-255 characters
+// @param middleName Middle name of the user written in English; 0-255 characters
+// @param lastName Last name of the user written in English; 1-255 characters
+// @param nativeFirstName Native first name of the user; 1-255 characters
+// @param nativeMiddleName Native middle name of the user; 0-255 characters
+// @param nativeLastName Native last name of the user; 1-255 characters
+// @param birthdate Birthdate of the user
+// @param gender Gender of the user, "male" or "female"
+// @param countryCode A two-letter ISO 3166-1 alpha-2 country code of the user's country
+// @param residenceCountryCode A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
+func NewPersonalDetails(firstName string, middleName string, lastName string, nativeFirstName string, nativeMiddleName string, nativeLastName string, birthdate *Date, gender string, countryCode string, residenceCountryCode string) *PersonalDetails {
+	personalDetailsTemp := PersonalDetails{
+		tdCommon:             tdCommon{Type: "personalDetails"},
+		FirstName:            firstName,
+		MiddleName:           middleName,
+		LastName:             lastName,
+		NativeFirstName:      nativeFirstName,
+		NativeMiddleName:     nativeMiddleName,
+		NativeLastName:       nativeLastName,
+		Birthdate:            birthdate,
+		Gender:               gender,
+		CountryCode:          countryCode,
+		ResidenceCountryCode: residenceCountryCode,
+	}
+
+	return &personalDetailsTemp
+}
+
+// IDentityDocument An identity document
+type IDentityDocument struct {
+	tdCommon
+	Number      string      `json:"number"`       // Document number; 1-24 characters
+	ExpiryDate  *Date       `json:"expiry_date"`  // Document expiry date; may be null
+	FrontSide   *DatedFile  `json:"front_side"`   // Front side of the document
+	ReverseSide *DatedFile  `json:"reverse_side"` // Reverse side of the document; only for driver license and identity card
+	Selfie      *DatedFile  `json:"selfie"`       // Selfie with the document; may be null
+	Translation []DatedFile `json:"translation"`  // List of files containing a certified English translation of the document
+}
+
+// MessageType return the string telegram-type of IDentityDocument
+func (iDentityDocument *IDentityDocument) MessageType() string {
+	return "identityDocument"
+}
+
+// NewIDentityDocument creates a new IDentityDocument
+//
+// @param number Document number; 1-24 characters
+// @param expiryDate Document expiry date; may be null
+// @param frontSide Front side of the document
+// @param reverseSide Reverse side of the document; only for driver license and identity card
+// @param selfie Selfie with the document; may be null
+// @param translation List of files containing a certified English translation of the document
+func NewIDentityDocument(number string, expiryDate *Date, frontSide *DatedFile, reverseSide *DatedFile, selfie *DatedFile, translation []DatedFile) *IDentityDocument {
+	iDentityDocumentTemp := IDentityDocument{
+		tdCommon:    tdCommon{Type: "identityDocument"},
+		Number:      number,
+		ExpiryDate:  expiryDate,
+		FrontSide:   frontSide,
+		ReverseSide: reverseSide,
+		Selfie:      selfie,
+		Translation: translation,
+	}
+
+	return &iDentityDocumentTemp
+}
+
+// InputIDentityDocument An identity document to be saved to Telegram Passport
+type InputIDentityDocument struct {
+	tdCommon
+	Number      string      `json:"number"`       // Document number; 1-24 characters
+	ExpiryDate  *Date       `json:"expiry_date"`  // Document expiry date, if available
+	FrontSide   InputFile   `json:"front_side"`   // Front side of the document
+	ReverseSide InputFile   `json:"reverse_side"` // Reverse side of the document; only for driver license and identity card
+	Selfie      InputFile   `json:"selfie"`       // Selfie with the document, if available
+	Translation []InputFile `json:"translation"`  // List of files containing a certified English translation of the document
+}
+
+// MessageType return the string telegram-type of InputIDentityDocument
+func (inputIDentityDocument *InputIDentityDocument) MessageType() string {
+	return "inputIdentityDocument"
+}
+
+// NewInputIDentityDocument creates a new InputIDentityDocument
+//
+// @param number Document number; 1-24 characters
+// @param expiryDate Document expiry date, if available
+// @param frontSide Front side of the document
+// @param reverseSide Reverse side of the document; only for driver license and identity card
+// @param selfie Selfie with the document, if available
+// @param translation List of files containing a certified English translation of the document
+func NewInputIDentityDocument(number string, expiryDate *Date, frontSide InputFile, reverseSide InputFile, selfie InputFile, translation []InputFile) *InputIDentityDocument {
+	inputIDentityDocumentTemp := InputIDentityDocument{
+		tdCommon:    tdCommon{Type: "inputIdentityDocument"},
+		Number:      number,
+		ExpiryDate:  expiryDate,
+		FrontSide:   frontSide,
+		ReverseSide: reverseSide,
+		Selfie:      selfie,
+		Translation: translation,
+	}
+
+	return &inputIDentityDocumentTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (inputIDentityDocument *InputIDentityDocument) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Number      string      `json:"number"`      // Document number; 1-24 characters
+		ExpiryDate  *Date       `json:"expiry_date"` // Document expiry date, if available
+		Translation []InputFile `json:"translation"` // List of files containing a certified English translation of the document
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	inputIDentityDocument.tdCommon = tempObj.tdCommon
+	inputIDentityDocument.Number = tempObj.Number
+	inputIDentityDocument.ExpiryDate = tempObj.ExpiryDate
+	inputIDentityDocument.Translation = tempObj.Translation
+
+	fieldFrontSide, _ := unmarshalInputFile(objMap["front_side"])
+	inputIDentityDocument.FrontSide = fieldFrontSide
+
+	fieldReverseSide, _ := unmarshalInputFile(objMap["reverse_side"])
+	inputIDentityDocument.ReverseSide = fieldReverseSide
+
+	fieldSelfie, _ := unmarshalInputFile(objMap["selfie"])
+	inputIDentityDocument.Selfie = fieldSelfie
+
+	return nil
+}
+
+// PersonalDocument A personal document, containing some information about a user
+type PersonalDocument struct {
+	tdCommon
+	Files       []DatedFile `json:"files"`       // List of files containing the pages of the document
+	Translation []DatedFile `json:"translation"` // List of files containing a certified English translation of the document
+}
+
+// MessageType return the string telegram-type of PersonalDocument
+func (personalDocument *PersonalDocument) MessageType() string {
+	return "personalDocument"
+}
+
+// NewPersonalDocument creates a new PersonalDocument
+//
+// @param files List of files containing the pages of the document
+// @param translation List of files containing a certified English translation of the document
+func NewPersonalDocument(files []DatedFile, translation []DatedFile) *PersonalDocument {
+	personalDocumentTemp := PersonalDocument{
+		tdCommon:    tdCommon{Type: "personalDocument"},
+		Files:       files,
+		Translation: translation,
+	}
+
+	return &personalDocumentTemp
+}
+
+// InputPersonalDocument A personal document to be saved to Telegram Passport
+type InputPersonalDocument struct {
+	tdCommon
+	Files       []InputFile `json:"files"`       // List of files containing the pages of the document
+	Translation []InputFile `json:"translation"` // List of files containing a certified English translation of the document
+}
+
+// MessageType return the string telegram-type of InputPersonalDocument
+func (inputPersonalDocument *InputPersonalDocument) MessageType() string {
+	return "inputPersonalDocument"
+}
+
+// NewInputPersonalDocument creates a new InputPersonalDocument
+//
+// @param files List of files containing the pages of the document
+// @param translation List of files containing a certified English translation of the document
+func NewInputPersonalDocument(files []InputFile, translation []InputFile) *InputPersonalDocument {
+	inputPersonalDocumentTemp := InputPersonalDocument{
+		tdCommon:    tdCommon{Type: "inputPersonalDocument"},
+		Files:       files,
+		Translation: translation,
+	}
+
+	return &inputPersonalDocumentTemp
+}
+
+// PassportElementPersonalDetails A Telegram Passport element containing the user's personal details
+type PassportElementPersonalDetails struct {
+	tdCommon
+	PersonalDetails *PersonalDetails `json:"personal_details"` // Personal details of the user
+}
+
+// MessageType return the string telegram-type of PassportElementPersonalDetails
+func (passportElementPersonalDetails *PassportElementPersonalDetails) MessageType() string {
+	return "passportElementPersonalDetails"
+}
+
+// NewPassportElementPersonalDetails creates a new PassportElementPersonalDetails
+//
+// @param personalDetails Personal details of the user
+func NewPassportElementPersonalDetails(personalDetails *PersonalDetails) *PassportElementPersonalDetails {
+	passportElementPersonalDetailsTemp := PassportElementPersonalDetails{
+		tdCommon:        tdCommon{Type: "passportElementPersonalDetails"},
+		PersonalDetails: personalDetails,
+	}
+
+	return &passportElementPersonalDetailsTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementPersonalDetails *PassportElementPersonalDetails) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementPersonalDetailsType
+}
+
+// PassportElementPassport A Telegram Passport element containing the user's passport
+type PassportElementPassport struct {
+	tdCommon
+	Passport *IDentityDocument `json:"passport"` // Passport
+}
+
+// MessageType return the string telegram-type of PassportElementPassport
+func (passportElementPassport *PassportElementPassport) MessageType() string {
+	return "passportElementPassport"
+}
+
+// NewPassportElementPassport creates a new PassportElementPassport
+//
+// @param passport Passport
+func NewPassportElementPassport(passport *IDentityDocument) *PassportElementPassport {
+	passportElementPassportTemp := PassportElementPassport{
+		tdCommon: tdCommon{Type: "passportElementPassport"},
+		Passport: passport,
+	}
+
+	return &passportElementPassportTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementPassport *PassportElementPassport) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementPassportType
+}
+
+// PassportElementDriverLicense A Telegram Passport element containing the user's driver license
+type PassportElementDriverLicense struct {
+	tdCommon
+	DriverLicense *IDentityDocument `json:"driver_license"` // Driver license
+}
+
+// MessageType return the string telegram-type of PassportElementDriverLicense
+func (passportElementDriverLicense *PassportElementDriverLicense) MessageType() string {
+	return "passportElementDriverLicense"
+}
+
+// NewPassportElementDriverLicense creates a new PassportElementDriverLicense
+//
+// @param driverLicense Driver license
+func NewPassportElementDriverLicense(driverLicense *IDentityDocument) *PassportElementDriverLicense {
+	passportElementDriverLicenseTemp := PassportElementDriverLicense{
+		tdCommon:      tdCommon{Type: "passportElementDriverLicense"},
+		DriverLicense: driverLicense,
+	}
+
+	return &passportElementDriverLicenseTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementDriverLicense *PassportElementDriverLicense) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementDriverLicenseType
+}
+
+// PassportElementIDentityCard A Telegram Passport element containing the user's identity card
+type PassportElementIDentityCard struct {
+	tdCommon
+	IDentityCard *IDentityDocument `json:"identity_card"` // Identity card
+}
+
+// MessageType return the string telegram-type of PassportElementIDentityCard
+func (passportElementIDentityCard *PassportElementIDentityCard) MessageType() string {
+	return "passportElementIdentityCard"
+}
+
+// NewPassportElementIDentityCard creates a new PassportElementIDentityCard
+//
+// @param iDentityCard Identity card
+func NewPassportElementIDentityCard(iDentityCard *IDentityDocument) *PassportElementIDentityCard {
+	passportElementIDentityCardTemp := PassportElementIDentityCard{
+		tdCommon:     tdCommon{Type: "passportElementIdentityCard"},
+		IDentityCard: iDentityCard,
+	}
+
+	return &passportElementIDentityCardTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementIDentityCard *PassportElementIDentityCard) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementIDentityCardType
+}
+
+// PassportElementInternalPassport A Telegram Passport element containing the user's internal passport
+type PassportElementInternalPassport struct {
+	tdCommon
+	InternalPassport *IDentityDocument `json:"internal_passport"` // Internal passport
+}
+
+// MessageType return the string telegram-type of PassportElementInternalPassport
+func (passportElementInternalPassport *PassportElementInternalPassport) MessageType() string {
+	return "passportElementInternalPassport"
+}
+
+// NewPassportElementInternalPassport creates a new PassportElementInternalPassport
+//
+// @param internalPassport Internal passport
+func NewPassportElementInternalPassport(internalPassport *IDentityDocument) *PassportElementInternalPassport {
+	passportElementInternalPassportTemp := PassportElementInternalPassport{
+		tdCommon:         tdCommon{Type: "passportElementInternalPassport"},
+		InternalPassport: internalPassport,
+	}
+
+	return &passportElementInternalPassportTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementInternalPassport *PassportElementInternalPassport) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementInternalPassportType
+}
+
+// PassportElementAddress A Telegram Passport element containing the user's address
+type PassportElementAddress struct {
+	tdCommon
+	Address *Address `json:"address"` // Address
+}
+
+// MessageType return the string telegram-type of PassportElementAddress
+func (passportElementAddress *PassportElementAddress) MessageType() string {
+	return "passportElementAddress"
+}
+
+// NewPassportElementAddress creates a new PassportElementAddress
+//
+// @param address Address
+func NewPassportElementAddress(address *Address) *PassportElementAddress {
+	passportElementAddressTemp := PassportElementAddress{
+		tdCommon: tdCommon{Type: "passportElementAddress"},
+		Address:  address,
+	}
+
+	return &passportElementAddressTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementAddress *PassportElementAddress) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementAddressType
+}
+
+// PassportElementUtilityBill A Telegram Passport element containing the user's utility bill
+type PassportElementUtilityBill struct {
+	tdCommon
+	UtilityBill *PersonalDocument `json:"utility_bill"` // Utility bill
+}
+
+// MessageType return the string telegram-type of PassportElementUtilityBill
+func (passportElementUtilityBill *PassportElementUtilityBill) MessageType() string {
+	return "passportElementUtilityBill"
+}
+
+// NewPassportElementUtilityBill creates a new PassportElementUtilityBill
+//
+// @param utilityBill Utility bill
+func NewPassportElementUtilityBill(utilityBill *PersonalDocument) *PassportElementUtilityBill {
+	passportElementUtilityBillTemp := PassportElementUtilityBill{
+		tdCommon:    tdCommon{Type: "passportElementUtilityBill"},
+		UtilityBill: utilityBill,
+	}
+
+	return &passportElementUtilityBillTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementUtilityBill *PassportElementUtilityBill) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementUtilityBillType
+}
+
+// PassportElementBankStatement A Telegram Passport element containing the user's bank statement
+type PassportElementBankStatement struct {
+	tdCommon
+	BankStatement *PersonalDocument `json:"bank_statement"` // Bank statement
+}
+
+// MessageType return the string telegram-type of PassportElementBankStatement
+func (passportElementBankStatement *PassportElementBankStatement) MessageType() string {
+	return "passportElementBankStatement"
+}
+
+// NewPassportElementBankStatement creates a new PassportElementBankStatement
+//
+// @param bankStatement Bank statement
+func NewPassportElementBankStatement(bankStatement *PersonalDocument) *PassportElementBankStatement {
+	passportElementBankStatementTemp := PassportElementBankStatement{
+		tdCommon:      tdCommon{Type: "passportElementBankStatement"},
+		BankStatement: bankStatement,
+	}
+
+	return &passportElementBankStatementTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementBankStatement *PassportElementBankStatement) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementBankStatementType
+}
+
+// PassportElementRentalAgreement A Telegram Passport element containing the user's rental agreement
+type PassportElementRentalAgreement struct {
+	tdCommon
+	RentalAgreement *PersonalDocument `json:"rental_agreement"` // Rental agreement
+}
+
+// MessageType return the string telegram-type of PassportElementRentalAgreement
+func (passportElementRentalAgreement *PassportElementRentalAgreement) MessageType() string {
+	return "passportElementRentalAgreement"
+}
+
+// NewPassportElementRentalAgreement creates a new PassportElementRentalAgreement
+//
+// @param rentalAgreement Rental agreement
+func NewPassportElementRentalAgreement(rentalAgreement *PersonalDocument) *PassportElementRentalAgreement {
+	passportElementRentalAgreementTemp := PassportElementRentalAgreement{
+		tdCommon:        tdCommon{Type: "passportElementRentalAgreement"},
+		RentalAgreement: rentalAgreement,
+	}
+
+	return &passportElementRentalAgreementTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementRentalAgreement *PassportElementRentalAgreement) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementRentalAgreementType
+}
+
+// PassportElementPassportRegistration A Telegram Passport element containing the user's passport registration pages
+type PassportElementPassportRegistration struct {
+	tdCommon
+	PassportRegistration *PersonalDocument `json:"passport_registration"` // Passport registration pages
+}
+
+// MessageType return the string telegram-type of PassportElementPassportRegistration
+func (passportElementPassportRegistration *PassportElementPassportRegistration) MessageType() string {
+	return "passportElementPassportRegistration"
+}
+
+// NewPassportElementPassportRegistration creates a new PassportElementPassportRegistration
+//
+// @param passportRegistration Passport registration pages
+func NewPassportElementPassportRegistration(passportRegistration *PersonalDocument) *PassportElementPassportRegistration {
+	passportElementPassportRegistrationTemp := PassportElementPassportRegistration{
+		tdCommon:             tdCommon{Type: "passportElementPassportRegistration"},
+		PassportRegistration: passportRegistration,
+	}
+
+	return &passportElementPassportRegistrationTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementPassportRegistration *PassportElementPassportRegistration) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementPassportRegistrationType
+}
+
+// PassportElementTemporaryRegistration A Telegram Passport element containing the user's temporary registration
+type PassportElementTemporaryRegistration struct {
+	tdCommon
+	TemporaryRegistration *PersonalDocument `json:"temporary_registration"` // Temporary registration
+}
+
+// MessageType return the string telegram-type of PassportElementTemporaryRegistration
+func (passportElementTemporaryRegistration *PassportElementTemporaryRegistration) MessageType() string {
+	return "passportElementTemporaryRegistration"
+}
+
+// NewPassportElementTemporaryRegistration creates a new PassportElementTemporaryRegistration
+//
+// @param temporaryRegistration Temporary registration
+func NewPassportElementTemporaryRegistration(temporaryRegistration *PersonalDocument) *PassportElementTemporaryRegistration {
+	passportElementTemporaryRegistrationTemp := PassportElementTemporaryRegistration{
+		tdCommon:              tdCommon{Type: "passportElementTemporaryRegistration"},
+		TemporaryRegistration: temporaryRegistration,
+	}
+
+	return &passportElementTemporaryRegistrationTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementTemporaryRegistration *PassportElementTemporaryRegistration) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementTemporaryRegistrationType
+}
+
+// PassportElementPhoneNumber A Telegram Passport element containing the user's phone number
+type PassportElementPhoneNumber struct {
+	tdCommon
+	PhoneNumber string `json:"phone_number"` // Phone number
+}
+
+// MessageType return the string telegram-type of PassportElementPhoneNumber
+func (passportElementPhoneNumber *PassportElementPhoneNumber) MessageType() string {
+	return "passportElementPhoneNumber"
+}
+
+// NewPassportElementPhoneNumber creates a new PassportElementPhoneNumber
+//
+// @param phoneNumber Phone number
+func NewPassportElementPhoneNumber(phoneNumber string) *PassportElementPhoneNumber {
+	passportElementPhoneNumberTemp := PassportElementPhoneNumber{
+		tdCommon:    tdCommon{Type: "passportElementPhoneNumber"},
+		PhoneNumber: phoneNumber,
+	}
+
+	return &passportElementPhoneNumberTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementPhoneNumber *PassportElementPhoneNumber) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementPhoneNumberType
+}
+
+// PassportElementEmailAddress A Telegram Passport element containing the user's email address
+type PassportElementEmailAddress struct {
+	tdCommon
+	EmailAddress string `json:"email_address"` // Email address
+}
+
+// MessageType return the string telegram-type of PassportElementEmailAddress
+func (passportElementEmailAddress *PassportElementEmailAddress) MessageType() string {
+	return "passportElementEmailAddress"
+}
+
+// NewPassportElementEmailAddress creates a new PassportElementEmailAddress
+//
+// @param emailAddress Email address
+func NewPassportElementEmailAddress(emailAddress string) *PassportElementEmailAddress {
+	passportElementEmailAddressTemp := PassportElementEmailAddress{
+		tdCommon:     tdCommon{Type: "passportElementEmailAddress"},
+		EmailAddress: emailAddress,
+	}
+
+	return &passportElementEmailAddressTemp
+}
+
+// GetPassportElementEnum return the enum type of this object
+func (passportElementEmailAddress *PassportElementEmailAddress) GetPassportElementEnum() PassportElementEnum {
+	return PassportElementEmailAddressType
+}
+
+// InputPassportElementPersonalDetails A Telegram Passport element to be saved containing the user's personal details
+type InputPassportElementPersonalDetails struct {
+	tdCommon
+	PersonalDetails *PersonalDetails `json:"personal_details"` // Personal details of the user
+}
+
+// MessageType return the string telegram-type of InputPassportElementPersonalDetails
+func (inputPassportElementPersonalDetails *InputPassportElementPersonalDetails) MessageType() string {
+	return "inputPassportElementPersonalDetails"
+}
+
+// NewInputPassportElementPersonalDetails creates a new InputPassportElementPersonalDetails
+//
+// @param personalDetails Personal details of the user
+func NewInputPassportElementPersonalDetails(personalDetails *PersonalDetails) *InputPassportElementPersonalDetails {
+	inputPassportElementPersonalDetailsTemp := InputPassportElementPersonalDetails{
+		tdCommon:        tdCommon{Type: "inputPassportElementPersonalDetails"},
+		PersonalDetails: personalDetails,
+	}
+
+	return &inputPassportElementPersonalDetailsTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementPersonalDetails *InputPassportElementPersonalDetails) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementPersonalDetailsType
+}
+
+// InputPassportElementPassport A Telegram Passport element to be saved containing the user's passport
+type InputPassportElementPassport struct {
+	tdCommon
+	Passport *InputIDentityDocument `json:"passport"` // The passport to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementPassport
+func (inputPassportElementPassport *InputPassportElementPassport) MessageType() string {
+	return "inputPassportElementPassport"
+}
+
+// NewInputPassportElementPassport creates a new InputPassportElementPassport
+//
+// @param passport The passport to be saved
+func NewInputPassportElementPassport(passport *InputIDentityDocument) *InputPassportElementPassport {
+	inputPassportElementPassportTemp := InputPassportElementPassport{
+		tdCommon: tdCommon{Type: "inputPassportElementPassport"},
+		Passport: passport,
+	}
+
+	return &inputPassportElementPassportTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementPassport *InputPassportElementPassport) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementPassportType
+}
+
+// InputPassportElementDriverLicense A Telegram Passport element to be saved containing the user's driver license
+type InputPassportElementDriverLicense struct {
+	tdCommon
+	DriverLicense *InputIDentityDocument `json:"driver_license"` // The driver license to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementDriverLicense
+func (inputPassportElementDriverLicense *InputPassportElementDriverLicense) MessageType() string {
+	return "inputPassportElementDriverLicense"
+}
+
+// NewInputPassportElementDriverLicense creates a new InputPassportElementDriverLicense
+//
+// @param driverLicense The driver license to be saved
+func NewInputPassportElementDriverLicense(driverLicense *InputIDentityDocument) *InputPassportElementDriverLicense {
+	inputPassportElementDriverLicenseTemp := InputPassportElementDriverLicense{
+		tdCommon:      tdCommon{Type: "inputPassportElementDriverLicense"},
+		DriverLicense: driverLicense,
+	}
+
+	return &inputPassportElementDriverLicenseTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementDriverLicense *InputPassportElementDriverLicense) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementDriverLicenseType
+}
+
+// InputPassportElementIDentityCard A Telegram Passport element to be saved containing the user's identity card
+type InputPassportElementIDentityCard struct {
+	tdCommon
+	IDentityCard *InputIDentityDocument `json:"identity_card"` // The identity card to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementIDentityCard
+func (inputPassportElementIDentityCard *InputPassportElementIDentityCard) MessageType() string {
+	return "inputPassportElementIdentityCard"
+}
+
+// NewInputPassportElementIDentityCard creates a new InputPassportElementIDentityCard
+//
+// @param iDentityCard The identity card to be saved
+func NewInputPassportElementIDentityCard(iDentityCard *InputIDentityDocument) *InputPassportElementIDentityCard {
+	inputPassportElementIDentityCardTemp := InputPassportElementIDentityCard{
+		tdCommon:     tdCommon{Type: "inputPassportElementIdentityCard"},
+		IDentityCard: iDentityCard,
+	}
+
+	return &inputPassportElementIDentityCardTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementIDentityCard *InputPassportElementIDentityCard) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementIDentityCardType
+}
+
+// InputPassportElementInternalPassport A Telegram Passport element to be saved containing the user's internal passport
+type InputPassportElementInternalPassport struct {
+	tdCommon
+	InternalPassport *InputIDentityDocument `json:"internal_passport"` // The internal passport to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementInternalPassport
+func (inputPassportElementInternalPassport *InputPassportElementInternalPassport) MessageType() string {
+	return "inputPassportElementInternalPassport"
+}
+
+// NewInputPassportElementInternalPassport creates a new InputPassportElementInternalPassport
+//
+// @param internalPassport The internal passport to be saved
+func NewInputPassportElementInternalPassport(internalPassport *InputIDentityDocument) *InputPassportElementInternalPassport {
+	inputPassportElementInternalPassportTemp := InputPassportElementInternalPassport{
+		tdCommon:         tdCommon{Type: "inputPassportElementInternalPassport"},
+		InternalPassport: internalPassport,
+	}
+
+	return &inputPassportElementInternalPassportTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementInternalPassport *InputPassportElementInternalPassport) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementInternalPassportType
+}
+
+// InputPassportElementAddress A Telegram Passport element to be saved containing the user's address
+type InputPassportElementAddress struct {
+	tdCommon
+	Address *Address `json:"address"` // The address to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementAddress
+func (inputPassportElementAddress *InputPassportElementAddress) MessageType() string {
+	return "inputPassportElementAddress"
+}
+
+// NewInputPassportElementAddress creates a new InputPassportElementAddress
+//
+// @param address The address to be saved
+func NewInputPassportElementAddress(address *Address) *InputPassportElementAddress {
+	inputPassportElementAddressTemp := InputPassportElementAddress{
+		tdCommon: tdCommon{Type: "inputPassportElementAddress"},
+		Address:  address,
+	}
+
+	return &inputPassportElementAddressTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementAddress *InputPassportElementAddress) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementAddressType
+}
+
+// InputPassportElementUtilityBill A Telegram Passport element to be saved containing the user's utility bill
+type InputPassportElementUtilityBill struct {
+	tdCommon
+	UtilityBill *InputPersonalDocument `json:"utility_bill"` // The utility bill to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementUtilityBill
+func (inputPassportElementUtilityBill *InputPassportElementUtilityBill) MessageType() string {
+	return "inputPassportElementUtilityBill"
+}
+
+// NewInputPassportElementUtilityBill creates a new InputPassportElementUtilityBill
+//
+// @param utilityBill The utility bill to be saved
+func NewInputPassportElementUtilityBill(utilityBill *InputPersonalDocument) *InputPassportElementUtilityBill {
+	inputPassportElementUtilityBillTemp := InputPassportElementUtilityBill{
+		tdCommon:    tdCommon{Type: "inputPassportElementUtilityBill"},
+		UtilityBill: utilityBill,
+	}
+
+	return &inputPassportElementUtilityBillTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementUtilityBill *InputPassportElementUtilityBill) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementUtilityBillType
+}
+
+// InputPassportElementBankStatement A Telegram Passport element to be saved containing the user's bank statement
+type InputPassportElementBankStatement struct {
+	tdCommon
+	BankStatement *InputPersonalDocument `json:"bank_statement"` // The bank statement to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementBankStatement
+func (inputPassportElementBankStatement *InputPassportElementBankStatement) MessageType() string {
+	return "inputPassportElementBankStatement"
+}
+
+// NewInputPassportElementBankStatement creates a new InputPassportElementBankStatement
+//
+// @param bankStatement The bank statement to be saved
+func NewInputPassportElementBankStatement(bankStatement *InputPersonalDocument) *InputPassportElementBankStatement {
+	inputPassportElementBankStatementTemp := InputPassportElementBankStatement{
+		tdCommon:      tdCommon{Type: "inputPassportElementBankStatement"},
+		BankStatement: bankStatement,
+	}
+
+	return &inputPassportElementBankStatementTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementBankStatement *InputPassportElementBankStatement) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementBankStatementType
+}
+
+// InputPassportElementRentalAgreement A Telegram Passport element to be saved containing the user's rental agreement
+type InputPassportElementRentalAgreement struct {
+	tdCommon
+	RentalAgreement *InputPersonalDocument `json:"rental_agreement"` // The rental agreement to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementRentalAgreement
+func (inputPassportElementRentalAgreement *InputPassportElementRentalAgreement) MessageType() string {
+	return "inputPassportElementRentalAgreement"
+}
+
+// NewInputPassportElementRentalAgreement creates a new InputPassportElementRentalAgreement
+//
+// @param rentalAgreement The rental agreement to be saved
+func NewInputPassportElementRentalAgreement(rentalAgreement *InputPersonalDocument) *InputPassportElementRentalAgreement {
+	inputPassportElementRentalAgreementTemp := InputPassportElementRentalAgreement{
+		tdCommon:        tdCommon{Type: "inputPassportElementRentalAgreement"},
+		RentalAgreement: rentalAgreement,
+	}
+
+	return &inputPassportElementRentalAgreementTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementRentalAgreement *InputPassportElementRentalAgreement) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementRentalAgreementType
+}
+
+// InputPassportElementPassportRegistration A Telegram Passport element to be saved containing the user's passport registration
+type InputPassportElementPassportRegistration struct {
+	tdCommon
+	PassportRegistration *InputPersonalDocument `json:"passport_registration"` // The passport registration page to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementPassportRegistration
+func (inputPassportElementPassportRegistration *InputPassportElementPassportRegistration) MessageType() string {
+	return "inputPassportElementPassportRegistration"
+}
+
+// NewInputPassportElementPassportRegistration creates a new InputPassportElementPassportRegistration
+//
+// @param passportRegistration The passport registration page to be saved
+func NewInputPassportElementPassportRegistration(passportRegistration *InputPersonalDocument) *InputPassportElementPassportRegistration {
+	inputPassportElementPassportRegistrationTemp := InputPassportElementPassportRegistration{
+		tdCommon:             tdCommon{Type: "inputPassportElementPassportRegistration"},
+		PassportRegistration: passportRegistration,
+	}
+
+	return &inputPassportElementPassportRegistrationTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementPassportRegistration *InputPassportElementPassportRegistration) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementPassportRegistrationType
+}
+
+// InputPassportElementTemporaryRegistration A Telegram Passport element to be saved containing the user's temporary registration
+type InputPassportElementTemporaryRegistration struct {
+	tdCommon
+	TemporaryRegistration *InputPersonalDocument `json:"temporary_registration"` // The temporary registration document to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementTemporaryRegistration
+func (inputPassportElementTemporaryRegistration *InputPassportElementTemporaryRegistration) MessageType() string {
+	return "inputPassportElementTemporaryRegistration"
+}
+
+// NewInputPassportElementTemporaryRegistration creates a new InputPassportElementTemporaryRegistration
+//
+// @param temporaryRegistration The temporary registration document to be saved
+func NewInputPassportElementTemporaryRegistration(temporaryRegistration *InputPersonalDocument) *InputPassportElementTemporaryRegistration {
+	inputPassportElementTemporaryRegistrationTemp := InputPassportElementTemporaryRegistration{
+		tdCommon:              tdCommon{Type: "inputPassportElementTemporaryRegistration"},
+		TemporaryRegistration: temporaryRegistration,
+	}
+
+	return &inputPassportElementTemporaryRegistrationTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementTemporaryRegistration *InputPassportElementTemporaryRegistration) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementTemporaryRegistrationType
+}
+
+// InputPassportElementPhoneNumber A Telegram Passport element to be saved containing the user's phone number
+type InputPassportElementPhoneNumber struct {
+	tdCommon
+	PhoneNumber string `json:"phone_number"` // The phone number to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementPhoneNumber
+func (inputPassportElementPhoneNumber *InputPassportElementPhoneNumber) MessageType() string {
+	return "inputPassportElementPhoneNumber"
+}
+
+// NewInputPassportElementPhoneNumber creates a new InputPassportElementPhoneNumber
+//
+// @param phoneNumber The phone number to be saved
+func NewInputPassportElementPhoneNumber(phoneNumber string) *InputPassportElementPhoneNumber {
+	inputPassportElementPhoneNumberTemp := InputPassportElementPhoneNumber{
+		tdCommon:    tdCommon{Type: "inputPassportElementPhoneNumber"},
+		PhoneNumber: phoneNumber,
+	}
+
+	return &inputPassportElementPhoneNumberTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementPhoneNumber *InputPassportElementPhoneNumber) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementPhoneNumberType
+}
+
+// InputPassportElementEmailAddress A Telegram Passport element to be saved containing the user's email address
+type InputPassportElementEmailAddress struct {
+	tdCommon
+	EmailAddress string `json:"email_address"` // The email address to be saved
+}
+
+// MessageType return the string telegram-type of InputPassportElementEmailAddress
+func (inputPassportElementEmailAddress *InputPassportElementEmailAddress) MessageType() string {
+	return "inputPassportElementEmailAddress"
+}
+
+// NewInputPassportElementEmailAddress creates a new InputPassportElementEmailAddress
+//
+// @param emailAddress The email address to be saved
+func NewInputPassportElementEmailAddress(emailAddress string) *InputPassportElementEmailAddress {
+	inputPassportElementEmailAddressTemp := InputPassportElementEmailAddress{
+		tdCommon:     tdCommon{Type: "inputPassportElementEmailAddress"},
+		EmailAddress: emailAddress,
+	}
+
+	return &inputPassportElementEmailAddressTemp
+}
+
+// GetInputPassportElementEnum return the enum type of this object
+func (inputPassportElementEmailAddress *InputPassportElementEmailAddress) GetInputPassportElementEnum() InputPassportElementEnum {
+	return InputPassportElementEmailAddressType
+}
+
+// PassportElements Contains information about saved Telegram Passport elements
+type PassportElements struct {
+	tdCommon
+	Elements []PassportElement `json:"elements"` // Telegram Passport elements
+}
+
+// MessageType return the string telegram-type of PassportElements
+func (passportElements *PassportElements) MessageType() string {
+	return "passportElements"
+}
+
+// NewPassportElements creates a new PassportElements
+//
+// @param elements Telegram Passport elements
+func NewPassportElements(elements []PassportElement) *PassportElements {
+	passportElementsTemp := PassportElements{
+		tdCommon: tdCommon{Type: "passportElements"},
+		Elements: elements,
+	}
+
+	return &passportElementsTemp
+}
+
+// PassportElementErrorSourceUnspecified The element contains an error in an unspecified place. The error will be considered resolved when new data is added
+type PassportElementErrorSourceUnspecified struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceUnspecified
+func (passportElementErrorSourceUnspecified *PassportElementErrorSourceUnspecified) MessageType() string {
+	return "passportElementErrorSourceUnspecified"
+}
+
+// NewPassportElementErrorSourceUnspecified creates a new PassportElementErrorSourceUnspecified
+//
+func NewPassportElementErrorSourceUnspecified() *PassportElementErrorSourceUnspecified {
+	passportElementErrorSourceUnspecifiedTemp := PassportElementErrorSourceUnspecified{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceUnspecified"},
+	}
+
+	return &passportElementErrorSourceUnspecifiedTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceUnspecified *PassportElementErrorSourceUnspecified) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceUnspecifiedType
+}
+
+// PassportElementErrorSourceDataField One of the data fields contains an error. The error will be considered resolved when the value of the field changes
+type PassportElementErrorSourceDataField struct {
+	tdCommon
+	FieldName string `json:"field_name"` // Field name
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceDataField
+func (passportElementErrorSourceDataField *PassportElementErrorSourceDataField) MessageType() string {
+	return "passportElementErrorSourceDataField"
+}
+
+// NewPassportElementErrorSourceDataField creates a new PassportElementErrorSourceDataField
+//
+// @param fieldName Field name
+func NewPassportElementErrorSourceDataField(fieldName string) *PassportElementErrorSourceDataField {
+	passportElementErrorSourceDataFieldTemp := PassportElementErrorSourceDataField{
+		tdCommon:  tdCommon{Type: "passportElementErrorSourceDataField"},
+		FieldName: fieldName,
+	}
+
+	return &passportElementErrorSourceDataFieldTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceDataField *PassportElementErrorSourceDataField) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceDataFieldType
+}
+
+// PassportElementErrorSourceFrontSide The front side of the document contains an error. The error will be considered resolved when the file with the front side changes
+type PassportElementErrorSourceFrontSide struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceFrontSide
+func (passportElementErrorSourceFrontSide *PassportElementErrorSourceFrontSide) MessageType() string {
+	return "passportElementErrorSourceFrontSide"
+}
+
+// NewPassportElementErrorSourceFrontSide creates a new PassportElementErrorSourceFrontSide
+//
+func NewPassportElementErrorSourceFrontSide() *PassportElementErrorSourceFrontSide {
+	passportElementErrorSourceFrontSideTemp := PassportElementErrorSourceFrontSide{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceFrontSide"},
+	}
+
+	return &passportElementErrorSourceFrontSideTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceFrontSide *PassportElementErrorSourceFrontSide) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceFrontSideType
+}
+
+// PassportElementErrorSourceReverseSide The reverse side of the document contains an error. The error will be considered resolved when the file with the reverse side changes
+type PassportElementErrorSourceReverseSide struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceReverseSide
+func (passportElementErrorSourceReverseSide *PassportElementErrorSourceReverseSide) MessageType() string {
+	return "passportElementErrorSourceReverseSide"
+}
+
+// NewPassportElementErrorSourceReverseSide creates a new PassportElementErrorSourceReverseSide
+//
+func NewPassportElementErrorSourceReverseSide() *PassportElementErrorSourceReverseSide {
+	passportElementErrorSourceReverseSideTemp := PassportElementErrorSourceReverseSide{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceReverseSide"},
+	}
+
+	return &passportElementErrorSourceReverseSideTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceReverseSide *PassportElementErrorSourceReverseSide) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceReverseSideType
+}
+
+// PassportElementErrorSourceSelfie The selfie with the document contains an error. The error will be considered resolved when the file with the selfie changes
+type PassportElementErrorSourceSelfie struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceSelfie
+func (passportElementErrorSourceSelfie *PassportElementErrorSourceSelfie) MessageType() string {
+	return "passportElementErrorSourceSelfie"
+}
+
+// NewPassportElementErrorSourceSelfie creates a new PassportElementErrorSourceSelfie
+//
+func NewPassportElementErrorSourceSelfie() *PassportElementErrorSourceSelfie {
+	passportElementErrorSourceSelfieTemp := PassportElementErrorSourceSelfie{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceSelfie"},
+	}
+
+	return &passportElementErrorSourceSelfieTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceSelfie *PassportElementErrorSourceSelfie) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceSelfieType
+}
+
+// PassportElementErrorSourceTranslationFile One of files with the translation of the document contains an error. The error will be considered resolved when the file changes
+type PassportElementErrorSourceTranslationFile struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceTranslationFile
+func (passportElementErrorSourceTranslationFile *PassportElementErrorSourceTranslationFile) MessageType() string {
+	return "passportElementErrorSourceTranslationFile"
+}
+
+// NewPassportElementErrorSourceTranslationFile creates a new PassportElementErrorSourceTranslationFile
+//
+func NewPassportElementErrorSourceTranslationFile() *PassportElementErrorSourceTranslationFile {
+	passportElementErrorSourceTranslationFileTemp := PassportElementErrorSourceTranslationFile{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceTranslationFile"},
+	}
+
+	return &passportElementErrorSourceTranslationFileTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceTranslationFile *PassportElementErrorSourceTranslationFile) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceTranslationFileType
+}
+
+// PassportElementErrorSourceTranslationFiles The translation of the document contains an error. The error will be considered resolved when the list of translation files changes
+type PassportElementErrorSourceTranslationFiles struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceTranslationFiles
+func (passportElementErrorSourceTranslationFiles *PassportElementErrorSourceTranslationFiles) MessageType() string {
+	return "passportElementErrorSourceTranslationFiles"
+}
+
+// NewPassportElementErrorSourceTranslationFiles creates a new PassportElementErrorSourceTranslationFiles
+//
+func NewPassportElementErrorSourceTranslationFiles() *PassportElementErrorSourceTranslationFiles {
+	passportElementErrorSourceTranslationFilesTemp := PassportElementErrorSourceTranslationFiles{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceTranslationFiles"},
+	}
+
+	return &passportElementErrorSourceTranslationFilesTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceTranslationFiles *PassportElementErrorSourceTranslationFiles) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceTranslationFilesType
+}
+
+// PassportElementErrorSourceFile The file contains an error. The error will be considered resolved when the file changes
+type PassportElementErrorSourceFile struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceFile
+func (passportElementErrorSourceFile *PassportElementErrorSourceFile) MessageType() string {
+	return "passportElementErrorSourceFile"
+}
+
+// NewPassportElementErrorSourceFile creates a new PassportElementErrorSourceFile
+//
+func NewPassportElementErrorSourceFile() *PassportElementErrorSourceFile {
+	passportElementErrorSourceFileTemp := PassportElementErrorSourceFile{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceFile"},
+	}
+
+	return &passportElementErrorSourceFileTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceFile *PassportElementErrorSourceFile) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceFileType
+}
+
+// PassportElementErrorSourceFiles The list of attached files contains an error. The error will be considered resolved when the list of files changes
+type PassportElementErrorSourceFiles struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of PassportElementErrorSourceFiles
+func (passportElementErrorSourceFiles *PassportElementErrorSourceFiles) MessageType() string {
+	return "passportElementErrorSourceFiles"
+}
+
+// NewPassportElementErrorSourceFiles creates a new PassportElementErrorSourceFiles
+//
+func NewPassportElementErrorSourceFiles() *PassportElementErrorSourceFiles {
+	passportElementErrorSourceFilesTemp := PassportElementErrorSourceFiles{
+		tdCommon: tdCommon{Type: "passportElementErrorSourceFiles"},
+	}
+
+	return &passportElementErrorSourceFilesTemp
+}
+
+// GetPassportElementErrorSourceEnum return the enum type of this object
+func (passportElementErrorSourceFiles *PassportElementErrorSourceFiles) GetPassportElementErrorSourceEnum() PassportElementErrorSourceEnum {
+	return PassportElementErrorSourceFilesType
+}
+
+// PassportElementError Contains the description of an error in a Telegram Passport element
+type PassportElementError struct {
+	tdCommon
+	Type    PassportElementType        `json:"type"`    // Type of the Telegram Passport element which has the error
+	Message string                     `json:"message"` // Error message
+	Source  PassportElementErrorSource `json:"source"`  // Error source
+}
+
+// MessageType return the string telegram-type of PassportElementError
+func (passportElementError *PassportElementError) MessageType() string {
+	return "passportElementError"
+}
+
+// NewPassportElementError creates a new PassportElementError
+//
+// @param typeParam Type of the Telegram Passport element which has the error
+// @param message Error message
+// @param source Error source
+func NewPassportElementError(typeParam PassportElementType, message string, source PassportElementErrorSource) *PassportElementError {
+	passportElementErrorTemp := PassportElementError{
+		tdCommon: tdCommon{Type: "passportElementError"},
+		Type:     typeParam,
+		Message:  message,
+		Source:   source,
+	}
+
+	return &passportElementErrorTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (passportElementError *PassportElementError) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Message string `json:"message"` // Error message
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	passportElementError.tdCommon = tempObj.tdCommon
+	passportElementError.Message = tempObj.Message
+
+	fieldType, _ := unmarshalPassportElementType(objMap["type"])
+	passportElementError.Type = fieldType
+
+	fieldSource, _ := unmarshalPassportElementErrorSource(objMap["source"])
+	passportElementError.Source = fieldSource
+
+	return nil
+}
+
+// PassportSuitableElement Contains information about a Telegram Passport element that was requested by a service
+type PassportSuitableElement struct {
+	tdCommon
+	Type                  PassportElementType `json:"type"`                    // Type of the element
+	IsSelfieRequired      bool                `json:"is_selfie_required"`      // True, if a selfie is required with the identity document
+	IsTranslationRequired bool                `json:"is_translation_required"` // True, if a certified English translation is required with the document
+	IsNativeNameRequired  bool                `json:"is_native_name_required"` // True, if personal details must include the user's name in the language of their country of residence
+}
+
+// MessageType return the string telegram-type of PassportSuitableElement
+func (passportSuitableElement *PassportSuitableElement) MessageType() string {
+	return "passportSuitableElement"
+}
+
+// NewPassportSuitableElement creates a new PassportSuitableElement
+//
+// @param typeParam Type of the element
+// @param isSelfieRequired True, if a selfie is required with the identity document
+// @param isTranslationRequired True, if a certified English translation is required with the document
+// @param isNativeNameRequired True, if personal details must include the user's name in the language of their country of residence
+func NewPassportSuitableElement(typeParam PassportElementType, isSelfieRequired bool, isTranslationRequired bool, isNativeNameRequired bool) *PassportSuitableElement {
+	passportSuitableElementTemp := PassportSuitableElement{
+		tdCommon:              tdCommon{Type: "passportSuitableElement"},
+		Type:                  typeParam,
+		IsSelfieRequired:      isSelfieRequired,
+		IsTranslationRequired: isTranslationRequired,
+		IsNativeNameRequired:  isNativeNameRequired,
+	}
+
+	return &passportSuitableElementTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (passportSuitableElement *PassportSuitableElement) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		IsSelfieRequired      bool `json:"is_selfie_required"`      // True, if a selfie is required with the identity document
+		IsTranslationRequired bool `json:"is_translation_required"` // True, if a certified English translation is required with the document
+		IsNativeNameRequired  bool `json:"is_native_name_required"` // True, if personal details must include the user's name in the language of their country of residence
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	passportSuitableElement.tdCommon = tempObj.tdCommon
+	passportSuitableElement.IsSelfieRequired = tempObj.IsSelfieRequired
+	passportSuitableElement.IsTranslationRequired = tempObj.IsTranslationRequired
+	passportSuitableElement.IsNativeNameRequired = tempObj.IsNativeNameRequired
+
+	fieldType, _ := unmarshalPassportElementType(objMap["type"])
+	passportSuitableElement.Type = fieldType
+
+	return nil
+}
+
+// PassportRequiredElement Contains a description of the required Telegram Passport element that was requested by a service
+type PassportRequiredElement struct {
+	tdCommon
+	SuitableElements []PassportSuitableElement `json:"suitable_elements"` // List of Telegram Passport elements any of which is enough to provide
+}
+
+// MessageType return the string telegram-type of PassportRequiredElement
+func (passportRequiredElement *PassportRequiredElement) MessageType() string {
+	return "passportRequiredElement"
+}
+
+// NewPassportRequiredElement creates a new PassportRequiredElement
+//
+// @param suitableElements List of Telegram Passport elements any of which is enough to provide
+func NewPassportRequiredElement(suitableElements []PassportSuitableElement) *PassportRequiredElement {
+	passportRequiredElementTemp := PassportRequiredElement{
+		tdCommon:         tdCommon{Type: "passportRequiredElement"},
+		SuitableElements: suitableElements,
+	}
+
+	return &passportRequiredElementTemp
+}
+
+// PassportAuthorizationForm Contains information about a Telegram Passport authorization form that was requested
+type PassportAuthorizationForm struct {
+	tdCommon
+	ID               int32                     `json:"id"`                 // Unique identifier of the authorization form
+	RequiredElements []PassportRequiredElement `json:"required_elements"`  // Information about the Telegram Passport elements that need to be provided to complete the form
+	Elements         []PassportElement         `json:"elements"`           // Already available Telegram Passport elements
+	Errors           []PassportElementError    `json:"errors"`             // Errors in the elements that are already available
+	PrivacyPolicyURL string                    `json:"privacy_policy_url"` // URL for the privacy policy of the service; can be empty
+}
+
+// MessageType return the string telegram-type of PassportAuthorizationForm
+func (passportAuthorizationForm *PassportAuthorizationForm) MessageType() string {
+	return "passportAuthorizationForm"
+}
+
+// NewPassportAuthorizationForm creates a new PassportAuthorizationForm
+//
+// @param iD Unique identifier of the authorization form
+// @param requiredElements Information about the Telegram Passport elements that need to be provided to complete the form
+// @param elements Already available Telegram Passport elements
+// @param errors Errors in the elements that are already available
+// @param privacyPolicyURL URL for the privacy policy of the service; can be empty
+func NewPassportAuthorizationForm(iD int32, requiredElements []PassportRequiredElement, elements []PassportElement, errors []PassportElementError, privacyPolicyURL string) *PassportAuthorizationForm {
+	passportAuthorizationFormTemp := PassportAuthorizationForm{
+		tdCommon:         tdCommon{Type: "passportAuthorizationForm"},
+		ID:               iD,
+		RequiredElements: requiredElements,
+		Elements:         elements,
+		Errors:           errors,
+		PrivacyPolicyURL: privacyPolicyURL,
+	}
+
+	return &passportAuthorizationFormTemp
+}
+
+// EncryptedCredentials Contains encrypted Telegram Passport data credentials
+type EncryptedCredentials struct {
+	tdCommon
+	Data   []byte `json:"data"`   // The encrypted credentials
+	Hash   []byte `json:"hash"`   // The decrypted data hash
+	Secret []byte `json:"secret"` // Secret for data decryption, encrypted with the service's public key
+}
+
+// MessageType return the string telegram-type of EncryptedCredentials
+func (encryptedCredentials *EncryptedCredentials) MessageType() string {
+	return "encryptedCredentials"
+}
+
+// NewEncryptedCredentials creates a new EncryptedCredentials
+//
+// @param data The encrypted credentials
+// @param hash The decrypted data hash
+// @param secret Secret for data decryption, encrypted with the service's public key
+func NewEncryptedCredentials(data []byte, hash []byte, secret []byte) *EncryptedCredentials {
+	encryptedCredentialsTemp := EncryptedCredentials{
+		tdCommon: tdCommon{Type: "encryptedCredentials"},
+		Data:     data,
+		Hash:     hash,
+		Secret:   secret,
+	}
+
+	return &encryptedCredentialsTemp
+}
+
+// EncryptedPassportElement Contains information about an encrypted Telegram Passport element; for bots only
+type EncryptedPassportElement struct {
+	tdCommon
+	Type        PassportElementType `json:"type"`         // Type of Telegram Passport element
+	Data        []byte              `json:"data"`         // Encrypted JSON-encoded data about the user
+	FrontSide   *DatedFile          `json:"front_side"`   // The front side of an identity document
+	ReverseSide *DatedFile          `json:"reverse_side"` // The reverse side of an identity document; may be null
+	Selfie      *DatedFile          `json:"selfie"`       // Selfie with the document; may be null
+	Translation []DatedFile         `json:"translation"`  // List of files containing a certified English translation of the document
+	Files       []DatedFile         `json:"files"`        // List of attached files
+	Value       string              `json:"value"`        // Unencrypted data, phone number or email address
+	Hash        string              `json:"hash"`         // Hash of the entire element
+}
+
+// MessageType return the string telegram-type of EncryptedPassportElement
+func (encryptedPassportElement *EncryptedPassportElement) MessageType() string {
+	return "encryptedPassportElement"
+}
+
+// NewEncryptedPassportElement creates a new EncryptedPassportElement
+//
+// @param typeParam Type of Telegram Passport element
+// @param data Encrypted JSON-encoded data about the user
+// @param frontSide The front side of an identity document
+// @param reverseSide The reverse side of an identity document; may be null
+// @param selfie Selfie with the document; may be null
+// @param translation List of files containing a certified English translation of the document
+// @param files List of attached files
+// @param value Unencrypted data, phone number or email address
+// @param hash Hash of the entire element
+func NewEncryptedPassportElement(typeParam PassportElementType, data []byte, frontSide *DatedFile, reverseSide *DatedFile, selfie *DatedFile, translation []DatedFile, files []DatedFile, value string, hash string) *EncryptedPassportElement {
+	encryptedPassportElementTemp := EncryptedPassportElement{
+		tdCommon:    tdCommon{Type: "encryptedPassportElement"},
+		Type:        typeParam,
+		Data:        data,
+		FrontSide:   frontSide,
+		ReverseSide: reverseSide,
+		Selfie:      selfie,
+		Translation: translation,
+		Files:       files,
+		Value:       value,
+		Hash:        hash,
+	}
+
+	return &encryptedPassportElementTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (encryptedPassportElement *EncryptedPassportElement) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Data        []byte      `json:"data"`         // Encrypted JSON-encoded data about the user
+		FrontSide   *DatedFile  `json:"front_side"`   // The front side of an identity document
+		ReverseSide *DatedFile  `json:"reverse_side"` // The reverse side of an identity document; may be null
+		Selfie      *DatedFile  `json:"selfie"`       // Selfie with the document; may be null
+		Translation []DatedFile `json:"translation"`  // List of files containing a certified English translation of the document
+		Files       []DatedFile `json:"files"`        // List of attached files
+		Value       string      `json:"value"`        // Unencrypted data, phone number or email address
+		Hash        string      `json:"hash"`         // Hash of the entire element
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	encryptedPassportElement.tdCommon = tempObj.tdCommon
+	encryptedPassportElement.Data = tempObj.Data
+	encryptedPassportElement.FrontSide = tempObj.FrontSide
+	encryptedPassportElement.ReverseSide = tempObj.ReverseSide
+	encryptedPassportElement.Selfie = tempObj.Selfie
+	encryptedPassportElement.Translation = tempObj.Translation
+	encryptedPassportElement.Files = tempObj.Files
+	encryptedPassportElement.Value = tempObj.Value
+	encryptedPassportElement.Hash = tempObj.Hash
+
+	fieldType, _ := unmarshalPassportElementType(objMap["type"])
+	encryptedPassportElement.Type = fieldType
+
+	return nil
+}
+
+// InputPassportElementErrorSourceUnspecified The element contains an error in an unspecified place. The error will be considered resolved when new data is added
+type InputPassportElementErrorSourceUnspecified struct {
+	tdCommon
+	ElementHash []byte `json:"element_hash"` // Current hash of the entire element
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceUnspecified
+func (inputPassportElementErrorSourceUnspecified *InputPassportElementErrorSourceUnspecified) MessageType() string {
+	return "inputPassportElementErrorSourceUnspecified"
+}
+
+// NewInputPassportElementErrorSourceUnspecified creates a new InputPassportElementErrorSourceUnspecified
+//
+// @param elementHash Current hash of the entire element
+func NewInputPassportElementErrorSourceUnspecified(elementHash []byte) *InputPassportElementErrorSourceUnspecified {
+	inputPassportElementErrorSourceUnspecifiedTemp := InputPassportElementErrorSourceUnspecified{
+		tdCommon:    tdCommon{Type: "inputPassportElementErrorSourceUnspecified"},
+		ElementHash: elementHash,
+	}
+
+	return &inputPassportElementErrorSourceUnspecifiedTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceUnspecified *InputPassportElementErrorSourceUnspecified) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceUnspecifiedType
+}
+
+// InputPassportElementErrorSourceDataField A data field contains an error. The error is considered resolved when the field's value changes
+type InputPassportElementErrorSourceDataField struct {
+	tdCommon
+	FieldName string `json:"field_name"` // Field name
+	DataHash  []byte `json:"data_hash"`  // Current data hash
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceDataField
+func (inputPassportElementErrorSourceDataField *InputPassportElementErrorSourceDataField) MessageType() string {
+	return "inputPassportElementErrorSourceDataField"
+}
+
+// NewInputPassportElementErrorSourceDataField creates a new InputPassportElementErrorSourceDataField
+//
+// @param fieldName Field name
+// @param dataHash Current data hash
+func NewInputPassportElementErrorSourceDataField(fieldName string, dataHash []byte) *InputPassportElementErrorSourceDataField {
+	inputPassportElementErrorSourceDataFieldTemp := InputPassportElementErrorSourceDataField{
+		tdCommon:  tdCommon{Type: "inputPassportElementErrorSourceDataField"},
+		FieldName: fieldName,
+		DataHash:  dataHash,
+	}
+
+	return &inputPassportElementErrorSourceDataFieldTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceDataField *InputPassportElementErrorSourceDataField) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceDataFieldType
+}
+
+// InputPassportElementErrorSourceFrontSide The front side of the document contains an error. The error is considered resolved when the file with the front side of the document changes
+type InputPassportElementErrorSourceFrontSide struct {
+	tdCommon
+	FileHash []byte `json:"file_hash"` // Current hash of the file containing the front side
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceFrontSide
+func (inputPassportElementErrorSourceFrontSide *InputPassportElementErrorSourceFrontSide) MessageType() string {
+	return "inputPassportElementErrorSourceFrontSide"
+}
+
+// NewInputPassportElementErrorSourceFrontSide creates a new InputPassportElementErrorSourceFrontSide
+//
+// @param fileHash Current hash of the file containing the front side
+func NewInputPassportElementErrorSourceFrontSide(fileHash []byte) *InputPassportElementErrorSourceFrontSide {
+	inputPassportElementErrorSourceFrontSideTemp := InputPassportElementErrorSourceFrontSide{
+		tdCommon: tdCommon{Type: "inputPassportElementErrorSourceFrontSide"},
+		FileHash: fileHash,
+	}
+
+	return &inputPassportElementErrorSourceFrontSideTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceFrontSide *InputPassportElementErrorSourceFrontSide) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceFrontSideType
+}
+
+// InputPassportElementErrorSourceReverseSide The reverse side of the document contains an error. The error is considered resolved when the file with the reverse side of the document changes
+type InputPassportElementErrorSourceReverseSide struct {
+	tdCommon
+	FileHash []byte `json:"file_hash"` // Current hash of the file containing the reverse side
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceReverseSide
+func (inputPassportElementErrorSourceReverseSide *InputPassportElementErrorSourceReverseSide) MessageType() string {
+	return "inputPassportElementErrorSourceReverseSide"
+}
+
+// NewInputPassportElementErrorSourceReverseSide creates a new InputPassportElementErrorSourceReverseSide
+//
+// @param fileHash Current hash of the file containing the reverse side
+func NewInputPassportElementErrorSourceReverseSide(fileHash []byte) *InputPassportElementErrorSourceReverseSide {
+	inputPassportElementErrorSourceReverseSideTemp := InputPassportElementErrorSourceReverseSide{
+		tdCommon: tdCommon{Type: "inputPassportElementErrorSourceReverseSide"},
+		FileHash: fileHash,
+	}
+
+	return &inputPassportElementErrorSourceReverseSideTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceReverseSide *InputPassportElementErrorSourceReverseSide) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceReverseSideType
+}
+
+// InputPassportElementErrorSourceSelfie The selfie contains an error. The error is considered resolved when the file with the selfie changes
+type InputPassportElementErrorSourceSelfie struct {
+	tdCommon
+	FileHash []byte `json:"file_hash"` // Current hash of the file containing the selfie
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceSelfie
+func (inputPassportElementErrorSourceSelfie *InputPassportElementErrorSourceSelfie) MessageType() string {
+	return "inputPassportElementErrorSourceSelfie"
+}
+
+// NewInputPassportElementErrorSourceSelfie creates a new InputPassportElementErrorSourceSelfie
+//
+// @param fileHash Current hash of the file containing the selfie
+func NewInputPassportElementErrorSourceSelfie(fileHash []byte) *InputPassportElementErrorSourceSelfie {
+	inputPassportElementErrorSourceSelfieTemp := InputPassportElementErrorSourceSelfie{
+		tdCommon: tdCommon{Type: "inputPassportElementErrorSourceSelfie"},
+		FileHash: fileHash,
+	}
+
+	return &inputPassportElementErrorSourceSelfieTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceSelfie *InputPassportElementErrorSourceSelfie) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceSelfieType
+}
+
+// InputPassportElementErrorSourceTranslationFile One of the files containing the translation of the document contains an error. The error is considered resolved when the file with the translation changes
+type InputPassportElementErrorSourceTranslationFile struct {
+	tdCommon
+	FileHash []byte `json:"file_hash"` // Current hash of the file containing the translation
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceTranslationFile
+func (inputPassportElementErrorSourceTranslationFile *InputPassportElementErrorSourceTranslationFile) MessageType() string {
+	return "inputPassportElementErrorSourceTranslationFile"
+}
+
+// NewInputPassportElementErrorSourceTranslationFile creates a new InputPassportElementErrorSourceTranslationFile
+//
+// @param fileHash Current hash of the file containing the translation
+func NewInputPassportElementErrorSourceTranslationFile(fileHash []byte) *InputPassportElementErrorSourceTranslationFile {
+	inputPassportElementErrorSourceTranslationFileTemp := InputPassportElementErrorSourceTranslationFile{
+		tdCommon: tdCommon{Type: "inputPassportElementErrorSourceTranslationFile"},
+		FileHash: fileHash,
+	}
+
+	return &inputPassportElementErrorSourceTranslationFileTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceTranslationFile *InputPassportElementErrorSourceTranslationFile) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceTranslationFileType
+}
+
+// InputPassportElementErrorSourceTranslationFiles The translation of the document contains an error. The error is considered resolved when the list of files changes
+type InputPassportElementErrorSourceTranslationFiles struct {
+	tdCommon
+	FileHashes [][]byte `json:"file_hashes"` // Current hashes of all files with the translation
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceTranslationFiles
+func (inputPassportElementErrorSourceTranslationFiles *InputPassportElementErrorSourceTranslationFiles) MessageType() string {
+	return "inputPassportElementErrorSourceTranslationFiles"
+}
+
+// NewInputPassportElementErrorSourceTranslationFiles creates a new InputPassportElementErrorSourceTranslationFiles
+//
+// @param fileHashes Current hashes of all files with the translation
+func NewInputPassportElementErrorSourceTranslationFiles(fileHashes [][]byte) *InputPassportElementErrorSourceTranslationFiles {
+	inputPassportElementErrorSourceTranslationFilesTemp := InputPassportElementErrorSourceTranslationFiles{
+		tdCommon:   tdCommon{Type: "inputPassportElementErrorSourceTranslationFiles"},
+		FileHashes: fileHashes,
+	}
+
+	return &inputPassportElementErrorSourceTranslationFilesTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceTranslationFiles *InputPassportElementErrorSourceTranslationFiles) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceTranslationFilesType
+}
+
+// InputPassportElementErrorSourceFile The file contains an error. The error is considered resolved when the file changes
+type InputPassportElementErrorSourceFile struct {
+	tdCommon
+	FileHash []byte `json:"file_hash"` // Current hash of the file which has the error
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceFile
+func (inputPassportElementErrorSourceFile *InputPassportElementErrorSourceFile) MessageType() string {
+	return "inputPassportElementErrorSourceFile"
+}
+
+// NewInputPassportElementErrorSourceFile creates a new InputPassportElementErrorSourceFile
+//
+// @param fileHash Current hash of the file which has the error
+func NewInputPassportElementErrorSourceFile(fileHash []byte) *InputPassportElementErrorSourceFile {
+	inputPassportElementErrorSourceFileTemp := InputPassportElementErrorSourceFile{
+		tdCommon: tdCommon{Type: "inputPassportElementErrorSourceFile"},
+		FileHash: fileHash,
+	}
+
+	return &inputPassportElementErrorSourceFileTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceFile *InputPassportElementErrorSourceFile) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceFileType
+}
+
+// InputPassportElementErrorSourceFiles The list of attached files contains an error. The error is considered resolved when the file list changes
+type InputPassportElementErrorSourceFiles struct {
+	tdCommon
+	FileHashes [][]byte `json:"file_hashes"` // Current hashes of all attached files
+}
+
+// MessageType return the string telegram-type of InputPassportElementErrorSourceFiles
+func (inputPassportElementErrorSourceFiles *InputPassportElementErrorSourceFiles) MessageType() string {
+	return "inputPassportElementErrorSourceFiles"
+}
+
+// NewInputPassportElementErrorSourceFiles creates a new InputPassportElementErrorSourceFiles
+//
+// @param fileHashes Current hashes of all attached files
+func NewInputPassportElementErrorSourceFiles(fileHashes [][]byte) *InputPassportElementErrorSourceFiles {
+	inputPassportElementErrorSourceFilesTemp := InputPassportElementErrorSourceFiles{
+		tdCommon:   tdCommon{Type: "inputPassportElementErrorSourceFiles"},
+		FileHashes: fileHashes,
+	}
+
+	return &inputPassportElementErrorSourceFilesTemp
+}
+
+// GetInputPassportElementErrorSourceEnum return the enum type of this object
+func (inputPassportElementErrorSourceFiles *InputPassportElementErrorSourceFiles) GetInputPassportElementErrorSourceEnum() InputPassportElementErrorSourceEnum {
+	return InputPassportElementErrorSourceFilesType
+}
+
+// InputPassportElementError Contains the description of an error in a Telegram Passport element; for bots only
+type InputPassportElementError struct {
+	tdCommon
+	Type    PassportElementType             `json:"type"`    // Type of Telegram Passport element that has the error
+	Message string                          `json:"message"` // Error message
+	Source  InputPassportElementErrorSource `json:"source"`  // Error source
+}
+
+// MessageType return the string telegram-type of InputPassportElementError
+func (inputPassportElementError *InputPassportElementError) MessageType() string {
+	return "inputPassportElementError"
+}
+
+// NewInputPassportElementError creates a new InputPassportElementError
+//
+// @param typeParam Type of Telegram Passport element that has the error
+// @param message Error message
+// @param source Error source
+func NewInputPassportElementError(typeParam PassportElementType, message string, source InputPassportElementErrorSource) *InputPassportElementError {
+	inputPassportElementErrorTemp := InputPassportElementError{
+		tdCommon: tdCommon{Type: "inputPassportElementError"},
+		Type:     typeParam,
+		Message:  message,
+		Source:   source,
+	}
+
+	return &inputPassportElementErrorTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (inputPassportElementError *InputPassportElementError) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Message string `json:"message"` // Error message
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	inputPassportElementError.tdCommon = tempObj.tdCommon
+	inputPassportElementError.Message = tempObj.Message
+
+	fieldType, _ := unmarshalPassportElementType(objMap["type"])
+	inputPassportElementError.Type = fieldType
+
+	fieldSource, _ := unmarshalInputPassportElementErrorSource(objMap["source"])
+	inputPassportElementError.Source = fieldSource
+
+	return nil
 }
 
 // MessageText A text message
@@ -8509,7 +11014,7 @@ type MessagePaymentSuccessfulBot struct {
 	Currency                string     `json:"currency"`                   // Currency for price of the product
 	TotalAmount             int64      `json:"total_amount"`               // Total price for the product, in the minimal quantity of the currency
 	InvoicePayload          []byte     `json:"invoice_payload"`            // Invoice payload
-	ShippingOptionID        string     `json:"shipping_option_id"`         // Identifier of the shipping option chosen by the user, may be empty if not applicable
+	ShippingOptionID        string     `json:"shipping_option_id"`         // Identifier of the shipping option chosen by the user; may be empty if not applicable
 	OrderInfo               *OrderInfo `json:"order_info"`                 // Information about the order; may be null
 	TelegramPaymentChargeID string     `json:"telegram_payment_charge_id"` // Telegram payment identifier
 	ProviderPaymentChargeID string     `json:"provider_payment_charge_id"` // Provider payment identifier
@@ -8526,7 +11031,7 @@ func (messagePaymentSuccessfulBot *MessagePaymentSuccessfulBot) MessageType() st
 // @param currency Currency for price of the product
 // @param totalAmount Total price for the product, in the minimal quantity of the currency
 // @param invoicePayload Invoice payload
-// @param shippingOptionID Identifier of the shipping option chosen by the user, may be empty if not applicable
+// @param shippingOptionID Identifier of the shipping option chosen by the user; may be empty if not applicable
 // @param orderInfo Information about the order; may be null
 // @param telegramPaymentChargeID Telegram payment identifier
 // @param providerPaymentChargeID Provider payment identifier
@@ -8602,6 +11107,65 @@ func NewMessageWebsiteConnected(domainName string) *MessageWebsiteConnected {
 // GetMessageContentEnum return the enum type of this object
 func (messageWebsiteConnected *MessageWebsiteConnected) GetMessageContentEnum() MessageContentEnum {
 	return MessageWebsiteConnectedType
+}
+
+// MessagePassportDataSent Telegram Passport data has been sent
+type MessagePassportDataSent struct {
+	tdCommon
+	Types []PassportElementType `json:"types"` // List of Telegram Passport element types sent
+}
+
+// MessageType return the string telegram-type of MessagePassportDataSent
+func (messagePassportDataSent *MessagePassportDataSent) MessageType() string {
+	return "messagePassportDataSent"
+}
+
+// NewMessagePassportDataSent creates a new MessagePassportDataSent
+//
+// @param typeParams List of Telegram Passport element types sent
+func NewMessagePassportDataSent(typeParams []PassportElementType) *MessagePassportDataSent {
+	messagePassportDataSentTemp := MessagePassportDataSent{
+		tdCommon: tdCommon{Type: "messagePassportDataSent"},
+		Types:    typeParams,
+	}
+
+	return &messagePassportDataSentTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messagePassportDataSent *MessagePassportDataSent) GetMessageContentEnum() MessageContentEnum {
+	return MessagePassportDataSentType
+}
+
+// MessagePassportDataReceived Telegram Passport data has been received; for bots only
+type MessagePassportDataReceived struct {
+	tdCommon
+	Elements    []EncryptedPassportElement `json:"elements"`    // List of received Telegram Passport elements
+	Credentials *EncryptedCredentials      `json:"credentials"` // Encrypted data credentials
+}
+
+// MessageType return the string telegram-type of MessagePassportDataReceived
+func (messagePassportDataReceived *MessagePassportDataReceived) MessageType() string {
+	return "messagePassportDataReceived"
+}
+
+// NewMessagePassportDataReceived creates a new MessagePassportDataReceived
+//
+// @param elements List of received Telegram Passport elements
+// @param credentials Encrypted data credentials
+func NewMessagePassportDataReceived(elements []EncryptedPassportElement, credentials *EncryptedCredentials) *MessagePassportDataReceived {
+	messagePassportDataReceivedTemp := MessagePassportDataReceived{
+		tdCommon:    tdCommon{Type: "messagePassportDataReceived"},
+		Elements:    elements,
+		Credentials: credentials,
+	}
+
+	return &messagePassportDataReceivedTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messagePassportDataReceived *MessagePassportDataReceived) GetMessageContentEnum() MessageContentEnum {
+	return MessagePassportDataReceivedType
 }
 
 // MessageUnsupported Message content that is not supported by the client
@@ -8910,7 +11474,7 @@ func (textEntityTypePreCode *TextEntityTypePreCode) GetTextEntityTypeEnum() Text
 // TextEntityTypeTextURL A text description shown instead of a raw URL
 type TextEntityTypeTextURL struct {
 	tdCommon
-	URL string `json:"url"` // URL to be opened when the link is clicked
+	URL string `json:"url"` // HTTP or tg:// URL to be opened when the link is clicked
 }
 
 // MessageType return the string telegram-type of TextEntityTypeTextURL
@@ -8920,7 +11484,7 @@ func (textEntityTypeTextURL *TextEntityTypeTextURL) MessageType() string {
 
 // NewTextEntityTypeTextURL creates a new TextEntityTypeTextURL
 //
-// @param uRL URL to be opened when the link is clicked
+// @param uRL HTTP or tg:// URL to be opened when the link is clicked
 func NewTextEntityTypeTextURL(uRL string) *TextEntityTypeTextURL {
 	textEntityTypeTextURLTemp := TextEntityTypeTextURL{
 		tdCommon: tdCommon{Type: "textEntityTypeTextUrl"},
@@ -9047,7 +11611,7 @@ func (inputThumbnail *InputThumbnail) UnmarshalJSON(b []byte) error {
 // InputMessageText A text message
 type InputMessageText struct {
 	tdCommon
-	Text                  *FormattedText `json:"text"`                     // Formatted text to be sent. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
+	Text                  *FormattedText `json:"text"`                     // Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
 	DisableWebPagePreview bool           `json:"disable_web_page_preview"` // True, if rich web page previews for URLs in the message text should be disabled
 	ClearDraft            bool           `json:"clear_draft"`              // True, if a chat message draft should be deleted
 }
@@ -9059,13 +11623,13 @@ func (inputMessageText *InputMessageText) MessageType() string {
 
 // NewInputMessageText creates a new InputMessageText
 //
-// @param text Formatted text to be sent. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
+// @param text Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually
 // @param disableWebPagePreview True, if rich web page previews for URLs in the message text should be disabled
 // @param clearDraft True, if a chat message draft should be deleted
 func NewInputMessageText(text *FormattedText, disableWebPagePreview bool, clearDraft bool) *InputMessageText {
 	inputMessageTextTemp := InputMessageText{
-		tdCommon: tdCommon{Type: "inputMessageText"},
-		Text:     text,
+		tdCommon:              tdCommon{Type: "inputMessageText"},
+		Text:                  text,
 		DisableWebPagePreview: disableWebPagePreview,
 		ClearDraft:            clearDraft,
 	}
@@ -9086,7 +11650,7 @@ type InputMessageAnimation struct {
 	Duration  int32           `json:"duration"`  // Duration of the animation, in seconds
 	Width     int32           `json:"width"`     // Width of the animation; may be replaced by the server
 	Height    int32           `json:"height"`    // Height of the animation; may be replaced by the server
-	Caption   *FormattedText  `json:"caption"`   // Animation caption; 0-200 characters
+	Caption   *FormattedText  `json:"caption"`   // Animation caption; 0-GetOption("message_caption_length_max") characters
 }
 
 // MessageType return the string telegram-type of InputMessageAnimation
@@ -9101,7 +11665,7 @@ func (inputMessageAnimation *InputMessageAnimation) MessageType() string {
 // @param duration Duration of the animation, in seconds
 // @param width Width of the animation; may be replaced by the server
 // @param height Height of the animation; may be replaced by the server
-// @param caption Animation caption; 0-200 characters
+// @param caption Animation caption; 0-GetOption("message_caption_length_max") characters
 func NewInputMessageAnimation(animation InputFile, thumbnail *InputThumbnail, duration int32, width int32, height int32, caption *FormattedText) *InputMessageAnimation {
 	inputMessageAnimationTemp := InputMessageAnimation{
 		tdCommon:  tdCommon{Type: "inputMessageAnimation"},
@@ -9129,7 +11693,7 @@ func (inputMessageAnimation *InputMessageAnimation) UnmarshalJSON(b []byte) erro
 		Duration  int32           `json:"duration"`  // Duration of the animation, in seconds
 		Width     int32           `json:"width"`     // Width of the animation; may be replaced by the server
 		Height    int32           `json:"height"`    // Height of the animation; may be replaced by the server
-		Caption   *FormattedText  `json:"caption"`   // Animation caption; 0-200 characters
+		Caption   *FormattedText  `json:"caption"`   // Animation caption; 0-GetOption("message_caption_length_max") characters
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -9162,7 +11726,7 @@ type InputMessageAudio struct {
 	Duration            int32           `json:"duration"`              // Duration of the audio, in seconds; may be replaced by the server
 	Title               string          `json:"title"`                 // Title of the audio; 0-64 characters; may be replaced by the server
 	Performer           string          `json:"performer"`             // Performer of the audio; 0-64 characters, may be replaced by the server
-	Caption             *FormattedText  `json:"caption"`               // Audio caption; 0-200 characters
+	Caption             *FormattedText  `json:"caption"`               // Audio caption; 0-GetOption("message_caption_length_max") characters
 }
 
 // MessageType return the string telegram-type of InputMessageAudio
@@ -9177,7 +11741,7 @@ func (inputMessageAudio *InputMessageAudio) MessageType() string {
 // @param duration Duration of the audio, in seconds; may be replaced by the server
 // @param title Title of the audio; 0-64 characters; may be replaced by the server
 // @param performer Performer of the audio; 0-64 characters, may be replaced by the server
-// @param caption Audio caption; 0-200 characters
+// @param caption Audio caption; 0-GetOption("message_caption_length_max") characters
 func NewInputMessageAudio(audio InputFile, albumCoverThumbnail *InputThumbnail, duration int32, title string, performer string, caption *FormattedText) *InputMessageAudio {
 	inputMessageAudioTemp := InputMessageAudio{
 		tdCommon:            tdCommon{Type: "inputMessageAudio"},
@@ -9205,7 +11769,7 @@ func (inputMessageAudio *InputMessageAudio) UnmarshalJSON(b []byte) error {
 		Duration            int32           `json:"duration"`              // Duration of the audio, in seconds; may be replaced by the server
 		Title               string          `json:"title"`                 // Title of the audio; 0-64 characters; may be replaced by the server
 		Performer           string          `json:"performer"`             // Performer of the audio; 0-64 characters, may be replaced by the server
-		Caption             *FormattedText  `json:"caption"`               // Audio caption; 0-200 characters
+		Caption             *FormattedText  `json:"caption"`               // Audio caption; 0-GetOption("message_caption_length_max") characters
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -9235,7 +11799,7 @@ type InputMessageDocument struct {
 	tdCommon
 	Document  InputFile       `json:"document"`  // Document to be sent
 	Thumbnail *InputThumbnail `json:"thumbnail"` // Document thumbnail, if available
-	Caption   *FormattedText  `json:"caption"`   // Document caption; 0-200 characters
+	Caption   *FormattedText  `json:"caption"`   // Document caption; 0-GetOption("message_caption_length_max") characters
 }
 
 // MessageType return the string telegram-type of InputMessageDocument
@@ -9247,7 +11811,7 @@ func (inputMessageDocument *InputMessageDocument) MessageType() string {
 //
 // @param document Document to be sent
 // @param thumbnail Document thumbnail, if available
-// @param caption Document caption; 0-200 characters
+// @param caption Document caption; 0-GetOption("message_caption_length_max") characters
 func NewInputMessageDocument(document InputFile, thumbnail *InputThumbnail, caption *FormattedText) *InputMessageDocument {
 	inputMessageDocumentTemp := InputMessageDocument{
 		tdCommon:  tdCommon{Type: "inputMessageDocument"},
@@ -9269,7 +11833,7 @@ func (inputMessageDocument *InputMessageDocument) UnmarshalJSON(b []byte) error 
 	tempObj := struct {
 		tdCommon
 		Thumbnail *InputThumbnail `json:"thumbnail"` // Document thumbnail, if available
-		Caption   *FormattedText  `json:"caption"`   // Document caption; 0-200 characters
+		Caption   *FormattedText  `json:"caption"`   // Document caption; 0-GetOption("message_caption_length_max") characters
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -9299,7 +11863,7 @@ type InputMessagePhoto struct {
 	AddedStickerFileIDs []int32         `json:"added_sticker_file_ids"` // File identifiers of the stickers added to the photo, if applicable
 	Width               int32           `json:"width"`                  // Photo width
 	Height              int32           `json:"height"`                 // Photo height
-	Caption             *FormattedText  `json:"caption"`                // Photo caption; 0-200 characters
+	Caption             *FormattedText  `json:"caption"`                // Photo caption; 0-GetOption("message_caption_length_max") characters
 	TTL                 int32           `json:"ttl"`                    // Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 }
 
@@ -9315,7 +11879,7 @@ func (inputMessagePhoto *InputMessagePhoto) MessageType() string {
 // @param addedStickerFileIDs File identifiers of the stickers added to the photo, if applicable
 // @param width Photo width
 // @param height Photo height
-// @param caption Photo caption; 0-200 characters
+// @param caption Photo caption; 0-GetOption("message_caption_length_max") characters
 // @param tTL Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 func NewInputMessagePhoto(photo InputFile, thumbnail *InputThumbnail, addedStickerFileIDs []int32, width int32, height int32, caption *FormattedText, tTL int32) *InputMessagePhoto {
 	inputMessagePhotoTemp := InputMessagePhoto{
@@ -9345,7 +11909,7 @@ func (inputMessagePhoto *InputMessagePhoto) UnmarshalJSON(b []byte) error {
 		AddedStickerFileIDs []int32         `json:"added_sticker_file_ids"` // File identifiers of the stickers added to the photo, if applicable
 		Width               int32           `json:"width"`                  // Photo width
 		Height              int32           `json:"height"`                 // Photo height
-		Caption             *FormattedText  `json:"caption"`                // Photo caption; 0-200 characters
+		Caption             *FormattedText  `json:"caption"`                // Photo caption; 0-GetOption("message_caption_length_max") characters
 		TTL                 int32           `json:"ttl"`                    // Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -9448,7 +12012,7 @@ type InputMessageVideo struct {
 	Width               int32           `json:"width"`                  // Video width
 	Height              int32           `json:"height"`                 // Video height
 	SupportsStreaming   bool            `json:"supports_streaming"`     // True, if the video should be tried to be streamed
-	Caption             *FormattedText  `json:"caption"`                // Video caption; 0-200 characters
+	Caption             *FormattedText  `json:"caption"`                // Video caption; 0-GetOption("message_caption_length_max") characters
 	TTL                 int32           `json:"ttl"`                    // Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 }
 
@@ -9466,7 +12030,7 @@ func (inputMessageVideo *InputMessageVideo) MessageType() string {
 // @param width Video width
 // @param height Video height
 // @param supportsStreaming True, if the video should be tried to be streamed
-// @param caption Video caption; 0-200 characters
+// @param caption Video caption; 0-GetOption("message_caption_length_max") characters
 // @param tTL Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 func NewInputMessageVideo(video InputFile, thumbnail *InputThumbnail, addedStickerFileIDs []int32, duration int32, width int32, height int32, supportsStreaming bool, caption *FormattedText, tTL int32) *InputMessageVideo {
 	inputMessageVideoTemp := InputMessageVideo{
@@ -9500,7 +12064,7 @@ func (inputMessageVideo *InputMessageVideo) UnmarshalJSON(b []byte) error {
 		Width               int32           `json:"width"`                  // Video width
 		Height              int32           `json:"height"`                 // Video height
 		SupportsStreaming   bool            `json:"supports_streaming"`     // True, if the video should be tried to be streamed
-		Caption             *FormattedText  `json:"caption"`                // Video caption; 0-200 characters
+		Caption             *FormattedText  `json:"caption"`                // Video caption; 0-GetOption("message_caption_length_max") characters
 		TTL                 int32           `json:"ttl"`                    // Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -9601,7 +12165,7 @@ type InputMessageVoiceNote struct {
 	VoiceNote InputFile      `json:"voice_note"` // Voice note to be sent
 	Duration  int32          `json:"duration"`   // Duration of the voice note, in seconds
 	Waveform  []byte         `json:"waveform"`   // Waveform representation of the voice note, in 5-bit format
-	Caption   *FormattedText `json:"caption"`    // Voice note caption; 0-200 characters
+	Caption   *FormattedText `json:"caption"`    // Voice note caption; 0-GetOption("message_caption_length_max") characters
 }
 
 // MessageType return the string telegram-type of InputMessageVoiceNote
@@ -9614,7 +12178,7 @@ func (inputMessageVoiceNote *InputMessageVoiceNote) MessageType() string {
 // @param voiceNote Voice note to be sent
 // @param duration Duration of the voice note, in seconds
 // @param waveform Waveform representation of the voice note, in 5-bit format
-// @param caption Voice note caption; 0-200 characters
+// @param caption Voice note caption; 0-GetOption("message_caption_length_max") characters
 func NewInputMessageVoiceNote(voiceNote InputFile, duration int32, waveform []byte, caption *FormattedText) *InputMessageVoiceNote {
 	inputMessageVoiceNoteTemp := InputMessageVoiceNote{
 		tdCommon:  tdCommon{Type: "inputMessageVoiceNote"},
@@ -9638,7 +12202,7 @@ func (inputMessageVoiceNote *InputMessageVoiceNote) UnmarshalJSON(b []byte) erro
 		tdCommon
 		Duration int32          `json:"duration"` // Duration of the voice note, in seconds
 		Waveform []byte         `json:"waveform"` // Waveform representation of the voice note, in 5-bit format
-		Caption  *FormattedText `json:"caption"`  // Voice note caption; 0-200 characters
+		Caption  *FormattedText `json:"caption"`  // Voice note caption; 0-GetOption("message_caption_length_max") characters
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -13952,10 +16516,236 @@ func NewChatEventLogFilters(messageEdits bool, messageDeletions bool, messagePin
 	return &chatEventLogFiltersTemp
 }
 
+// LanguagePackStringValueOrdinary An ordinary language pack string
+type LanguagePackStringValueOrdinary struct {
+	tdCommon
+	Value string `json:"value"` // String value
+}
+
+// MessageType return the string telegram-type of LanguagePackStringValueOrdinary
+func (languagePackStringValueOrdinary *LanguagePackStringValueOrdinary) MessageType() string {
+	return "languagePackStringValueOrdinary"
+}
+
+// NewLanguagePackStringValueOrdinary creates a new LanguagePackStringValueOrdinary
+//
+// @param value String value
+func NewLanguagePackStringValueOrdinary(value string) *LanguagePackStringValueOrdinary {
+	languagePackStringValueOrdinaryTemp := LanguagePackStringValueOrdinary{
+		tdCommon: tdCommon{Type: "languagePackStringValueOrdinary"},
+		Value:    value,
+	}
+
+	return &languagePackStringValueOrdinaryTemp
+}
+
+// GetLanguagePackStringValueEnum return the enum type of this object
+func (languagePackStringValueOrdinary *LanguagePackStringValueOrdinary) GetLanguagePackStringValueEnum() LanguagePackStringValueEnum {
+	return LanguagePackStringValueOrdinaryType
+}
+
+// LanguagePackStringValuePluralized A language pack string which has different forms based on the number of some object it mentions
+type LanguagePackStringValuePluralized struct {
+	tdCommon
+	ZeroValue  string `json:"zero_value"`  // Value for zero objects
+	OneValue   string `json:"one_value"`   // Value for one object
+	TwoValue   string `json:"two_value"`   // Value for two objects
+	FewValue   string `json:"few_value"`   // Value for few objects
+	ManyValue  string `json:"many_value"`  // Value for many objects
+	OtherValue string `json:"other_value"` // Default value
+}
+
+// MessageType return the string telegram-type of LanguagePackStringValuePluralized
+func (languagePackStringValuePluralized *LanguagePackStringValuePluralized) MessageType() string {
+	return "languagePackStringValuePluralized"
+}
+
+// NewLanguagePackStringValuePluralized creates a new LanguagePackStringValuePluralized
+//
+// @param zeroValue Value for zero objects
+// @param oneValue Value for one object
+// @param twoValue Value for two objects
+// @param fewValue Value for few objects
+// @param manyValue Value for many objects
+// @param otherValue Default value
+func NewLanguagePackStringValuePluralized(zeroValue string, oneValue string, twoValue string, fewValue string, manyValue string, otherValue string) *LanguagePackStringValuePluralized {
+	languagePackStringValuePluralizedTemp := LanguagePackStringValuePluralized{
+		tdCommon:   tdCommon{Type: "languagePackStringValuePluralized"},
+		ZeroValue:  zeroValue,
+		OneValue:   oneValue,
+		TwoValue:   twoValue,
+		FewValue:   fewValue,
+		ManyValue:  manyValue,
+		OtherValue: otherValue,
+	}
+
+	return &languagePackStringValuePluralizedTemp
+}
+
+// GetLanguagePackStringValueEnum return the enum type of this object
+func (languagePackStringValuePluralized *LanguagePackStringValuePluralized) GetLanguagePackStringValueEnum() LanguagePackStringValueEnum {
+	return LanguagePackStringValuePluralizedType
+}
+
+// LanguagePackStringValueDeleted A deleted language pack string, the value should be taken from the built-in english language pack
+type LanguagePackStringValueDeleted struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of LanguagePackStringValueDeleted
+func (languagePackStringValueDeleted *LanguagePackStringValueDeleted) MessageType() string {
+	return "languagePackStringValueDeleted"
+}
+
+// NewLanguagePackStringValueDeleted creates a new LanguagePackStringValueDeleted
+//
+func NewLanguagePackStringValueDeleted() *LanguagePackStringValueDeleted {
+	languagePackStringValueDeletedTemp := LanguagePackStringValueDeleted{
+		tdCommon: tdCommon{Type: "languagePackStringValueDeleted"},
+	}
+
+	return &languagePackStringValueDeletedTemp
+}
+
+// GetLanguagePackStringValueEnum return the enum type of this object
+func (languagePackStringValueDeleted *LanguagePackStringValueDeleted) GetLanguagePackStringValueEnum() LanguagePackStringValueEnum {
+	return LanguagePackStringValueDeletedType
+}
+
+// LanguagePackString Represents one language pack string
+type LanguagePackString struct {
+	tdCommon
+	Key   string                  `json:"key"`   // String key
+	Value LanguagePackStringValue `json:"value"` // String value
+}
+
+// MessageType return the string telegram-type of LanguagePackString
+func (languagePackString *LanguagePackString) MessageType() string {
+	return "languagePackString"
+}
+
+// NewLanguagePackString creates a new LanguagePackString
+//
+// @param key String key
+// @param value String value
+func NewLanguagePackString(key string, value LanguagePackStringValue) *LanguagePackString {
+	languagePackStringTemp := LanguagePackString{
+		tdCommon: tdCommon{Type: "languagePackString"},
+		Key:      key,
+		Value:    value,
+	}
+
+	return &languagePackStringTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (languagePackString *LanguagePackString) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		Key string `json:"key"` // String key
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	languagePackString.tdCommon = tempObj.tdCommon
+	languagePackString.Key = tempObj.Key
+
+	fieldValue, _ := unmarshalLanguagePackStringValue(objMap["value"])
+	languagePackString.Value = fieldValue
+
+	return nil
+}
+
+// LanguagePackStrings Contains a list of language pack strings
+type LanguagePackStrings struct {
+	tdCommon
+	Strings []LanguagePackString `json:"strings"` // A list of language pack strings
+}
+
+// MessageType return the string telegram-type of LanguagePackStrings
+func (languagePackStrings *LanguagePackStrings) MessageType() string {
+	return "languagePackStrings"
+}
+
+// NewLanguagePackStrings creates a new LanguagePackStrings
+//
+// @param strings A list of language pack strings
+func NewLanguagePackStrings(strings []LanguagePackString) *LanguagePackStrings {
+	languagePackStringsTemp := LanguagePackStrings{
+		tdCommon: tdCommon{Type: "languagePackStrings"},
+		Strings:  strings,
+	}
+
+	return &languagePackStringsTemp
+}
+
+// LanguagePackInfo Contains information about a language pack
+type LanguagePackInfo struct {
+	tdCommon
+	ID               string `json:"id"`                 // Unique language pack identifier
+	Name             string `json:"name"`               // Language name
+	NativeName       string `json:"native_name"`        // Name of the language in that language
+	LocalStringCount int32  `json:"local_string_count"` // Total number of non-deleted strings from the language pack available locally
+}
+
+// MessageType return the string telegram-type of LanguagePackInfo
+func (languagePackInfo *LanguagePackInfo) MessageType() string {
+	return "languagePackInfo"
+}
+
+// NewLanguagePackInfo creates a new LanguagePackInfo
+//
+// @param iD Unique language pack identifier
+// @param name Language name
+// @param nativeName Name of the language in that language
+// @param localStringCount Total number of non-deleted strings from the language pack available locally
+func NewLanguagePackInfo(iD string, name string, nativeName string, localStringCount int32) *LanguagePackInfo {
+	languagePackInfoTemp := LanguagePackInfo{
+		tdCommon:         tdCommon{Type: "languagePackInfo"},
+		ID:               iD,
+		Name:             name,
+		NativeName:       nativeName,
+		LocalStringCount: localStringCount,
+	}
+
+	return &languagePackInfoTemp
+}
+
+// LocalizationTargetInfo Contains information about the current localization target
+type LocalizationTargetInfo struct {
+	tdCommon
+	LanguagePacks []LanguagePackInfo `json:"language_packs"` // List of available language packs for this application
+}
+
+// MessageType return the string telegram-type of LocalizationTargetInfo
+func (localizationTargetInfo *LocalizationTargetInfo) MessageType() string {
+	return "localizationTargetInfo"
+}
+
+// NewLocalizationTargetInfo creates a new LocalizationTargetInfo
+//
+// @param languagePacks List of available language packs for this application
+func NewLocalizationTargetInfo(languagePacks []LanguagePackInfo) *LocalizationTargetInfo {
+	localizationTargetInfoTemp := LocalizationTargetInfo{
+		tdCommon:      tdCommon{Type: "localizationTargetInfo"},
+		LanguagePacks: languagePacks,
+	}
+
+	return &localizationTargetInfoTemp
+}
+
 // DeviceTokenGoogleCloudMessaging A token for Google Cloud Messaging
 type DeviceTokenGoogleCloudMessaging struct {
 	tdCommon
-	Token string `json:"token"` // Device registration token, may be empty to de-register a device
+	Token string `json:"token"` // Device registration token; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenGoogleCloudMessaging
@@ -13965,7 +16755,7 @@ func (deviceTokenGoogleCloudMessaging *DeviceTokenGoogleCloudMessaging) MessageT
 
 // NewDeviceTokenGoogleCloudMessaging creates a new DeviceTokenGoogleCloudMessaging
 //
-// @param token Device registration token, may be empty to de-register a device
+// @param token Device registration token; may be empty to de-register a device
 func NewDeviceTokenGoogleCloudMessaging(token string) *DeviceTokenGoogleCloudMessaging {
 	deviceTokenGoogleCloudMessagingTemp := DeviceTokenGoogleCloudMessaging{
 		tdCommon: tdCommon{Type: "deviceTokenGoogleCloudMessaging"},
@@ -13983,7 +16773,7 @@ func (deviceTokenGoogleCloudMessaging *DeviceTokenGoogleCloudMessaging) GetDevic
 // DeviceTokenApplePush A token for Apple Push Notification service
 type DeviceTokenApplePush struct {
 	tdCommon
-	DeviceToken  string `json:"device_token"`   // Device token, may be empty to de-register a device
+	DeviceToken  string `json:"device_token"`   // Device token; may be empty to de-register a device
 	IsAppSandbox bool   `json:"is_app_sandbox"` // True, if App Sandbox is enabled
 }
 
@@ -13994,7 +16784,7 @@ func (deviceTokenApplePush *DeviceTokenApplePush) MessageType() string {
 
 // NewDeviceTokenApplePush creates a new DeviceTokenApplePush
 //
-// @param deviceToken Device token, may be empty to de-register a device
+// @param deviceToken Device token; may be empty to de-register a device
 // @param isAppSandbox True, if App Sandbox is enabled
 func NewDeviceTokenApplePush(deviceToken string, isAppSandbox bool) *DeviceTokenApplePush {
 	deviceTokenApplePushTemp := DeviceTokenApplePush{
@@ -14014,7 +16804,7 @@ func (deviceTokenApplePush *DeviceTokenApplePush) GetDeviceTokenEnum() DeviceTok
 // DeviceTokenApplePushVoIP A token for Apple Push Notification service VoIP notifications
 type DeviceTokenApplePushVoIP struct {
 	tdCommon
-	DeviceToken  string `json:"device_token"`   // Device token, may be empty to de-register a device
+	DeviceToken  string `json:"device_token"`   // Device token; may be empty to de-register a device
 	IsAppSandbox bool   `json:"is_app_sandbox"` // True, if App Sandbox is enabled
 }
 
@@ -14025,7 +16815,7 @@ func (deviceTokenApplePushVoIP *DeviceTokenApplePushVoIP) MessageType() string {
 
 // NewDeviceTokenApplePushVoIP creates a new DeviceTokenApplePushVoIP
 //
-// @param deviceToken Device token, may be empty to de-register a device
+// @param deviceToken Device token; may be empty to de-register a device
 // @param isAppSandbox True, if App Sandbox is enabled
 func NewDeviceTokenApplePushVoIP(deviceToken string, isAppSandbox bool) *DeviceTokenApplePushVoIP {
 	deviceTokenApplePushVoIPTemp := DeviceTokenApplePushVoIP{
@@ -14045,7 +16835,7 @@ func (deviceTokenApplePushVoIP *DeviceTokenApplePushVoIP) GetDeviceTokenEnum() D
 // DeviceTokenWindowsPush A token for Windows Push Notification Services
 type DeviceTokenWindowsPush struct {
 	tdCommon
-	AccessToken string `json:"access_token"` // The access token that will be used to send notifications, may be empty to de-register a device
+	AccessToken string `json:"access_token"` // The access token that will be used to send notifications; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenWindowsPush
@@ -14055,7 +16845,7 @@ func (deviceTokenWindowsPush *DeviceTokenWindowsPush) MessageType() string {
 
 // NewDeviceTokenWindowsPush creates a new DeviceTokenWindowsPush
 //
-// @param accessToken The access token that will be used to send notifications, may be empty to de-register a device
+// @param accessToken The access token that will be used to send notifications; may be empty to de-register a device
 func NewDeviceTokenWindowsPush(accessToken string) *DeviceTokenWindowsPush {
 	deviceTokenWindowsPushTemp := DeviceTokenWindowsPush{
 		tdCommon:    tdCommon{Type: "deviceTokenWindowsPush"},
@@ -14073,7 +16863,7 @@ func (deviceTokenWindowsPush *DeviceTokenWindowsPush) GetDeviceTokenEnum() Devic
 // DeviceTokenMicrosoftPush A token for Microsoft Push Notification Service
 type DeviceTokenMicrosoftPush struct {
 	tdCommon
-	ChannelURI string `json:"channel_uri"` // Push notification channel URI, may be empty to de-register a device
+	ChannelURI string `json:"channel_uri"` // Push notification channel URI; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenMicrosoftPush
@@ -14083,7 +16873,7 @@ func (deviceTokenMicrosoftPush *DeviceTokenMicrosoftPush) MessageType() string {
 
 // NewDeviceTokenMicrosoftPush creates a new DeviceTokenMicrosoftPush
 //
-// @param channelURI Push notification channel URI, may be empty to de-register a device
+// @param channelURI Push notification channel URI; may be empty to de-register a device
 func NewDeviceTokenMicrosoftPush(channelURI string) *DeviceTokenMicrosoftPush {
 	deviceTokenMicrosoftPushTemp := DeviceTokenMicrosoftPush{
 		tdCommon:   tdCommon{Type: "deviceTokenMicrosoftPush"},
@@ -14101,7 +16891,7 @@ func (deviceTokenMicrosoftPush *DeviceTokenMicrosoftPush) GetDeviceTokenEnum() D
 // DeviceTokenMicrosoftPushVoIP A token for Microsoft Push Notification Service VoIP channel
 type DeviceTokenMicrosoftPushVoIP struct {
 	tdCommon
-	ChannelURI string `json:"channel_uri"` // Push notification channel URI, may be empty to de-register a device
+	ChannelURI string `json:"channel_uri"` // Push notification channel URI; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenMicrosoftPushVoIP
@@ -14111,7 +16901,7 @@ func (deviceTokenMicrosoftPushVoIP *DeviceTokenMicrosoftPushVoIP) MessageType() 
 
 // NewDeviceTokenMicrosoftPushVoIP creates a new DeviceTokenMicrosoftPushVoIP
 //
-// @param channelURI Push notification channel URI, may be empty to de-register a device
+// @param channelURI Push notification channel URI; may be empty to de-register a device
 func NewDeviceTokenMicrosoftPushVoIP(channelURI string) *DeviceTokenMicrosoftPushVoIP {
 	deviceTokenMicrosoftPushVoIPTemp := DeviceTokenMicrosoftPushVoIP{
 		tdCommon:   tdCommon{Type: "deviceTokenMicrosoftPushVoIP"},
@@ -14129,7 +16919,7 @@ func (deviceTokenMicrosoftPushVoIP *DeviceTokenMicrosoftPushVoIP) GetDeviceToken
 // DeviceTokenWebPush A token for web Push API
 type DeviceTokenWebPush struct {
 	tdCommon
-	Endpoint        string `json:"endpoint"`         // Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+	Endpoint        string `json:"endpoint"`         // Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
 	P256dhBase64url string `json:"p256dh_base64url"` // Base64url-encoded P-256 elliptic curve Diffie-Hellman public key
 	AuthBase64url   string `json:"auth_base64url"`   // Base64url-encoded authentication secret
 }
@@ -14141,7 +16931,7 @@ func (deviceTokenWebPush *DeviceTokenWebPush) MessageType() string {
 
 // NewDeviceTokenWebPush creates a new DeviceTokenWebPush
 //
-// @param endpoint Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+// @param endpoint Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
 // @param p256dhBase64url Base64url-encoded P-256 elliptic curve Diffie-Hellman public key
 // @param authBase64url Base64url-encoded authentication secret
 func NewDeviceTokenWebPush(endpoint string, p256dhBase64url string, authBase64url string) *DeviceTokenWebPush {
@@ -14163,7 +16953,7 @@ func (deviceTokenWebPush *DeviceTokenWebPush) GetDeviceTokenEnum() DeviceTokenEn
 // DeviceTokenSimplePush A token for Simple Push API for Firefox OS
 type DeviceTokenSimplePush struct {
 	tdCommon
-	Endpoint string `json:"endpoint"` // Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+	Endpoint string `json:"endpoint"` // Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenSimplePush
@@ -14173,7 +16963,7 @@ func (deviceTokenSimplePush *DeviceTokenSimplePush) MessageType() string {
 
 // NewDeviceTokenSimplePush creates a new DeviceTokenSimplePush
 //
-// @param endpoint Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+// @param endpoint Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
 func NewDeviceTokenSimplePush(endpoint string) *DeviceTokenSimplePush {
 	deviceTokenSimplePushTemp := DeviceTokenSimplePush{
 		tdCommon: tdCommon{Type: "deviceTokenSimplePush"},
@@ -14191,7 +16981,7 @@ func (deviceTokenSimplePush *DeviceTokenSimplePush) GetDeviceTokenEnum() DeviceT
 // DeviceTokenUbuntuPush A token for Ubuntu Push Client service
 type DeviceTokenUbuntuPush struct {
 	tdCommon
-	Token string `json:"token"` // Token, may be empty to de-register a device
+	Token string `json:"token"` // Token; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenUbuntuPush
@@ -14201,7 +16991,7 @@ func (deviceTokenUbuntuPush *DeviceTokenUbuntuPush) MessageType() string {
 
 // NewDeviceTokenUbuntuPush creates a new DeviceTokenUbuntuPush
 //
-// @param token Token, may be empty to de-register a device
+// @param token Token; may be empty to de-register a device
 func NewDeviceTokenUbuntuPush(token string) *DeviceTokenUbuntuPush {
 	deviceTokenUbuntuPushTemp := DeviceTokenUbuntuPush{
 		tdCommon: tdCommon{Type: "deviceTokenUbuntuPush"},
@@ -14219,7 +17009,7 @@ func (deviceTokenUbuntuPush *DeviceTokenUbuntuPush) GetDeviceTokenEnum() DeviceT
 // DeviceTokenBlackBerryPush A token for BlackBerry Push Service
 type DeviceTokenBlackBerryPush struct {
 	tdCommon
-	Token string `json:"token"` // Token, may be empty to de-register a device
+	Token string `json:"token"` // Token; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenBlackBerryPush
@@ -14229,7 +17019,7 @@ func (deviceTokenBlackBerryPush *DeviceTokenBlackBerryPush) MessageType() string
 
 // NewDeviceTokenBlackBerryPush creates a new DeviceTokenBlackBerryPush
 //
-// @param token Token, may be empty to de-register a device
+// @param token Token; may be empty to de-register a device
 func NewDeviceTokenBlackBerryPush(token string) *DeviceTokenBlackBerryPush {
 	deviceTokenBlackBerryPushTemp := DeviceTokenBlackBerryPush{
 		tdCommon: tdCommon{Type: "deviceTokenBlackBerryPush"},
@@ -14247,7 +17037,7 @@ func (deviceTokenBlackBerryPush *DeviceTokenBlackBerryPush) GetDeviceTokenEnum()
 // DeviceTokenTizenPush A token for Tizen Push Service
 type DeviceTokenTizenPush struct {
 	tdCommon
-	RegID string `json:"reg_id"` // Push service registration identifier, may be empty to de-register a device
+	RegID string `json:"reg_id"` // Push service registration identifier; may be empty to de-register a device
 }
 
 // MessageType return the string telegram-type of DeviceTokenTizenPush
@@ -14257,7 +17047,7 @@ func (deviceTokenTizenPush *DeviceTokenTizenPush) MessageType() string {
 
 // NewDeviceTokenTizenPush creates a new DeviceTokenTizenPush
 //
-// @param regID Push service registration identifier, may be empty to de-register a device
+// @param regID Push service registration identifier; may be empty to de-register a device
 func NewDeviceTokenTizenPush(regID string) *DeviceTokenTizenPush {
 	deviceTokenTizenPushTemp := DeviceTokenTizenPush{
 		tdCommon: tdCommon{Type: "deviceTokenTizenPush"},
@@ -15111,6 +17901,31 @@ func (chatReportReasonPornography *ChatReportReasonPornography) GetChatReportRea
 	return ChatReportReasonPornographyType
 }
 
+// ChatReportReasonCopyright The chat contains copyrighted content
+type ChatReportReasonCopyright struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatReportReasonCopyright
+func (chatReportReasonCopyright *ChatReportReasonCopyright) MessageType() string {
+	return "chatReportReasonCopyright"
+}
+
+// NewChatReportReasonCopyright creates a new ChatReportReasonCopyright
+//
+func NewChatReportReasonCopyright() *ChatReportReasonCopyright {
+	chatReportReasonCopyrightTemp := ChatReportReasonCopyright{
+		tdCommon: tdCommon{Type: "chatReportReasonCopyright"},
+	}
+
+	return &chatReportReasonCopyrightTemp
+}
+
+// GetChatReportReasonEnum return the enum type of this object
+func (chatReportReasonCopyright *ChatReportReasonCopyright) GetChatReportReasonEnum() ChatReportReasonEnum {
+	return ChatReportReasonCopyrightType
+}
+
 // ChatReportReasonCustom A custom reason provided by the user
 type ChatReportReasonCustom struct {
 	tdCommon
@@ -15340,6 +18155,56 @@ func (fileTypeSecret *FileTypeSecret) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeSecretType
 }
 
+// FileTypeSecretThumbnail The file is a thumbnail of a file from a secret chat
+type FileTypeSecretThumbnail struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of FileTypeSecretThumbnail
+func (fileTypeSecretThumbnail *FileTypeSecretThumbnail) MessageType() string {
+	return "fileTypeSecretThumbnail"
+}
+
+// NewFileTypeSecretThumbnail creates a new FileTypeSecretThumbnail
+//
+func NewFileTypeSecretThumbnail() *FileTypeSecretThumbnail {
+	fileTypeSecretThumbnailTemp := FileTypeSecretThumbnail{
+		tdCommon: tdCommon{Type: "fileTypeSecretThumbnail"},
+	}
+
+	return &fileTypeSecretThumbnailTemp
+}
+
+// GetFileTypeEnum return the enum type of this object
+func (fileTypeSecretThumbnail *FileTypeSecretThumbnail) GetFileTypeEnum() FileTypeEnum {
+	return FileTypeSecretThumbnailType
+}
+
+// FileTypeSecure The file is a file from Secure storage used for storing Telegram Passport files
+type FileTypeSecure struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of FileTypeSecure
+func (fileTypeSecure *FileTypeSecure) MessageType() string {
+	return "fileTypeSecure"
+}
+
+// NewFileTypeSecure creates a new FileTypeSecure
+//
+func NewFileTypeSecure() *FileTypeSecure {
+	fileTypeSecureTemp := FileTypeSecure{
+		tdCommon: tdCommon{Type: "fileTypeSecure"},
+	}
+
+	return &fileTypeSecureTemp
+}
+
+// GetFileTypeEnum return the enum type of this object
+func (fileTypeSecure *FileTypeSecure) GetFileTypeEnum() FileTypeEnum {
+	return FileTypeSecureType
+}
+
 // FileTypeSticker The file is a sticker
 type FileTypeSticker struct {
 	tdCommon
@@ -15513,31 +18378,6 @@ func NewFileTypeWallpaper() *FileTypeWallpaper {
 // GetFileTypeEnum return the enum type of this object
 func (fileTypeWallpaper *FileTypeWallpaper) GetFileTypeEnum() FileTypeEnum {
 	return FileTypeWallpaperType
-}
-
-// FileTypeSecretThumbnail The file is a thumbnail of a file from a secret chat
-type FileTypeSecretThumbnail struct {
-	tdCommon
-}
-
-// MessageType return the string telegram-type of FileTypeSecretThumbnail
-func (fileTypeSecretThumbnail *FileTypeSecretThumbnail) MessageType() string {
-	return "fileTypeSecretThumbnail"
-}
-
-// NewFileTypeSecretThumbnail creates a new FileTypeSecretThumbnail
-//
-func NewFileTypeSecretThumbnail() *FileTypeSecretThumbnail {
-	fileTypeSecretThumbnailTemp := FileTypeSecretThumbnail{
-		tdCommon: tdCommon{Type: "fileTypeSecretThumbnail"},
-	}
-
-	return &fileTypeSecretThumbnailTemp
-}
-
-// GetFileTypeEnum return the enum type of this object
-func (fileTypeSecretThumbnail *FileTypeSecretThumbnail) GetFileTypeEnum() FileTypeEnum {
-	return FileTypeSecretThumbnailType
 }
 
 // StorageStatisticsByFileType Contains the storage usage statistics for a specific file type
@@ -16478,6 +19318,55 @@ func NewText(text string) *Text {
 	return &textTemp
 }
 
+// Seconds Contains a value representing a number of seconds
+type Seconds struct {
+	tdCommon
+	Seconds float64 `json:"seconds"` // Number of seconds
+}
+
+// MessageType return the string telegram-type of Seconds
+func (seconds *Seconds) MessageType() string {
+	return "seconds"
+}
+
+// NewSeconds creates a new Seconds
+//
+// @param seconds Number of seconds
+func NewSeconds(seconds float64) *Seconds {
+	secondsTemp := Seconds{
+		tdCommon: tdCommon{Type: "seconds"},
+		Seconds:  seconds,
+	}
+
+	return &secondsTemp
+}
+
+// DeepLinkInfo Contains information about a tg:// deep link
+type DeepLinkInfo struct {
+	tdCommon
+	Text                  *FormattedText `json:"text"`                    // Text to be shown to the user
+	NeedUpdateApplication bool           `json:"need_update_application"` // True, if user should be asked to update the application
+}
+
+// MessageType return the string telegram-type of DeepLinkInfo
+func (deepLinkInfo *DeepLinkInfo) MessageType() string {
+	return "deepLinkInfo"
+}
+
+// NewDeepLinkInfo creates a new DeepLinkInfo
+//
+// @param text Text to be shown to the user
+// @param needUpdateApplication True, if user should be asked to update the application
+func NewDeepLinkInfo(text *FormattedText, needUpdateApplication bool) *DeepLinkInfo {
+	deepLinkInfoTemp := DeepLinkInfo{
+		tdCommon:              tdCommon{Type: "deepLinkInfo"},
+		Text:                  text,
+		NeedUpdateApplication: needUpdateApplication,
+	}
+
+	return &deepLinkInfoTemp
+}
+
 // TextParseModeMarkdown The text should be parsed in markdown-style
 type TextParseModeMarkdown struct {
 	tdCommon
@@ -16528,66 +19417,192 @@ func (textParseModeHTML *TextParseModeHTML) GetTextParseModeEnum() TextParseMode
 	return TextParseModeHTMLType
 }
 
-// ProxyEmpty An empty proxy server
-type ProxyEmpty struct {
+// ProxyTypeSocks5 A SOCKS5 proxy server
+type ProxyTypeSocks5 struct {
 	tdCommon
+	Username string `json:"username"` // Username for logging in; may be empty
+	Password string `json:"password"` // Password for logging in; may be empty
 }
 
-// MessageType return the string telegram-type of ProxyEmpty
-func (proxyEmpty *ProxyEmpty) MessageType() string {
-	return "proxyEmpty"
+// MessageType return the string telegram-type of ProxyTypeSocks5
+func (proxyTypeSocks5 *ProxyTypeSocks5) MessageType() string {
+	return "proxyTypeSocks5"
 }
 
-// NewProxyEmpty creates a new ProxyEmpty
+// NewProxyTypeSocks5 creates a new ProxyTypeSocks5
 //
-func NewProxyEmpty() *ProxyEmpty {
-	proxyEmptyTemp := ProxyEmpty{
-		tdCommon: tdCommon{Type: "proxyEmpty"},
-	}
-
-	return &proxyEmptyTemp
-}
-
-// GetProxyEnum return the enum type of this object
-func (proxyEmpty *ProxyEmpty) GetProxyEnum() ProxyEnum {
-	return ProxyEmptyType
-}
-
-// ProxySocks5 A SOCKS5 proxy server
-type ProxySocks5 struct {
-	tdCommon
-	Server   string `json:"server"`   // Proxy server IP address
-	Port     int32  `json:"port"`     // Proxy server port
-	Username string `json:"username"` // Username for logging in
-	Password string `json:"password"` // Password for logging in
-}
-
-// MessageType return the string telegram-type of ProxySocks5
-func (proxySocks5 *ProxySocks5) MessageType() string {
-	return "proxySocks5"
-}
-
-// NewProxySocks5 creates a new ProxySocks5
-//
-// @param server Proxy server IP address
-// @param port Proxy server port
-// @param username Username for logging in
-// @param password Password for logging in
-func NewProxySocks5(server string, port int32, username string, password string) *ProxySocks5 {
-	proxySocks5Temp := ProxySocks5{
-		tdCommon: tdCommon{Type: "proxySocks5"},
-		Server:   server,
-		Port:     port,
+// @param username Username for logging in; may be empty
+// @param password Password for logging in; may be empty
+func NewProxyTypeSocks5(username string, password string) *ProxyTypeSocks5 {
+	proxyTypeSocks5Temp := ProxyTypeSocks5{
+		tdCommon: tdCommon{Type: "proxyTypeSocks5"},
 		Username: username,
 		Password: password,
 	}
 
-	return &proxySocks5Temp
+	return &proxyTypeSocks5Temp
 }
 
-// GetProxyEnum return the enum type of this object
-func (proxySocks5 *ProxySocks5) GetProxyEnum() ProxyEnum {
-	return ProxySocks5Type
+// GetProxyTypeEnum return the enum type of this object
+func (proxyTypeSocks5 *ProxyTypeSocks5) GetProxyTypeEnum() ProxyTypeEnum {
+	return ProxyTypeSocks5Type
+}
+
+// ProxyTypeHttp A HTTP transparent proxy server
+type ProxyTypeHttp struct {
+	tdCommon
+	Username string `json:"username"`  // Username for logging in; may be empty
+	Password string `json:"password"`  // Password for logging in; may be empty
+	HttpOnly bool   `json:"http_only"` // Pass true, if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
+}
+
+// MessageType return the string telegram-type of ProxyTypeHttp
+func (proxyTypeHttp *ProxyTypeHttp) MessageType() string {
+	return "proxyTypeHttp"
+}
+
+// NewProxyTypeHttp creates a new ProxyTypeHttp
+//
+// @param username Username for logging in; may be empty
+// @param password Password for logging in; may be empty
+// @param httpOnly Pass true, if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
+func NewProxyTypeHttp(username string, password string, httpOnly bool) *ProxyTypeHttp {
+	proxyTypeHttpTemp := ProxyTypeHttp{
+		tdCommon: tdCommon{Type: "proxyTypeHttp"},
+		Username: username,
+		Password: password,
+		HttpOnly: httpOnly,
+	}
+
+	return &proxyTypeHttpTemp
+}
+
+// GetProxyTypeEnum return the enum type of this object
+func (proxyTypeHttp *ProxyTypeHttp) GetProxyTypeEnum() ProxyTypeEnum {
+	return ProxyTypeHttpType
+}
+
+// ProxyTypeMtproto An MTProto proxy server
+type ProxyTypeMtproto struct {
+	tdCommon
+	Secret string `json:"secret"` // The proxy's secret in hexadecimal encoding
+}
+
+// MessageType return the string telegram-type of ProxyTypeMtproto
+func (proxyTypeMtproto *ProxyTypeMtproto) MessageType() string {
+	return "proxyTypeMtproto"
+}
+
+// NewProxyTypeMtproto creates a new ProxyTypeMtproto
+//
+// @param secret The proxy's secret in hexadecimal encoding
+func NewProxyTypeMtproto(secret string) *ProxyTypeMtproto {
+	proxyTypeMtprotoTemp := ProxyTypeMtproto{
+		tdCommon: tdCommon{Type: "proxyTypeMtproto"},
+		Secret:   secret,
+	}
+
+	return &proxyTypeMtprotoTemp
+}
+
+// GetProxyTypeEnum return the enum type of this object
+func (proxyTypeMtproto *ProxyTypeMtproto) GetProxyTypeEnum() ProxyTypeEnum {
+	return ProxyTypeMtprotoType
+}
+
+// Proxy Contains information about a proxy server
+type Proxy struct {
+	tdCommon
+	ID           int32     `json:"id"`             // Unique identifier of the proxy
+	Server       string    `json:"server"`         // Proxy server IP address
+	Port         int32     `json:"port"`           // Proxy server port
+	LastUsedDate int32     `json:"last_used_date"` // Point in time (Unix timestamp) when the proxy was last used; 0 if never
+	IsEnabled    bool      `json:"is_enabled"`     // True, if the proxy is enabled now
+	Type         ProxyType `json:"type"`           // Type of the proxy
+}
+
+// MessageType return the string telegram-type of Proxy
+func (proxy *Proxy) MessageType() string {
+	return "proxy"
+}
+
+// NewProxy creates a new Proxy
+//
+// @param iD Unique identifier of the proxy
+// @param server Proxy server IP address
+// @param port Proxy server port
+// @param lastUsedDate Point in time (Unix timestamp) when the proxy was last used; 0 if never
+// @param isEnabled True, if the proxy is enabled now
+// @param typeParam Type of the proxy
+func NewProxy(iD int32, server string, port int32, lastUsedDate int32, isEnabled bool, typeParam ProxyType) *Proxy {
+	proxyTemp := Proxy{
+		tdCommon:     tdCommon{Type: "proxy"},
+		ID:           iD,
+		Server:       server,
+		Port:         port,
+		LastUsedDate: lastUsedDate,
+		IsEnabled:    isEnabled,
+		Type:         typeParam,
+	}
+
+	return &proxyTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (proxy *Proxy) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		ID           int32  `json:"id"`             // Unique identifier of the proxy
+		Server       string `json:"server"`         // Proxy server IP address
+		Port         int32  `json:"port"`           // Proxy server port
+		LastUsedDate int32  `json:"last_used_date"` // Point in time (Unix timestamp) when the proxy was last used; 0 if never
+		IsEnabled    bool   `json:"is_enabled"`     // True, if the proxy is enabled now
+
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	proxy.tdCommon = tempObj.tdCommon
+	proxy.ID = tempObj.ID
+	proxy.Server = tempObj.Server
+	proxy.Port = tempObj.Port
+	proxy.LastUsedDate = tempObj.LastUsedDate
+	proxy.IsEnabled = tempObj.IsEnabled
+
+	fieldType, _ := unmarshalProxyType(objMap["type"])
+	proxy.Type = fieldType
+
+	return nil
+}
+
+// Proxies Represents a list of proxy servers
+type Proxies struct {
+	tdCommon
+	Proxies []Proxy `json:"proxies"` // List of proxy servers
+}
+
+// MessageType return the string telegram-type of Proxies
+func (proxies *Proxies) MessageType() string {
+	return "proxies"
+}
+
+// NewProxies creates a new Proxies
+//
+// @param proxies List of proxy servers
+func NewProxies(proxies []Proxy) *Proxies {
+	proxiesTemp := Proxies{
+		tdCommon: tdCommon{Type: "proxies"},
+		Proxies:  proxies,
+	}
+
+	return &proxiesTemp
 }
 
 // InputSticker Describes a sticker that should be added to a sticker set
@@ -17247,6 +20262,102 @@ func (updateChatIsPinned *UpdateChatIsPinned) GetUpdateEnum() UpdateEnum {
 	return UpdateChatIsPinnedType
 }
 
+// UpdateChatIsMarkedAsUnread A chat was marked as unread or was read
+type UpdateChatIsMarkedAsUnread struct {
+	tdCommon
+	ChatID           int64 `json:"chat_id"`             // Chat identifier
+	IsMarkedAsUnread bool  `json:"is_marked_as_unread"` // New value of is_marked_as_unread
+}
+
+// MessageType return the string telegram-type of UpdateChatIsMarkedAsUnread
+func (updateChatIsMarkedAsUnread *UpdateChatIsMarkedAsUnread) MessageType() string {
+	return "updateChatIsMarkedAsUnread"
+}
+
+// NewUpdateChatIsMarkedAsUnread creates a new UpdateChatIsMarkedAsUnread
+//
+// @param chatID Chat identifier
+// @param isMarkedAsUnread New value of is_marked_as_unread
+func NewUpdateChatIsMarkedAsUnread(chatID int64, isMarkedAsUnread bool) *UpdateChatIsMarkedAsUnread {
+	updateChatIsMarkedAsUnreadTemp := UpdateChatIsMarkedAsUnread{
+		tdCommon:         tdCommon{Type: "updateChatIsMarkedAsUnread"},
+		ChatID:           chatID,
+		IsMarkedAsUnread: isMarkedAsUnread,
+	}
+
+	return &updateChatIsMarkedAsUnreadTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatIsMarkedAsUnread *UpdateChatIsMarkedAsUnread) GetUpdateEnum() UpdateEnum {
+	return UpdateChatIsMarkedAsUnreadType
+}
+
+// UpdateChatIsSponsored A chat's is_sponsored field has changed
+type UpdateChatIsSponsored struct {
+	tdCommon
+	ChatID      int64     `json:"chat_id"`      // Chat identifier
+	IsSponsored bool      `json:"is_sponsored"` // New value of is_sponsored
+	Order       JSONInt64 `json:"order"`        // New value of chat order
+}
+
+// MessageType return the string telegram-type of UpdateChatIsSponsored
+func (updateChatIsSponsored *UpdateChatIsSponsored) MessageType() string {
+	return "updateChatIsSponsored"
+}
+
+// NewUpdateChatIsSponsored creates a new UpdateChatIsSponsored
+//
+// @param chatID Chat identifier
+// @param isSponsored New value of is_sponsored
+// @param order New value of chat order
+func NewUpdateChatIsSponsored(chatID int64, isSponsored bool, order JSONInt64) *UpdateChatIsSponsored {
+	updateChatIsSponsoredTemp := UpdateChatIsSponsored{
+		tdCommon:    tdCommon{Type: "updateChatIsSponsored"},
+		ChatID:      chatID,
+		IsSponsored: isSponsored,
+		Order:       order,
+	}
+
+	return &updateChatIsSponsoredTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatIsSponsored *UpdateChatIsSponsored) GetUpdateEnum() UpdateEnum {
+	return UpdateChatIsSponsoredType
+}
+
+// UpdateChatDefaultDisableNotification The value of the default disable_notification parameter, used when a message is sent to the chat, was changed
+type UpdateChatDefaultDisableNotification struct {
+	tdCommon
+	ChatID                     int64 `json:"chat_id"`                      // Chat identifier
+	DefaultDisableNotification bool  `json:"default_disable_notification"` // The new default_disable_notification value
+}
+
+// MessageType return the string telegram-type of UpdateChatDefaultDisableNotification
+func (updateChatDefaultDisableNotification *UpdateChatDefaultDisableNotification) MessageType() string {
+	return "updateChatDefaultDisableNotification"
+}
+
+// NewUpdateChatDefaultDisableNotification creates a new UpdateChatDefaultDisableNotification
+//
+// @param chatID Chat identifier
+// @param defaultDisableNotification The new default_disable_notification value
+func NewUpdateChatDefaultDisableNotification(chatID int64, defaultDisableNotification bool) *UpdateChatDefaultDisableNotification {
+	updateChatDefaultDisableNotificationTemp := UpdateChatDefaultDisableNotification{
+		tdCommon:                   tdCommon{Type: "updateChatDefaultDisableNotification"},
+		ChatID:                     chatID,
+		DefaultDisableNotification: defaultDisableNotification,
+	}
+
+	return &updateChatDefaultDisableNotificationTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatDefaultDisableNotification *UpdateChatDefaultDisableNotification) GetUpdateEnum() UpdateEnum {
+	return UpdateChatDefaultDisableNotificationType
+}
+
 // UpdateChatReadInbox Incoming messages were read or number of unread messages has been changed
 type UpdateChatReadInbox struct {
 	tdCommon
@@ -17343,34 +20454,65 @@ func (updateChatUnreadMentionCount *UpdateChatUnreadMentionCount) GetUpdateEnum(
 	return UpdateChatUnreadMentionCountType
 }
 
-// UpdateNotificationSettings Notification settings for some chats were updated
-type UpdateNotificationSettings struct {
+// UpdateChatNotificationSettings Notification settings for a chat were changed
+type UpdateChatNotificationSettings struct {
 	tdCommon
-	Scope                NotificationSettingsScope `json:"scope"`                 // Types of chats for which notification settings were updated
-	NotificationSettings *NotificationSettings     `json:"notification_settings"` // The new notification settings
+	ChatID               int64                     `json:"chat_id"`               // Chat identifier
+	NotificationSettings *ChatNotificationSettings `json:"notification_settings"` // The new notification settings
 }
 
-// MessageType return the string telegram-type of UpdateNotificationSettings
-func (updateNotificationSettings *UpdateNotificationSettings) MessageType() string {
-	return "updateNotificationSettings"
+// MessageType return the string telegram-type of UpdateChatNotificationSettings
+func (updateChatNotificationSettings *UpdateChatNotificationSettings) MessageType() string {
+	return "updateChatNotificationSettings"
 }
 
-// NewUpdateNotificationSettings creates a new UpdateNotificationSettings
+// NewUpdateChatNotificationSettings creates a new UpdateChatNotificationSettings
+//
+// @param chatID Chat identifier
+// @param notificationSettings The new notification settings
+func NewUpdateChatNotificationSettings(chatID int64, notificationSettings *ChatNotificationSettings) *UpdateChatNotificationSettings {
+	updateChatNotificationSettingsTemp := UpdateChatNotificationSettings{
+		tdCommon:             tdCommon{Type: "updateChatNotificationSettings"},
+		ChatID:               chatID,
+		NotificationSettings: notificationSettings,
+	}
+
+	return &updateChatNotificationSettingsTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatNotificationSettings *UpdateChatNotificationSettings) GetUpdateEnum() UpdateEnum {
+	return UpdateChatNotificationSettingsType
+}
+
+// UpdateScopeNotificationSettings Notification settings for some type of chats were updated
+type UpdateScopeNotificationSettings struct {
+	tdCommon
+	Scope                NotificationSettingsScope  `json:"scope"`                 // Types of chats for which notification settings were updated
+	NotificationSettings *ScopeNotificationSettings `json:"notification_settings"` // The new notification settings
+}
+
+// MessageType return the string telegram-type of UpdateScopeNotificationSettings
+func (updateScopeNotificationSettings *UpdateScopeNotificationSettings) MessageType() string {
+	return "updateScopeNotificationSettings"
+}
+
+// NewUpdateScopeNotificationSettings creates a new UpdateScopeNotificationSettings
 //
 // @param scope Types of chats for which notification settings were updated
 // @param notificationSettings The new notification settings
-func NewUpdateNotificationSettings(scope NotificationSettingsScope, notificationSettings *NotificationSettings) *UpdateNotificationSettings {
-	updateNotificationSettingsTemp := UpdateNotificationSettings{
-		tdCommon:             tdCommon{Type: "updateNotificationSettings"},
+func NewUpdateScopeNotificationSettings(scope NotificationSettingsScope, notificationSettings *ScopeNotificationSettings) *UpdateScopeNotificationSettings {
+	updateScopeNotificationSettingsTemp := UpdateScopeNotificationSettings{
+		tdCommon:             tdCommon{Type: "updateScopeNotificationSettings"},
 		Scope:                scope,
 		NotificationSettings: notificationSettings,
 	}
 
-	return &updateNotificationSettingsTemp
+	return &updateScopeNotificationSettingsTemp
 }
 
 // UnmarshalJSON unmarshal to json
-func (updateNotificationSettings *UpdateNotificationSettings) UnmarshalJSON(b []byte) error {
+func (updateScopeNotificationSettings *UpdateScopeNotificationSettings) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
 	err := json.Unmarshal(b, &objMap)
 	if err != nil {
@@ -17378,25 +20520,25 @@ func (updateNotificationSettings *UpdateNotificationSettings) UnmarshalJSON(b []
 	}
 	tempObj := struct {
 		tdCommon
-		NotificationSettings *NotificationSettings `json:"notification_settings"` // The new notification settings
+		NotificationSettings *ScopeNotificationSettings `json:"notification_settings"` // The new notification settings
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
 		return err
 	}
 
-	updateNotificationSettings.tdCommon = tempObj.tdCommon
-	updateNotificationSettings.NotificationSettings = tempObj.NotificationSettings
+	updateScopeNotificationSettings.tdCommon = tempObj.tdCommon
+	updateScopeNotificationSettings.NotificationSettings = tempObj.NotificationSettings
 
 	fieldScope, _ := unmarshalNotificationSettingsScope(objMap["scope"])
-	updateNotificationSettings.Scope = fieldScope
+	updateScopeNotificationSettings.Scope = fieldScope
 
 	return nil
 }
 
 // GetUpdateEnum return the enum type of this object
-func (updateNotificationSettings *UpdateNotificationSettings) GetUpdateEnum() UpdateEnum {
-	return UpdateNotificationSettingsType
+func (updateScopeNotificationSettings *UpdateScopeNotificationSettings) GetUpdateEnum() UpdateEnum {
+	return UpdateScopeNotificationSettingsType
 }
 
 // UpdateChatReplyMarkup The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
@@ -17430,7 +20572,7 @@ func (updateChatReplyMarkup *UpdateChatReplyMarkup) GetUpdateEnum() UpdateEnum {
 	return UpdateChatReplyMarkupType
 }
 
-// UpdateChatDraftMessage A draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied
+// UpdateChatDraftMessage A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied
 type UpdateChatDraftMessage struct {
 	tdCommon
 	ChatID       int64         `json:"chat_id"`       // Chat identifier
@@ -17828,7 +20970,7 @@ func (updateSupergroupFullInfo *UpdateSupergroupFullInfo) GetUpdateEnum() Update
 // UpdateServiceNotification Service notification from the server. Upon receiving this the client must show a popup with the content of the notification
 type UpdateServiceNotification struct {
 	tdCommon
-	Type    string         `json:"type"`    // Notification type
+	Type    string         `json:"type"`    // Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method
 	Content MessageContent `json:"content"` // Notification content
 }
 
@@ -17839,7 +20981,7 @@ func (updateServiceNotification *UpdateServiceNotification) MessageType() string
 
 // NewUpdateServiceNotification creates a new UpdateServiceNotification
 //
-// @param typeParam Notification type
+// @param typeParam Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method
 // @param content Notification content
 func NewUpdateServiceNotification(typeParam string, content MessageContent) *UpdateServiceNotification {
 	updateServiceNotificationTemp := UpdateServiceNotification{
@@ -17860,7 +21002,7 @@ func (updateServiceNotification *UpdateServiceNotification) UnmarshalJSON(b []by
 	}
 	tempObj := struct {
 		tdCommon
-		Type string `json:"type"` // Notification type
+		Type string `json:"type"` // Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -17914,9 +21056,9 @@ func (updateFile *UpdateFile) GetUpdateEnum() UpdateEnum {
 type UpdateFileGenerationStart struct {
 	tdCommon
 	GenerationID    JSONInt64 `json:"generation_id"`    // Unique identifier for the generation process
-	OriginalPath    string    `json:"original_path"`    // The path to a file from which a new file is generated, may be empty
+	OriginalPath    string    `json:"original_path"`    // The path to a file from which a new file is generated; may be empty
 	DestinationPath string    `json:"destination_path"` // The path to a file that should be created and where the new file should be generated
-	Conversion      string    `json:"conversion"`       // String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains a HTTP/HTTPS URL of a file, which should be downloaded by the client
+	Conversion      string    `json:"conversion"`       // String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains an HTTP/HTTPS URL of a file, which should be downloaded by the client
 }
 
 // MessageType return the string telegram-type of UpdateFileGenerationStart
@@ -17927,9 +21069,9 @@ func (updateFileGenerationStart *UpdateFileGenerationStart) MessageType() string
 // NewUpdateFileGenerationStart creates a new UpdateFileGenerationStart
 //
 // @param generationID Unique identifier for the generation process
-// @param originalPath The path to a file from which a new file is generated, may be empty
+// @param originalPath The path to a file from which a new file is generated; may be empty
 // @param destinationPath The path to a file that should be created and where the new file should be generated
-// @param conversion String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains a HTTP/HTTPS URL of a file, which should be downloaded by the client
+// @param conversion String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains an HTTP/HTTPS URL of a file, which should be downloaded by the client
 func NewUpdateFileGenerationStart(generationID JSONInt64, originalPath string, destinationPath string, conversion string) *UpdateFileGenerationStart {
 	updateFileGenerationStartTemp := UpdateFileGenerationStart{
 		tdCommon:        tdCommon{Type: "updateFileGenerationStart"},
@@ -18088,6 +21230,43 @@ func NewUpdateUnreadMessageCount(unreadCount int32, unreadUnmutedCount int32) *U
 // GetUpdateEnum return the enum type of this object
 func (updateUnreadMessageCount *UpdateUnreadMessageCount) GetUpdateEnum() UpdateEnum {
 	return UpdateUnreadMessageCountType
+}
+
+// UpdateUnreadChatCount Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if a message database is used
+type UpdateUnreadChatCount struct {
+	tdCommon
+	UnreadCount                int32 `json:"unread_count"`                   // Total number of unread chats
+	UnreadUnmutedCount         int32 `json:"unread_unmuted_count"`           // Total number of unread unmuted chats
+	MarkedAsUnreadCount        int32 `json:"marked_as_unread_count"`         // Total number of chats marked as unread
+	MarkedAsUnreadUnmutedCount int32 `json:"marked_as_unread_unmuted_count"` // Total number of unmuted chats marked as unread
+}
+
+// MessageType return the string telegram-type of UpdateUnreadChatCount
+func (updateUnreadChatCount *UpdateUnreadChatCount) MessageType() string {
+	return "updateUnreadChatCount"
+}
+
+// NewUpdateUnreadChatCount creates a new UpdateUnreadChatCount
+//
+// @param unreadCount Total number of unread chats
+// @param unreadUnmutedCount Total number of unread unmuted chats
+// @param markedAsUnreadCount Total number of chats marked as unread
+// @param markedAsUnreadUnmutedCount Total number of unmuted chats marked as unread
+func NewUpdateUnreadChatCount(unreadCount int32, unreadUnmutedCount int32, markedAsUnreadCount int32, markedAsUnreadUnmutedCount int32) *UpdateUnreadChatCount {
+	updateUnreadChatCountTemp := UpdateUnreadChatCount{
+		tdCommon:                   tdCommon{Type: "updateUnreadChatCount"},
+		UnreadCount:                unreadCount,
+		UnreadUnmutedCount:         unreadUnmutedCount,
+		MarkedAsUnreadCount:        markedAsUnreadCount,
+		MarkedAsUnreadUnmutedCount: markedAsUnreadUnmutedCount,
+	}
+
+	return &updateUnreadChatCountTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateUnreadChatCount *UpdateUnreadChatCount) GetUpdateEnum() UpdateEnum {
+	return UpdateUnreadChatCountType
 }
 
 // UpdateOption An option changed its value
@@ -18293,6 +21472,40 @@ func (updateSavedAnimations *UpdateSavedAnimations) GetUpdateEnum() UpdateEnum {
 	return UpdateSavedAnimationsType
 }
 
+// UpdateLanguagePackStrings Some language pack strings have been updated
+type UpdateLanguagePackStrings struct {
+	tdCommon
+	LocalizationTarget string               `json:"localization_target"` // Localization target to which the language pack belongs
+	LanguagePackID     string               `json:"language_pack_id"`    // Identifier of the updated language pack
+	Strings            []LanguagePackString `json:"strings"`             // List of changed language pack strings
+}
+
+// MessageType return the string telegram-type of UpdateLanguagePackStrings
+func (updateLanguagePackStrings *UpdateLanguagePackStrings) MessageType() string {
+	return "updateLanguagePackStrings"
+}
+
+// NewUpdateLanguagePackStrings creates a new UpdateLanguagePackStrings
+//
+// @param localizationTarget Localization target to which the language pack belongs
+// @param languagePackID Identifier of the updated language pack
+// @param strings List of changed language pack strings
+func NewUpdateLanguagePackStrings(localizationTarget string, languagePackID string, strings []LanguagePackString) *UpdateLanguagePackStrings {
+	updateLanguagePackStringsTemp := UpdateLanguagePackStrings{
+		tdCommon:           tdCommon{Type: "updateLanguagePackStrings"},
+		LocalizationTarget: localizationTarget,
+		LanguagePackID:     languagePackID,
+		Strings:            strings,
+	}
+
+	return &updateLanguagePackStringsTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateLanguagePackStrings *UpdateLanguagePackStrings) GetUpdateEnum() UpdateEnum {
+	return UpdateLanguagePackStringsType
+}
+
 // UpdateConnectionState The connection state has changed
 type UpdateConnectionState struct {
 	tdCommon
@@ -18342,6 +21555,37 @@ func (updateConnectionState *UpdateConnectionState) UnmarshalJSON(b []byte) erro
 // GetUpdateEnum return the enum type of this object
 func (updateConnectionState *UpdateConnectionState) GetUpdateEnum() UpdateEnum {
 	return UpdateConnectionStateType
+}
+
+// UpdateTermsOfService New terms of service must be accepted by the user. If the terms of service are declined, then the deleteAccount method should be called with the reason "Decline ToS update"
+type UpdateTermsOfService struct {
+	tdCommon
+	TermsOfServiceID string          `json:"terms_of_service_id"` // Identifier of the terms of service
+	TermsOfService   *TermsOfService `json:"terms_of_service"`    // The new terms of service
+}
+
+// MessageType return the string telegram-type of UpdateTermsOfService
+func (updateTermsOfService *UpdateTermsOfService) MessageType() string {
+	return "updateTermsOfService"
+}
+
+// NewUpdateTermsOfService creates a new UpdateTermsOfService
+//
+// @param termsOfServiceID Identifier of the terms of service
+// @param termsOfService The new terms of service
+func NewUpdateTermsOfService(termsOfServiceID string, termsOfService *TermsOfService) *UpdateTermsOfService {
+	updateTermsOfServiceTemp := UpdateTermsOfService{
+		tdCommon:         tdCommon{Type: "updateTermsOfService"},
+		TermsOfServiceID: termsOfServiceID,
+		TermsOfService:   termsOfService,
+	}
+
+	return &updateTermsOfServiceTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateTermsOfService *UpdateTermsOfService) GetUpdateEnum() UpdateEnum {
+	return UpdateTermsOfServiceType
 }
 
 // UpdateNewInlineQuery A new incoming inline query; for bots only
@@ -18576,10 +21820,10 @@ func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) GetUpdateEnum(
 // UpdateNewShippingQuery A new incoming shipping query; for bots only. Only for invoices with flexible price
 type UpdateNewShippingQuery struct {
 	tdCommon
-	ID              JSONInt64        `json:"id"`               // Unique query identifier
-	SenderUserID    int32            `json:"sender_user_id"`   // Identifier of the user who sent the query
-	InvoicePayload  string           `json:"invoice_payload"`  // Invoice payload
-	ShippingAddress *ShippingAddress `json:"shipping_address"` // User shipping address
+	ID              JSONInt64 `json:"id"`               // Unique query identifier
+	SenderUserID    int32     `json:"sender_user_id"`   // Identifier of the user who sent the query
+	InvoicePayload  string    `json:"invoice_payload"`  // Invoice payload
+	ShippingAddress *Address  `json:"shipping_address"` // User shipping address
 }
 
 // MessageType return the string telegram-type of UpdateNewShippingQuery
@@ -18593,7 +21837,7 @@ func (updateNewShippingQuery *UpdateNewShippingQuery) MessageType() string {
 // @param senderUserID Identifier of the user who sent the query
 // @param invoicePayload Invoice payload
 // @param shippingAddress User shipping address
-func NewUpdateNewShippingQuery(iD JSONInt64, senderUserID int32, invoicePayload string, shippingAddress *ShippingAddress) *UpdateNewShippingQuery {
+func NewUpdateNewShippingQuery(iD JSONInt64, senderUserID int32, invoicePayload string, shippingAddress *Address) *UpdateNewShippingQuery {
 	updateNewShippingQueryTemp := UpdateNewShippingQuery{
 		tdCommon:        tdCommon{Type: "updateNewShippingQuery"},
 		ID:              iD,
@@ -19168,6 +22412,48 @@ func unmarshalChatMemberStatus(rawMsg *json.RawMessage) (ChatMemberStatus, error
 	}
 }
 
+func unmarshalChatMembersFilter(rawMsg *json.RawMessage) (ChatMembersFilter, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch ChatMembersFilterEnum(objMap["@type"].(string)) {
+	case ChatMembersFilterAdministratorsType:
+		var chatMembersFilterAdministrators ChatMembersFilterAdministrators
+		err := json.Unmarshal(*rawMsg, &chatMembersFilterAdministrators)
+		return &chatMembersFilterAdministrators, err
+
+	case ChatMembersFilterMembersType:
+		var chatMembersFilterMembers ChatMembersFilterMembers
+		err := json.Unmarshal(*rawMsg, &chatMembersFilterMembers)
+		return &chatMembersFilterMembers, err
+
+	case ChatMembersFilterRestrictedType:
+		var chatMembersFilterRestricted ChatMembersFilterRestricted
+		err := json.Unmarshal(*rawMsg, &chatMembersFilterRestricted)
+		return &chatMembersFilterRestricted, err
+
+	case ChatMembersFilterBannedType:
+		var chatMembersFilterBanned ChatMembersFilterBanned
+		err := json.Unmarshal(*rawMsg, &chatMembersFilterBanned)
+		return &chatMembersFilterBanned, err
+
+	case ChatMembersFilterBotsType:
+		var chatMembersFilterBots ChatMembersFilterBots
+		err := json.Unmarshal(*rawMsg, &chatMembersFilterBots)
+		return &chatMembersFilterBots, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
 func unmarshalSupergroupMembersFilter(rawMsg *json.RawMessage) (SupergroupMembersFilter, error) {
 
 	if rawMsg == nil {
@@ -19313,25 +22599,15 @@ func unmarshalNotificationSettingsScope(rawMsg *json.RawMessage) (NotificationSe
 	}
 
 	switch NotificationSettingsScopeEnum(objMap["@type"].(string)) {
-	case NotificationSettingsScopeChatType:
-		var notificationSettingsScopeChat NotificationSettingsScopeChat
-		err := json.Unmarshal(*rawMsg, &notificationSettingsScopeChat)
-		return &notificationSettingsScopeChat, err
-
 	case NotificationSettingsScopePrivateChatsType:
 		var notificationSettingsScopePrivateChats NotificationSettingsScopePrivateChats
 		err := json.Unmarshal(*rawMsg, &notificationSettingsScopePrivateChats)
 		return &notificationSettingsScopePrivateChats, err
 
-	case NotificationSettingsScopeBasicGroupChatsType:
-		var notificationSettingsScopeBasicGroupChats NotificationSettingsScopeBasicGroupChats
-		err := json.Unmarshal(*rawMsg, &notificationSettingsScopeBasicGroupChats)
-		return &notificationSettingsScopeBasicGroupChats, err
-
-	case NotificationSettingsScopeAllChatsType:
-		var notificationSettingsScopeAllChats NotificationSettingsScopeAllChats
-		err := json.Unmarshal(*rawMsg, &notificationSettingsScopeAllChats)
-		return &notificationSettingsScopeAllChats, err
+	case NotificationSettingsScopeGroupChatsType:
+		var notificationSettingsScopeGroupChats NotificationSettingsScopeGroupChats
+		err := json.Unmarshal(*rawMsg, &notificationSettingsScopeGroupChats)
+		return &notificationSettingsScopeGroupChats, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -19717,6 +22993,376 @@ func unmarshalInputCredentials(rawMsg *json.RawMessage) (InputCredentials, error
 	}
 }
 
+func unmarshalPassportElementType(rawMsg *json.RawMessage) (PassportElementType, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch PassportElementTypeEnum(objMap["@type"].(string)) {
+	case PassportElementTypePersonalDetailsType:
+		var passportElementTypePersonalDetails PassportElementTypePersonalDetails
+		err := json.Unmarshal(*rawMsg, &passportElementTypePersonalDetails)
+		return &passportElementTypePersonalDetails, err
+
+	case PassportElementTypePassportType:
+		var passportElementTypePassport PassportElementTypePassport
+		err := json.Unmarshal(*rawMsg, &passportElementTypePassport)
+		return &passportElementTypePassport, err
+
+	case PassportElementTypeDriverLicenseType:
+		var passportElementTypeDriverLicense PassportElementTypeDriverLicense
+		err := json.Unmarshal(*rawMsg, &passportElementTypeDriverLicense)
+		return &passportElementTypeDriverLicense, err
+
+	case PassportElementTypeIDentityCardType:
+		var passportElementTypeIDentityCard PassportElementTypeIDentityCard
+		err := json.Unmarshal(*rawMsg, &passportElementTypeIDentityCard)
+		return &passportElementTypeIDentityCard, err
+
+	case PassportElementTypeInternalPassportType:
+		var passportElementTypeInternalPassport PassportElementTypeInternalPassport
+		err := json.Unmarshal(*rawMsg, &passportElementTypeInternalPassport)
+		return &passportElementTypeInternalPassport, err
+
+	case PassportElementTypeAddressType:
+		var passportElementTypeAddress PassportElementTypeAddress
+		err := json.Unmarshal(*rawMsg, &passportElementTypeAddress)
+		return &passportElementTypeAddress, err
+
+	case PassportElementTypeUtilityBillType:
+		var passportElementTypeUtilityBill PassportElementTypeUtilityBill
+		err := json.Unmarshal(*rawMsg, &passportElementTypeUtilityBill)
+		return &passportElementTypeUtilityBill, err
+
+	case PassportElementTypeBankStatementType:
+		var passportElementTypeBankStatement PassportElementTypeBankStatement
+		err := json.Unmarshal(*rawMsg, &passportElementTypeBankStatement)
+		return &passportElementTypeBankStatement, err
+
+	case PassportElementTypeRentalAgreementType:
+		var passportElementTypeRentalAgreement PassportElementTypeRentalAgreement
+		err := json.Unmarshal(*rawMsg, &passportElementTypeRentalAgreement)
+		return &passportElementTypeRentalAgreement, err
+
+	case PassportElementTypePassportRegistrationType:
+		var passportElementTypePassportRegistration PassportElementTypePassportRegistration
+		err := json.Unmarshal(*rawMsg, &passportElementTypePassportRegistration)
+		return &passportElementTypePassportRegistration, err
+
+	case PassportElementTypeTemporaryRegistrationType:
+		var passportElementTypeTemporaryRegistration PassportElementTypeTemporaryRegistration
+		err := json.Unmarshal(*rawMsg, &passportElementTypeTemporaryRegistration)
+		return &passportElementTypeTemporaryRegistration, err
+
+	case PassportElementTypePhoneNumberType:
+		var passportElementTypePhoneNumber PassportElementTypePhoneNumber
+		err := json.Unmarshal(*rawMsg, &passportElementTypePhoneNumber)
+		return &passportElementTypePhoneNumber, err
+
+	case PassportElementTypeEmailAddressType:
+		var passportElementTypeEmailAddress PassportElementTypeEmailAddress
+		err := json.Unmarshal(*rawMsg, &passportElementTypeEmailAddress)
+		return &passportElementTypeEmailAddress, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalPassportElement(rawMsg *json.RawMessage) (PassportElement, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch PassportElementEnum(objMap["@type"].(string)) {
+	case PassportElementPersonalDetailsType:
+		var passportElementPersonalDetails PassportElementPersonalDetails
+		err := json.Unmarshal(*rawMsg, &passportElementPersonalDetails)
+		return &passportElementPersonalDetails, err
+
+	case PassportElementPassportType:
+		var passportElementPassport PassportElementPassport
+		err := json.Unmarshal(*rawMsg, &passportElementPassport)
+		return &passportElementPassport, err
+
+	case PassportElementDriverLicenseType:
+		var passportElementDriverLicense PassportElementDriverLicense
+		err := json.Unmarshal(*rawMsg, &passportElementDriverLicense)
+		return &passportElementDriverLicense, err
+
+	case PassportElementIDentityCardType:
+		var passportElementIDentityCard PassportElementIDentityCard
+		err := json.Unmarshal(*rawMsg, &passportElementIDentityCard)
+		return &passportElementIDentityCard, err
+
+	case PassportElementInternalPassportType:
+		var passportElementInternalPassport PassportElementInternalPassport
+		err := json.Unmarshal(*rawMsg, &passportElementInternalPassport)
+		return &passportElementInternalPassport, err
+
+	case PassportElementAddressType:
+		var passportElementAddress PassportElementAddress
+		err := json.Unmarshal(*rawMsg, &passportElementAddress)
+		return &passportElementAddress, err
+
+	case PassportElementUtilityBillType:
+		var passportElementUtilityBill PassportElementUtilityBill
+		err := json.Unmarshal(*rawMsg, &passportElementUtilityBill)
+		return &passportElementUtilityBill, err
+
+	case PassportElementBankStatementType:
+		var passportElementBankStatement PassportElementBankStatement
+		err := json.Unmarshal(*rawMsg, &passportElementBankStatement)
+		return &passportElementBankStatement, err
+
+	case PassportElementRentalAgreementType:
+		var passportElementRentalAgreement PassportElementRentalAgreement
+		err := json.Unmarshal(*rawMsg, &passportElementRentalAgreement)
+		return &passportElementRentalAgreement, err
+
+	case PassportElementPassportRegistrationType:
+		var passportElementPassportRegistration PassportElementPassportRegistration
+		err := json.Unmarshal(*rawMsg, &passportElementPassportRegistration)
+		return &passportElementPassportRegistration, err
+
+	case PassportElementTemporaryRegistrationType:
+		var passportElementTemporaryRegistration PassportElementTemporaryRegistration
+		err := json.Unmarshal(*rawMsg, &passportElementTemporaryRegistration)
+		return &passportElementTemporaryRegistration, err
+
+	case PassportElementPhoneNumberType:
+		var passportElementPhoneNumber PassportElementPhoneNumber
+		err := json.Unmarshal(*rawMsg, &passportElementPhoneNumber)
+		return &passportElementPhoneNumber, err
+
+	case PassportElementEmailAddressType:
+		var passportElementEmailAddress PassportElementEmailAddress
+		err := json.Unmarshal(*rawMsg, &passportElementEmailAddress)
+		return &passportElementEmailAddress, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalInputPassportElement(rawMsg *json.RawMessage) (InputPassportElement, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch InputPassportElementEnum(objMap["@type"].(string)) {
+	case InputPassportElementPersonalDetailsType:
+		var inputPassportElementPersonalDetails InputPassportElementPersonalDetails
+		err := json.Unmarshal(*rawMsg, &inputPassportElementPersonalDetails)
+		return &inputPassportElementPersonalDetails, err
+
+	case InputPassportElementPassportType:
+		var inputPassportElementPassport InputPassportElementPassport
+		err := json.Unmarshal(*rawMsg, &inputPassportElementPassport)
+		return &inputPassportElementPassport, err
+
+	case InputPassportElementDriverLicenseType:
+		var inputPassportElementDriverLicense InputPassportElementDriverLicense
+		err := json.Unmarshal(*rawMsg, &inputPassportElementDriverLicense)
+		return &inputPassportElementDriverLicense, err
+
+	case InputPassportElementIDentityCardType:
+		var inputPassportElementIDentityCard InputPassportElementIDentityCard
+		err := json.Unmarshal(*rawMsg, &inputPassportElementIDentityCard)
+		return &inputPassportElementIDentityCard, err
+
+	case InputPassportElementInternalPassportType:
+		var inputPassportElementInternalPassport InputPassportElementInternalPassport
+		err := json.Unmarshal(*rawMsg, &inputPassportElementInternalPassport)
+		return &inputPassportElementInternalPassport, err
+
+	case InputPassportElementAddressType:
+		var inputPassportElementAddress InputPassportElementAddress
+		err := json.Unmarshal(*rawMsg, &inputPassportElementAddress)
+		return &inputPassportElementAddress, err
+
+	case InputPassportElementUtilityBillType:
+		var inputPassportElementUtilityBill InputPassportElementUtilityBill
+		err := json.Unmarshal(*rawMsg, &inputPassportElementUtilityBill)
+		return &inputPassportElementUtilityBill, err
+
+	case InputPassportElementBankStatementType:
+		var inputPassportElementBankStatement InputPassportElementBankStatement
+		err := json.Unmarshal(*rawMsg, &inputPassportElementBankStatement)
+		return &inputPassportElementBankStatement, err
+
+	case InputPassportElementRentalAgreementType:
+		var inputPassportElementRentalAgreement InputPassportElementRentalAgreement
+		err := json.Unmarshal(*rawMsg, &inputPassportElementRentalAgreement)
+		return &inputPassportElementRentalAgreement, err
+
+	case InputPassportElementPassportRegistrationType:
+		var inputPassportElementPassportRegistration InputPassportElementPassportRegistration
+		err := json.Unmarshal(*rawMsg, &inputPassportElementPassportRegistration)
+		return &inputPassportElementPassportRegistration, err
+
+	case InputPassportElementTemporaryRegistrationType:
+		var inputPassportElementTemporaryRegistration InputPassportElementTemporaryRegistration
+		err := json.Unmarshal(*rawMsg, &inputPassportElementTemporaryRegistration)
+		return &inputPassportElementTemporaryRegistration, err
+
+	case InputPassportElementPhoneNumberType:
+		var inputPassportElementPhoneNumber InputPassportElementPhoneNumber
+		err := json.Unmarshal(*rawMsg, &inputPassportElementPhoneNumber)
+		return &inputPassportElementPhoneNumber, err
+
+	case InputPassportElementEmailAddressType:
+		var inputPassportElementEmailAddress InputPassportElementEmailAddress
+		err := json.Unmarshal(*rawMsg, &inputPassportElementEmailAddress)
+		return &inputPassportElementEmailAddress, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalPassportElementErrorSource(rawMsg *json.RawMessage) (PassportElementErrorSource, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch PassportElementErrorSourceEnum(objMap["@type"].(string)) {
+	case PassportElementErrorSourceUnspecifiedType:
+		var passportElementErrorSourceUnspecified PassportElementErrorSourceUnspecified
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceUnspecified)
+		return &passportElementErrorSourceUnspecified, err
+
+	case PassportElementErrorSourceDataFieldType:
+		var passportElementErrorSourceDataField PassportElementErrorSourceDataField
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceDataField)
+		return &passportElementErrorSourceDataField, err
+
+	case PassportElementErrorSourceFrontSideType:
+		var passportElementErrorSourceFrontSide PassportElementErrorSourceFrontSide
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceFrontSide)
+		return &passportElementErrorSourceFrontSide, err
+
+	case PassportElementErrorSourceReverseSideType:
+		var passportElementErrorSourceReverseSide PassportElementErrorSourceReverseSide
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceReverseSide)
+		return &passportElementErrorSourceReverseSide, err
+
+	case PassportElementErrorSourceSelfieType:
+		var passportElementErrorSourceSelfie PassportElementErrorSourceSelfie
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceSelfie)
+		return &passportElementErrorSourceSelfie, err
+
+	case PassportElementErrorSourceTranslationFileType:
+		var passportElementErrorSourceTranslationFile PassportElementErrorSourceTranslationFile
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceTranslationFile)
+		return &passportElementErrorSourceTranslationFile, err
+
+	case PassportElementErrorSourceTranslationFilesType:
+		var passportElementErrorSourceTranslationFiles PassportElementErrorSourceTranslationFiles
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceTranslationFiles)
+		return &passportElementErrorSourceTranslationFiles, err
+
+	case PassportElementErrorSourceFileType:
+		var passportElementErrorSourceFile PassportElementErrorSourceFile
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceFile)
+		return &passportElementErrorSourceFile, err
+
+	case PassportElementErrorSourceFilesType:
+		var passportElementErrorSourceFiles PassportElementErrorSourceFiles
+		err := json.Unmarshal(*rawMsg, &passportElementErrorSourceFiles)
+		return &passportElementErrorSourceFiles, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalInputPassportElementErrorSource(rawMsg *json.RawMessage) (InputPassportElementErrorSource, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch InputPassportElementErrorSourceEnum(objMap["@type"].(string)) {
+	case InputPassportElementErrorSourceUnspecifiedType:
+		var inputPassportElementErrorSourceUnspecified InputPassportElementErrorSourceUnspecified
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceUnspecified)
+		return &inputPassportElementErrorSourceUnspecified, err
+
+	case InputPassportElementErrorSourceDataFieldType:
+		var inputPassportElementErrorSourceDataField InputPassportElementErrorSourceDataField
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceDataField)
+		return &inputPassportElementErrorSourceDataField, err
+
+	case InputPassportElementErrorSourceFrontSideType:
+		var inputPassportElementErrorSourceFrontSide InputPassportElementErrorSourceFrontSide
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceFrontSide)
+		return &inputPassportElementErrorSourceFrontSide, err
+
+	case InputPassportElementErrorSourceReverseSideType:
+		var inputPassportElementErrorSourceReverseSide InputPassportElementErrorSourceReverseSide
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceReverseSide)
+		return &inputPassportElementErrorSourceReverseSide, err
+
+	case InputPassportElementErrorSourceSelfieType:
+		var inputPassportElementErrorSourceSelfie InputPassportElementErrorSourceSelfie
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceSelfie)
+		return &inputPassportElementErrorSourceSelfie, err
+
+	case InputPassportElementErrorSourceTranslationFileType:
+		var inputPassportElementErrorSourceTranslationFile InputPassportElementErrorSourceTranslationFile
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceTranslationFile)
+		return &inputPassportElementErrorSourceTranslationFile, err
+
+	case InputPassportElementErrorSourceTranslationFilesType:
+		var inputPassportElementErrorSourceTranslationFiles InputPassportElementErrorSourceTranslationFiles
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceTranslationFiles)
+		return &inputPassportElementErrorSourceTranslationFiles, err
+
+	case InputPassportElementErrorSourceFileType:
+		var inputPassportElementErrorSourceFile InputPassportElementErrorSourceFile
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceFile)
+		return &inputPassportElementErrorSourceFile, err
+
+	case InputPassportElementErrorSourceFilesType:
+		var inputPassportElementErrorSourceFiles InputPassportElementErrorSourceFiles
+		err := json.Unmarshal(*rawMsg, &inputPassportElementErrorSourceFiles)
+		return &inputPassportElementErrorSourceFiles, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
 func unmarshalMessageContent(rawMsg *json.RawMessage) (MessageContent, error) {
 
 	if rawMsg == nil {
@@ -19908,6 +23554,16 @@ func unmarshalMessageContent(rawMsg *json.RawMessage) (MessageContent, error) {
 		var messageWebsiteConnected MessageWebsiteConnected
 		err := json.Unmarshal(*rawMsg, &messageWebsiteConnected)
 		return &messageWebsiteConnected, err
+
+	case MessagePassportDataSentType:
+		var messagePassportDataSent MessagePassportDataSent
+		err := json.Unmarshal(*rawMsg, &messagePassportDataSent)
+		return &messagePassportDataSent, err
+
+	case MessagePassportDataReceivedType:
+		var messagePassportDataReceived MessagePassportDataReceived
+		err := json.Unmarshal(*rawMsg, &messagePassportDataReceived)
+		return &messagePassportDataReceived, err
 
 	case MessageUnsupportedType:
 		var messageUnsupported MessageUnsupported
@@ -20701,6 +24357,38 @@ func unmarshalChatEventAction(rawMsg *json.RawMessage) (ChatEventAction, error) 
 	}
 }
 
+func unmarshalLanguagePackStringValue(rawMsg *json.RawMessage) (LanguagePackStringValue, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch LanguagePackStringValueEnum(objMap["@type"].(string)) {
+	case LanguagePackStringValueOrdinaryType:
+		var languagePackStringValueOrdinary LanguagePackStringValueOrdinary
+		err := json.Unmarshal(*rawMsg, &languagePackStringValueOrdinary)
+		return &languagePackStringValueOrdinary, err
+
+	case LanguagePackStringValuePluralizedType:
+		var languagePackStringValuePluralized LanguagePackStringValuePluralized
+		err := json.Unmarshal(*rawMsg, &languagePackStringValuePluralized)
+		return &languagePackStringValuePluralized, err
+
+	case LanguagePackStringValueDeletedType:
+		var languagePackStringValueDeleted LanguagePackStringValueDeleted
+		err := json.Unmarshal(*rawMsg, &languagePackStringValueDeleted)
+		return &languagePackStringValueDeleted, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
 func unmarshalDeviceToken(rawMsg *json.RawMessage) (DeviceToken, error) {
 
 	if rawMsg == nil {
@@ -20958,6 +24646,11 @@ func unmarshalChatReportReason(rawMsg *json.RawMessage) (ChatReportReason, error
 		err := json.Unmarshal(*rawMsg, &chatReportReasonPornography)
 		return &chatReportReasonPornography, err
 
+	case ChatReportReasonCopyrightType:
+		var chatReportReasonCopyright ChatReportReasonCopyright
+		err := json.Unmarshal(*rawMsg, &chatReportReasonCopyright)
+		return &chatReportReasonCopyright, err
+
 	case ChatReportReasonCustomType:
 		var chatReportReasonCustom ChatReportReasonCustom
 		err := json.Unmarshal(*rawMsg, &chatReportReasonCustom)
@@ -21015,6 +24708,16 @@ func unmarshalFileType(rawMsg *json.RawMessage) (FileType, error) {
 		err := json.Unmarshal(*rawMsg, &fileTypeSecret)
 		return &fileTypeSecret, err
 
+	case FileTypeSecretThumbnailType:
+		var fileTypeSecretThumbnail FileTypeSecretThumbnail
+		err := json.Unmarshal(*rawMsg, &fileTypeSecretThumbnail)
+		return &fileTypeSecretThumbnail, err
+
+	case FileTypeSecureType:
+		var fileTypeSecure FileTypeSecure
+		err := json.Unmarshal(*rawMsg, &fileTypeSecure)
+		return &fileTypeSecure, err
+
 	case FileTypeStickerType:
 		var fileTypeSticker FileTypeSticker
 		err := json.Unmarshal(*rawMsg, &fileTypeSticker)
@@ -21049,11 +24752,6 @@ func unmarshalFileType(rawMsg *json.RawMessage) (FileType, error) {
 		var fileTypeWallpaper FileTypeWallpaper
 		err := json.Unmarshal(*rawMsg, &fileTypeWallpaper)
 		return &fileTypeWallpaper, err
-
-	case FileTypeSecretThumbnailType:
-		var fileTypeSecretThumbnail FileTypeSecretThumbnail
-		err := json.Unmarshal(*rawMsg, &fileTypeSecretThumbnail)
-		return &fileTypeSecretThumbnail, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -21282,7 +24980,7 @@ func unmarshalTextParseMode(rawMsg *json.RawMessage) (TextParseMode, error) {
 	}
 }
 
-func unmarshalProxy(rawMsg *json.RawMessage) (Proxy, error) {
+func unmarshalProxyType(rawMsg *json.RawMessage) (ProxyType, error) {
 
 	if rawMsg == nil {
 		return nil, nil
@@ -21293,16 +24991,21 @@ func unmarshalProxy(rawMsg *json.RawMessage) (Proxy, error) {
 		return nil, err
 	}
 
-	switch ProxyEnum(objMap["@type"].(string)) {
-	case ProxyEmptyType:
-		var proxyEmpty ProxyEmpty
-		err := json.Unmarshal(*rawMsg, &proxyEmpty)
-		return &proxyEmpty, err
+	switch ProxyTypeEnum(objMap["@type"].(string)) {
+	case ProxyTypeSocks5Type:
+		var proxyTypeSocks5 ProxyTypeSocks5
+		err := json.Unmarshal(*rawMsg, &proxyTypeSocks5)
+		return &proxyTypeSocks5, err
 
-	case ProxySocks5Type:
-		var proxySocks5 ProxySocks5
-		err := json.Unmarshal(*rawMsg, &proxySocks5)
-		return &proxySocks5, err
+	case ProxyTypeHttpType:
+		var proxyTypeHttp ProxyTypeHttp
+		err := json.Unmarshal(*rawMsg, &proxyTypeHttp)
+		return &proxyTypeHttp, err
+
+	case ProxyTypeMtprotoType:
+		var proxyTypeMtproto ProxyTypeMtproto
+		err := json.Unmarshal(*rawMsg, &proxyTypeMtproto)
+		return &proxyTypeMtproto, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -21401,6 +25104,21 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateChatIsPinned)
 		return &updateChatIsPinned, err
 
+	case UpdateChatIsMarkedAsUnreadType:
+		var updateChatIsMarkedAsUnread UpdateChatIsMarkedAsUnread
+		err := json.Unmarshal(*rawMsg, &updateChatIsMarkedAsUnread)
+		return &updateChatIsMarkedAsUnread, err
+
+	case UpdateChatIsSponsoredType:
+		var updateChatIsSponsored UpdateChatIsSponsored
+		err := json.Unmarshal(*rawMsg, &updateChatIsSponsored)
+		return &updateChatIsSponsored, err
+
+	case UpdateChatDefaultDisableNotificationType:
+		var updateChatDefaultDisableNotification UpdateChatDefaultDisableNotification
+		err := json.Unmarshal(*rawMsg, &updateChatDefaultDisableNotification)
+		return &updateChatDefaultDisableNotification, err
+
 	case UpdateChatReadInboxType:
 		var updateChatReadInbox UpdateChatReadInbox
 		err := json.Unmarshal(*rawMsg, &updateChatReadInbox)
@@ -21416,10 +25134,15 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateChatUnreadMentionCount)
 		return &updateChatUnreadMentionCount, err
 
-	case UpdateNotificationSettingsType:
-		var updateNotificationSettings UpdateNotificationSettings
-		err := json.Unmarshal(*rawMsg, &updateNotificationSettings)
-		return &updateNotificationSettings, err
+	case UpdateChatNotificationSettingsType:
+		var updateChatNotificationSettings UpdateChatNotificationSettings
+		err := json.Unmarshal(*rawMsg, &updateChatNotificationSettings)
+		return &updateChatNotificationSettings, err
+
+	case UpdateScopeNotificationSettingsType:
+		var updateScopeNotificationSettings UpdateScopeNotificationSettings
+		err := json.Unmarshal(*rawMsg, &updateScopeNotificationSettings)
+		return &updateScopeNotificationSettings, err
 
 	case UpdateChatReplyMarkupType:
 		var updateChatReplyMarkup UpdateChatReplyMarkup
@@ -21516,6 +25239,11 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateUnreadMessageCount)
 		return &updateUnreadMessageCount, err
 
+	case UpdateUnreadChatCountType:
+		var updateUnreadChatCount UpdateUnreadChatCount
+		err := json.Unmarshal(*rawMsg, &updateUnreadChatCount)
+		return &updateUnreadChatCount, err
+
 	case UpdateOptionType:
 		var updateOption UpdateOption
 		err := json.Unmarshal(*rawMsg, &updateOption)
@@ -21546,10 +25274,20 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateSavedAnimations)
 		return &updateSavedAnimations, err
 
+	case UpdateLanguagePackStringsType:
+		var updateLanguagePackStrings UpdateLanguagePackStrings
+		err := json.Unmarshal(*rawMsg, &updateLanguagePackStrings)
+		return &updateLanguagePackStrings, err
+
 	case UpdateConnectionStateType:
 		var updateConnectionState UpdateConnectionState
 		err := json.Unmarshal(*rawMsg, &updateConnectionState)
 		return &updateConnectionState, err
+
+	case UpdateTermsOfServiceType:
+		var updateTermsOfService UpdateTermsOfService
+		err := json.Unmarshal(*rawMsg, &updateTermsOfService)
+		return &updateTermsOfService, err
 
 	case UpdateNewInlineQueryType:
 		var updateNewInlineQuery UpdateNewInlineQuery

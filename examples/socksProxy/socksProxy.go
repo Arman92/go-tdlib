@@ -14,9 +14,6 @@ func main() {
 	tdlib.SetLogVerbosityLevel(1)
 	tdlib.SetFilePath("./errors.txt")
 
-	// You can set username and password if needed
-	socksProxy := tdlib.ProxySocks5{Server: "127.0.0.1", Port: 1112}
-
 	// Create new instance of client
 	client := tdlib.NewClient(tdlib.Config{
 		APIID:               "187786",
@@ -32,8 +29,15 @@ func main() {
 		DatabaseDirectory:   "./tdlib-db",
 		FileDirectory:       "./tdlib-files",
 		IgnoreFileNames:     false,
-		SocksProxy:          &socksProxy, // Set the socks proxy
 	})
+
+	// You can set user-name and password to empty of don't need it
+	// Socks5
+	client.AddProxy("127.0.0.1", 1234, true, tdlib.NewProxyTypeSocks5("user-name", "password"))
+	// HTTP - HTTPS proxy
+	client.AddProxy("127.0.0.1", 1234, true, tdlib.NewProxyTypeHttp("user-name", "password", false))
+	// MtProto Proxy
+	client.AddProxy("127.0.0.1", 1234, true, tdlib.NewProxyTypeMtproto("MTPROTO-SECRET"))
 
 	// Handle Ctrl+C
 	ch := make(chan os.Signal, 2)
