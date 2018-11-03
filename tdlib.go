@@ -131,28 +131,6 @@ func NewClient(config Config) *Client {
 		}
 	}()
 
-	client.Send(UpdateData{
-		"@type": "setTdlibParameters",
-		"parameters": UpdateData{
-			"@type":                    "tdlibParameters",
-			"use_test_dc":              config.UseTestDataCenter,
-			"database_directory":       config.DatabaseDirectory,
-			"files_directory":          config.FileDirectory,
-			"use_file_database":        config.UseFileDatabase,
-			"use_chat_info_database":   config.UseChatInfoDatabase,
-			"use_message_database":     config.UseMessageDatabase,
-			"use_secret_chats":         config.UseSecretChats,
-			"api_id":                   config.APIID,
-			"api_hash":                 config.APIHash,
-			"system_language_code":     config.SystemLanguageCode,
-			"device_model":             config.DeviceModel,
-			"system_version":           config.SystemVersion,
-			"application_version":      config.ApplicationVersion,
-			"enable_storage_optimizer": config.EnableStorageOptimizer,
-			"ignore_file_names":        config.IgnoreFileNames,
-		},
-	})
-
 	return &client
 }
 
@@ -302,10 +280,36 @@ func (client *Client) Authorize() (AuthorizationState, error) {
 		if ok == nil || err != nil {
 			return nil, err
 		}
+	} else if state.GetAuthorizationStateEnum() == AuthorizationStateWaitTdlibParametersType {
+		client.sendTdLibParams()
 	}
 
 	authState, err := client.GetAuthorizationState()
 	return authState, err
+}
+
+func (client *Client) sendTdLibParams() {
+	client.Send(UpdateData{
+		"@type": "setTdlibParameters",
+		"parameters": UpdateData{
+			"@type":                    "tdlibParameters",
+			"use_test_dc":              client.Config.UseTestDataCenter,
+			"database_directory":       client.Config.DatabaseDirectory,
+			"files_directory":          client.Config.FileDirectory,
+			"use_file_database":        client.Config.UseFileDatabase,
+			"use_chat_info_database":   client.Config.UseChatInfoDatabase,
+			"use_message_database":     client.Config.UseMessageDatabase,
+			"use_secret_chats":         client.Config.UseSecretChats,
+			"api_id":                   client.Config.APIID,
+			"api_hash":                 client.Config.APIHash,
+			"system_language_code":     client.Config.SystemLanguageCode,
+			"device_model":             client.Config.DeviceModel,
+			"system_version":           client.Config.SystemVersion,
+			"application_version":      client.Config.ApplicationVersion,
+			"enable_storage_optimizer": client.Config.EnableStorageOptimizer,
+			"ignore_file_names":        client.Config.IgnoreFileNames,
+		},
+	})
 }
 
 // SendPhoneNumber sends phone number to tdlib
