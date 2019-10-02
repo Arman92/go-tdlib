@@ -211,16 +211,31 @@ func (client *Client) Execute(jsonQuery interface{}) UpdateMsg {
 // By default TDLib writes logs to stderr or an OS specific log.
 // Use this method to write the log to a file instead.
 func SetFilePath(path string) {
-	query := C.CString(path)
-	defer C.free(unsafe.Pointer(query))
+	bytes, _ := json.Marshal(UpdateData{
+		"@type": "setLogStream",
+		"log_stream": UpdateData{
+			"@type": "logStreamFile",
+			"path": path,
+			"max_file_size": 10485760,
+		},
+	})
 
-	C.td_set_log_file_path(query)
+	query := C.CString(string(bytes))
+	C.td_json_client_execute(nil, query)
+	C.free(unsafe.Pointer(query))
 }
 
 // SetLogVerbosityLevel Sets the verbosity level of the internal logging of TDLib.
 // By default the TDLib uses a verbosity level of 5 for logging.
 func SetLogVerbosityLevel(level int) {
-	C.td_set_log_verbosity_level(C.int(level))
+	bytes, _ := json.Marshal(UpdateData{
+		"@type": "setLogVerbosityLevel",
+		"new_verbosity_level": level,
+	})
+
+	query := C.CString(string(bytes))
+	C.td_json_client_execute(nil, query)
+	C.free(unsafe.Pointer(query))
 }
 
 // SendAndCatch Sends request to the TDLib client and catches the result in updates channel.
