@@ -2653,10 +2653,10 @@ func (client *Client) GetLanguagePackString(languagePackDatabasePath string, loc
 
 // GetJsonValue Converts a JSON-serialized string to corresponding JsonValue object. Can be called synchronously
 // @param json The JSON-serialized string
-func (client *Client) GetJsonValue(json string) (JsonValue, error) {
+func (client *Client) GetJsonValue(jsonstring string) (JsonValue, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type": "getJsonValue",
-		"json":  json,
+		"json":  jsonstring,
 	})
 
 	if err != nil {
