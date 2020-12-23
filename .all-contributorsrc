@@ -21,6 +21,14 @@
       "profile": "https://github.com/for",
       "contributions": [
         "bug",
+      ]
+    },
+    {
+      "login": "ahmdrz",
+      "name": "Ahmadreza Zibaei",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/16955684?v=4",
+      "profile": "https://zibaei.net",
+      "contributions": [
         "code"
       ]
     }
