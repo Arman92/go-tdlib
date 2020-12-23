@@ -1,6 +1,6 @@
 # go-tdlib
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Golang Telegram TdLib JSON bindings
 
@@ -136,6 +136,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/zelenin"><img src="https://avatars0.githubusercontent.com/u/1427885?v=4" width="100px;" alt=""/><br /><sub><b>Aleksandr Zelenin</b></sub></a><br /><a href="#example-zelenin" title="Examples">💡</a></td>
+    <td align="center"><a href="https://zibaei.net"><img src="https://avatars2.githubusercontent.com/u/16955684?v=4" width="100px;" alt=""/><br /><sub><b>Ahmadreza Zibaei</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=ahmdrz" title="Code">💻</a></td>
   </tr>
 </table>
 
