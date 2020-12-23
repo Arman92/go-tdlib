@@ -40,6 +40,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "rubenv",
+      "name": "Ruben Vermeersch",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/42904?v=4",
+      "profile": "https://rocketeer.be",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

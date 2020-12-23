@@ -1,6 +1,6 @@
 # go-tdlib
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Golang Telegram TdLib JSON bindings
 
@@ -139,6 +139,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/for"><img src="https://avatars1.githubusercontent.com/u/7262123?v=4" width="100px;" alt=""/><br /><sub><b>for</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Afor" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://zibaei.net"><img src="https://avatars2.githubusercontent.com/u/16955684?v=4" width="100px;" alt=""/><br /><sub><b>Ahmadreza Zibaei</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=ahmdrz" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/aivel"><img src="https://avatars2.githubusercontent.com/u/3083784?v=4" width="100px;" alt=""/><br /><sub><b>Max</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=aivel" title="Code">💻</a></td>
+    <td align="center"><a href="https://rocketeer.be"><img src="https://avatars0.githubusercontent.com/u/42904?v=4" width="100px;" alt=""/><br /><sub><b>Ruben Vermeersch</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Arubenv" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
