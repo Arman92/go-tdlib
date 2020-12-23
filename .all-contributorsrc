@@ -60,6 +60,17 @@
         "maintenance",
         "test"
       ]
+    },
+    {
+      "login": "KarimNahas",
+      "name": "Karim Nahas",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15736459?v=4",
+      "profile": "https://github.com/KarimNahas",
+      "contributions": [
+        "code",
+        "maintenance",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
