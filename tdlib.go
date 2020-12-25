@@ -214,8 +214,8 @@ func SetFilePath(path string) {
 	bytes, _ := json.Marshal(UpdateData{
 		"@type": "setLogStream",
 		"log_stream": UpdateData{
-			"@type": "logStreamFile",
-			"path": path,
+			"@type":         "logStreamFile",
+			"path":          path,
 			"max_file_size": 10485760,
 		},
 	})
@@ -229,7 +229,7 @@ func SetFilePath(path string) {
 // By default the TDLib uses a verbosity level of 5 for logging.
 func SetLogVerbosityLevel(level int) {
 	bytes, _ := json.Marshal(UpdateData{
-		"@type": "setLogVerbosityLevel",
+		"@type":               "setLogVerbosityLevel",
 		"new_verbosity_level": level,
 	})
 
@@ -329,7 +329,8 @@ func (client *Client) sendTdLibParams() {
 
 // SendPhoneNumber sends phone number to tdlib
 func (client *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, error) {
-	_, err := client.SetAuthenticationPhoneNumber(phoneNumber, false, false)
+	phoneNumberConfig := PhoneNumberAuthenticationSettings{AllowFlashCall: false, IsCurrentPhoneNumber: false, AllowSmsRetrieverAPI: false}
+	_, err := client.SetAuthenticationPhoneNumber(phoneNumber, &phoneNumberConfig)
 
 	if err != nil {
 		return nil, err
@@ -341,7 +342,7 @@ func (client *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, e
 
 // SendAuthCode sends auth code to tdlib
 func (client *Client) SendAuthCode(code string) (AuthorizationState, error) {
-	_, err := client.CheckAuthenticationCode(code, "", "")
+	_, err := client.CheckAuthenticationCode(code)
 
 	if err != nil {
 		return nil, err
