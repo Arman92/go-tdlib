@@ -1,6 +1,6 @@
 # go-tdlib
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Golang Telegram TdLib JSON bindings
 
@@ -142,6 +142,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://rocketeer.be"><img src="https://avatars0.githubusercontent.com/u/42904?v=4" width="100px;" alt=""/><br /><sub><b>Ruben Vermeersch</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Arubenv" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/alxshelepenok"><img src="https://avatars2.githubusercontent.com/u/8599449?v=4" width="100px;" alt=""/><br /><sub><b>Alexander Shelepenok</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=alxshelepenok" title="Code">💻</a> <a href="#maintenance-alxshelepenok" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/commits?author=alxshelepenok" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/KarimNahas"><img src="https://avatars3.githubusercontent.com/u/15736459?v=4" width="100px;" alt=""/><br /><sub><b>Karim Nahas</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=KarimNahas" title="Code">💻</a> <a href="#maintenance-KarimNahas" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3AKarimNahas" title="Bug reports">🐛</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/wcsiu"><img src="https://avatars0.githubusercontent.com/u/5212960?v=4" width="100px;" alt=""/><br /><sub><b>Wachiu Siu</b></sub></a><br /><a href="#example-wcsiu" title="Examples">💡</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Awcsiu" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
