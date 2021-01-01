@@ -42,11 +42,31 @@ If hit any build errors, refer to [Tdlib build instructions](https://github.com/
 I'm using static linking against tdlib so it won't require to build the whole tdlib source files.
 
 ## Docker
-You can use prebuilt tdlib with following Docker image: 
+You can use the prebuilt tdlib image and Go image of your liking:
 
-***Windows:***
-``` shell
-docker pull mihaildemidoff/tdlib-go
+```
+FROM golang:1.15-alpine AS golang
+
+COPY --from=wcsiu/tdlib:1.7-alpine /usr/local/include/td /usr/local/include/td
+COPY --from=wcsiu/tdlib:1.7-alpine /usr/local/lib/libtd* /usr/local/lib/
+COPY --from=wcsiu/tdlib:1.7-alpine /usr/lib/libssl.a /usr/local/lib/libssl.a
+COPY --from=wcsiu/tdlib:1.7-alpine /usr/lib/libcrypto.a /usr/local/lib/libcrypto.a
+COPY --from=wcsiu/tdlib:1.7-alpine /lib/libz.a /usr/local/lib/libz.a
+RUN apk add build-base
+
+WORKDIR /myApp
+
+COPY . .
+
+RUN go build --ldflags "-extldflags '-static -L/usr/local/lib -ltdjson_static -ltdjson_private -ltdclient -ltdcore -ltdactor -ltddb -ltdsqlite -ltdnet -ltdutils -ldl -lm -lssl -lcrypto -lstdc++ -lz'" -o /tmp/getChats getChats.go
+
+FROM gcr.io/distroless/base:latest
+COPY --from=golang /tmp/getChats /getChats
+ENTRYPOINT [ "/getChats" ]
+```
+
+```
+$ docker build -fDockerfile -ttelegram-client .
 ```
 
 ## Example
