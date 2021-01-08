@@ -1909,6 +1909,18 @@ func (messageSenderUser *MessageSenderUser) MessageType() string {
 	return "messageSenderUser"
 }
 
+// NewMessageSenderUser creates a new MessageSenderUser
+//
+// @param UserID Identifier of the user that sent the message
+func NewMessageSenderUser(userID int32) *MessageSenderUser {
+	messageSenderUser := MessageSenderUser{
+		tdCommon:	tdCommon{Type: "messageSenderUser"},
+		UserID:		userID,
+	}
+
+	return &messageSenderUser
+}
+
 // EmailAddressAuthenticationCodeInfo Information about the email address authentication code that was sent
 type EmailAddressAuthenticationCodeInfo struct {
 	tdCommon
@@ -5825,7 +5837,7 @@ type Message struct {
 	tdCommon
 	ID                      int64                  `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
 	Sender                  MessageSender          `json:"sender"`                       // Identifier of the user who sent the message. (v 1.7.0)
-	SenderUserID            int32                  `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
+//	SenderUserID            int32                  `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
 	ChatID                  int64                  `json:"chat_id"`                      // Chat identifier
 	SendingState            MessageSendingState    `json:"sending_state"`                // Information about the sending state of the message; may be null
 	SchedulingState         MessageSchedulingState `json:"scheduling_state"`             // Information about the scheduling state of the message; may be null
@@ -5860,7 +5872,7 @@ func (message *Message) MessageType() string {
 //
 // @param iD Message identifier, unique for the chat to which the message belongs
 // @param sender Identifier of the user who sent the message.
-// @param senderUserID Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
+// Deleted @param senderUserID Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
 // @param chatID Chat identifier
 // @param sendingState Information about the sending state of the message; may be null
 // @param schedulingState Information about the scheduling state of the message; may be null
@@ -5884,11 +5896,12 @@ func (message *Message) MessageType() string {
 // @param restrictionReason If non-empty, contains a human-readable description of the reason why access to this message must be restricted
 // @param content Content of the message
 // @param replyMarkup Reply markup for the message; may be null
-func NewMessage(iD int64, senderUserID int32, chatID int64, sendingState MessageSendingState, schedulingState MessageSchedulingState, isOutgoing bool, canBeEdited bool, canBeForwarded bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, isChannelPost bool, containsUnreadMention bool, date int32, editDate int32, forwardInfo *MessageForwardInfo, replyToMessageID int64, tTL int32, tTLExpiresIn float64, viaBotUserID int32, authorSignature string, views int32, mediaAlbumID JSONInt64, restrictionReason string, content MessageContent, replyMarkup ReplyMarkup) *Message {
+func NewMessage(iD int64, sender MessageSender, chatID int64, sendingState MessageSendingState, schedulingState MessageSchedulingState, isOutgoing bool, canBeEdited bool, canBeForwarded bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, isChannelPost bool, containsUnreadMention bool, date int32, editDate int32, forwardInfo *MessageForwardInfo, replyToMessageID int64, tTL int32, tTLExpiresIn float64, viaBotUserID int32, authorSignature string, views int32, mediaAlbumID JSONInt64, restrictionReason string, content MessageContent, replyMarkup ReplyMarkup) *Message {
 	messageTemp := Message{
 		tdCommon:                tdCommon{Type: "message"},
 		ID:                      iD,
-		SenderUserID:            senderUserID,
+		Sender:			 sender,
+//		SenderUserID:            senderUserID,
 		ChatID:                  chatID,
 		SendingState:            sendingState,
 		SchedulingState:         schedulingState,
@@ -5927,7 +5940,7 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 	tempObj := struct {
 		tdCommon
 		ID                      int64               `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
-		SenderUserID            int32               `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
+//		SenderUserID            int32               `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
 		ChatID                  int64               `json:"chat_id"`                      // Chat identifier
 		IsOutgoing              bool                `json:"is_outgoing"`                  // True, if the message is outgoing
 		CanBeEdited             bool                `json:"can_be_edited"`                // True, if the message can be edited. For live location and poll messages this fields shows whether editMessageLiveLocation or stopPoll can be used with this message by the application
@@ -5956,7 +5969,7 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 
 	message.tdCommon = tempObj.tdCommon
 	message.ID = tempObj.ID
-	message.SenderUserID = tempObj.SenderUserID
+//	message.SenderUserID = tempObj.SenderUserID
 	message.ChatID = tempObj.ChatID
 	message.IsOutgoing = tempObj.IsOutgoing
 	message.CanBeEdited = tempObj.CanBeEdited
