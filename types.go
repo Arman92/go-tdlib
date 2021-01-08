@@ -1208,7 +1208,22 @@ const (
 	LogStreamDefaultType LogStreamEnum = "logStreamDefault"
 	LogStreamFileType    LogStreamEnum = "logStreamFile"
 	LogStreamEmptyType   LogStreamEnum = "logStreamEmpty"
-) // AuthenticationCodeType Provides information about the method by which an authentication code is delivered to the user
+)
+
+// MessageSenderUserEnum Alias for abstract MessageSenderUser 'Sub-Classes', used as constant-enum here
+type MessageSenderEnum string
+
+// MessageSenderUser enums
+const (
+	MessageSenderType MessageSenderEnum = "messageSenderUser"
+)
+
+// MessageSender Contains information about the sender of the message
+type MessageSender interface {
+	GetMessageSenderEnum() MessageSenderEnum
+}
+
+// AuthenticationCodeType Provides information about the method by which an authentication code is delivered to the user
 type AuthenticationCodeType interface {
 	GetAuthenticationCodeTypeEnum() AuthenticationCodeTypeEnum
 }
@@ -1881,6 +1896,17 @@ func (authenticationCodeInfo *AuthenticationCodeInfo) UnmarshalJSON(b []byte) er
 	authenticationCodeInfo.NextType = fieldNextType
 
 	return nil
+}
+
+// MessageSenderUser Describes sender UserID
+type MessageSenderUser struct {
+	tdCommon
+	UserID int32 `json:"user_id"` // Identifier of the user, if known; otherwise 0
+}
+
+// MessageType return the string telegram-type of MessageSenderUser
+func (messageSenderUser *MessageSenderUser) MessageType() string {
+	return "messageSenderUser"
 }
 
 // EmailAddressAuthenticationCodeInfo Information about the email address authentication code that was sent
@@ -2615,6 +2641,11 @@ func NewInputFileLocal(path string) *InputFileLocal {
 	}
 
 	return &inputFileLocalTemp
+}
+
+// GetMessageSenderUserEnum return the enum type of this object
+func (messageSenderUser *MessageSenderUser) GetMessageSenderEnum() MessageSenderEnum {
+	return MessageSenderType
 }
 
 // GetInputFileEnum return the enum type of this object
@@ -5793,6 +5824,7 @@ func (messageSendingStateFailed *MessageSendingStateFailed) GetMessageSendingSta
 type Message struct {
 	tdCommon
 	ID                      int64                  `json:"id"`                           // Message identifier, unique for the chat to which the message belongs
+	Sender                  MessageSender          `json:"sender"`                       // Identifier of the user who sent the message. (v 1.7.0)
 	SenderUserID            int32                  `json:"sender_user_id"`               // Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
 	ChatID                  int64                  `json:"chat_id"`                      // Chat identifier
 	SendingState            MessageSendingState    `json:"sending_state"`                // Information about the sending state of the message; may be null
@@ -5827,6 +5859,7 @@ func (message *Message) MessageType() string {
 // NewMessage creates a new Message
 //
 // @param iD Message identifier, unique for the chat to which the message belongs
+// @param sender Identifier of the user who sent the message.
 // @param senderUserID Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group
 // @param chatID Chat identifier
 // @param sendingState Information about the sending state of the message; may be null
@@ -5943,6 +5976,9 @@ func (message *Message) UnmarshalJSON(b []byte) error {
 	message.Views = tempObj.Views
 	message.MediaAlbumID = tempObj.MediaAlbumID
 	message.RestrictionReason = tempObj.RestrictionReason
+
+	fieldSender, _ := unmarshalMessageSender(objMap["sender"])
+	message.Sender = fieldSender
 
 	fieldSendingState, _ := unmarshalMessageSendingState(objMap["sending_state"])
 	message.SendingState = fieldSendingState
@@ -29941,6 +29977,28 @@ func unmarshalAuthorizationState(rawMsg *json.RawMessage) (AuthorizationState, e
 		var authorizationStateClosed AuthorizationStateClosed
 		err := json.Unmarshal(*rawMsg, &authorizationStateClosed)
 		return &authorizationStateClosed, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
+func unmarshalMessageSender(rawMsg *json.RawMessage) (MessageSender, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch MessageSenderEnum(objMap["@type"].(string)) {
+	case MessageSenderType:
+		var messageSenderUser MessageSenderUser
+		err := json.Unmarshal(*rawMsg, &messageSenderUser)
+		return &messageSenderUser, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
