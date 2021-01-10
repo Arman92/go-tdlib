@@ -53,7 +53,7 @@ func main() {
 		chatID := int64(198529620) // Foursquare bot chat id
 
 		inputMsgTxt := tdlib.NewInputMessageText(tdlib.NewFormattedText("/start", nil), true, true)
-		client.SendMessage(chatID, int64(0), nil, nil, inputMsgTxt)
+		client.SendMessage(chatID, int64(0), int64(0), nil, nil, inputMsgTxt)
 
 		time.Sleep(5 * time.Second)
 	}()
