@@ -135,21 +135,22 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/zelenin"><img src="https://avatars0.githubusercontent.com/u/1427885?v=4" width="100px;" alt=""/><br /><sub><b>Aleksandr Zelenin</b></sub></a><br /><a href="#example-zelenin" title="Examples">💡</a></td>
-    <td align="center"><a href="https://github.com/for"><img src="https://avatars1.githubusercontent.com/u/7262123?v=4" width="100px;" alt=""/><br /><sub><b>for</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Afor" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://zibaei.net"><img src="https://avatars2.githubusercontent.com/u/16955684?v=4" width="100px;" alt=""/><br /><sub><b>Ahmadreza Zibaei</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=ahmdrz" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/aivel"><img src="https://avatars2.githubusercontent.com/u/3083784?v=4" width="100px;" alt=""/><br /><sub><b>Max</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=aivel" title="Code">💻</a></td>
-    <td align="center"><a href="https://rocketeer.be"><img src="https://avatars0.githubusercontent.com/u/42904?v=4" width="100px;" alt=""/><br /><sub><b>Ruben Vermeersch</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Arubenv" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/alxshelepenok"><img src="https://avatars2.githubusercontent.com/u/8599449?v=4" width="100px;" alt=""/><br /><sub><b>Alexander Shelepenok</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=alxshelepenok" title="Code">💻</a> <a href="#maintenance-alxshelepenok" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/commits?author=alxshelepenok" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/KarimNahas"><img src="https://avatars3.githubusercontent.com/u/15736459?v=4" width="100px;" alt=""/><br /><sub><b>Karim Nahas</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=KarimNahas" title="Code">💻</a> <a href="#maintenance-KarimNahas" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3AKarimNahas" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/zelenin"><img src="https://avatars0.githubusercontent.com/u/1427885?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aleksandr Zelenin</b></sub></a><br /><a href="#example-zelenin" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/for"><img src="https://avatars1.githubusercontent.com/u/7262123?v=4?s=100" width="100px;" alt=""/><br /><sub><b>for</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Afor" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://zibaei.net"><img src="https://avatars2.githubusercontent.com/u/16955684?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ahmadreza Zibaei</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=ahmdrz" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/aivel"><img src="https://avatars2.githubusercontent.com/u/3083784?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Max</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=aivel" title="Code">💻</a></td>
+    <td align="center"><a href="https://rocketeer.be"><img src="https://avatars0.githubusercontent.com/u/42904?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ruben Vermeersch</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Arubenv" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/alxshelepenok"><img src="https://avatars2.githubusercontent.com/u/8599449?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexander Shelepenok</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=alxshelepenok" title="Code">💻</a> <a href="#maintenance-alxshelepenok" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/commits?author=alxshelepenok" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/KarimNahas"><img src="https://avatars3.githubusercontent.com/u/15736459?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Karim Nahas</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=KarimNahas" title="Code">💻</a> <a href="#maintenance-KarimNahas" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3AKarimNahas" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/wcsiu"><img src="https://avatars0.githubusercontent.com/u/5212960?v=4" width="100px;" alt=""/><br /><sub><b>Wachiu Siu</b></sub></a><br /><a href="#example-wcsiu" title="Examples">💡</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Awcsiu" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/wcsiu"><img src="https://avatars0.githubusercontent.com/u/5212960?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Wachiu Siu</b></sub></a><br /><a href="#example-wcsiu" title="Examples">💡</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Awcsiu" title="Bug reports">🐛</a> <a href="https://github.com/Arman92/go-tdlib/commits?author=wcsiu" title="Documentation">📖</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-enable -->
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
