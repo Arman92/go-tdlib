@@ -70,16 +70,22 @@ func getChatList(client *tdlib.Client, limit int) error {
 	if !haveFullChatList && limit > len(allChats) {
 		offsetOrder := int64(math.MaxInt64)
 		offsetChatID := int64(0)
+		var chatList = tdlib.NewChatListMain()
 		var lastChat *tdlib.Chat
 
 		if len(allChats) > 0 {
 			lastChat = allChats[len(allChats)-1]
-			offsetOrder = int64(lastChat.Order)
+			for i := 0; i < len(lastChat.Positions); i++ {
+				//Find the main chat list
+				if lastChat.Positions[i].List.GetChatListEnum() == tdlib.ChatListMainType {
+					offsetOrder = int64(lastChat.Positions[i].Order)
+				}
+			}
 			offsetChatID = lastChat.ID
 		}
 
 		// get chats (ids) from tdlib
-		chats, err := client.GetChats(tdlib.JSONInt64(offsetOrder),
+		chats, err := client.GetChats(chatList, tdlib.JSONInt64(offsetOrder),
 			offsetChatID, int32(limit-len(allChats)))
 		if err != nil {
 			return err
