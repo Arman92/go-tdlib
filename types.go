@@ -198,10 +198,11 @@ type MessageForwardOriginEnum string
 
 // MessageForwardOrigin enums
 const (
-	MessageForwardOriginUserType       MessageForwardOriginEnum = "messageForwardOriginUser"
-	MessageForwardOriginChatType       MessageForwardOriginEnum = "messageForwardOriginChat"
-	MessageForwardOriginHiddenUserType MessageForwardOriginEnum = "messageForwardOriginHiddenUser"
-	MessageForwardOriginChannelType    MessageForwardOriginEnum = "messageForwardOriginChannel"
+	MessageForwardOriginUserType          MessageForwardOriginEnum = "messageForwardOriginUser"
+	MessageForwardOriginChatType          MessageForwardOriginEnum = "messageForwardOriginChat"
+	MessageForwardOriginHiddenUserType    MessageForwardOriginEnum = "messageForwardOriginHiddenUser"
+	MessageForwardOriginChannelType       MessageForwardOriginEnum = "messageForwardOriginChannel"
+	MessageForwardOriginMessageImportType MessageForwardOriginEnum = "messageForwardOriginMessageImport"
 )
 
 // MessageSendingStateEnum Alias for abstract MessageSendingState 'Sub-Classes', used as constant-enum here
@@ -269,6 +270,7 @@ type ChatActionBarEnum string
 const (
 	ChatActionBarReportSpamType              ChatActionBarEnum = "chatActionBarReportSpam"
 	ChatActionBarReportUnrelatedLocationType ChatActionBarEnum = "chatActionBarReportUnrelatedLocation"
+	ChatActionBarInviteMembersType           ChatActionBarEnum = "chatActionBarInviteMembers"
 	ChatActionBarReportAddBlockType          ChatActionBarEnum = "chatActionBarReportAddBlock"
 	ChatActionBarAddContactType              ChatActionBarEnum = "chatActionBarAddContact"
 	ChatActionBarSharePhoneNumberType        ChatActionBarEnum = "chatActionBarSharePhoneNumber"
@@ -404,10 +406,10 @@ type InputCredentialsEnum string
 
 // InputCredentials enums
 const (
-	InputCredentialsSavedType      InputCredentialsEnum = "inputCredentialsSaved"
-	InputCredentialsNewType        InputCredentialsEnum = "inputCredentialsNew"
-	InputCredentialsAndroidPayType InputCredentialsEnum = "inputCredentialsAndroidPay"
-	InputCredentialsApplePayType   InputCredentialsEnum = "inputCredentialsApplePay"
+	InputCredentialsSavedType     InputCredentialsEnum = "inputCredentialsSaved"
+	InputCredentialsNewType       InputCredentialsEnum = "inputCredentialsNew"
+	InputCredentialsApplePayType  InputCredentialsEnum = "inputCredentialsApplePay"
+	InputCredentialsGooglePayType InputCredentialsEnum = "inputCredentialsGooglePay"
 )
 
 // PassportElementTypeEnum Alias for abstract PassportElementType 'Sub-Classes', used as constant-enum here
@@ -888,6 +890,16 @@ const (
 	CheckChatUsernameResultPublicGroupsUnavailableType CheckChatUsernameResultEnum = "checkChatUsernameResultPublicGroupsUnavailable"
 )
 
+// MessageFileTypeEnum Alias for abstract MessageFileType 'Sub-Classes', used as constant-enum here
+type MessageFileTypeEnum string
+
+// MessageFileType enums
+const (
+	MessageFileTypePrivateType MessageFileTypeEnum = "messageFileTypePrivate"
+	MessageFileTypeGroupType   MessageFileTypeEnum = "messageFileTypeGroup"
+	MessageFileTypeUnknownType MessageFileTypeEnum = "messageFileTypeUnknown"
+)
+
 // PushMessageContentEnum Alias for abstract PushMessageContent 'Sub-Classes', used as constant-enum here
 type PushMessageContentEnum string
 
@@ -1008,6 +1020,7 @@ const (
 	ChatReportReasonChildAbuseType        ChatReportReasonEnum = "chatReportReasonChildAbuse"
 	ChatReportReasonCopyrightType         ChatReportReasonEnum = "chatReportReasonCopyright"
 	ChatReportReasonUnrelatedLocationType ChatReportReasonEnum = "chatReportReasonUnrelatedLocation"
+	ChatReportReasonFakeType              ChatReportReasonEnum = "chatReportReasonFake"
 	ChatReportReasonCustomType            ChatReportReasonEnum = "chatReportReasonCustom"
 )
 
@@ -1099,6 +1112,7 @@ type SuggestedActionEnum string
 const (
 	SuggestedActionEnableArchiveAndMuteNewChatsType SuggestedActionEnum = "suggestedActionEnableArchiveAndMuteNewChats"
 	SuggestedActionCheckPhoneNumberType             SuggestedActionEnum = "suggestedActionCheckPhoneNumber"
+	SuggestedActionSeeTicksHintType                 SuggestedActionEnum = "suggestedActionSeeTicksHint"
 )
 
 // TextParseModeEnum Alias for abstract TextParseMode 'Sub-Classes', used as constant-enum here
@@ -1543,6 +1557,11 @@ type CanTransferOwnershipResult interface {
 // CheckChatUsernameResult Represents result of checking whether a username can be set for a chat
 type CheckChatUsernameResult interface {
 	GetCheckChatUsernameResultEnum() CheckChatUsernameResultEnum
+}
+
+// MessageFileType Contains information about a file with messages exported from another app
+type MessageFileType interface {
+	GetMessageFileTypeEnum() MessageFileTypeEnum
 }
 
 // PushMessageContent Contains content of a push message notification
@@ -3180,9 +3199,9 @@ func NewClosedVectorPath(commands []VectorPathCommand) *ClosedVectorPath {
 // PollOption Describes one answer option of a poll
 type PollOption struct {
 	tdCommon
-	Text           string `json:"text"`            // Option text, 1-100 characters
+	Text           string `json:"text"`            // Option text; 1-100 characters
 	VoterCount     int32  `json:"voter_count"`     // Number of voters for this option, available only for closed or voted polls
-	VotePercentage int32  `json:"vote_percentage"` // The percentage of votes for this option, 0-100
+	VotePercentage int32  `json:"vote_percentage"` // The percentage of votes for this option; 0-100
 	IsChosen       bool   `json:"is_chosen"`       // True, if the option was chosen by the user
 	IsBeingChosen  bool   `json:"is_being_chosen"` // True, if the option is being chosen by a pending setPollAnswer request
 }
@@ -3194,9 +3213,9 @@ func (pollOption *PollOption) MessageType() string {
 
 // NewPollOption creates a new PollOption
 //
-// @param text Option text, 1-100 characters
+// @param text Option text; 1-100 characters
 // @param voterCount Number of voters for this option, available only for closed or voted polls
-// @param votePercentage The percentage of votes for this option, 0-100
+// @param votePercentage The percentage of votes for this option; 0-100
 // @param isChosen True, if the option was chosen by the user
 // @param isBeingChosen True, if the option is being chosen by a pending setPollAnswer request
 func NewPollOption(text string, voterCount int32, votePercentage int32, isChosen bool, isBeingChosen bool) *PollOption {
@@ -3244,7 +3263,7 @@ func (pollTypeRegular *PollTypeRegular) GetPollTypeEnum() PollTypeEnum {
 type PollTypeQuiz struct {
 	tdCommon
 	CorrectOptionID int32          `json:"correct_option_id"` // 0-based identifier of the correct answer option; -1 for a yet unanswered poll
-	Explanation     *FormattedText `json:"explanation"`       // Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+	Explanation     *FormattedText `json:"explanation"`       // Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
 }
 
 // MessageType return the string telegram-type of PollTypeQuiz
@@ -3255,7 +3274,7 @@ func (pollTypeQuiz *PollTypeQuiz) MessageType() string {
 // NewPollTypeQuiz creates a new PollTypeQuiz
 //
 // @param correctOptionID 0-based identifier of the correct answer option; -1 for a yet unanswered poll
-// @param explanation Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+// @param explanation Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
 func NewPollTypeQuiz(correctOptionID int32, explanation *FormattedText) *PollTypeQuiz {
 	pollTypeQuizTemp := PollTypeQuiz{
 		tdCommon:        tdCommon{Type: "pollTypeQuiz"},
@@ -3740,7 +3759,7 @@ func NewGame(iD JSONInt64, shortName string, title string, text *FormattedText, 
 type Poll struct {
 	tdCommon
 	ID                 JSONInt64    `json:"id"`                    // Unique poll identifier
-	Question           string       `json:"question"`              // Poll question, 1-300 characters
+	Question           string       `json:"question"`              // Poll question; 1-300 characters
 	Options            []PollOption `json:"options"`               // List of poll answer options
 	TotalVoterCount    int32        `json:"total_voter_count"`     // Total number of voters, participating in the poll
 	RecentVoterUserIDs []int32      `json:"recent_voter_user_ids"` // User identifiers of recent voters, if the poll is non-anonymous
@@ -3759,7 +3778,7 @@ func (poll *Poll) MessageType() string {
 // NewPoll creates a new Poll
 //
 // @param iD Unique poll identifier
-// @param question Poll question, 1-300 characters
+// @param question Poll question; 1-300 characters
 // @param options List of poll answer options
 // @param totalVoterCount Total number of voters, participating in the poll
 // @param recentVoterUserIDs User identifiers of recent voters, if the poll is non-anonymous
@@ -3796,7 +3815,7 @@ func (poll *Poll) UnmarshalJSON(b []byte) error {
 	tempObj := struct {
 		tdCommon
 		ID                 JSONInt64    `json:"id"`                    // Unique poll identifier
-		Question           string       `json:"question"`              // Poll question, 1-300 characters
+		Question           string       `json:"question"`              // Poll question; 1-300 characters
 		Options            []PollOption `json:"options"`               // List of poll answer options
 		TotalVoterCount    int32        `json:"total_voter_count"`     // Total number of voters, participating in the poll
 		RecentVoterUserIDs []int32      `json:"recent_voter_user_ids"` // User identifiers of recent voters, if the poll is non-anonymous
@@ -4322,6 +4341,7 @@ type User struct {
 	IsSupport         bool          `json:"is_support"`         // True, if the user is Telegram support account
 	RestrictionReason string        `json:"restriction_reason"` // If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
 	IsScam            bool          `json:"is_scam"`            // True, if many users reported this user as a scam
+	IsFake            bool          `json:"is_fake"`            // True, if many users reported this user as a fake account
 	HaveAccess        bool          `json:"have_access"`        // If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 	Type              UserType      `json:"type"`               // Type of the user
 	LanguageCode      string        `json:"language_code"`      // IETF language tag of the user's language; only available to bots
@@ -4347,10 +4367,11 @@ func (user *User) MessageType() string {
 // @param isSupport True, if the user is Telegram support account
 // @param restrictionReason If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
 // @param isScam True, if many users reported this user as a scam
+// @param isFake True, if many users reported this user as a fake account
 // @param haveAccess If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 // @param typeParam Type of the user
 // @param languageCode IETF language tag of the user's language; only available to bots
-func NewUser(iD int32, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, isContact bool, isMutualContact bool, isVerified bool, isSupport bool, restrictionReason string, isScam bool, haveAccess bool, typeParam UserType, languageCode string) *User {
+func NewUser(iD int32, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, isContact bool, isMutualContact bool, isVerified bool, isSupport bool, restrictionReason string, isScam bool, isFake bool, haveAccess bool, typeParam UserType, languageCode string) *User {
 	userTemp := User{
 		tdCommon:          tdCommon{Type: "user"},
 		ID:                iD,
@@ -4366,6 +4387,7 @@ func NewUser(iD int32, firstName string, lastName string, username string, phone
 		IsSupport:         isSupport,
 		RestrictionReason: restrictionReason,
 		IsScam:            isScam,
+		IsFake:            isFake,
 		HaveAccess:        haveAccess,
 		Type:              typeParam,
 		LanguageCode:      languageCode,
@@ -4395,6 +4417,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 		IsSupport         bool          `json:"is_support"`         // True, if the user is Telegram support account
 		RestrictionReason string        `json:"restriction_reason"` // If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
 		IsScam            bool          `json:"is_scam"`            // True, if many users reported this user as a scam
+		IsFake            bool          `json:"is_fake"`            // True, if many users reported this user as a fake account
 		HaveAccess        bool          `json:"have_access"`        // If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 		LanguageCode      string        `json:"language_code"`      // IETF language tag of the user's language; only available to bots
 	}{}
@@ -4416,6 +4439,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	user.IsSupport = tempObj.IsSupport
 	user.RestrictionReason = tempObj.RestrictionReason
 	user.IsScam = tempObj.IsScam
+	user.IsFake = tempObj.IsFake
 	user.HaveAccess = tempObj.HaveAccess
 	user.LanguageCode = tempObj.LanguageCode
 
@@ -4782,7 +4806,7 @@ func (chatMemberStatusLeft *ChatMemberStatusLeft) GetChatMemberStatusEnum() Chat
 // ChatMemberStatusBanned The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
 type ChatMemberStatusBanned struct {
 	tdCommon
-	BannedUntilDate int32 `json:"banned_until_date"` // Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+	BannedUntilDate int32 `json:"banned_until_date"` // Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
 }
 
 // MessageType return the string telegram-type of ChatMemberStatusBanned
@@ -4792,7 +4816,7 @@ func (chatMemberStatusBanned *ChatMemberStatusBanned) MessageType() string {
 
 // NewChatMemberStatusBanned creates a new ChatMemberStatusBanned
 //
-// @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+// @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
 func NewChatMemberStatusBanned(bannedUntilDate int32) *ChatMemberStatusBanned {
 	chatMemberStatusBannedTemp := ChatMemberStatusBanned{
 		tdCommon:        tdCommon{Type: "chatMemberStatusBanned"},
@@ -5295,6 +5319,215 @@ func (supergroupMembersFilterBots *SupergroupMembersFilterBots) GetSupergroupMem
 	return SupergroupMembersFilterBotsType
 }
 
+// ChatInviteLink Contains a chat invite link
+type ChatInviteLink struct {
+	tdCommon
+	InviteLink          string `json:"invite_link"`           // Chat invite link
+	AdministratorUserID int32  `json:"administrator_user_id"` // User identifier of an administrator created the link
+	Date                int32  `json:"date"`                  // Point in time (Unix timestamp) when the link was created
+	EditDate            int32  `json:"edit_date"`             // Point in time (Unix timestamp) when the link was last edited; 0 if never or unknown
+	ExpireDate          int32  `json:"expire_date"`           // Point in time (Unix timestamp) when the link will expire; 0 if never
+	MemberLimit         int32  `json:"member_limit"`          // Maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
+	MemberCount         int32  `json:"member_count"`          // Number of chat members, which joined the chat using the link
+	IsPermanent         bool   `json:"is_permanent"`          // True, if the link is permanent. Permanent invite link can't have expire date or usage limit. There is exactly one permanent invite link for each administrator with can_invite_users right at a given time
+	IsExpired           bool   `json:"is_expired"`            // True, if the link is already expired
+	IsRevoked           bool   `json:"is_revoked"`            // True, if the link was revoked
+}
+
+// MessageType return the string telegram-type of ChatInviteLink
+func (chatInviteLink *ChatInviteLink) MessageType() string {
+	return "chatInviteLink"
+}
+
+// NewChatInviteLink creates a new ChatInviteLink
+//
+// @param inviteLink Chat invite link
+// @param administratorUserID User identifier of an administrator created the link
+// @param date Point in time (Unix timestamp) when the link was created
+// @param editDate Point in time (Unix timestamp) when the link was last edited; 0 if never or unknown
+// @param expireDate Point in time (Unix timestamp) when the link will expire; 0 if never
+// @param memberLimit Maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
+// @param memberCount Number of chat members, which joined the chat using the link
+// @param isPermanent True, if the link is permanent. Permanent invite link can't have expire date or usage limit. There is exactly one permanent invite link for each administrator with can_invite_users right at a given time
+// @param isExpired True, if the link is already expired
+// @param isRevoked True, if the link was revoked
+func NewChatInviteLink(inviteLink string, administratorUserID int32, date int32, editDate int32, expireDate int32, memberLimit int32, memberCount int32, isPermanent bool, isExpired bool, isRevoked bool) *ChatInviteLink {
+	chatInviteLinkTemp := ChatInviteLink{
+		tdCommon:            tdCommon{Type: "chatInviteLink"},
+		InviteLink:          inviteLink,
+		AdministratorUserID: administratorUserID,
+		Date:                date,
+		EditDate:            editDate,
+		ExpireDate:          expireDate,
+		MemberLimit:         memberLimit,
+		MemberCount:         memberCount,
+		IsPermanent:         isPermanent,
+		IsExpired:           isExpired,
+		IsRevoked:           isRevoked,
+	}
+
+	return &chatInviteLinkTemp
+}
+
+// ChatInviteLinks Contains a list of chat invite links
+type ChatInviteLinks struct {
+	tdCommon
+	TotalCount  int32            `json:"total_count"`  // Approximate total count of chat invite links found
+	InviteLinks []ChatInviteLink `json:"invite_links"` // List of invite links
+}
+
+// MessageType return the string telegram-type of ChatInviteLinks
+func (chatInviteLinks *ChatInviteLinks) MessageType() string {
+	return "chatInviteLinks"
+}
+
+// NewChatInviteLinks creates a new ChatInviteLinks
+//
+// @param totalCount Approximate total count of chat invite links found
+// @param inviteLinks List of invite links
+func NewChatInviteLinks(totalCount int32, inviteLinks []ChatInviteLink) *ChatInviteLinks {
+	chatInviteLinksTemp := ChatInviteLinks{
+		tdCommon:    tdCommon{Type: "chatInviteLinks"},
+		TotalCount:  totalCount,
+		InviteLinks: inviteLinks,
+	}
+
+	return &chatInviteLinksTemp
+}
+
+// ChatInviteLinkMember Describes a chat member joined a chat by an invite link
+type ChatInviteLinkMember struct {
+	tdCommon
+	UserID         int32 `json:"user_id"`          // User identifier
+	JoinedChatDate int32 `json:"joined_chat_date"` // Point in time (Unix timestamp) when the user joined the chat
+}
+
+// MessageType return the string telegram-type of ChatInviteLinkMember
+func (chatInviteLinkMember *ChatInviteLinkMember) MessageType() string {
+	return "chatInviteLinkMember"
+}
+
+// NewChatInviteLinkMember creates a new ChatInviteLinkMember
+//
+// @param userID User identifier
+// @param joinedChatDate Point in time (Unix timestamp) when the user joined the chat
+func NewChatInviteLinkMember(userID int32, joinedChatDate int32) *ChatInviteLinkMember {
+	chatInviteLinkMemberTemp := ChatInviteLinkMember{
+		tdCommon:       tdCommon{Type: "chatInviteLinkMember"},
+		UserID:         userID,
+		JoinedChatDate: joinedChatDate,
+	}
+
+	return &chatInviteLinkMemberTemp
+}
+
+// ChatInviteLinkMembers Contains a list of chat members joined a chat by an invite link
+type ChatInviteLinkMembers struct {
+	tdCommon
+	TotalCount int32                  `json:"total_count"` // Approximate total count of chat members found
+	Members    []ChatInviteLinkMember `json:"members"`     // List of chat members, joined a chat by an invite link
+}
+
+// MessageType return the string telegram-type of ChatInviteLinkMembers
+func (chatInviteLinkMembers *ChatInviteLinkMembers) MessageType() string {
+	return "chatInviteLinkMembers"
+}
+
+// NewChatInviteLinkMembers creates a new ChatInviteLinkMembers
+//
+// @param totalCount Approximate total count of chat members found
+// @param members List of chat members, joined a chat by an invite link
+func NewChatInviteLinkMembers(totalCount int32, members []ChatInviteLinkMember) *ChatInviteLinkMembers {
+	chatInviteLinkMembersTemp := ChatInviteLinkMembers{
+		tdCommon:   tdCommon{Type: "chatInviteLinkMembers"},
+		TotalCount: totalCount,
+		Members:    members,
+	}
+
+	return &chatInviteLinkMembersTemp
+}
+
+// ChatInviteLinkInfo Contains information about a chat invite link
+type ChatInviteLinkInfo struct {
+	tdCommon
+	ChatID        int64          `json:"chat_id"`         // Chat identifier of the invite link; 0 if the user has no access to the chat before joining
+	AccessibleFor int32          `json:"accessible_for"`  // If non-zero, the amount of time for which read access to the chat will remain available, in seconds
+	Type          ChatType       `json:"type"`            // Contains information about the type of the chat
+	Title         string         `json:"title"`           // Title of the chat
+	Photo         *ChatPhotoInfo `json:"photo"`           // Chat photo; may be null
+	MemberCount   int32          `json:"member_count"`    // Number of members in the chat
+	MemberUserIDs []int32        `json:"member_user_ids"` // User identifiers of some chat members that may be known to the current user
+	IsPublic      bool           `json:"is_public"`       // True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
+}
+
+// MessageType return the string telegram-type of ChatInviteLinkInfo
+func (chatInviteLinkInfo *ChatInviteLinkInfo) MessageType() string {
+	return "chatInviteLinkInfo"
+}
+
+// NewChatInviteLinkInfo creates a new ChatInviteLinkInfo
+//
+// @param chatID Chat identifier of the invite link; 0 if the user has no access to the chat before joining
+// @param accessibleFor If non-zero, the amount of time for which read access to the chat will remain available, in seconds
+// @param typeParam Contains information about the type of the chat
+// @param title Title of the chat
+// @param photo Chat photo; may be null
+// @param memberCount Number of members in the chat
+// @param memberUserIDs User identifiers of some chat members that may be known to the current user
+// @param isPublic True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
+func NewChatInviteLinkInfo(chatID int64, accessibleFor int32, typeParam ChatType, title string, photo *ChatPhotoInfo, memberCount int32, memberUserIDs []int32, isPublic bool) *ChatInviteLinkInfo {
+	chatInviteLinkInfoTemp := ChatInviteLinkInfo{
+		tdCommon:      tdCommon{Type: "chatInviteLinkInfo"},
+		ChatID:        chatID,
+		AccessibleFor: accessibleFor,
+		Type:          typeParam,
+		Title:         title,
+		Photo:         photo,
+		MemberCount:   memberCount,
+		MemberUserIDs: memberUserIDs,
+		IsPublic:      isPublic,
+	}
+
+	return &chatInviteLinkInfoTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (chatInviteLinkInfo *ChatInviteLinkInfo) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		ChatID        int64          `json:"chat_id"`         // Chat identifier of the invite link; 0 if the user has no access to the chat before joining
+		AccessibleFor int32          `json:"accessible_for"`  // If non-zero, the amount of time for which read access to the chat will remain available, in seconds
+		Title         string         `json:"title"`           // Title of the chat
+		Photo         *ChatPhotoInfo `json:"photo"`           // Chat photo; may be null
+		MemberCount   int32          `json:"member_count"`    // Number of members in the chat
+		MemberUserIDs []int32        `json:"member_user_ids"` // User identifiers of some chat members that may be known to the current user
+		IsPublic      bool           `json:"is_public"`       // True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	chatInviteLinkInfo.tdCommon = tempObj.tdCommon
+	chatInviteLinkInfo.ChatID = tempObj.ChatID
+	chatInviteLinkInfo.AccessibleFor = tempObj.AccessibleFor
+	chatInviteLinkInfo.Title = tempObj.Title
+	chatInviteLinkInfo.Photo = tempObj.Photo
+	chatInviteLinkInfo.MemberCount = tempObj.MemberCount
+	chatInviteLinkInfo.MemberUserIDs = tempObj.MemberUserIDs
+	chatInviteLinkInfo.IsPublic = tempObj.IsPublic
+
+	fieldType, _ := unmarshalChatType(objMap["type"])
+	chatInviteLinkInfo.Type = fieldType
+
+	return nil
+}
+
 // BasicGroup Represents a basic group of 0-200 users (must be upgraded to a supergroup to accommodate more than 200 users)
 type BasicGroup struct {
 	tdCommon
@@ -5364,11 +5597,11 @@ func (basicGroup *BasicGroup) UnmarshalJSON(b []byte) error {
 // BasicGroupFullInfo Contains full information about a basic group
 type BasicGroupFullInfo struct {
 	tdCommon
-	Photo         *ChatPhoto   `json:"photo"`           // Chat photo; may be null
-	Description   string       `json:"description"`     //
-	CreatorUserID int32        `json:"creator_user_id"` // User identifier of the creator of the group; 0 if unknown
-	Members       []ChatMember `json:"members"`         // Group members
-	InviteLink    string       `json:"invite_link"`     // Invite link for this group; available only after it has been generated at least once and only for the group creator
+	Photo         *ChatPhoto      `json:"photo"`           // Chat photo; may be null
+	Description   string          `json:"description"`     //
+	CreatorUserID int32           `json:"creator_user_id"` // User identifier of the creator of the group; 0 if unknown
+	Members       []ChatMember    `json:"members"`         // Group members
+	InviteLink    *ChatInviteLink `json:"invite_link"`     // Permanent invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
 }
 
 // MessageType return the string telegram-type of BasicGroupFullInfo
@@ -5382,8 +5615,8 @@ func (basicGroupFullInfo *BasicGroupFullInfo) MessageType() string {
 // @param description
 // @param creatorUserID User identifier of the creator of the group; 0 if unknown
 // @param members Group members
-// @param inviteLink Invite link for this group; available only after it has been generated at least once and only for the group creator
-func NewBasicGroupFullInfo(photo *ChatPhoto, description string, creatorUserID int32, members []ChatMember, inviteLink string) *BasicGroupFullInfo {
+// @param inviteLink Permanent invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
+func NewBasicGroupFullInfo(photo *ChatPhoto, description string, creatorUserID int32, members []ChatMember, inviteLink *ChatInviteLink) *BasicGroupFullInfo {
 	basicGroupFullInfoTemp := BasicGroupFullInfo{
 		tdCommon:      tdCommon{Type: "basicGroupFullInfo"},
 		Photo:         photo,
@@ -5411,7 +5644,8 @@ type Supergroup struct {
 	IsChannel         bool             `json:"is_channel"`           // True, if the supergroup is a channel
 	IsVerified        bool             `json:"is_verified"`          // True, if the supergroup or channel is verified
 	RestrictionReason string           `json:"restriction_reason"`   // If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
-	IsScam            bool             `json:"is_scam"`              // True, if many users reported this supergroup as a scam
+	IsScam            bool             `json:"is_scam"`              // True, if many users reported this supergroup or channel as a scam
+	IsFake            bool             `json:"is_fake"`              // True, if many users reported this supergroup or channel as a fake account
 }
 
 // MessageType return the string telegram-type of Supergroup
@@ -5433,8 +5667,9 @@ func (supergroup *Supergroup) MessageType() string {
 // @param isChannel True, if the supergroup is a channel
 // @param isVerified True, if the supergroup or channel is verified
 // @param restrictionReason If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
-// @param isScam True, if many users reported this supergroup as a scam
-func NewSupergroup(iD int32, username string, date int32, status ChatMemberStatus, memberCount int32, hasLinkedChat bool, hasLocation bool, signMessages bool, isSlowModeEnabled bool, isChannel bool, isVerified bool, restrictionReason string, isScam bool) *Supergroup {
+// @param isScam True, if many users reported this supergroup or channel as a scam
+// @param isFake True, if many users reported this supergroup or channel as a fake account
+func NewSupergroup(iD int32, username string, date int32, status ChatMemberStatus, memberCount int32, hasLinkedChat bool, hasLocation bool, signMessages bool, isSlowModeEnabled bool, isChannel bool, isVerified bool, restrictionReason string, isScam bool, isFake bool) *Supergroup {
 	supergroupTemp := Supergroup{
 		tdCommon:          tdCommon{Type: "supergroup"},
 		ID:                iD,
@@ -5450,6 +5685,7 @@ func NewSupergroup(iD int32, username string, date int32, status ChatMemberStatu
 		IsVerified:        isVerified,
 		RestrictionReason: restrictionReason,
 		IsScam:            isScam,
+		IsFake:            isFake,
 	}
 
 	return &supergroupTemp
@@ -5475,7 +5711,8 @@ func (supergroup *Supergroup) UnmarshalJSON(b []byte) error {
 		IsChannel         bool   `json:"is_channel"`           // True, if the supergroup is a channel
 		IsVerified        bool   `json:"is_verified"`          // True, if the supergroup or channel is verified
 		RestrictionReason string `json:"restriction_reason"`   // If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
-		IsScam            bool   `json:"is_scam"`              // True, if many users reported this supergroup as a scam
+		IsScam            bool   `json:"is_scam"`              // True, if many users reported this supergroup or channel as a scam
+		IsFake            bool   `json:"is_fake"`              // True, if many users reported this supergroup or channel as a fake account
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -5495,6 +5732,7 @@ func (supergroup *Supergroup) UnmarshalJSON(b []byte) error {
 	supergroup.IsVerified = tempObj.IsVerified
 	supergroup.RestrictionReason = tempObj.RestrictionReason
 	supergroup.IsScam = tempObj.IsScam
+	supergroup.IsFake = tempObj.IsFake
 
 	fieldStatus, _ := unmarshalChatMemberStatus(objMap["status"])
 	supergroup.Status = fieldStatus
@@ -5505,26 +5743,26 @@ func (supergroup *Supergroup) UnmarshalJSON(b []byte) error {
 // SupergroupFullInfo Contains full information about a supergroup or channel
 type SupergroupFullInfo struct {
 	tdCommon
-	Photo                    *ChatPhoto    `json:"photo"`                        // Chat photo; may be null
-	Description              string        `json:"description"`                  //
-	MemberCount              int32         `json:"member_count"`                 // Number of members in the supergroup or channel; 0 if unknown
-	AdministratorCount       int32         `json:"administrator_count"`          // Number of privileged users in the supergroup or channel; 0 if unknown
-	RestrictedCount          int32         `json:"restricted_count"`             // Number of restricted users in the supergroup; 0 if unknown
-	BannedCount              int32         `json:"banned_count"`                 // Number of users banned from chat; 0 if unknown
-	LinkedChatID             int64         `json:"linked_chat_id"`               // Chat identifier of a discussion group for the channel, or a channel, for which the supergroup is the designated discussion group; 0 if none or unknown
-	SlowModeDelay            int32         `json:"slow_mode_delay"`              // Delay between consecutive sent messages for non-administrator supergroup members, in seconds
-	SlowModeDelayExpiresIn   float64       `json:"slow_mode_delay_expires_in"`   // Time left before next message can be sent in the supergroup, in seconds. An updateSupergroupFullInfo update is not triggered when value of this field changes, but both new and old values are non-zero
-	CanGetMembers            bool          `json:"can_get_members"`              // True, if members of the chat can be retrieved
-	CanSetUsername           bool          `json:"can_set_username"`             // True, if the chat username can be changed
-	CanSetStickerSet         bool          `json:"can_set_sticker_set"`          // True, if the supergroup sticker set can be changed
-	CanSetLocation           bool          `json:"can_set_location"`             // True, if the supergroup location can be changed
-	CanGetStatistics         bool          `json:"can_get_statistics"`           // True, if the supergroup or channel statistics are available
-	IsAllHistoryAvailable    bool          `json:"is_all_history_available"`     // True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
-	StickerSetID             JSONInt64     `json:"sticker_set_id"`               // Identifier of the supergroup sticker set; 0 if none
-	Location                 *ChatLocation `json:"location"`                     // Location to which the supergroup is connected; may be null
-	InviteLink               string        `json:"invite_link"`                  // Invite link for this chat
-	UpgradedFromBasicGroupID int32         `json:"upgraded_from_basic_group_id"` // Identifier of the basic group from which supergroup was upgraded; 0 if none
-	UpgradedFromMaxMessageID int64         `json:"upgraded_from_max_message_id"` // Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
+	Photo                    *ChatPhoto      `json:"photo"`                        // Chat photo; may be null
+	Description              string          `json:"description"`                  //
+	MemberCount              int32           `json:"member_count"`                 // Number of members in the supergroup or channel; 0 if unknown
+	AdministratorCount       int32           `json:"administrator_count"`          // Number of privileged users in the supergroup or channel; 0 if unknown
+	RestrictedCount          int32           `json:"restricted_count"`             // Number of restricted users in the supergroup; 0 if unknown
+	BannedCount              int32           `json:"banned_count"`                 // Number of users banned from chat; 0 if unknown
+	LinkedChatID             int64           `json:"linked_chat_id"`               // Chat identifier of a discussion group for the channel, or a channel, for which the supergroup is the designated discussion group; 0 if none or unknown
+	SlowModeDelay            int32           `json:"slow_mode_delay"`              // Delay between consecutive sent messages for non-administrator supergroup members, in seconds
+	SlowModeDelayExpiresIn   float64         `json:"slow_mode_delay_expires_in"`   // Time left before next message can be sent in the supergroup, in seconds. An updateSupergroupFullInfo update is not triggered when value of this field changes, but both new and old values are non-zero
+	CanGetMembers            bool            `json:"can_get_members"`              // True, if members of the chat can be retrieved
+	CanSetUsername           bool            `json:"can_set_username"`             // True, if the chat username can be changed
+	CanSetStickerSet         bool            `json:"can_set_sticker_set"`          // True, if the supergroup sticker set can be changed
+	CanSetLocation           bool            `json:"can_set_location"`             // True, if the supergroup location can be changed
+	CanGetStatistics         bool            `json:"can_get_statistics"`           // True, if the supergroup or channel statistics are available
+	IsAllHistoryAvailable    bool            `json:"is_all_history_available"`     // True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
+	StickerSetID             JSONInt64       `json:"sticker_set_id"`               // Identifier of the supergroup sticker set; 0 if none
+	Location                 *ChatLocation   `json:"location"`                     // Location to which the supergroup is connected; may be null
+	InviteLink               *ChatInviteLink `json:"invite_link"`                  // Permanent invite link for this chat; may be null. For chat administrators with can_invite_users right only
+	UpgradedFromBasicGroupID int32           `json:"upgraded_from_basic_group_id"` // Identifier of the basic group from which supergroup was upgraded; 0 if none
+	UpgradedFromMaxMessageID int64           `json:"upgraded_from_max_message_id"` // Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
 }
 
 // MessageType return the string telegram-type of SupergroupFullInfo
@@ -5551,10 +5789,10 @@ func (supergroupFullInfo *SupergroupFullInfo) MessageType() string {
 // @param isAllHistoryAvailable True, if new chat members will have access to old messages. In public or discussion groups and both public and private channels, old messages are always available, so this option affects only private supergroups without a linked chat. The value of this field is only available for chat administrators
 // @param stickerSetID Identifier of the supergroup sticker set; 0 if none
 // @param location Location to which the supergroup is connected; may be null
-// @param inviteLink Invite link for this chat
+// @param inviteLink Permanent invite link for this chat; may be null. For chat administrators with can_invite_users right only
 // @param upgradedFromBasicGroupID Identifier of the basic group from which supergroup was upgraded; 0 if none
 // @param upgradedFromMaxMessageID Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
-func NewSupergroupFullInfo(photo *ChatPhoto, description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, linkedChatID int64, slowModeDelay int32, slowModeDelayExpiresIn float64, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, canSetLocation bool, canGetStatistics bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, location *ChatLocation, inviteLink string, upgradedFromBasicGroupID int32, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
+func NewSupergroupFullInfo(photo *ChatPhoto, description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, linkedChatID int64, slowModeDelay int32, slowModeDelayExpiresIn float64, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, canSetLocation bool, canGetStatistics bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, location *ChatLocation, inviteLink *ChatInviteLink, upgradedFromBasicGroupID int32, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
 	supergroupFullInfoTemp := SupergroupFullInfo{
 		tdCommon:                 tdCommon{Type: "supergroupFullInfo"},
 		Photo:                    photo,
@@ -5934,6 +6172,34 @@ func NewMessageForwardOriginChannel(chatID int64, messageID int64, authorSignatu
 // GetMessageForwardOriginEnum return the enum type of this object
 func (messageForwardOriginChannel *MessageForwardOriginChannel) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
 	return MessageForwardOriginChannelType
+}
+
+// MessageForwardOriginMessageImport The message was imported from an exported message history
+type MessageForwardOriginMessageImport struct {
+	tdCommon
+	SenderName string `json:"sender_name"` // Name of the sender
+}
+
+// MessageType return the string telegram-type of MessageForwardOriginMessageImport
+func (messageForwardOriginMessageImport *MessageForwardOriginMessageImport) MessageType() string {
+	return "messageForwardOriginMessageImport"
+}
+
+// NewMessageForwardOriginMessageImport creates a new MessageForwardOriginMessageImport
+//
+// @param senderName Name of the sender
+func NewMessageForwardOriginMessageImport(senderName string) *MessageForwardOriginMessageImport {
+	messageForwardOriginMessageImportTemp := MessageForwardOriginMessageImport{
+		tdCommon:   tdCommon{Type: "messageForwardOriginMessageImport"},
+		SenderName: senderName,
+	}
+
+	return &messageForwardOriginMessageImportTemp
+}
+
+// GetMessageForwardOriginEnum return the enum type of this object
+func (messageForwardOriginMessageImport *MessageForwardOriginMessageImport) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
+	return MessageForwardOriginMessageImportType
 }
 
 // MessageForwardInfo Contains information about a forwarded message
@@ -7316,110 +7582,6 @@ func NewChatsNearby(usersNearby []ChatNearby, supergroupsNearby []ChatNearby) *C
 	return &chatsNearbyTemp
 }
 
-// ChatInviteLink Contains a chat invite link
-type ChatInviteLink struct {
-	tdCommon
-	InviteLink string `json:"invite_link"` // Chat invite link
-}
-
-// MessageType return the string telegram-type of ChatInviteLink
-func (chatInviteLink *ChatInviteLink) MessageType() string {
-	return "chatInviteLink"
-}
-
-// NewChatInviteLink creates a new ChatInviteLink
-//
-// @param inviteLink Chat invite link
-func NewChatInviteLink(inviteLink string) *ChatInviteLink {
-	chatInviteLinkTemp := ChatInviteLink{
-		tdCommon:   tdCommon{Type: "chatInviteLink"},
-		InviteLink: inviteLink,
-	}
-
-	return &chatInviteLinkTemp
-}
-
-// ChatInviteLinkInfo Contains information about a chat invite link
-type ChatInviteLinkInfo struct {
-	tdCommon
-	ChatID        int64          `json:"chat_id"`         // Chat identifier of the invite link; 0 if the user has no access to the chat before joining
-	AccessibleFor int32          `json:"accessible_for"`  // If non-zero, the amount of time for which read access to the chat will remain available, in seconds
-	Type          ChatType       `json:"type"`            // Contains information about the type of the chat
-	Title         string         `json:"title"`           // Title of the chat
-	Photo         *ChatPhotoInfo `json:"photo"`           // Chat photo; may be null
-	MemberCount   int32          `json:"member_count"`    // Number of members in the chat
-	MemberUserIDs []int32        `json:"member_user_ids"` // User identifiers of some chat members that may be known to the current user
-	IsPublic      bool           `json:"is_public"`       // True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
-}
-
-// MessageType return the string telegram-type of ChatInviteLinkInfo
-func (chatInviteLinkInfo *ChatInviteLinkInfo) MessageType() string {
-	return "chatInviteLinkInfo"
-}
-
-// NewChatInviteLinkInfo creates a new ChatInviteLinkInfo
-//
-// @param chatID Chat identifier of the invite link; 0 if the user has no access to the chat before joining
-// @param accessibleFor If non-zero, the amount of time for which read access to the chat will remain available, in seconds
-// @param typeParam Contains information about the type of the chat
-// @param title Title of the chat
-// @param photo Chat photo; may be null
-// @param memberCount Number of members in the chat
-// @param memberUserIDs User identifiers of some chat members that may be known to the current user
-// @param isPublic True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
-func NewChatInviteLinkInfo(chatID int64, accessibleFor int32, typeParam ChatType, title string, photo *ChatPhotoInfo, memberCount int32, memberUserIDs []int32, isPublic bool) *ChatInviteLinkInfo {
-	chatInviteLinkInfoTemp := ChatInviteLinkInfo{
-		tdCommon:      tdCommon{Type: "chatInviteLinkInfo"},
-		ChatID:        chatID,
-		AccessibleFor: accessibleFor,
-		Type:          typeParam,
-		Title:         title,
-		Photo:         photo,
-		MemberCount:   memberCount,
-		MemberUserIDs: memberUserIDs,
-		IsPublic:      isPublic,
-	}
-
-	return &chatInviteLinkInfoTemp
-}
-
-// UnmarshalJSON unmarshal to json
-func (chatInviteLinkInfo *ChatInviteLinkInfo) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-	tempObj := struct {
-		tdCommon
-		ChatID        int64          `json:"chat_id"`         // Chat identifier of the invite link; 0 if the user has no access to the chat before joining
-		AccessibleFor int32          `json:"accessible_for"`  // If non-zero, the amount of time for which read access to the chat will remain available, in seconds
-		Title         string         `json:"title"`           // Title of the chat
-		Photo         *ChatPhotoInfo `json:"photo"`           // Chat photo; may be null
-		MemberCount   int32          `json:"member_count"`    // Number of members in the chat
-		MemberUserIDs []int32        `json:"member_user_ids"` // User identifiers of some chat members that may be known to the current user
-		IsPublic      bool           `json:"is_public"`       // True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
-	}{}
-	err = json.Unmarshal(b, &tempObj)
-	if err != nil {
-		return err
-	}
-
-	chatInviteLinkInfo.tdCommon = tempObj.tdCommon
-	chatInviteLinkInfo.ChatID = tempObj.ChatID
-	chatInviteLinkInfo.AccessibleFor = tempObj.AccessibleFor
-	chatInviteLinkInfo.Title = tempObj.Title
-	chatInviteLinkInfo.Photo = tempObj.Photo
-	chatInviteLinkInfo.MemberCount = tempObj.MemberCount
-	chatInviteLinkInfo.MemberUserIDs = tempObj.MemberUserIDs
-	chatInviteLinkInfo.IsPublic = tempObj.IsPublic
-
-	fieldType, _ := unmarshalChatType(objMap["type"])
-	chatInviteLinkInfo.Type = fieldType
-
-	return nil
-}
-
 // PublicChatTypeHasUsername The chat is public, because it has username
 type PublicChatTypeHasUsername struct {
 	tdCommon
@@ -7521,6 +7683,31 @@ func NewChatActionBarReportUnrelatedLocation() *ChatActionBarReportUnrelatedLoca
 // GetChatActionBarEnum return the enum type of this object
 func (chatActionBarReportUnrelatedLocation *ChatActionBarReportUnrelatedLocation) GetChatActionBarEnum() ChatActionBarEnum {
 	return ChatActionBarReportUnrelatedLocationType
+}
+
+// ChatActionBarInviteMembers The chat is a recently created group chat, to which new members can be invited
+type ChatActionBarInviteMembers struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatActionBarInviteMembers
+func (chatActionBarInviteMembers *ChatActionBarInviteMembers) MessageType() string {
+	return "chatActionBarInviteMembers"
+}
+
+// NewChatActionBarInviteMembers creates a new ChatActionBarInviteMembers
+//
+func NewChatActionBarInviteMembers() *ChatActionBarInviteMembers {
+	chatActionBarInviteMembersTemp := ChatActionBarInviteMembers{
+		tdCommon: tdCommon{Type: "chatActionBarInviteMembers"},
+	}
+
+	return &chatActionBarInviteMembersTemp
+}
+
+// GetChatActionBarEnum return the enum type of this object
+func (chatActionBarInviteMembers *ChatActionBarInviteMembers) GetChatActionBarEnum() ChatActionBarEnum {
+	return ChatActionBarInviteMembersType
 }
 
 // ChatActionBarReportAddBlock The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method blockUser, or the other user can be added to the contact list using the method addContact
@@ -11208,34 +11395,6 @@ func (inputCredentialsNew *InputCredentialsNew) GetInputCredentialsEnum() InputC
 	return InputCredentialsNewType
 }
 
-// InputCredentialsAndroidPay Applies if a user enters new credentials using Android Pay
-type InputCredentialsAndroidPay struct {
-	tdCommon
-	Data string `json:"data"` // JSON-encoded data with the credential identifier
-}
-
-// MessageType return the string telegram-type of InputCredentialsAndroidPay
-func (inputCredentialsAndroidPay *InputCredentialsAndroidPay) MessageType() string {
-	return "inputCredentialsAndroidPay"
-}
-
-// NewInputCredentialsAndroidPay creates a new InputCredentialsAndroidPay
-//
-// @param data JSON-encoded data with the credential identifier
-func NewInputCredentialsAndroidPay(data string) *InputCredentialsAndroidPay {
-	inputCredentialsAndroidPayTemp := InputCredentialsAndroidPay{
-		tdCommon: tdCommon{Type: "inputCredentialsAndroidPay"},
-		Data:     data,
-	}
-
-	return &inputCredentialsAndroidPayTemp
-}
-
-// GetInputCredentialsEnum return the enum type of this object
-func (inputCredentialsAndroidPay *InputCredentialsAndroidPay) GetInputCredentialsEnum() InputCredentialsEnum {
-	return InputCredentialsAndroidPayType
-}
-
 // InputCredentialsApplePay Applies if a user enters new credentials using Apple Pay
 type InputCredentialsApplePay struct {
 	tdCommon
@@ -11262,6 +11421,34 @@ func NewInputCredentialsApplePay(data string) *InputCredentialsApplePay {
 // GetInputCredentialsEnum return the enum type of this object
 func (inputCredentialsApplePay *InputCredentialsApplePay) GetInputCredentialsEnum() InputCredentialsEnum {
 	return InputCredentialsApplePayType
+}
+
+// InputCredentialsGooglePay Applies if a user enters new credentials using Google Pay
+type InputCredentialsGooglePay struct {
+	tdCommon
+	Data string `json:"data"` // JSON-encoded data with the credential identifier
+}
+
+// MessageType return the string telegram-type of InputCredentialsGooglePay
+func (inputCredentialsGooglePay *InputCredentialsGooglePay) MessageType() string {
+	return "inputCredentialsGooglePay"
+}
+
+// NewInputCredentialsGooglePay creates a new InputCredentialsGooglePay
+//
+// @param data JSON-encoded data with the credential identifier
+func NewInputCredentialsGooglePay(data string) *InputCredentialsGooglePay {
+	inputCredentialsGooglePayTemp := InputCredentialsGooglePay{
+		tdCommon: tdCommon{Type: "inputCredentialsGooglePay"},
+		Data:     data,
+	}
+
+	return &inputCredentialsGooglePayTemp
+}
+
+// GetInputCredentialsEnum return the enum type of this object
+func (inputCredentialsGooglePay *InputCredentialsGooglePay) GetInputCredentialsEnum() InputCredentialsEnum {
+	return InputCredentialsGooglePayType
 }
 
 // PaymentsProviderStripe Stripe payment provider
@@ -11781,9 +11968,9 @@ func (passportElementTypeEmailAddress *PassportElementTypeEmailAddress) GetPassp
 // Date Represents a date according to the Gregorian calendar
 type Date struct {
 	tdCommon
-	Day   int32 `json:"day"`   // Day of the month, 1-31
-	Month int32 `json:"month"` // Month, 1-12
-	Year  int32 `json:"year"`  // Year, 1-9999
+	Day   int32 `json:"day"`   // Day of the month; 1-31
+	Month int32 `json:"month"` // Month; 1-12
+	Year  int32 `json:"year"`  // Year; 1-9999
 }
 
 // MessageType return the string telegram-type of Date
@@ -11793,9 +11980,9 @@ func (date *Date) MessageType() string {
 
 // NewDate creates a new Date
 //
-// @param day Day of the month, 1-31
-// @param month Month, 1-12
-// @param year Year, 1-9999
+// @param day Day of the month; 1-31
+// @param month Month; 1-12
+// @param year Year; 1-9999
 func NewDate(day int32, month int32, year int32) *Date {
 	dateTemp := Date{
 		tdCommon: tdCommon{Type: "date"},
@@ -16577,7 +16764,7 @@ func (inputMessageInvoice *InputMessageInvoice) GetInputMessageContentEnum() Inp
 // InputMessagePoll A message with a poll. Polls can't be sent to secret chats. Polls can be sent only to a private chat with a bot
 type InputMessagePoll struct {
 	tdCommon
-	Question    string   `json:"question"`     // Poll question, 1-255 characters (up to 300 characters for bots)
+	Question    string   `json:"question"`     // Poll question; 1-255 characters (up to 300 characters for bots)
 	Options     []string `json:"options"`      // List of poll answer options, 2-10 strings 1-100 characters each
 	IsAnonymous bool     `json:"is_anonymous"` // True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
 	Type        PollType `json:"type"`         // Type of the poll
@@ -16593,7 +16780,7 @@ func (inputMessagePoll *InputMessagePoll) MessageType() string {
 
 // NewInputMessagePoll creates a new InputMessagePoll
 //
-// @param question Poll question, 1-255 characters (up to 300 characters for bots)
+// @param question Poll question; 1-255 characters (up to 300 characters for bots)
 // @param options List of poll answer options, 2-10 strings 1-100 characters each
 // @param isAnonymous True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
 // @param typeParam Type of the poll
@@ -16624,7 +16811,7 @@ func (inputMessagePoll *InputMessagePoll) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		Question    string   `json:"question"`     // Poll question, 1-255 characters (up to 300 characters for bots)
+		Question    string   `json:"question"`     // Poll question; 1-255 characters (up to 300 characters for bots)
 		Options     []string `json:"options"`      // List of poll answer options, 2-10 strings 1-100 characters each
 		IsAnonymous bool     `json:"is_anonymous"` // True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
 		OpenPeriod  int32    `json:"open_period"`  // Amount of time the poll will be active after creation, in seconds; for bots only
@@ -18408,18 +18595,18 @@ func NewGroupCallRecentSpeaker(userID int32, isSpeaking bool) *GroupCallRecentSp
 // GroupCall Describes a group call
 type GroupCall struct {
 	tdCommon
-	ID                               int32                    `json:"id"`                                   // Group call identifier
-	IsActive                         bool                     `json:"is_active"`                            // True, if the call is active
-	IsJoined                         bool                     `json:"is_joined"`                            // True, if the call is joined
-	NeedRejoin                       bool                     `json:"need_rejoin"`                          // True, if user was kicked from the call because of network loss and the call needs to be rejoined
-	CanUnmuteSelf                    bool                     `json:"can_unmute_self"`                      // True, if the current user can unmute themself
-	CanBeManaged                     bool                     `json:"can_be_managed"`                       // True, if the current user can manage the group call
-	ParticipantCount                 int32                    `json:"participant_count"`                    // Number of participants in the group call
-	LoadedAllParticipants            bool                     `json:"loaded_all_participants"`              // True, if all group call participants are loaded
-	RecentSpeakers                   []GroupCallRecentSpeaker `json:"recent_speakers"`                      // Recently speaking users in the group call
-	MuteNewParticipants              bool                     `json:"mute_new_participants"`                // True, if only group call administrators can unmute new participants
-	AllowedChangeMuteNewParticipants bool                     `json:"allowed_change_mute_new_participants"` // True, if group call administrators can enable or disable mute_new_participants setting
-	Duration                         int32                    `json:"duration"`                             // Call duration; for ended calls only
+	ID                           int32                    `json:"id"`                               // Group call identifier
+	IsActive                     bool                     `json:"is_active"`                        // True, if the call is active
+	IsJoined                     bool                     `json:"is_joined"`                        // True, if the call is joined
+	NeedRejoin                   bool                     `json:"need_rejoin"`                      // True, if user was kicked from the call because of network loss and the call needs to be rejoined
+	CanUnmuteSelf                bool                     `json:"can_unmute_self"`                  // True, if the current user can unmute themself
+	CanBeManaged                 bool                     `json:"can_be_managed"`                   // True, if the current user can manage the group call
+	ParticipantCount             int32                    `json:"participant_count"`                // Number of participants in the group call
+	LoadedAllParticipants        bool                     `json:"loaded_all_participants"`          // True, if all group call participants are loaded
+	RecentSpeakers               []GroupCallRecentSpeaker `json:"recent_speakers"`                  // Recently speaking users in the group call
+	MuteNewParticipants          bool                     `json:"mute_new_participants"`            // True, if only group call administrators can unmute new participants
+	CanChangeMuteNewParticipants bool                     `json:"can_change_mute_new_participants"` // True, if the current user can enable or disable mute_new_participants setting
+	Duration                     int32                    `json:"duration"`                         // Call duration; for ended calls only
 }
 
 // MessageType return the string telegram-type of GroupCall
@@ -18439,23 +18626,23 @@ func (groupCall *GroupCall) MessageType() string {
 // @param loadedAllParticipants True, if all group call participants are loaded
 // @param recentSpeakers Recently speaking users in the group call
 // @param muteNewParticipants True, if only group call administrators can unmute new participants
-// @param allowedChangeMuteNewParticipants True, if group call administrators can enable or disable mute_new_participants setting
+// @param canChangeMuteNewParticipants True, if the current user can enable or disable mute_new_participants setting
 // @param duration Call duration; for ended calls only
-func NewGroupCall(iD int32, isActive bool, isJoined bool, needRejoin bool, canUnmuteSelf bool, canBeManaged bool, participantCount int32, loadedAllParticipants bool, recentSpeakers []GroupCallRecentSpeaker, muteNewParticipants bool, allowedChangeMuteNewParticipants bool, duration int32) *GroupCall {
+func NewGroupCall(iD int32, isActive bool, isJoined bool, needRejoin bool, canUnmuteSelf bool, canBeManaged bool, participantCount int32, loadedAllParticipants bool, recentSpeakers []GroupCallRecentSpeaker, muteNewParticipants bool, canChangeMuteNewParticipants bool, duration int32) *GroupCall {
 	groupCallTemp := GroupCall{
-		tdCommon:                         tdCommon{Type: "groupCall"},
-		ID:                               iD,
-		IsActive:                         isActive,
-		IsJoined:                         isJoined,
-		NeedRejoin:                       needRejoin,
-		CanUnmuteSelf:                    canUnmuteSelf,
-		CanBeManaged:                     canBeManaged,
-		ParticipantCount:                 participantCount,
-		LoadedAllParticipants:            loadedAllParticipants,
-		RecentSpeakers:                   recentSpeakers,
-		MuteNewParticipants:              muteNewParticipants,
-		AllowedChangeMuteNewParticipants: allowedChangeMuteNewParticipants,
-		Duration:                         duration,
+		tdCommon:                     tdCommon{Type: "groupCall"},
+		ID:                           iD,
+		IsActive:                     isActive,
+		IsJoined:                     isJoined,
+		NeedRejoin:                   needRejoin,
+		CanUnmuteSelf:                canUnmuteSelf,
+		CanBeManaged:                 canBeManaged,
+		ParticipantCount:             participantCount,
+		LoadedAllParticipants:        loadedAllParticipants,
+		RecentSpeakers:               recentSpeakers,
+		MuteNewParticipants:          muteNewParticipants,
+		CanChangeMuteNewParticipants: canChangeMuteNewParticipants,
+		Duration:                     duration,
 	}
 
 	return &groupCallTemp
@@ -18607,14 +18794,18 @@ func NewGroupCallJoinResponse(payload *GroupCallPayload, candidates []GroupCallJ
 // GroupCallParticipant Represents a group call participant
 type GroupCallParticipant struct {
 	tdCommon
-	UserID        int32     `json:"user_id"`         // Identifier of the user
-	Source        int32     `json:"source"`          // User's synchronization source
-	IsSpeaking    bool      `json:"is_speaking"`     // True, if the participant is speaking as set by setGroupCallParticipantIsSpeaking
-	CanBeMuted    bool      `json:"can_be_muted"`    // True, if the current user can mute the participant
-	CanBeUnmuted  bool      `json:"can_be_unmuted"`  // True, if the current user can allow the participant to unmute themself or unmute the participant (only for self)
-	IsMuted       bool      `json:"is_muted"`        // True, if the participant is muted
-	CanUnmuteSelf bool      `json:"can_unmute_self"` // True, if the participant can unmute themself
-	Order         JSONInt64 `json:"order"`           // User's order in the group call participant list. The bigger is order, the higher is user in the list. If order is 0, the user must be removed from the participant list
+	UserID                     int32     `json:"user_id"`                         // Identifier of the user
+	Source                     int32     `json:"source"`                          // User's synchronization source
+	IsSpeaking                 bool      `json:"is_speaking"`                     // True, if the participant is speaking as set by setGroupCallParticipantIsSpeaking
+	CanBeMutedForAllUsers      bool      `json:"can_be_muted_for_all_users"`      // True, if the current user can mute the participant for all other group call participants
+	CanBeUnmutedForAllUsers    bool      `json:"can_be_unmuted_for_all_users"`    // True, if the current user can allow the participant to unmute themself or unmute the participant (if the participant is the current user)
+	CanBeMutedForCurrentUser   bool      `json:"can_be_muted_for_current_user"`   // True, if the current user can mute the participant only for self
+	CanBeUnmutedForCurrentUser bool      `json:"can_be_unmuted_for_current_user"` // True, if the current user can unmute the participant for self
+	IsMutedForAllUsers         bool      `json:"is_muted_for_all_users"`          // True, if the participant is muted for all users
+	IsMutedForCurrentUser      bool      `json:"is_muted_for_current_user"`       // True, if the participant is muted for the current user
+	CanUnmuteSelf              bool      `json:"can_unmute_self"`                 // True, if the participant is muted for all users, but can unmute themself
+	VolumeLevel                int32     `json:"volume_level"`                    // Participant's volume level; 1-20000 in hundreds of percents
+	Order                      JSONInt64 `json:"order"`                           // User's order in the group call participant list. The bigger is order, the higher is user in the list. If order is 0, the user must be removed from the participant list
 }
 
 // MessageType return the string telegram-type of GroupCallParticipant
@@ -18627,22 +18818,30 @@ func (groupCallParticipant *GroupCallParticipant) MessageType() string {
 // @param userID Identifier of the user
 // @param source User's synchronization source
 // @param isSpeaking True, if the participant is speaking as set by setGroupCallParticipantIsSpeaking
-// @param canBeMuted True, if the current user can mute the participant
-// @param canBeUnmuted True, if the current user can allow the participant to unmute themself or unmute the participant (only for self)
-// @param isMuted True, if the participant is muted
-// @param canUnmuteSelf True, if the participant can unmute themself
+// @param canBeMutedForAllUsers True, if the current user can mute the participant for all other group call participants
+// @param canBeUnmutedForAllUsers True, if the current user can allow the participant to unmute themself or unmute the participant (if the participant is the current user)
+// @param canBeMutedForCurrentUser True, if the current user can mute the participant only for self
+// @param canBeUnmutedForCurrentUser True, if the current user can unmute the participant for self
+// @param isMutedForAllUsers True, if the participant is muted for all users
+// @param isMutedForCurrentUser True, if the participant is muted for the current user
+// @param canUnmuteSelf True, if the participant is muted for all users, but can unmute themself
+// @param volumeLevel Participant's volume level; 1-20000 in hundreds of percents
 // @param order User's order in the group call participant list. The bigger is order, the higher is user in the list. If order is 0, the user must be removed from the participant list
-func NewGroupCallParticipant(userID int32, source int32, isSpeaking bool, canBeMuted bool, canBeUnmuted bool, isMuted bool, canUnmuteSelf bool, order JSONInt64) *GroupCallParticipant {
+func NewGroupCallParticipant(userID int32, source int32, isSpeaking bool, canBeMutedForAllUsers bool, canBeUnmutedForAllUsers bool, canBeMutedForCurrentUser bool, canBeUnmutedForCurrentUser bool, isMutedForAllUsers bool, isMutedForCurrentUser bool, canUnmuteSelf bool, volumeLevel int32, order JSONInt64) *GroupCallParticipant {
 	groupCallParticipantTemp := GroupCallParticipant{
-		tdCommon:      tdCommon{Type: "groupCallParticipant"},
-		UserID:        userID,
-		Source:        source,
-		IsSpeaking:    isSpeaking,
-		CanBeMuted:    canBeMuted,
-		CanBeUnmuted:  canBeUnmuted,
-		IsMuted:       isMuted,
-		CanUnmuteSelf: canUnmuteSelf,
-		Order:         order,
+		tdCommon:                   tdCommon{Type: "groupCallParticipant"},
+		UserID:                     userID,
+		Source:                     source,
+		IsSpeaking:                 isSpeaking,
+		CanBeMutedForAllUsers:      canBeMutedForAllUsers,
+		CanBeUnmutedForAllUsers:    canBeUnmutedForAllUsers,
+		CanBeMutedForCurrentUser:   canBeMutedForCurrentUser,
+		CanBeUnmutedForCurrentUser: canBeUnmutedForCurrentUser,
+		IsMutedForAllUsers:         isMutedForAllUsers,
+		IsMutedForCurrentUser:      isMutedForCurrentUser,
+		CanUnmuteSelf:              canUnmuteSelf,
+		VolumeLevel:                volumeLevel,
+		Order:                      order,
 	}
 
 	return &groupCallParticipantTemp
@@ -22506,7 +22705,7 @@ func (backgroundTypeWallpaper *BackgroundTypeWallpaper) GetBackgroundTypeEnum() 
 type BackgroundTypePattern struct {
 	tdCommon
 	Fill      BackgroundFill `json:"fill"`      // Description of the background fill
-	Intensity int32          `json:"intensity"` // Intensity of the pattern when it is shown above the filled background, 0-100
+	Intensity int32          `json:"intensity"` // Intensity of the pattern when it is shown above the filled background; 0-100
 	IsMoving  bool           `json:"is_moving"` // True, if the background needs to be slightly moved when device is tilted
 }
 
@@ -22518,7 +22717,7 @@ func (backgroundTypePattern *BackgroundTypePattern) MessageType() string {
 // NewBackgroundTypePattern creates a new BackgroundTypePattern
 //
 // @param fill Description of the background fill
-// @param intensity Intensity of the pattern when it is shown above the filled background, 0-100
+// @param intensity Intensity of the pattern when it is shown above the filled background; 0-100
 // @param isMoving True, if the background needs to be slightly moved when device is tilted
 func NewBackgroundTypePattern(fill BackgroundFill, intensity int32, isMoving bool) *BackgroundTypePattern {
 	backgroundTypePatternTemp := BackgroundTypePattern{
@@ -22540,7 +22739,7 @@ func (backgroundTypePattern *BackgroundTypePattern) UnmarshalJSON(b []byte) erro
 	}
 	tempObj := struct {
 		tdCommon
-		Intensity int32 `json:"intensity"` // Intensity of the pattern when it is shown above the filled background, 0-100
+		Intensity int32 `json:"intensity"` // Intensity of the pattern when it is shown above the filled background; 0-100
 		IsMoving  bool  `json:"is_moving"` // True, if the background needs to be slightly moved when device is tilted
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -23040,6 +23239,87 @@ func NewCheckChatUsernameResultPublicGroupsUnavailable() *CheckChatUsernameResul
 // GetCheckChatUsernameResultEnum return the enum type of this object
 func (checkChatUsernameResultPublicGroupsUnavailable *CheckChatUsernameResultPublicGroupsUnavailable) GetCheckChatUsernameResultEnum() CheckChatUsernameResultEnum {
 	return CheckChatUsernameResultPublicGroupsUnavailableType
+}
+
+// MessageFileTypePrivate The messages was exported from a private chat
+type MessageFileTypePrivate struct {
+	tdCommon
+	Name string `json:"name"` // Name of the other party; may be empty if unrecognized
+}
+
+// MessageType return the string telegram-type of MessageFileTypePrivate
+func (messageFileTypePrivate *MessageFileTypePrivate) MessageType() string {
+	return "messageFileTypePrivate"
+}
+
+// NewMessageFileTypePrivate creates a new MessageFileTypePrivate
+//
+// @param name Name of the other party; may be empty if unrecognized
+func NewMessageFileTypePrivate(name string) *MessageFileTypePrivate {
+	messageFileTypePrivateTemp := MessageFileTypePrivate{
+		tdCommon: tdCommon{Type: "messageFileTypePrivate"},
+		Name:     name,
+	}
+
+	return &messageFileTypePrivateTemp
+}
+
+// GetMessageFileTypeEnum return the enum type of this object
+func (messageFileTypePrivate *MessageFileTypePrivate) GetMessageFileTypeEnum() MessageFileTypeEnum {
+	return MessageFileTypePrivateType
+}
+
+// MessageFileTypeGroup The messages was exported from a group chat
+type MessageFileTypeGroup struct {
+	tdCommon
+	Title string `json:"title"` // Title of the group chat; may be empty if unrecognized
+}
+
+// MessageType return the string telegram-type of MessageFileTypeGroup
+func (messageFileTypeGroup *MessageFileTypeGroup) MessageType() string {
+	return "messageFileTypeGroup"
+}
+
+// NewMessageFileTypeGroup creates a new MessageFileTypeGroup
+//
+// @param title Title of the group chat; may be empty if unrecognized
+func NewMessageFileTypeGroup(title string) *MessageFileTypeGroup {
+	messageFileTypeGroupTemp := MessageFileTypeGroup{
+		tdCommon: tdCommon{Type: "messageFileTypeGroup"},
+		Title:    title,
+	}
+
+	return &messageFileTypeGroupTemp
+}
+
+// GetMessageFileTypeEnum return the enum type of this object
+func (messageFileTypeGroup *MessageFileTypeGroup) GetMessageFileTypeEnum() MessageFileTypeEnum {
+	return MessageFileTypeGroupType
+}
+
+// MessageFileTypeUnknown The messages was exported from a chat of unknown type
+type MessageFileTypeUnknown struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of MessageFileTypeUnknown
+func (messageFileTypeUnknown *MessageFileTypeUnknown) MessageType() string {
+	return "messageFileTypeUnknown"
+}
+
+// NewMessageFileTypeUnknown creates a new MessageFileTypeUnknown
+//
+func NewMessageFileTypeUnknown() *MessageFileTypeUnknown {
+	messageFileTypeUnknownTemp := MessageFileTypeUnknown{
+		tdCommon: tdCommon{Type: "messageFileTypeUnknown"},
+	}
+
+	return &messageFileTypeUnknownTemp
+}
+
+// GetMessageFileTypeEnum return the enum type of this object
+func (messageFileTypeUnknown *MessageFileTypeUnknown) GetMessageFileTypeEnum() MessageFileTypeEnum {
+	return MessageFileTypeUnknownType
 }
 
 // PushMessageContentHidden A general message with hidden content
@@ -25322,6 +25602,31 @@ func (chatReportReasonUnrelatedLocation *ChatReportReasonUnrelatedLocation) GetC
 	return ChatReportReasonUnrelatedLocationType
 }
 
+// ChatReportReasonFake The chat represents a fake account
+type ChatReportReasonFake struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatReportReasonFake
+func (chatReportReasonFake *ChatReportReasonFake) MessageType() string {
+	return "chatReportReasonFake"
+}
+
+// NewChatReportReasonFake creates a new ChatReportReasonFake
+//
+func NewChatReportReasonFake() *ChatReportReasonFake {
+	chatReportReasonFakeTemp := ChatReportReasonFake{
+		tdCommon: tdCommon{Type: "chatReportReasonFake"},
+	}
+
+	return &chatReportReasonFakeTemp
+}
+
+// GetChatReportReasonEnum return the enum type of this object
+func (chatReportReasonFake *ChatReportReasonFake) GetChatReportReasonEnum() ChatReportReasonEnum {
+	return ChatReportReasonFakeType
+}
+
 // ChatReportReasonCustom A custom reason provided by the user
 type ChatReportReasonCustom struct {
 	tdCommon
@@ -26901,6 +27206,31 @@ func NewSuggestedActionCheckPhoneNumber() *SuggestedActionCheckPhoneNumber {
 // GetSuggestedActionEnum return the enum type of this object
 func (suggestedActionCheckPhoneNumber *SuggestedActionCheckPhoneNumber) GetSuggestedActionEnum() SuggestedActionEnum {
 	return SuggestedActionCheckPhoneNumberType
+}
+
+// SuggestedActionSeeTicksHint Suggests the user to see a hint about meaning of one and two ticks on sent message
+type SuggestedActionSeeTicksHint struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of SuggestedActionSeeTicksHint
+func (suggestedActionSeeTicksHint *SuggestedActionSeeTicksHint) MessageType() string {
+	return "suggestedActionSeeTicksHint"
+}
+
+// NewSuggestedActionSeeTicksHint creates a new SuggestedActionSeeTicksHint
+//
+func NewSuggestedActionSeeTicksHint() *SuggestedActionSeeTicksHint {
+	suggestedActionSeeTicksHintTemp := SuggestedActionSeeTicksHint{
+		tdCommon: tdCommon{Type: "suggestedActionSeeTicksHint"},
+	}
+
+	return &suggestedActionSeeTicksHintTemp
+}
+
+// GetSuggestedActionEnum return the enum type of this object
+func (suggestedActionSeeTicksHint *SuggestedActionSeeTicksHint) GetSuggestedActionEnum() SuggestedActionEnum {
+	return SuggestedActionSeeTicksHintType
 }
 
 // Count Contains a counter
@@ -32047,6 +32377,11 @@ func unmarshalMessageForwardOrigin(rawMsg *json.RawMessage) (MessageForwardOrigi
 		err := json.Unmarshal(*rawMsg, &messageForwardOriginChannel)
 		return &messageForwardOriginChannel, err
 
+	case MessageForwardOriginMessageImportType:
+		var messageForwardOriginMessageImport MessageForwardOriginMessageImport
+		err := json.Unmarshal(*rawMsg, &messageForwardOriginMessageImport)
+		return &messageForwardOriginMessageImport, err
+
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
 	}
@@ -32255,6 +32590,11 @@ func unmarshalChatActionBar(rawMsg *json.RawMessage) (ChatActionBar, error) {
 		var chatActionBarReportUnrelatedLocation ChatActionBarReportUnrelatedLocation
 		err := json.Unmarshal(*rawMsg, &chatActionBarReportUnrelatedLocation)
 		return &chatActionBarReportUnrelatedLocation, err
+
+	case ChatActionBarInviteMembersType:
+		var chatActionBarInviteMembers ChatActionBarInviteMembers
+		err := json.Unmarshal(*rawMsg, &chatActionBarInviteMembers)
+		return &chatActionBarInviteMembers, err
 
 	case ChatActionBarReportAddBlockType:
 		var chatActionBarReportAddBlock ChatActionBarReportAddBlock
@@ -32779,15 +33119,15 @@ func unmarshalInputCredentials(rawMsg *json.RawMessage) (InputCredentials, error
 		err := json.Unmarshal(*rawMsg, &inputCredentialsNew)
 		return &inputCredentialsNew, err
 
-	case InputCredentialsAndroidPayType:
-		var inputCredentialsAndroidPay InputCredentialsAndroidPay
-		err := json.Unmarshal(*rawMsg, &inputCredentialsAndroidPay)
-		return &inputCredentialsAndroidPay, err
-
 	case InputCredentialsApplePayType:
 		var inputCredentialsApplePay InputCredentialsApplePay
 		err := json.Unmarshal(*rawMsg, &inputCredentialsApplePay)
 		return &inputCredentialsApplePay, err
+
+	case InputCredentialsGooglePayType:
+		var inputCredentialsGooglePay InputCredentialsGooglePay
+		err := json.Unmarshal(*rawMsg, &inputCredentialsGooglePay)
+		return &inputCredentialsGooglePay, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
@@ -34680,6 +35020,38 @@ func unmarshalCheckChatUsernameResult(rawMsg *json.RawMessage) (CheckChatUsernam
 	}
 }
 
+func unmarshalMessageFileType(rawMsg *json.RawMessage) (MessageFileType, error) {
+
+	if rawMsg == nil {
+		return nil, nil
+	}
+	var objMap map[string]interface{}
+	err := json.Unmarshal(*rawMsg, &objMap)
+	if err != nil {
+		return nil, err
+	}
+
+	switch MessageFileTypeEnum(objMap["@type"].(string)) {
+	case MessageFileTypePrivateType:
+		var messageFileTypePrivate MessageFileTypePrivate
+		err := json.Unmarshal(*rawMsg, &messageFileTypePrivate)
+		return &messageFileTypePrivate, err
+
+	case MessageFileTypeGroupType:
+		var messageFileTypeGroup MessageFileTypeGroup
+		err := json.Unmarshal(*rawMsg, &messageFileTypeGroup)
+		return &messageFileTypeGroup, err
+
+	case MessageFileTypeUnknownType:
+		var messageFileTypeUnknown MessageFileTypeUnknown
+		err := json.Unmarshal(*rawMsg, &messageFileTypeUnknown)
+		return &messageFileTypeUnknown, err
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
+	}
+}
+
 func unmarshalPushMessageContent(rawMsg *json.RawMessage) (PushMessageContent, error) {
 
 	if rawMsg == nil {
@@ -35141,6 +35513,11 @@ func unmarshalChatReportReason(rawMsg *json.RawMessage) (ChatReportReason, error
 		err := json.Unmarshal(*rawMsg, &chatReportReasonUnrelatedLocation)
 		return &chatReportReasonUnrelatedLocation, err
 
+	case ChatReportReasonFakeType:
+		var chatReportReasonFake ChatReportReasonFake
+		err := json.Unmarshal(*rawMsg, &chatReportReasonFake)
+		return &chatReportReasonFake, err
+
 	case ChatReportReasonCustomType:
 		var chatReportReasonCustom ChatReportReasonCustom
 		err := json.Unmarshal(*rawMsg, &chatReportReasonCustom)
@@ -35469,6 +35846,11 @@ func unmarshalSuggestedAction(rawMsg *json.RawMessage) (SuggestedAction, error) 
 		var suggestedActionCheckPhoneNumber SuggestedActionCheckPhoneNumber
 		err := json.Unmarshal(*rawMsg, &suggestedActionCheckPhoneNumber)
 		return &suggestedActionCheckPhoneNumber, err
+
+	case SuggestedActionSeeTicksHintType:
+		var suggestedActionSeeTicksHint SuggestedActionSeeTicksHint
+		err := json.Unmarshal(*rawMsg, &suggestedActionSeeTicksHint)
+		return &suggestedActionSeeTicksHint, err
 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
