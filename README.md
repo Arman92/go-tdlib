@@ -164,7 +164,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/KarimNahas"><img src="https://avatars3.githubusercontent.com/u/15736459?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Karim Nahas</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=KarimNahas" title="Code">💻</a> <a href="#maintenance-KarimNahas" title="Maintenance">🚧</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3AKarimNahas" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/wcsiu"><img src="https://avatars0.githubusercontent.com/u/5212960?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Wachiu Siu</b></sub></a><br /><a href="#example-wcsiu" title="Examples">💡</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Awcsiu" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/wcsiu"><img src="https://avatars0.githubusercontent.com/u/5212960?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Wachiu Siu</b></sub></a><br /><a href="#example-wcsiu" title="Examples">💡</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Awcsiu" title="Bug reports">🐛</a> <a href="https://github.com/Arman92/go-tdlib/commits?author=wcsiu" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/motylkov"><img src="https://avatars1.githubusercontent.com/u/1659182?v=4?s=100" width="100px;" alt=""/><br /><sub><b>motylkov</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=motylkov" title="Code">💻</a></td>
   </tr>
 </table>
