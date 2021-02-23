@@ -6316,6 +6316,32 @@ func (messageInteractionInfo *MessageInteractionInfo) MessageType() string {
 	return "messageInteractionInfo"
 }
 
+// UnmarshalJSON unmarshal to json
+func (messageReplyInfo *MessageReplyInfo) UnmarshalJSON(data []byte) error {
+	var tmp struct {
+		ReplyCount              int32             `json:"reply_count"`
+		RecentRepliers          []*json.RawMessage `json:"recent_repliers"`
+		LastReadInboxMessageId  int64             `json:"last_read_inbox_message_id"`
+		LastReadOutboxMessageId int64             `json:"last_read_outbox_message_id"`
+		LastMessageId           int64             `json:"last_message_id"`
+	}
+
+	err := json.Unmarshal(data, &tmp)
+	if err != nil {
+		return err
+	}
+
+	messageReplyInfo.ReplyCount = tmp.ReplyCount
+	messageReplyInfo.LastReadInboxMessageID = tmp.LastReadInboxMessageId
+	messageReplyInfo.LastReadOutboxMessageID = tmp.LastReadOutboxMessageId
+	messageReplyInfo.LastMessageID = tmp.LastMessageId
+
+	fieldRecentRepliers, _ := unmarshalListOfMessageSender(tmp.RecentRepliers)
+	messageReplyInfo.RecentRepliers = fieldRecentRepliers
+
+	return nil
+}
+
 // NewMessageInteractionInfo creates a new MessageInteractionInfo
 //
 // @param viewCount Number of times the message was viewed
@@ -32316,6 +32342,18 @@ func unmarshalSecretChatState(rawMsg *json.RawMessage) (SecretChatState, error) 
 	default:
 		return nil, fmt.Errorf("Error unmarshaling, unknown type:" + objMap["@type"].(string))
 	}
+}
+
+func unmarshalListOfMessageSender(rawMsgs []*json.RawMessage) ([]MessageSender, error) {
+	messageSenders := make([]MessageSender, len(rawMsgs))
+	var err error
+	for i, rawMsg := range rawMsgs {
+		messageSenders[i], err = unmarshalMessageSender(rawMsg)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return messageSenders, nil
 }
 
 func unmarshalMessageSender(rawMsg *json.RawMessage) (MessageSender, error) {
