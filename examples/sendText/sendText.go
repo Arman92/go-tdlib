@@ -47,7 +47,7 @@ func main() {
 		time.Sleep(300 * time.Millisecond)
 	}
 
-	// Send "/start" text every 5 seconds to Forsquare bot chat
+	// Send "/start" text every 5 seconds to Foursquare bot chat
 	go func() {
 		// Should get chatID somehow, check out "getChats" example
 		chatID := int64(198529620) // Foursquare bot chat id
