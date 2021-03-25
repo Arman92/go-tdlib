@@ -1,6 +1,6 @@
 # go-tdlib
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Golang Telegram TdLib JSON bindings
 
@@ -166,6 +166,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/wcsiu"><img src="https://avatars0.githubusercontent.com/u/5212960?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Wachiu Siu</b></sub></a><br /><a href="#example-wcsiu" title="Examples">💡</a> <a href="https://github.com/Arman92/go-tdlib/issues?q=author%3Awcsiu" title="Bug reports">🐛</a> <a href="https://github.com/Arman92/go-tdlib/commits?author=wcsiu" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/motylkov"><img src="https://avatars1.githubusercontent.com/u/1659182?v=4?s=100" width="100px;" alt=""/><br /><sub><b>motylkov</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/commits?author=motylkov" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Juliia-b"><img src="https://avatars.githubusercontent.com/u/55066322?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Juliia-b</b></sub></a><br /><a href="https://github.com/Arman92/go-tdlib/issues?q=author%3AJuliia-b" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
