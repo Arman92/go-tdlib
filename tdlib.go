@@ -49,7 +49,7 @@ type Client struct {
 	receivers    []EventReceiver
 	waiters      map[string]chan UpdateMsg
 	receiverLock *sync.Mutex
-	rwMutex      *sync.RWMutex
+	waitersLock  *sync.RWMutex
 }
 
 // Config holds tdlibParameters
@@ -82,7 +82,7 @@ func NewClient(config Config) *Client {
 	client := Client{Client: C.td_json_client_create()}
 	client.receivers = make([]EventReceiver, 0, 1)
 	client.receiverLock = &sync.Mutex{}
-	client.rwMutex = &sync.RWMutex{}
+	client.waitersLock = &sync.RWMutex{}
 	client.Config = config
 	client.waiters = make(map[string]chan UpdateMsg)
 
@@ -96,9 +96,9 @@ func NewClient(config Config) *Client {
 			// does new update has @extra field?
 			if extra, hasExtra := updateData["@extra"].(string); hasExtra {
 
-				client.rwMutex.RLock()
+				client.waitersLock.RLock()
 				waiter, found := client.waiters[extra]
-				client.rwMutex.RUnlock()
+				client.waitersLock.RUnlock()
 
 				// trying to load update with this salt
 				if found {
@@ -274,9 +274,9 @@ func (client *Client) SendAndCatch(jsonQuery interface{}) (UpdateMsg, error) {
 	// create waiter chan and save it in Waiters
 	waiter := make(chan UpdateMsg, 1)
 
-	client.rwMutex.Lock()
+	client.waitersLock.Lock()
 	client.waiters[randomString] = waiter
-	client.rwMutex.Unlock()
+	client.waitersLock.Unlock()
 
 	// send it through already implemented method
 	client.Send(update)
@@ -284,16 +284,16 @@ func (client *Client) SendAndCatch(jsonQuery interface{}) (UpdateMsg, error) {
 	select {
 	// wait response from main loop in NewClient()
 	case response := <-waiter:
-		client.rwMutex.Lock()
+		client.waitersLock.Lock()
 		delete(client.waiters, randomString)
-		client.rwMutex.Unlock()
+		client.waitersLock.Unlock()
 
 		return response, nil
 		// or timeout
 	case <-time.After(10 * time.Second):
-		client.rwMutex.Lock()
+		client.waitersLock.Lock()
 		delete(client.waiters, randomString)
-		client.rwMutex.Unlock()
+		client.waitersLock.Unlock()
 
 		return UpdateMsg{}, errors.New("timeout")
 	}
