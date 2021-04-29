@@ -576,7 +576,7 @@ const (
 	TextEntityTypeCodeType           TextEntityTypeEnum = "textEntityTypeCode"
 	TextEntityTypePreType            TextEntityTypeEnum = "textEntityTypePre"
 	TextEntityTypePreCodeType        TextEntityTypeEnum = "textEntityTypePreCode"
-	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextURL"
+	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextUrl"
 	TextEntityTypeMentionNameType    TextEntityTypeEnum = "textEntityTypeMentionName"
 )
 
@@ -33877,6 +33877,8 @@ func unmarshalTextEntityType(rawMsg *json.RawMessage) (TextEntityType, error) {
 	case TextEntityTypeTextURLType:
 		var textEntityTypeTextURL TextEntityTypeTextURL
 		err := json.Unmarshal(*rawMsg, &textEntityTypeTextURL)
+
+
 		return &textEntityTypeTextURL, err
 
 	case TextEntityTypeMentionNameType:
