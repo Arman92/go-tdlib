@@ -33795,6 +33795,9 @@ func unmarshalTextEntityType(rawMsg *json.RawMessage) (TextEntityType, error) {
 		return nil, err
 	}
 
+
+	fmt.Println("unmarshalTextEntityType: ", objMap["@type"].(string))
+
 	switch TextEntityTypeEnum(objMap["@type"].(string)) {
 	case TextEntityTypeMentionType:
 		var textEntityTypeMention TextEntityTypeMention

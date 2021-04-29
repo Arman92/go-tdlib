@@ -7,6 +7,7 @@
 /.vscode
 /.git_old
 
+/.idea
 
 # Binaries for programs and plugins
 *.exe
