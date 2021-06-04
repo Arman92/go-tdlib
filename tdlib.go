@@ -47,8 +47,9 @@ type Client struct {
 	Config       Config
 	rawUpdates   chan UpdateMsg
 	receivers    []EventReceiver
-	waiters      sync.Map
+	waiters      map[string]chan UpdateMsg
 	receiverLock *sync.Mutex
+	waitersLock  *sync.RWMutex
 }
 
 // Config holds tdlibParameters
@@ -81,7 +82,9 @@ func NewClient(config Config) *Client {
 	client := Client{Client: C.td_json_client_create()}
 	client.receivers = make([]EventReceiver, 0, 1)
 	client.receiverLock = &sync.Mutex{}
+	client.waitersLock = &sync.RWMutex{}
 	client.Config = config
+	client.waiters = make(map[string]chan UpdateMsg)
 
 	go func() {
 		for {
@@ -93,13 +96,17 @@ func NewClient(config Config) *Client {
 			// does new update has @extra field?
 			if extra, hasExtra := updateData["@extra"].(string); hasExtra {
 
+				client.waitersLock.RLock()
+				waiter, found := client.waiters[extra]
+				client.waitersLock.RUnlock()
+
 				// trying to load update with this salt
-				if waiter, found := client.waiters.Load(extra); found {
+				if found {
 					// found? send it to waiter channel
-					waiter.(chan UpdateMsg) <- UpdateMsg{Data: updateData, Raw: updateBytes}
+					waiter <- UpdateMsg{Data: updateData, Raw: updateBytes}
 
 					// trying to prevent memory leak
-					close(waiter.(chan UpdateMsg))
+					close(waiter)
 				}
 			} else {
 				// does new updates has @type field?
@@ -266,7 +273,10 @@ func (client *Client) SendAndCatch(jsonQuery interface{}) (UpdateMsg, error) {
 
 	// create waiter chan and save it in Waiters
 	waiter := make(chan UpdateMsg, 1)
-	client.waiters.Store(randomString, waiter)
+
+	client.waitersLock.Lock()
+	client.waiters[randomString] = waiter
+	client.waitersLock.Unlock()
 
 	// send it through already implemented method
 	client.Send(update)
@@ -274,10 +284,17 @@ func (client *Client) SendAndCatch(jsonQuery interface{}) (UpdateMsg, error) {
 	select {
 	// wait response from main loop in NewClient()
 	case response := <-waiter:
+		client.waitersLock.Lock()
+		delete(client.waiters, randomString)
+		client.waitersLock.Unlock()
+
 		return response, nil
 		// or timeout
 	case <-time.After(10 * time.Second):
-		client.waiters.Delete(randomString)
+		client.waitersLock.Lock()
+		delete(client.waiters, randomString)
+		client.waitersLock.Unlock()
+
 		return UpdateMsg{}, errors.New("timeout")
 	}
 }
@@ -329,7 +346,8 @@ func (client *Client) sendTdLibParams() {
 
 // SendPhoneNumber sends phone number to tdlib
 func (client *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, error) {
-	_, err := client.SetAuthenticationPhoneNumber(phoneNumber, false, false)
+	phoneNumberConfig := PhoneNumberAuthenticationSettings{AllowFlashCall: false, IsCurrentPhoneNumber: false, AllowSmsRetrieverAPI: false}
+	_, err := client.SetAuthenticationPhoneNumber(phoneNumber, &phoneNumberConfig)
 
 	if err != nil {
 		return nil, err
@@ -341,7 +359,7 @@ func (client *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, e
 
 // SendAuthCode sends auth code to tdlib
 func (client *Client) SendAuthCode(code string) (AuthorizationState, error) {
-	_, err := client.CheckAuthenticationCode(code, "", "")
+	_, err := client.CheckAuthenticationCode(code)
 
 	if err != nil {
 		return nil, err

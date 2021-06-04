@@ -47,13 +47,13 @@ func main() {
 		time.Sleep(300 * time.Millisecond)
 	}
 
-	// Send "/start" text every 5 seconds to Forsquare bot chat
+	// Send "/start" text every 5 seconds to Foursquare bot chat
 	go func() {
 		// Should get chatID somehow, check out "getChats" example
 		chatID := int64(198529620) // Foursquare bot chat id
 
 		inputMsgTxt := tdlib.NewInputMessageText(tdlib.NewFormattedText("/start", nil), true, true)
-		client.SendMessage(chatID, 0, false, true, nil, inputMsgTxt)
+		client.SendMessage(chatID, int64(0), int64(0), nil, nil, inputMsgTxt)
 
 		time.Sleep(5 * time.Second)
 	}()

@@ -1,0 +1,111 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "zelenin",
+      "name": "Aleksandr Zelenin",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1427885?v=4",
+      "profile": "https://github.com/zelenin",
+      "contributions": [
+        "example"
+      ]
+    },
+    {
+      "login": "for",
+      "name": "for",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7262123?v=4",
+      "profile": "https://github.com/for",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "ahmdrz",
+      "name": "Ahmadreza Zibaei",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/16955684?v=4",
+      "profile": "https://zibaei.net",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "aivel",
+      "name": "Max",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3083784?v=4",
+      "profile": "https://github.com/aivel",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rubenv",
+      "name": "Ruben Vermeersch",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/42904?v=4",
+      "profile": "https://rocketeer.be",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "alxshelepenok",
+      "name": "Alexander Shelepenok",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8599449?v=4",
+      "profile": "https://github.com/alxshelepenok",
+      "contributions": [
+        "code",
+        "maintenance",
+        "test"
+      ]
+    },
+    {
+      "login": "KarimNahas",
+      "name": "Karim Nahas",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15736459?v=4",
+      "profile": "https://github.com/KarimNahas",
+      "contributions": [
+        "code",
+        "maintenance",
+        "bug"
+      ]
+    },
+    {
+      "login": "wcsiu",
+      "name": "Wachiu Siu",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5212960?v=4",
+      "profile": "https://github.com/wcsiu",
+      "contributions": [
+        "example",
+        "bug",
+        "doc"
+      ]
+    },
+    {
+      "login": "motylkov",
+      "name": "motylkov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1659182?v=4",
+      "profile": "https://github.com/motylkov",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Juliia-b",
+      "name": "Juliia-b",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55066322?v=4",
+      "profile": "https://github.com/Juliia-b",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "go-tdlib",
+  "projectOwner": "Arman92",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
