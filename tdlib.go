@@ -3,8 +3,8 @@ package tdlib
 //#cgo linux CFLAGS: -I/usr/local/include
 //#cgo darwin CFLAGS: -I/usr/local/include
 //#cgo windows CFLAGS: -IC:/src/td -IC:/src/td/build
-//#cgo linux LDFLAGS: -L/usr/local/lib -ltdjson_static -ltdjson_private -ltdclient -ltdcore -ltdapi -ltdactor -ltddb -ltdsqlite -ltdnet -ltdutils -lstdc++ -lssl -lcrypto -ldl -lz -lm
-//#cgo darwin LDFLAGS: -L/usr/local/lib -L/usr/local/opt/openssl/lib -ltdjson_static -ltdjson_private -ltdclient -ltdcore -ltdapi -ltdactor -ltddb -ltdsqlite -ltdnet -ltdutils -lstdc++ -lssl -lcrypto -ldl -lz -lm
+//#cgo linux LDFLAGS: -L/usr/local/lib -ltdjson_static -ltdjson_private -ltdclient -ltdcore -ltdapi -ltdactor -ltddb -ltdsqlite -ltdnet -ltdutils -lc++ -lssl -lcrypto -ldl -lz -lm
+//#cgo darwin LDFLAGS: -L/usr/local/lib -L/usr/local/opt/openssl/lib -ltdjson_static -ltdjson_private -ltdclient -ltdcore -ltdapi -ltdactor -ltddb -ltdsqlite -ltdnet -ltdutils -lc++ -lssl -lcrypto -ldl -lz -lm
 //#cgo windows LDFLAGS: -LC:/src/td/build/Debug -ltdjson
 //#include <stdlib.h>
 //#include <td/telegram/td_json_client.h>
@@ -214,8 +214,8 @@ func SetFilePath(path string) {
 	bytes, _ := json.Marshal(UpdateData{
 		"@type": "setLogStream",
 		"log_stream": UpdateData{
-			"@type": "logStreamFile",
-			"path": path,
+			"@type":         "logStreamFile",
+			"path":          path,
 			"max_file_size": 10485760,
 		},
 	})
@@ -229,7 +229,7 @@ func SetFilePath(path string) {
 // By default the TDLib uses a verbosity level of 5 for logging.
 func SetLogVerbosityLevel(level int) {
 	bytes, _ := json.Marshal(UpdateData{
-		"@type": "setLogVerbosityLevel",
+		"@type":               "setLogVerbosityLevel",
 		"new_verbosity_level": level,
 	})
 
