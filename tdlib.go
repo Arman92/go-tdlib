@@ -25,7 +25,7 @@ import (
 // UpdateData alias for use in UpdateMsg
 type UpdateData map[string]interface{}
 
-// UpdateMsg is used to unmarshal recieved json strings into
+// UpdateMsg is used to unmarshal received json strings into
 type UpdateMsg struct {
 	Data UpdateData
 	Raw  []byte
