@@ -1,0 +1,3 @@
+[submodule "tl-parser"]
+	path = tl-parser
+	url = git@github.com:Arman92/go-tl-parser.git
