@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // PageBlockCaption Contains a caption of an instant view web page block, consisting of a text and a trailing credit

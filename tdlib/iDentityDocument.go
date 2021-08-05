@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // IDentityDocument An identity document
 type IDentityDocument struct {
 	tdCommon

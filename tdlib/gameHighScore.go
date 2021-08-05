@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // GameHighScore Contains one row of the game high score table
 type GameHighScore struct {
 	tdCommon

@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // MaskPosition Position on a photo where a mask should be placed

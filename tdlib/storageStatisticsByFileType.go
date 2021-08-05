@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // StorageStatisticsByFileType Contains the storage usage statistics for a specific file type

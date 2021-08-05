@@ -17,7 +17,7 @@ type InputFileEnum string
 
 // InputFile enums
 const (
-	InputFileIDType        InputFileEnum = "inputFileID"
+	InputFileIDType        InputFileEnum = "inputFileId"
 	InputFileRemoteType    InputFileEnum = "inputFileRemote"
 	InputFileLocalType     InputFileEnum = "inputFileLocal"
 	InputFileGeneratedType InputFileEnum = "inputFileGenerated"

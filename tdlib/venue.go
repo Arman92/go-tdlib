@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Venue Describes a venue
 type Venue struct {
 	tdCommon

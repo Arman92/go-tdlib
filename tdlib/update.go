@@ -3536,3 +3536,428 @@ func NewUpdatePollAnswer(pollID JSONInt64, userID int32, optionIDs []int32) *Upd
 func (updatePollAnswer *UpdatePollAnswer) GetUpdateEnum() UpdateEnum {
 	return UpdatePollAnswerType
 }
+
+
+		// TestUseUpdate Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization 
+		func (client *Client) TestUseUpdate() (Update, error) {
+			result, err := client.SendAndCatch(UpdateData{
+				"@type":       "testUseUpdate",
+				
+			})
+
+			if err != nil {
+				return nil, err
+			}
+
+			if result.Data["@type"].(string) == "error" {
+				return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+			}
+
+			switch UpdateEnum(result.Data["@type"].(string)) {
+				
+						case UpdateAuthorizationStateType:
+							var update {updateAuthorizationState UpdateAuthorizationState}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewMessageType:
+							var update {updateNewMessage UpdateNewMessage}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageSendAcknowledgedType:
+							var update {updateMessageSendAcknowledged UpdateMessageSendAcknowledged}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageSendSucceededType:
+							var update {updateMessageSendSucceeded UpdateMessageSendSucceeded}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageSendFailedType:
+							var update {updateMessageSendFailed UpdateMessageSendFailed}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageContentType:
+							var update {updateMessageContent UpdateMessageContent}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageEditedType:
+							var update {updateMessageEdited UpdateMessageEdited}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageIsPinnedType:
+							var update {updateMessageIsPinned UpdateMessageIsPinned}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageInteractionInfoType:
+							var update {updateMessageInteractionInfo UpdateMessageInteractionInfo}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageContentOpenedType:
+							var update {updateMessageContentOpened UpdateMessageContentOpened}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageMentionReadType:
+							var update {updateMessageMentionRead UpdateMessageMentionRead}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateMessageLiveLocationViewedType:
+							var update {updateMessageLiveLocationViewed UpdateMessageLiveLocationViewed}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewChatType:
+							var update {updateNewChat UpdateNewChat}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatTitleType:
+							var update {updateChatTitle UpdateChatTitle}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatPhotoType:
+							var update {updateChatPhoto UpdateChatPhoto}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatPermissionsType:
+							var update {updateChatPermissions UpdateChatPermissions}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatLastMessageType:
+							var update {updateChatLastMessage UpdateChatLastMessage}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatPositionType:
+							var update {updateChatPosition UpdateChatPosition}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatIsMarkedAsUnreadType:
+							var update {updateChatIsMarkedAsUnread UpdateChatIsMarkedAsUnread}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatIsBlockedType:
+							var update {updateChatIsBlocked UpdateChatIsBlocked}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatHasScheduledMessagesType:
+							var update {updateChatHasScheduledMessages UpdateChatHasScheduledMessages}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatDefaultDisableNotificationType:
+							var update {updateChatDefaultDisableNotification UpdateChatDefaultDisableNotification}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatReadInboxType:
+							var update {updateChatReadInbox UpdateChatReadInbox}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatReadOutboxType:
+							var update {updateChatReadOutbox UpdateChatReadOutbox}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatUnreadMentionCountType:
+							var update {updateChatUnreadMentionCount UpdateChatUnreadMentionCount}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatNotificationSettingsType:
+							var update {updateChatNotificationSettings UpdateChatNotificationSettings}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateScopeNotificationSettingsType:
+							var update {updateScopeNotificationSettings UpdateScopeNotificationSettings}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatActionBarType:
+							var update {updateChatActionBar UpdateChatActionBar}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatReplyMarkupType:
+							var update {updateChatReplyMarkup UpdateChatReplyMarkup}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatDraftMessageType:
+							var update {updateChatDraftMessage UpdateChatDraftMessage}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatFiltersType:
+							var update {updateChatFilters UpdateChatFilters}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateChatOnlineMemberCountType:
+							var update {updateChatOnlineMemberCount UpdateChatOnlineMemberCount}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNotificationType:
+							var update {updateNotification UpdateNotification}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNotificationGroupType:
+							var update {updateNotificationGroup UpdateNotificationGroup}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateActiveNotificationsType:
+							var update {updateActiveNotifications UpdateActiveNotifications}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateHavePendingNotificationsType:
+							var update {updateHavePendingNotifications UpdateHavePendingNotifications}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateDeleteMessagesType:
+							var update {updateDeleteMessages UpdateDeleteMessages}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUserChatActionType:
+							var update {updateUserChatAction UpdateUserChatAction}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUserStatusType:
+							var update {updateUserStatus UpdateUserStatus}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUserType:
+							var update {updateUser UpdateUser}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateBasicGroupType:
+							var update {updateBasicGroup UpdateBasicGroup}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateSupergroupType:
+							var update {updateSupergroup UpdateSupergroup}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateSecretChatType:
+							var update {updateSecretChat UpdateSecretChat}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUserFullInfoType:
+							var update {updateUserFullInfo UpdateUserFullInfo}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateBasicGroupFullInfoType:
+							var update {updateBasicGroupFullInfo UpdateBasicGroupFullInfo}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateSupergroupFullInfoType:
+							var update {updateSupergroupFullInfo UpdateSupergroupFullInfo}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateServiceNotificationType:
+							var update {updateServiceNotification UpdateServiceNotification}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateFileType:
+							var update {updateFile UpdateFile}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateFileGenerationStartType:
+							var update {updateFileGenerationStart UpdateFileGenerationStart}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateFileGenerationStopType:
+							var update {updateFileGenerationStop UpdateFileGenerationStop}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateCallType:
+							var update {updateCall UpdateCall}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewCallSignalingDataType:
+							var update {updateNewCallSignalingData UpdateNewCallSignalingData}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUserPrivacySettingRulesType:
+							var update {updateUserPrivacySettingRules UpdateUserPrivacySettingRules}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUnreadMessageCountType:
+							var update {updateUnreadMessageCount UpdateUnreadMessageCount}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUnreadChatCountType:
+							var update {updateUnreadChatCount UpdateUnreadChatCount}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateOptionType:
+							var update {updateOption UpdateOption}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateStickerSetType:
+							var update {updateStickerSet UpdateStickerSet}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateInstalledStickerSetsType:
+							var update {updateInstalledStickerSets UpdateInstalledStickerSets}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateTrendingStickerSetsType:
+							var update {updateTrendingStickerSets UpdateTrendingStickerSets}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateRecentStickersType:
+							var update {updateRecentStickers UpdateRecentStickers}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateFavoriteStickersType:
+							var update {updateFavoriteStickers UpdateFavoriteStickers}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateSavedAnimationsType:
+							var update {updateSavedAnimations UpdateSavedAnimations}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateSelectedBackgroundType:
+							var update {updateSelectedBackground UpdateSelectedBackground}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateLanguagePackStringsType:
+							var update {updateLanguagePackStrings UpdateLanguagePackStrings}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateConnectionStateType:
+							var update {updateConnectionState UpdateConnectionState}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateTermsOfServiceType:
+							var update {updateTermsOfService UpdateTermsOfService}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateUsersNearbyType:
+							var update {updateUsersNearby UpdateUsersNearby}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateDiceEmojisType:
+							var update {updateDiceEmojis UpdateDiceEmojis}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateAnimationSearchParametersType:
+							var update {updateAnimationSearchParameters UpdateAnimationSearchParameters}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateSuggestedActionsType:
+							var update {updateSuggestedActions UpdateSuggestedActions}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewInlineQueryType:
+							var update {updateNewInlineQuery UpdateNewInlineQuery}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewChosenInlineResultType:
+							var update {updateNewChosenInlineResult UpdateNewChosenInlineResult}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewCallbackQueryType:
+							var update {updateNewCallbackQuery UpdateNewCallbackQuery}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewInlineCallbackQueryType:
+							var update {updateNewInlineCallbackQuery UpdateNewInlineCallbackQuery}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewShippingQueryType:
+							var update {updateNewShippingQuery UpdateNewShippingQuery}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewPreCheckoutQueryType:
+							var update {updateNewPreCheckoutQuery UpdateNewPreCheckoutQuery}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewCustomEventType:
+							var update {updateNewCustomEvent UpdateNewCustomEvent}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdateNewCustomQueryType:
+							var update {updateNewCustomQuery UpdateNewCustomQuery}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdatePollType:
+							var update {updatePoll UpdatePoll}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+						case UpdatePollAnswerType:
+							var update {updatePollAnswer UpdatePollAnswer}
+							err = json.Unmarshal(result.Raw, &update)
+							return &update, err
+							
+			default:
+				return nil, fmt.Errorf("Invalid type")
+			}
+			}
+			
+			

@@ -3,6 +3,8 @@
 package tdlib
 
 import (
+	"encoding/json"
+	"fmt"
 	"strconv"
 	"strings"
 )

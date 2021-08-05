@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // MessageReplyInfo Contains information about replies to a message
 type MessageReplyInfo struct {
 	tdCommon

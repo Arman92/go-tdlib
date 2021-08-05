@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // TextEntity Represents a part of the text that needs to be formatted in some unusual way

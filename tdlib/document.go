@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Document Describes a document of any type
 type Document struct {
 	tdCommon

@@ -191,52 +191,55 @@ func (checkChatUsernameResultPublicGroupsUnavailable *CheckChatUsernameResultPub
 	return CheckChatUsernameResultPublicGroupsUnavailableType
 }
 
-// CheckChatUsername Checks whether a username can be set for a chat
+
+		// CheckChatUsername Checks whether a username can be set for a chat 
 // @param chatID Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created
 // @param username Username to be checked
-func (client *Client) CheckChatUsername(chatID int64, username string) (CheckChatUsernameResult, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "checkChatUsername",
-		"chat_id":  chatID,
-		"username": username,
-	})
+		func (client *Client) CheckChatUsername(chatID int64, username string) (CheckChatUsernameResult, error) {
+			result, err := client.SendAndCatch(UpdateData{
+				"@type":       "checkChatUsername",
+				"chat_id":   chatID,
+"username":   username,
+			})
 
-	if err != nil {
-		return nil, err
-	}
+			if err != nil {
+				return nil, err
+			}
 
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
+			if result.Data["@type"].(string) == "error" {
+				return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+			}
 
-	switch CheckChatUsernameResultEnum(result.Data["@type"].(string)) {
-
-	case CheckChatUsernameResultOkType:
-		var checkChatUsernameResult CheckChatUsernameResultOk
-		err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
-		return &checkChatUsernameResult, err
-
-	case CheckChatUsernameResultUsernameInvalidType:
-		var checkChatUsernameResult CheckChatUsernameResultUsernameInvalid
-		err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
-		return &checkChatUsernameResult, err
-
-	case CheckChatUsernameResultUsernameOccupiedType:
-		var checkChatUsernameResult CheckChatUsernameResultUsernameOccupied
-		err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
-		return &checkChatUsernameResult, err
-
-	case CheckChatUsernameResultPublicChatsTooMuchType:
-		var checkChatUsernameResult CheckChatUsernameResultPublicChatsTooMuch
-		err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
-		return &checkChatUsernameResult, err
-
-	case CheckChatUsernameResultPublicGroupsUnavailableType:
-		var checkChatUsernameResult CheckChatUsernameResultPublicGroupsUnavailable
-		err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
-		return &checkChatUsernameResult, err
-
-	default:
-		return nil, fmt.Errorf("Invalid type")
-	}
-}
+			switch CheckChatUsernameResultEnum(result.Data["@type"].(string)) {
+				
+						case CheckChatUsernameResultOkType:
+							var checkChatUsernameResult {checkChatUsernameResultOk CheckChatUsernameResultOk}
+							err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
+							return &checkChatUsernameResult, err
+							
+						case CheckChatUsernameResultUsernameInvalidType:
+							var checkChatUsernameResult {checkChatUsernameResultUsernameInvalid CheckChatUsernameResultUsernameInvalid}
+							err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
+							return &checkChatUsernameResult, err
+							
+						case CheckChatUsernameResultUsernameOccupiedType:
+							var checkChatUsernameResult {checkChatUsernameResultUsernameOccupied CheckChatUsernameResultUsernameOccupied}
+							err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
+							return &checkChatUsernameResult, err
+							
+						case CheckChatUsernameResultPublicChatsTooMuchType:
+							var checkChatUsernameResult {checkChatUsernameResultPublicChatsTooMuch CheckChatUsernameResultPublicChatsTooMuch}
+							err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
+							return &checkChatUsernameResult, err
+							
+						case CheckChatUsernameResultPublicGroupsUnavailableType:
+							var checkChatUsernameResult {checkChatUsernameResultPublicGroupsUnavailable CheckChatUsernameResultPublicGroupsUnavailable}
+							err = json.Unmarshal(result.Raw, &checkChatUsernameResult)
+							return &checkChatUsernameResult, err
+							
+			default:
+				return nil, fmt.Errorf("Invalid type")
+			}
+			}
+			
+			

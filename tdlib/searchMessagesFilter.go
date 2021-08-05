@@ -25,7 +25,7 @@ const (
 	SearchMessagesFilterVideoType             SearchMessagesFilterEnum = "searchMessagesFilterVideo"
 	SearchMessagesFilterVoiceNoteType         SearchMessagesFilterEnum = "searchMessagesFilterVoiceNote"
 	SearchMessagesFilterPhotoAndVideoType     SearchMessagesFilterEnum = "searchMessagesFilterPhotoAndVideo"
-	SearchMessagesFilterURLType               SearchMessagesFilterEnum = "searchMessagesFilterURL"
+	SearchMessagesFilterURLType               SearchMessagesFilterEnum = "searchMessagesFilterUrl"
 	SearchMessagesFilterChatPhotoType         SearchMessagesFilterEnum = "searchMessagesFilterChatPhoto"
 	SearchMessagesFilterCallType              SearchMessagesFilterEnum = "searchMessagesFilterCall"
 	SearchMessagesFilterMissedCallType        SearchMessagesFilterEnum = "searchMessagesFilterMissedCall"

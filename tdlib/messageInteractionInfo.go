@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // MessageInteractionInfo Contains information about interactions with a message
 type MessageInteractionInfo struct {
 	tdCommon

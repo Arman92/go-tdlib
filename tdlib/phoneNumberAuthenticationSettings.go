@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // PhoneNumberAuthenticationSettings Contains settings for the authentication of the user's phone number
 type PhoneNumberAuthenticationSettings struct {
 	tdCommon

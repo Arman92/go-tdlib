@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Proxies Represents a list of proxy servers
 type Proxies struct {
 	tdCommon
@@ -23,4 +28,24 @@ func NewProxies(proxies []Proxy) *Proxies {
 	}
 
 	return &proxiesTemp
+}
+
+// GetProxies Returns list of proxies that are currently set up. Can be called before authorization
+func (client *Client) GetProxies() (*Proxies, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getProxies",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var proxies Proxies
+	err = json.Unmarshal(result.Raw, &proxies)
+	return &proxies, err
+
 }

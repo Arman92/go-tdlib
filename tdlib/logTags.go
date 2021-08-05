@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // LogTags Contains a list of available TDLib internal log tags
 type LogTags struct {
 	tdCommon
@@ -23,4 +28,24 @@ func NewLogTags(tags []string) *LogTags {
 	}
 
 	return &logTagsTemp
+}
+
+// GetLogTags Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. Can be called synchronously
+func (client *Client) GetLogTags() (*LogTags, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getLogTags",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var logTags LogTags
+	err = json.Unmarshal(result.Raw, &logTags)
+	return &logTags, err
+
 }

@@ -170,3 +170,23 @@ func (client *Client) GetUser(userID int32) (*User, error) {
 	return &userDummy, err
 
 }
+
+// GetSupportUser Returns a user that can be contacted to get support
+func (client *Client) GetSupportUser() (*User, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getSupportUser",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var user User
+	err = json.Unmarshal(result.Raw, &user)
+	return &user, err
+
+}

@@ -17,8 +17,8 @@ type InlineKeyboardButtonTypeEnum string
 
 // InlineKeyboardButtonType enums
 const (
-	InlineKeyboardButtonTypeURLType                  InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeURL"
-	InlineKeyboardButtonTypeLoginURLType             InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeLoginURL"
+	InlineKeyboardButtonTypeURLType                  InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeUrl"
+	InlineKeyboardButtonTypeLoginURLType             InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeLoginUrl"
 	InlineKeyboardButtonTypeCallbackType             InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeCallback"
 	InlineKeyboardButtonTypeCallbackWithPasswordType InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeCallbackWithPassword"
 	InlineKeyboardButtonTypeCallbackGameType         InlineKeyboardButtonTypeEnum = "inlineKeyboardButtonTypeCallbackGame"

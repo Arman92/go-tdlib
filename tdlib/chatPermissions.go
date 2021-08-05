@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // ChatPermissions Describes actions that a user is allowed to take in a chat
 type ChatPermissions struct {
 	tdCommon

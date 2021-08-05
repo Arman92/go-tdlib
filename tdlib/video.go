@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Video Describes a video file
 type Video struct {
 	tdCommon

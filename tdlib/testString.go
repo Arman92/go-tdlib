@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // TestString A simple object containing a string; for testing only
 type TestString struct {
 	tdCommon
@@ -23,4 +28,26 @@ func NewTestString(value string) *TestString {
 	}
 
 	return &testStringTemp
+}
+
+// TestCallString Returns the received string; for testing only. This is an offline method. Can be called before authorization
+// @param x String to return
+func (client *Client) TestCallString(x string) (*TestString, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "testCallString",
+		"x":     x,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var testString TestString
+	err = json.Unmarshal(result.Raw, &testString)
+	return &testString, err
+
 }

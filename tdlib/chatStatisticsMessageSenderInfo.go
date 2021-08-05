@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // ChatStatisticsMessageSenderInfo Contains statistics about messages sent by a user
 type ChatStatisticsMessageSenderInfo struct {
 	tdCommon

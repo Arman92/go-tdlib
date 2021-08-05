@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // MessageCopyOptions Options to be used when a message content is copied without a link to the original message
 type MessageCopyOptions struct {
 	tdCommon

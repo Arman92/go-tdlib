@@ -166,43 +166,47 @@ func (canTransferOwnershipResultSessionTooFresh *CanTransferOwnershipResultSessi
 	return CanTransferOwnershipResultSessionTooFreshType
 }
 
-// CanTransferOwnership Checks whether the current session can be used to transfer a chat ownership to another user
-func (client *Client) CanTransferOwnership() (CanTransferOwnershipResult, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "canTransferOwnership",
-	})
 
-	if err != nil {
-		return nil, err
-	}
+		// CanTransferOwnership Checks whether the current session can be used to transfer a chat ownership to another user 
+		func (client *Client) CanTransferOwnership() (CanTransferOwnershipResult, error) {
+			result, err := client.SendAndCatch(UpdateData{
+				"@type":       "canTransferOwnership",
+				
+			})
 
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
+			if err != nil {
+				return nil, err
+			}
 
-	switch CanTransferOwnershipResultEnum(result.Data["@type"].(string)) {
+			if result.Data["@type"].(string) == "error" {
+				return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+			}
 
-	case CanTransferOwnershipResultOkType:
-		var canTransferOwnershipResult CanTransferOwnershipResultOk
-		err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
-		return &canTransferOwnershipResult, err
-
-	case CanTransferOwnershipResultPasswordNeededType:
-		var canTransferOwnershipResult CanTransferOwnershipResultPasswordNeeded
-		err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
-		return &canTransferOwnershipResult, err
-
-	case CanTransferOwnershipResultPasswordTooFreshType:
-		var canTransferOwnershipResult CanTransferOwnershipResultPasswordTooFresh
-		err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
-		return &canTransferOwnershipResult, err
-
-	case CanTransferOwnershipResultSessionTooFreshType:
-		var canTransferOwnershipResult CanTransferOwnershipResultSessionTooFresh
-		err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
-		return &canTransferOwnershipResult, err
-
-	default:
-		return nil, fmt.Errorf("Invalid type")
-	}
-}
+			switch CanTransferOwnershipResultEnum(result.Data["@type"].(string)) {
+				
+						case CanTransferOwnershipResultOkType:
+							var canTransferOwnershipResult {canTransferOwnershipResultOk CanTransferOwnershipResultOk}
+							err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
+							return &canTransferOwnershipResult, err
+							
+						case CanTransferOwnershipResultPasswordNeededType:
+							var canTransferOwnershipResult {canTransferOwnershipResultPasswordNeeded CanTransferOwnershipResultPasswordNeeded}
+							err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
+							return &canTransferOwnershipResult, err
+							
+						case CanTransferOwnershipResultPasswordTooFreshType:
+							var canTransferOwnershipResult {canTransferOwnershipResultPasswordTooFresh CanTransferOwnershipResultPasswordTooFresh}
+							err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
+							return &canTransferOwnershipResult, err
+							
+						case CanTransferOwnershipResultSessionTooFreshType:
+							var canTransferOwnershipResult {canTransferOwnershipResultSessionTooFresh CanTransferOwnershipResultSessionTooFresh}
+							err = json.Unmarshal(result.Raw, &canTransferOwnershipResult)
+							return &canTransferOwnershipResult, err
+							
+			default:
+				return nil, fmt.Errorf("Invalid type")
+			}
+			}
+			
+			

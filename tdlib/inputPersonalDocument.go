@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // InputPersonalDocument A personal document to be saved to Telegram Passport
 type InputPersonalDocument struct {
 	tdCommon

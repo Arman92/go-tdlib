@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // ChatEvent Represents a chat event

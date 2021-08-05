@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // BankCardInfo Information about a bank card
 type BankCardInfo struct {
 	tdCommon
@@ -26,4 +31,26 @@ func NewBankCardInfo(title string, actions []BankCardActionOpenURL) *BankCardInf
 	}
 
 	return &bankCardInfoTemp
+}
+
+// GetBankCardInfo Returns information about a bank card
+// @param bankCardNumber The bank card number
+func (client *Client) GetBankCardInfo(bankCardNumber string) (*BankCardInfo, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "getBankCardInfo",
+		"bank_card_number": bankCardNumber,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var bankCardInfo BankCardInfo
+	err = json.Unmarshal(result.Raw, &bankCardInfo)
+	return &bankCardInfo, err
+
 }

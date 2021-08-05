@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // PassportSuitableElement Contains information about a Telegram Passport element that was requested by a service

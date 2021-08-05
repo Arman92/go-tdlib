@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Animation Describes an animation file. The animation must be encoded in GIF or MPEG4 format
 type Animation struct {
 	tdCommon

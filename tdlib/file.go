@@ -143,3 +143,59 @@ func (client *Client) UploadFile(file InputFile, fileType FileType, priority int
 	return &fileDummy, err
 
 }
+
+// UploadStickerFile Uploads a PNG image with a sticker; for bots only; returns the uploaded file
+// @param userID Sticker file owner
+// @param pngSticker PNG image with the sticker; must be up to 512 KB in size and fit in 512x512 square
+func (client *Client) UploadStickerFile(userID int32, pngSticker InputFile) (*File, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":       "uploadStickerFile",
+		"user_id":     userID,
+		"png_sticker": pngSticker,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var file File
+	err = json.Unmarshal(result.Raw, &file)
+	return &file, err
+
+}
+
+// GetMapThumbnailFile Returns information about a file with a map thumbnail in PNG format. Only map thumbnail files with size less than 1MB can be downloaded
+// @param location Location of the map center
+// @param zoom Map zoom level; 13-20
+// @param width Map width in pixels before applying scale; 16-1024
+// @param height Map height in pixels before applying scale; 16-1024
+// @param scale Map scale; 1-3
+// @param chatID Identifier of a chat, in which the thumbnail will be shown. Use 0 if unknown
+func (client *Client) GetMapThumbnailFile(location *Location, zoom int32, width int32, height int32, scale int32, chatID int64) (*File, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "getMapThumbnailFile",
+		"location": location,
+		"zoom":     zoom,
+		"width":    width,
+		"height":   height,
+		"scale":    scale,
+		"chat_id":  chatID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var file File
+	err = json.Unmarshal(result.Raw, &file)
+	return &file, err
+
+}

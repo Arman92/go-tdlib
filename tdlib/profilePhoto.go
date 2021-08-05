@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // ProfilePhoto Describes a user profile photo
 type ProfilePhoto struct {
 	tdCommon

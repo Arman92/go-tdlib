@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // InlineKeyboardButton Represents a single button in an inline keyboard

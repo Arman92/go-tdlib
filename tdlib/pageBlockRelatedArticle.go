@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // PageBlockRelatedArticle Contains information about a related article
 type PageBlockRelatedArticle struct {
 	tdCommon

@@ -398,78 +398,82 @@ func (authorizationStateClosed *AuthorizationStateClosed) GetAuthorizationStateE
 	return AuthorizationStateClosedType
 }
 
-// GetAuthorizationState Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state. Can be called before initialization
-func (client *Client) GetAuthorizationState() (AuthorizationState, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getAuthorizationState",
-	})
 
-	if err != nil {
-		return nil, err
-	}
+		// GetAuthorizationState Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state. Can be called before initialization 
+		func (client *Client) GetAuthorizationState() (AuthorizationState, error) {
+			result, err := client.SendAndCatch(UpdateData{
+				"@type":       "getAuthorizationState",
+				
+			})
 
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
+			if err != nil {
+				return nil, err
+			}
 
-	switch AuthorizationStateEnum(result.Data["@type"].(string)) {
+			if result.Data["@type"].(string) == "error" {
+				return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+			}
 
-	case AuthorizationStateWaitTdlibParametersType:
-		var authorizationState AuthorizationStateWaitTdlibParameters
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateWaitEncryptionKeyType:
-		var authorizationState AuthorizationStateWaitEncryptionKey
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateWaitPhoneNumberType:
-		var authorizationState AuthorizationStateWaitPhoneNumber
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateWaitCodeType:
-		var authorizationState AuthorizationStateWaitCode
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateWaitOtherDeviceConfirmationType:
-		var authorizationState AuthorizationStateWaitOtherDeviceConfirmation
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateWaitRegistrationType:
-		var authorizationState AuthorizationStateWaitRegistration
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateWaitPasswordType:
-		var authorizationState AuthorizationStateWaitPassword
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateReadyType:
-		var authorizationState AuthorizationStateReady
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateLoggingOutType:
-		var authorizationState AuthorizationStateLoggingOut
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateClosingType:
-		var authorizationState AuthorizationStateClosing
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	case AuthorizationStateClosedType:
-		var authorizationState AuthorizationStateClosed
-		err = json.Unmarshal(result.Raw, &authorizationState)
-		return &authorizationState, err
-
-	default:
-		return nil, fmt.Errorf("Invalid type")
-	}
-}
+			switch AuthorizationStateEnum(result.Data["@type"].(string)) {
+				
+						case AuthorizationStateWaitTdlibParametersType:
+							var authorizationState {authorizationStateWaitTdlibParameters AuthorizationStateWaitTdlibParameters}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateWaitEncryptionKeyType:
+							var authorizationState {authorizationStateWaitEncryptionKey AuthorizationStateWaitEncryptionKey}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateWaitPhoneNumberType:
+							var authorizationState {authorizationStateWaitPhoneNumber AuthorizationStateWaitPhoneNumber}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateWaitCodeType:
+							var authorizationState {authorizationStateWaitCode AuthorizationStateWaitCode}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateWaitOtherDeviceConfirmationType:
+							var authorizationState {authorizationStateWaitOtherDeviceConfirmation AuthorizationStateWaitOtherDeviceConfirmation}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateWaitRegistrationType:
+							var authorizationState {authorizationStateWaitRegistration AuthorizationStateWaitRegistration}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateWaitPasswordType:
+							var authorizationState {authorizationStateWaitPassword AuthorizationStateWaitPassword}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateReadyType:
+							var authorizationState {authorizationStateReady AuthorizationStateReady}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateLoggingOutType:
+							var authorizationState {authorizationStateLoggingOut AuthorizationStateLoggingOut}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateClosingType:
+							var authorizationState {authorizationStateClosing AuthorizationStateClosing}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+						case AuthorizationStateClosedType:
+							var authorizationState {authorizationStateClosed AuthorizationStateClosed}
+							err = json.Unmarshal(result.Raw, &authorizationState)
+							return &authorizationState, err
+							
+			default:
+				return nil, fmt.Errorf("Invalid type")
+			}
+			}
+			
+			

@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Animations Represents a list of animations
 type Animations struct {
 	tdCommon
@@ -23,4 +28,24 @@ func NewAnimations(animations []Animation) *Animations {
 	}
 
 	return &animationsTemp
+}
+
+// GetSavedAnimations Returns saved animations
+func (client *Client) GetSavedAnimations() (*Animations, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getSavedAnimations",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var animations Animations
+	err = json.Unmarshal(result.Raw, &animations)
+	return &animations, err
+
 }

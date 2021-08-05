@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // SavedCredentials Contains information about saved card credentials
 type SavedCredentials struct {
 	tdCommon

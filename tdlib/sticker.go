@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Sticker Describes a sticker
 type Sticker struct {
 	tdCommon

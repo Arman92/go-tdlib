@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // PageBlockListItem Describes an item of a list page block
 type PageBlockListItem struct {
 	tdCommon

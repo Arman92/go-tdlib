@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // BankCardActionOpenURL Describes an action associated with a bank card number
 type BankCardActionOpenURL struct {
 	tdCommon

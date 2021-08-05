@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Contact Describes a user contact
 type Contact struct {
 	tdCommon

@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // StorageStatisticsFast Contains approximate storage usage statistics, excluding files of unknown file type
 type StorageStatisticsFast struct {
 	tdCommon
@@ -35,4 +40,24 @@ func NewStorageStatisticsFast(filesSize int64, fileCount int32, databaseSize int
 	}
 
 	return &storageStatisticsFastTemp
+}
+
+// GetStorageStatisticsFast Quickly returns approximate storage usage statistics. Can be called before authorization
+func (client *Client) GetStorageStatisticsFast() (*StorageStatisticsFast, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getStorageStatisticsFast",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var storageStatisticsFast StorageStatisticsFast
+	err = json.Unmarshal(result.Raw, &storageStatisticsFast)
+	return &storageStatisticsFast, err
+
 }

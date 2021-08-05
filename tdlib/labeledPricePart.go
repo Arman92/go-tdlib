@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // LabeledPricePart Portion of the price of a product (e.g., "delivery cost", "tax amount")
 type LabeledPricePart struct {
 	tdCommon

@@ -106,3 +106,23 @@ func (client *Client) SearchContacts(query string, limit int32) (*Users, error) 
 	return &users, err
 
 }
+
+// GetRecentInlineBots Returns up to 20 recently used inline bots in the order of their last usage
+func (client *Client) GetRecentInlineBots() (*Users, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getRecentInlineBots",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var users Users
+	err = json.Unmarshal(result.Raw, &users)
+	return &users, err
+
+}

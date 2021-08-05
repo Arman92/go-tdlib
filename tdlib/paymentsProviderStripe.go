@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // PaymentsProviderStripe Stripe payment provider
 type PaymentsProviderStripe struct {
 	tdCommon

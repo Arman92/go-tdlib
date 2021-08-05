@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // UserPrivacySettingRules A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed
 type UserPrivacySettingRules struct {
 	tdCommon
@@ -23,4 +28,26 @@ func NewUserPrivacySettingRules(rules []UserPrivacySettingRule) *UserPrivacySett
 	}
 
 	return &userPrivacySettingRulesTemp
+}
+
+// GetUserPrivacySettingRules Returns the current privacy settings
+// @param setting The privacy setting
+func (client *Client) GetUserPrivacySettingRules(setting UserPrivacySetting) (*UserPrivacySettingRules, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "getUserPrivacySettingRules",
+		"setting": setting,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var userPrivacySettingRules UserPrivacySettingRules
+	err = json.Unmarshal(result.Raw, &userPrivacySettingRules)
+	return &userPrivacySettingRules, err
+
 }

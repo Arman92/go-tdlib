@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // PassportRequiredElement Contains a description of the required Telegram Passport element that was requested by a service
 type PassportRequiredElement struct {
 	tdCommon

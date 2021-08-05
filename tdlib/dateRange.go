@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // DateRange Represents a date range
 type DateRange struct {
 	tdCommon

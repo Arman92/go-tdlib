@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // StatisticalValue A value with information about its recent changes
 type StatisticalValue struct {
 	tdCommon

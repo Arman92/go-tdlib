@@ -21,7 +21,7 @@ const (
 	TextEntityTypeHashtagType        TextEntityTypeEnum = "textEntityTypeHashtag"
 	TextEntityTypeCashtagType        TextEntityTypeEnum = "textEntityTypeCashtag"
 	TextEntityTypeBotCommandType     TextEntityTypeEnum = "textEntityTypeBotCommand"
-	TextEntityTypeURLType            TextEntityTypeEnum = "textEntityTypeURL"
+	TextEntityTypeURLType            TextEntityTypeEnum = "textEntityTypeUrl"
 	TextEntityTypeEmailAddressType   TextEntityTypeEnum = "textEntityTypeEmailAddress"
 	TextEntityTypePhoneNumberType    TextEntityTypeEnum = "textEntityTypePhoneNumber"
 	TextEntityTypeBankCardNumberType TextEntityTypeEnum = "textEntityTypeBankCardNumber"
@@ -32,7 +32,7 @@ const (
 	TextEntityTypeCodeType           TextEntityTypeEnum = "textEntityTypeCode"
 	TextEntityTypePreType            TextEntityTypeEnum = "textEntityTypePre"
 	TextEntityTypePreCodeType        TextEntityTypeEnum = "textEntityTypePreCode"
-	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextURL"
+	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextUrl"
 	TextEntityTypeMentionNameType    TextEntityTypeEnum = "textEntityTypeMentionName"
 )
 

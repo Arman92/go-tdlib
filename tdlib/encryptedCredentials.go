@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // EncryptedCredentials Contains encrypted Telegram Passport data credentials
 type EncryptedCredentials struct {
 	tdCommon

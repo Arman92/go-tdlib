@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // AnimatedChatPhoto Animated variant of a chat photo in MPEG4 format
 type AnimatedChatPhoto struct {
 	tdCommon

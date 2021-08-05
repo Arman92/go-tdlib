@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // CustomRequestResult Contains the result of a custom request
 type CustomRequestResult struct {
 	tdCommon
@@ -23,4 +28,28 @@ func NewCustomRequestResult(result string) *CustomRequestResult {
 	}
 
 	return &customRequestResultTemp
+}
+
+// SendCustomRequest Sends a custom request; for bots only
+// @param method The method name
+// @param parameters JSON-serialized method parameters
+func (client *Client) SendCustomRequest(method string, parameters string) (*CustomRequestResult, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "sendCustomRequest",
+		"method":     method,
+		"parameters": parameters,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var customRequestResult CustomRequestResult
+	err = json.Unmarshal(result.Raw, &customRequestResult)
+	return &customRequestResult, err
+
 }

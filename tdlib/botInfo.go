@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // BotInfo Provides information about a bot and its supported commands
 type BotInfo struct {
 	tdCommon

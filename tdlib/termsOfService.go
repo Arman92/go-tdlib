@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // TermsOfService Contains Telegram terms of service
 type TermsOfService struct {
 	tdCommon

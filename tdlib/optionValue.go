@@ -168,3 +168,49 @@ func NewOptionValueString(value string) *OptionValueString {
 func (optionValueString *OptionValueString) GetOptionValueEnum() OptionValueEnum {
 	return OptionValueStringType
 }
+
+
+		// GetOption Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization 
+// @param name The name of the option
+		func (client *Client) GetOption(name string) (OptionValue, error) {
+			result, err := client.SendAndCatch(UpdateData{
+				"@type":       "getOption",
+				"name":   name,
+			})
+
+			if err != nil {
+				return nil, err
+			}
+
+			if result.Data["@type"].(string) == "error" {
+				return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+			}
+
+			switch OptionValueEnum(result.Data["@type"].(string)) {
+				
+						case OptionValueBooleanType:
+							var optionValue {optionValueBoolean OptionValueBoolean}
+							err = json.Unmarshal(result.Raw, &optionValue)
+							return &optionValue, err
+							
+						case OptionValueEmptyType:
+							var optionValue {optionValueEmpty OptionValueEmpty}
+							err = json.Unmarshal(result.Raw, &optionValue)
+							return &optionValue, err
+							
+						case OptionValueIntegerType:
+							var optionValue {optionValueInteger OptionValueInteger}
+							err = json.Unmarshal(result.Raw, &optionValue)
+							return &optionValue, err
+							
+						case OptionValueStringType:
+							var optionValue {optionValueString OptionValueString}
+							err = json.Unmarshal(result.Raw, &optionValue)
+							return &optionValue, err
+							
+			default:
+				return nil, fmt.Errorf("Invalid type")
+			}
+			}
+			
+			

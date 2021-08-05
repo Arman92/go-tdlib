@@ -309,3 +309,41 @@ func (chatStatisticsChannel *ChatStatisticsChannel) UnmarshalJSON(b []byte) erro
 func (chatStatisticsChannel *ChatStatisticsChannel) GetChatStatisticsEnum() ChatStatisticsEnum {
 	return ChatStatisticsChannelType
 }
+
+
+		// GetChatStatistics Returns detailed statistics about a chat. Currently this method can be used only for supergroups and channels. Can be used only if SupergroupFullInfo.can_get_statistics == true 
+// @param chatID Chat identifier
+// @param isDark Pass true if a dark theme is used by the application
+		func (client *Client) GetChatStatistics(chatID int64, isDark bool) (ChatStatistics, error) {
+			result, err := client.SendAndCatch(UpdateData{
+				"@type":       "getChatStatistics",
+				"chat_id":   chatID,
+"is_dark":   isDark,
+			})
+
+			if err != nil {
+				return nil, err
+			}
+
+			if result.Data["@type"].(string) == "error" {
+				return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+			}
+
+			switch ChatStatisticsEnum(result.Data["@type"].(string)) {
+				
+						case ChatStatisticsSupergroupType:
+							var chatStatistics {chatStatisticsSupergroup ChatStatisticsSupergroup}
+							err = json.Unmarshal(result.Raw, &chatStatistics)
+							return &chatStatistics, err
+							
+						case ChatStatisticsChannelType:
+							var chatStatistics {chatStatisticsChannel ChatStatisticsChannel}
+							err = json.Unmarshal(result.Raw, &chatStatistics)
+							return &chatStatistics, err
+							
+			default:
+				return nil, fmt.Errorf("Invalid type")
+			}
+			}
+			
+			

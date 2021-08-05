@@ -165,3 +165,87 @@ func (client *Client) GetChatFilterDefaultIconName(filter *ChatFilter) (*Text, e
 	return &text, err
 
 }
+
+// GetPreferredCountryLanguage Returns an IETF language tag of the language preferred in the country, which should be used to fill native fields in Telegram Passport personal details. Returns a 404 error if unknown
+// @param countryCode A two-letter ISO 3166-1 alpha-2 country code
+func (client *Client) GetPreferredCountryLanguage(countryCode string) (*Text, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":        "getPreferredCountryLanguage",
+		"country_code": countryCode,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var text Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// GetCountryCode Uses current user IP address to find their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+func (client *Client) GetCountryCode() (*Text, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getCountryCode",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var text Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// GetInviteText Returns the default text for invitation messages to be used as a placeholder when the current user invites friends to Telegram
+func (client *Client) GetInviteText() (*Text, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getInviteText",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var text Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// GetProxyLink Returns an HTTPS link, which can be used to add a proxy. Available only for SOCKS5 and MTProto proxies. Can be called before authorization
+// @param proxyID Proxy identifier
+func (client *Client) GetProxyLink(proxyID int32) (*Text, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "getProxyLink",
+		"proxy_id": proxyID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var text Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}

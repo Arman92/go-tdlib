@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // EncryptedPassportElement Contains information about an encrypted Telegram Passport element; for bots only

@@ -20,7 +20,7 @@ const (
 	PassportElementTypePersonalDetailsType       PassportElementTypeEnum = "passportElementTypePersonalDetails"
 	PassportElementTypePassportType              PassportElementTypeEnum = "passportElementTypePassport"
 	PassportElementTypeDriverLicenseType         PassportElementTypeEnum = "passportElementTypeDriverLicense"
-	PassportElementTypeIDentityCardType          PassportElementTypeEnum = "passportElementTypeIDentityCard"
+	PassportElementTypeIDentityCardType          PassportElementTypeEnum = "passportElementTypeIdentityCard"
 	PassportElementTypeInternalPassportType      PassportElementTypeEnum = "passportElementTypeInternalPassport"
 	PassportElementTypeAddressType               PassportElementTypeEnum = "passportElementTypeAddress"
 	PassportElementTypeUtilityBillType           PassportElementTypeEnum = "passportElementTypeUtilityBill"

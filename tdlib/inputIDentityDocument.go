@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // InputIDentityDocument An identity document to be saved to Telegram Passport

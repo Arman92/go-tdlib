@@ -4,6 +4,7 @@ package tdlib
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // Proxy Contains information about a proxy server
@@ -76,4 +77,62 @@ func (proxy *Proxy) UnmarshalJSON(b []byte) error {
 	proxy.Type = fieldType
 
 	return nil
+}
+
+// AddProxy Adds a proxy server for network requests. Can be called before authorization
+// @param server Proxy server IP address
+// @param port Proxy server port
+// @param enable True, if the proxy should be enabled
+// @param typeParam Proxy type
+func (client *Client) AddProxy(server string, port int32, enable bool, typeParam ProxyType) (*Proxy, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":  "addProxy",
+		"server": server,
+		"port":   port,
+		"enable": enable,
+		"type":   typeParam,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var proxy Proxy
+	err = json.Unmarshal(result.Raw, &proxy)
+	return &proxy, err
+
+}
+
+// EditProxy Edits an existing proxy server for network requests. Can be called before authorization
+// @param proxyID Proxy identifier
+// @param server Proxy server IP address
+// @param port Proxy server port
+// @param enable True, if the proxy should be enabled
+// @param typeParam Proxy type
+func (client *Client) EditProxy(proxyID int32, server string, port int32, enable bool, typeParam ProxyType) (*Proxy, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "editProxy",
+		"proxy_id": proxyID,
+		"server":   server,
+		"port":     port,
+		"enable":   enable,
+		"type":     typeParam,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var proxyDummy Proxy
+	err = json.Unmarshal(result.Raw, &proxyDummy)
+	return &proxyDummy, err
+
 }

@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // ChatLocation Represents a location to which a chat is connected
 type ChatLocation struct {
 	tdCommon

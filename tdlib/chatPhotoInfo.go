@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // ChatPhotoInfo Contains basic information about the photo of a chat
 type ChatPhotoInfo struct {
 	tdCommon

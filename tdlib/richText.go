@@ -23,7 +23,7 @@ const (
 	RichTextUnderlineType     RichTextEnum = "richTextUnderline"
 	RichTextStrikethroughType RichTextEnum = "richTextStrikethrough"
 	RichTextFixedType         RichTextEnum = "richTextFixed"
-	RichTextURLType           RichTextEnum = "richTextURL"
+	RichTextURLType           RichTextEnum = "richTextUrl"
 	RichTextEmailAddressType  RichTextEnum = "richTextEmailAddress"
 	RichTextSubscriptType     RichTextEnum = "richTextSubscript"
 	RichTextSuperscriptType   RichTextEnum = "richTextSuperscript"

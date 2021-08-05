@@ -48,7 +48,7 @@ const (
 	MessageChatUpgradeFromType         MessageContentEnum = "messageChatUpgradeFrom"
 	MessagePinMessageType              MessageContentEnum = "messagePinMessage"
 	MessageScreenshotTakenType         MessageContentEnum = "messageScreenshotTaken"
-	MessageChatSetTTLType              MessageContentEnum = "messageChatSetTTL"
+	MessageChatSetTTLType              MessageContentEnum = "messageChatSetTtl"
 	MessageCustomServiceActionType     MessageContentEnum = "messageCustomServiceAction"
 	MessageGameScoreType               MessageContentEnum = "messageGameScore"
 	MessagePaymentSuccessfulType       MessageContentEnum = "messagePaymentSuccessful"

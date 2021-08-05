@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // PhoneNumberInfo Contains information about a phone number
 type PhoneNumberInfo struct {
 	tdCommon
@@ -29,4 +34,26 @@ func NewPhoneNumberInfo(country *CountryInfo, countryCallingCode string, formatt
 	}
 
 	return &phoneNumberInfoTemp
+}
+
+// GetPhoneNumberInfo Returns information about a phone number by its prefix. Can be called before authorization
+// @param phoneNumberPrefix The phone number prefix
+func (client *Client) GetPhoneNumberInfo(phoneNumberPrefix string) (*PhoneNumberInfo, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":               "getPhoneNumberInfo",
+		"phone_number_prefix": phoneNumberPrefix,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var phoneNumberInfo PhoneNumberInfo
+	err = json.Unmarshal(result.Raw, &phoneNumberInfo)
+	return &phoneNumberInfo, err
+
 }

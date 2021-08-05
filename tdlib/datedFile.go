@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // DatedFile File with the date it was uploaded
 type DatedFile struct {
 	tdCommon

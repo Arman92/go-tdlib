@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // ChatStatisticsAdministratorActionsInfo Contains statistics about administrator actions done by a user
 type ChatStatisticsAdministratorActionsInfo struct {
 	tdCommon

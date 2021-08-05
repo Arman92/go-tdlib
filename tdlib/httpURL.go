@@ -57,3 +57,75 @@ func (client *Client) GetLoginURL(chatID int64, messageID int64, buttonID int32,
 	return &httpURL, err
 
 }
+
+// GetEmojiSuggestionsURL Returns an HTTP URL which can be used to automatically log in to the translation platform and suggest new emoji replacements. The URL will be valid for 30 seconds after generation
+// @param languageCode Language code for which the emoji replacements will be suggested
+func (client *Client) GetEmojiSuggestionsURL(languageCode string) (*HttpURL, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "getEmojiSuggestionsUrl",
+		"language_code": languageCode,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var httpURL HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetBackgroundURL Constructs a persistent HTTP URL for a background
+// @param name Background name
+// @param typeParam Background type
+func (client *Client) GetBackgroundURL(name string, typeParam BackgroundType) (*HttpURL, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "getBackgroundUrl",
+		"name":  name,
+		"type":  typeParam,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var httpURL HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetChatStatisticsURL Returns an HTTP URL with the chat statistics. Currently this method of getting the statistics are disabled and can be deleted in the future
+// @param chatID Chat identifier
+// @param parameters Parameters from "tg://statsrefresh?params=******" link
+// @param isDark Pass true if a URL with the dark theme must be returned
+func (client *Client) GetChatStatisticsURL(chatID int64, parameters string, isDark bool) (*HttpURL, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "getChatStatisticsUrl",
+		"chat_id":    chatID,
+		"parameters": parameters,
+		"is_dark":    isDark,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var httpURL HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}

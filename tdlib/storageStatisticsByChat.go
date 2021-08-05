@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // StorageStatisticsByChat Contains the storage usage statistics for a specific chat
 type StorageStatisticsByChat struct {
 	tdCommon

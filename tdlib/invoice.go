@@ -2,6 +2,11 @@
 
 package tdlib
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Invoice Product invoice
 type Invoice struct {
 	tdCommon

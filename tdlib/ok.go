@@ -2398,3 +2398,1533 @@ func (client *Client) AddFavoriteSticker(sticker InputFile) (*Ok, error) {
 	return &ok, err
 
 }
+
+// RemoveFavoriteSticker Removes a sticker from the list of favorite stickers
+// @param sticker Sticker file to delete from the list
+func (client *Client) RemoveFavoriteSticker(sticker InputFile) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "removeFavoriteSticker",
+		"sticker": sticker,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AddSavedAnimation Manually adds a new animation to the list of saved animations. The new animation is added to the beginning of the list. If the animation was already in the list, it is removed first. Only non-secret video animations with MIME type "video/mp4" can be added to the list
+// @param animation The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list
+func (client *Client) AddSavedAnimation(animation InputFile) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":     "addSavedAnimation",
+		"animation": animation,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveSavedAnimation Removes an animation from the list of saved animations
+// @param animation Animation file to be removed
+func (client *Client) RemoveSavedAnimation(animation InputFile) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":     "removeSavedAnimation",
+		"animation": animation,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveRecentHashtag Removes a hashtag from the list of recently used hashtags
+// @param hashtag Hashtag to delete
+func (client *Client) RemoveRecentHashtag(hashtag string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "removeRecentHashtag",
+		"hashtag": hashtag,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetProfilePhoto Changes a profile photo for the current user
+// @param photo Profile photo to set
+func (client *Client) SetProfilePhoto(photo InputChatPhoto) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "setProfilePhoto",
+		"photo": photo,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteProfilePhoto Deletes a profile photo
+// @param profilePhotoID Identifier of the profile photo to delete
+func (client *Client) DeleteProfilePhoto(profilePhotoID JSONInt64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "deleteProfilePhoto",
+		"profile_photo_id": profilePhotoID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetName Changes the first and last name of the current user
+// @param firstName The new value of the first name for the user; 1-64 characters
+// @param lastName The new value of the optional last name for the user; 0-64 characters
+func (client *Client) SetName(firstName string, lastName string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "setName",
+		"first_name": firstName,
+		"last_name":  lastName,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetBio Changes the bio of the current user
+// @param bio The new value of the user bio; 0-70 characters without line feeds
+func (client *Client) SetBio(bio string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "setBio",
+		"bio":   bio,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetUsername Changes the username of the current user
+// @param username The new value of the username. Use an empty string to remove the username
+func (client *Client) SetUsername(username string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "setUsername",
+		"username": username,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetLocation Changes the location of the current user. Needs to be called if GetOption("is_location_visible") is true and location changes for more than 1 kilometer
+// @param location The new location of the user
+func (client *Client) SetLocation(location *Location) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "setLocation",
+		"location": location,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CheckChangePhoneNumberCode Checks the authentication code sent to confirm a new phone number of the user
+// @param code Verification code received by SMS, phone call or flash call
+func (client *Client) CheckChangePhoneNumberCode(code string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "checkChangePhoneNumberCode",
+		"code":  code,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetCommands Sets the list of commands supported by the bot; for bots only
+// @param commands List of the bot's commands
+func (client *Client) SetCommands(commands []BotCommand) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "setCommands",
+		"commands": commands,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TerminateSession Terminates a session of the current user
+// @param sessionID Session identifier
+func (client *Client) TerminateSession(sessionID JSONInt64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "terminateSession",
+		"session_id": sessionID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TerminateAllOtherSessions Terminates all other sessions of the current user
+func (client *Client) TerminateAllOtherSessions() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "terminateAllOtherSessions",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DisconnectWebsite Disconnects website from the current user's Telegram account
+// @param websiteID Website identifier
+func (client *Client) DisconnectWebsite(websiteID JSONInt64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "disconnectWebsite",
+		"website_id": websiteID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DisconnectAllWebsites Disconnects all websites from the current user's Telegram account
+func (client *Client) DisconnectAllWebsites() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "disconnectAllWebsites",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetSupergroupUsername Changes the username of a supergroup or channel, requires owner privileges in the supergroup or channel
+// @param supergroupID Identifier of the supergroup or channel
+// @param username New value of the username. Use an empty string to remove the username
+func (client *Client) SetSupergroupUsername(supergroupID int32, username string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "setSupergroupUsername",
+		"supergroup_id": supergroupID,
+		"username":      username,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetSupergroupStickerSet Changes the sticker set of a supergroup; requires can_change_info rights
+// @param supergroupID Identifier of the supergroup
+// @param stickerSetID New value of the supergroup sticker set identifier. Use 0 to remove the supergroup sticker set
+func (client *Client) SetSupergroupStickerSet(supergroupID int32, stickerSetID JSONInt64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":          "setSupergroupStickerSet",
+		"supergroup_id":  supergroupID,
+		"sticker_set_id": stickerSetID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleSupergroupSignMessages Toggles sender signatures messages sent in a channel; requires can_change_info rights
+// @param supergroupID Identifier of the channel
+// @param signMessages New value of sign_messages
+func (client *Client) ToggleSupergroupSignMessages(supergroupID int32, signMessages bool) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "toggleSupergroupSignMessages",
+		"supergroup_id": supergroupID,
+		"sign_messages": signMessages,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleSupergroupIsAllHistoryAvailable Toggles whether the message history of a supergroup is available to new members; requires can_change_info rights
+// @param supergroupID The identifier of the supergroup
+// @param isAllHistoryAvailable The new value of is_all_history_available
+func (client *Client) ToggleSupergroupIsAllHistoryAvailable(supergroupID int32, isAllHistoryAvailable bool) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                    "toggleSupergroupIsAllHistoryAvailable",
+		"supergroup_id":            supergroupID,
+		"is_all_history_available": isAllHistoryAvailable,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ReportSupergroupSpam Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup
+// @param supergroupID Supergroup identifier
+// @param userID User identifier
+// @param messageIDs Identifiers of messages sent in the supergroup by the user. This list must be non-empty
+func (client *Client) ReportSupergroupSpam(supergroupID int32, userID int32, messageIDs []int64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "reportSupergroupSpam",
+		"supergroup_id": supergroupID,
+		"user_id":       userID,
+		"message_ids":   messageIDs,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteSupergroup Deletes a supergroup or channel along with all messages in the corresponding chat. This will release the supergroup or channel username and remove all members; requires owner privileges in the supergroup or channel. Chats with more than 1000 members can't be deleted using this method
+// @param supergroupID Identifier of the supergroup or channel
+func (client *Client) DeleteSupergroup(supergroupID int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "deleteSupergroup",
+		"supergroup_id": supergroupID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CloseSecretChat Closes a secret chat, effectively transferring its state to secretChatStateClosed
+// @param secretChatID Secret chat identifier
+func (client *Client) CloseSecretChat(secretChatID int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":          "closeSecretChat",
+		"secret_chat_id": secretChatID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteSavedOrderInfo Deletes saved order info
+func (client *Client) DeleteSavedOrderInfo() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "deleteSavedOrderInfo",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteSavedCredentials Deletes saved credentials for all payment provider bots
+func (client *Client) DeleteSavedCredentials() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "deleteSavedCredentials",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveBackground Removes background from the list of installed backgrounds
+// @param backgroundID The background identifier
+func (client *Client) RemoveBackground(backgroundID JSONInt64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":         "removeBackground",
+		"background_id": backgroundID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ResetBackgrounds Resets list of installed backgrounds to its default value
+func (client *Client) ResetBackgrounds() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "resetBackgrounds",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SynchronizeLanguagePack Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method shouldn't be called explicitly for the current used/base language packs. Can be called before authorization
+// @param languagePackID Language pack identifier
+func (client *Client) SynchronizeLanguagePack(languagePackID string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "synchronizeLanguagePack",
+		"language_pack_id": languagePackID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AddCustomServerLanguagePack Adds a custom server language pack to the list of installed language packs in current localization target. Can be called before authorization
+// @param languagePackID Identifier of a language pack to be added; may be different from a name that is used in an "https://t.me/setlanguage/" link
+func (client *Client) AddCustomServerLanguagePack(languagePackID string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "addCustomServerLanguagePack",
+		"language_pack_id": languagePackID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetCustomLanguagePack Adds or changes a custom local language pack to the current localization target
+// @param info Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization
+// @param strings Strings of the new language pack
+func (client *Client) SetCustomLanguagePack(info *LanguagePackInfo, strings []LanguagePackString) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "setCustomLanguagePack",
+		"info":    info,
+		"strings": strings,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// EditCustomLanguagePackInfo Edits information about a custom local language pack in the current localization target. Can be called before authorization
+// @param info New information about the custom local language pack
+func (client *Client) EditCustomLanguagePackInfo(info *LanguagePackInfo) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "editCustomLanguagePackInfo",
+		"info":  info,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetCustomLanguagePackString Adds, edits or deletes a string in a custom local language pack. Can be called before authorization
+// @param languagePackID Identifier of a previously added custom local language pack in the current localization target
+// @param newString New language pack string
+func (client *Client) SetCustomLanguagePackString(languagePackID string, newString *LanguagePackString) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "setCustomLanguagePackString",
+		"language_pack_id": languagePackID,
+		"new_string":       newString,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteLanguagePack Deletes all information about a language pack in the current localization target. The language pack which is currently in use (including base language pack) or is being synchronized can't be deleted. Can be called before authorization
+// @param languagePackID Identifier of the language pack to delete
+func (client *Client) DeleteLanguagePack(languagePackID string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":            "deleteLanguagePack",
+		"language_pack_id": languagePackID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ProcessPushNotification Handles a push notification. Returns error with code 406 if the push notification is not supported and connection to the server is required to fetch new data. Can be called before authorization
+// @param payload JSON-encoded push notification payload with all fields sent by the server, and "google.sent_time" and "google.notification.sound" fields added
+func (client *Client) ProcessPushNotification(payload string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "processPushNotification",
+		"payload": payload,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetUserPrivacySettingRules Changes user privacy settings
+// @param setting The privacy setting
+// @param rules The new privacy rules
+func (client *Client) SetUserPrivacySettingRules(setting UserPrivacySetting, rules *UserPrivacySettingRules) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "setUserPrivacySettingRules",
+		"setting": setting,
+		"rules":   rules,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetOption Sets the value of an option. (Check the list of available options on https://core.telegram.org/tdlib/options.) Only writable options can be set. Can be called before authorization
+// @param name The name of the option
+// @param value The new value of the option
+func (client *Client) SetOption(name string, value OptionValue) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "setOption",
+		"name":  name,
+		"value": value,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetAccountTTL Changes the period of inactivity after which the account of the current user will automatically be deleted
+// @param tTL New account TTL
+func (client *Client) SetAccountTTL(tTL *AccountTTL) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "setAccountTtl",
+		"ttl":   tTL,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteAccount Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account. Can be called before authorization when the current authorization state is authorizationStateWaitPassword
+// @param reason The reason why the account was deleted; optional
+func (client *Client) DeleteAccount(reason string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":  "deleteAccount",
+		"reason": reason,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveChatActionBar Removes a chat action bar without any other action
+// @param chatID Chat identifier
+func (client *Client) RemoveChatActionBar(chatID int64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "removeChatActionBar",
+		"chat_id": chatID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ReportChat Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chats with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
+// @param chatID Chat identifier
+// @param reason The reason for reporting the chat
+// @param messageIDs Identifiers of reported messages, if any
+func (client *Client) ReportChat(chatID int64, reason ChatReportReason, messageIDs []int64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":       "reportChat",
+		"chat_id":     chatID,
+		"reason":      reason,
+		"message_ids": messageIDs,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetNetworkType Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it should be called whenever the network is changed, even if the network type remains the same. Network type is used to check whether the library can use the network at all and also for collecting detailed network data usage statistics
+// @param typeParam The new network type. By default, networkTypeOther
+func (client *Client) SetNetworkType(typeParam NetworkType) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "setNetworkType",
+		"type":  typeParam,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AddNetworkStatistics Adds the specified data to data usage statistics. Can be called before authorization
+// @param entry The network statistics entry with the data to be added to statistics
+func (client *Client) AddNetworkStatistics(entry NetworkStatisticsEntry) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "addNetworkStatistics",
+		"entry": entry,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ResetNetworkStatistics Resets all network data usage statistics to zero. Can be called before authorization
+func (client *Client) ResetNetworkStatistics() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "resetNetworkStatistics",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetAutoDownloadSettings Sets auto-download settings
+// @param settings New user auto-download settings
+// @param typeParam Type of the network for which the new settings are applied
+func (client *Client) SetAutoDownloadSettings(settings *AutoDownloadSettings, typeParam NetworkType) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "setAutoDownloadSettings",
+		"settings": settings,
+		"type":     typeParam,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeletePassportElement Deletes a Telegram Passport element
+// @param typeParam Element type
+func (client *Client) DeletePassportElement(typeParam PassportElementType) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "deletePassportElement",
+		"type":  typeParam,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetPassportElementErrors Informs the user that some of the elements in their Telegram Passport contain errors; for bots only. The user will not be able to resend the elements, until the errors are fixed
+// @param userID User identifier
+// @param errors The errors
+func (client *Client) SetPassportElementErrors(userID int32, errors []InputPassportElementError) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "setPassportElementErrors",
+		"user_id": userID,
+		"errors":  errors,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CheckPhoneNumberVerificationCode Checks the phone number verification code for Telegram Passport
+// @param code Verification code
+func (client *Client) CheckPhoneNumberVerificationCode(code string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "checkPhoneNumberVerificationCode",
+		"code":  code,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CheckEmailAddressVerificationCode Checks the email address verification code for Telegram Passport
+// @param code Verification code
+func (client *Client) CheckEmailAddressVerificationCode(code string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "checkEmailAddressVerificationCode",
+		"code":  code,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SendPassportAuthorizationForm Sends a Telegram Passport authorization form, effectively sharing data with the service. This method must be called after getPassportAuthorizationFormAvailableElements if some previously available elements are going to be reused
+// @param autorizationFormID Authorization form identifier
+// @param typeParams Types of Telegram Passport elements chosen by user to complete the authorization form
+func (client *Client) SendPassportAuthorizationForm(autorizationFormID int32, typeParams []PassportElementType) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                "sendPassportAuthorizationForm",
+		"autorization_form_id": autorizationFormID,
+		"types":                typeParams,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CheckPhoneNumberConfirmationCode Checks phone number confirmation code
+// @param code The phone number confirmation code
+func (client *Client) CheckPhoneNumberConfirmationCode(code string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "checkPhoneNumberConfirmationCode",
+		"code":  code,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetBotUpdatesStatus Informs the server about the number of pending bot updates if they haven't been processed for a long time; for bots only
+// @param pendingUpdateCount The number of pending updates
+// @param errorMessage The last error message
+func (client *Client) SetBotUpdatesStatus(pendingUpdateCount int32, errorMessage string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":                "setBotUpdatesStatus",
+		"pending_update_count": pendingUpdateCount,
+		"error_message":        errorMessage,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetStickerPositionInSet Changes the position of a sticker in the set to which it belongs; for bots only. The sticker set must have been created by the bot
+// @param sticker Sticker
+// @param position New position of the sticker in the set, zero-based
+func (client *Client) SetStickerPositionInSet(sticker InputFile, position int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "setStickerPositionInSet",
+		"sticker":  sticker,
+		"position": position,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveStickerFromSet Removes a sticker from the set to which it belongs; for bots only. The sticker set must have been created by the bot
+// @param sticker Sticker
+func (client *Client) RemoveStickerFromSet(sticker InputFile) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "removeStickerFromSet",
+		"sticker": sticker,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AcceptTermsOfService Accepts Telegram terms of services
+// @param termsOfServiceID Terms of service identifier
+func (client *Client) AcceptTermsOfService(termsOfServiceID string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":               "acceptTermsOfService",
+		"terms_of_service_id": termsOfServiceID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AnswerCustomQuery Answers a custom query; for bots only
+// @param customQueryID Identifier of a custom query
+// @param data JSON-serialized answer to the query
+func (client *Client) AnswerCustomQuery(customQueryID JSONInt64, data string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":           "answerCustomQuery",
+		"custom_query_id": customQueryID,
+		"data":            data,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetAlarm Succeeds after a specified amount of time has passed. Can be called before initialization
+// @param seconds Number of seconds before the function returns
+func (client *Client) SetAlarm(seconds float64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "setAlarm",
+		"seconds": seconds,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SaveApplicationLogEvent Saves application log event on the server. Can be called before authorization
+// @param typeParam Event type
+// @param chatID Optional chat identifier, associated with the event
+// @param data The log event data
+func (client *Client) SaveApplicationLogEvent(typeParam string, chatID int64, data JsonValue) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "saveApplicationLogEvent",
+		"type":    typeParam,
+		"chat_id": chatID,
+		"data":    data,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// EnableProxy Enables a proxy. Only one proxy can be enabled at a time. Can be called before authorization
+// @param proxyID Proxy identifier
+func (client *Client) EnableProxy(proxyID int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "enableProxy",
+		"proxy_id": proxyID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DisableProxy Disables the currently enabled proxy. Can be called before authorization
+func (client *Client) DisableProxy() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "disableProxy",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RemoveProxy Removes a proxy server. Can be called before authorization
+// @param proxyID Proxy identifier
+func (client *Client) RemoveProxy(proxyID int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":    "removeProxy",
+		"proxy_id": proxyID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetLogStream Sets new log stream for internal logging of TDLib. Can be called synchronously
+// @param logStream New log stream
+func (client *Client) SetLogStream(logStream LogStream) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":      "setLogStream",
+		"log_stream": logStream,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetLogVerbosityLevel Sets the verbosity level of the internal logging of TDLib. Can be called synchronously
+// @param newVerbosityLevel New value of the verbosity level for logging. Value 0 corresponds to fatal errors, value 1 corresponds to errors, value 2 corresponds to warnings and debug warnings, value 3 corresponds to informational, value 4 corresponds to debug, value 5 corresponds to verbose debug, value greater than 5 and up to 1023 can be used to enable even more logging
+func (client *Client) SetLogVerbosityLevel(newVerbosityLevel int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":               "setLogVerbosityLevel",
+		"new_verbosity_level": newVerbosityLevel,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetLogTagVerbosityLevel Sets the verbosity level for a specified TDLib internal log tag. Can be called synchronously
+// @param tag Logging tag to change verbosity level
+// @param newVerbosityLevel New verbosity level; 1-1024
+func (client *Client) SetLogTagVerbosityLevel(tag string, newVerbosityLevel int32) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":               "setLogTagVerbosityLevel",
+		"tag":                 tag,
+		"new_verbosity_level": newVerbosityLevel,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// AddLogMessage Adds a message to TDLib internal log. Can be called synchronously
+// @param verbosityLevel The minimum verbosity level needed for the message to be logged, 0-1023
+// @param text Text of a message to log
+func (client *Client) AddLogMessage(verbosityLevel int32, text string) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":           "addLogMessage",
+		"verbosity_level": verbosityLevel,
+		"text":            text,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TestCallEmpty Does nothing; for testing only. This is an offline method. Can be called before authorization
+func (client *Client) TestCallEmpty() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "testCallEmpty",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TestNetwork Sends a simple network request to the Telegram servers; for testing only. Can be called before authorization
+func (client *Client) TestNetwork() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "testNetwork",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TestProxy Sends a simple network request to the Telegram servers via proxy; for testing only. Can be called before authorization
+// @param server Proxy server IP address
+// @param port Proxy server port
+// @param typeParam Proxy type
+// @param dcID Identifier of a datacenter, with which to test connection
+// @param timeout The maximum overall timeout for the request
+func (client *Client) TestProxy(server string, port int32, typeParam ProxyType, dcID int32, timeout float64) (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type":   "testProxy",
+		"server":  server,
+		"port":    port,
+		"type":    typeParam,
+		"dc_id":   dcID,
+		"timeout": timeout,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// TestGetDifference Forces an updates.getDifference call to the Telegram servers; for testing only
+func (client *Client) TestGetDifference() (*Ok, error) {
+	result, err := client.SendAndCatch(UpdateData{
+		"@type": "testGetDifference",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+	}
+
+	var ok Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
