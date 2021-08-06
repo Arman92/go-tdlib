@@ -11,7 +11,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/Arman92/go-tdlib/client"
+	"github.com/Arman92/go-tdlib/tdlib"
 )
 
 var allChats []*tdlib.Chat
@@ -19,10 +20,10 @@ var haveFullChatList bool
 
 // TdInstance ...
 type TdInstance struct {
-	AcountName          string        `json:"AcountName"`
-	TdlibDbDirectory    string        `json:"TdlibDbDirectory"`
-	TdlibFilesDirectory string        `json:"TdlibFilesDirectory"`
-	TdlibClient         *tdlib.Client `json:"-"`
+	AcountName          string         `json:"AcountName"`
+	TdlibDbDirectory    string         `json:"TdlibDbDirectory"`
+	TdlibFilesDirectory string         `json:"TdlibFilesDirectory"`
+	TdlibClient         *client.Client `json:"-"`
 }
 
 var botInstances []TdInstance
@@ -33,7 +34,7 @@ func main() {
 	flag.BoolVar(&reconfig, "reconfig", false, "Pass true if you want to reconfigure the accounts")
 	flag.Parse()
 
-	tdlib.SetLogVerbosityLevel(1)
+	client.SetLogVerbosityLevel(1)
 
 	// if reconfig flag is set true, we will re-configure the telegram accounts, otherwise we just read the previous config and add the instances
 	if reconfig {
@@ -102,7 +103,7 @@ func main() {
 
 func (tdInstance *TdInstance) addTdlibClient() {
 	// Create new instance of client
-	client := tdlib.NewClient(tdlib.Config{
+	client := client.NewClient(client.Config{
 		APIID:               "228834",
 		APIHash:             "e4d4a67594f3ddadacab55ab48a6187a",
 		SystemLanguageCode:  "en",

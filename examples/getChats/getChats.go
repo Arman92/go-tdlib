@@ -8,18 +8,19 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/Arman92/go-tdlib/client"
+	"github.com/Arman92/go-tdlib/tdlib"
 )
 
 var allChats []*tdlib.Chat
 var haveFullChatList bool
 
 func main() {
-	tdlib.SetLogVerbosityLevel(1)
-	tdlib.SetFilePath("./errors.txt")
+	client.SetLogVerbosityLevel(1)
+	client.SetFilePath("./errors.txt")
 
 	// Create new instance of client
-	client := tdlib.NewClient(tdlib.Config{
+	client := client.NewClient(client.Config{
 		APIID:               "187786",
 		APIHash:             "e782045df67ba48e441ccb105da8fc85",
 		SystemLanguageCode:  "en",
@@ -65,7 +66,7 @@ func main() {
 }
 
 // see https://stackoverflow.com/questions/37782348/how-to-use-getchats-in-tdlib
-func getChatList(client *tdlib.Client, limit int) error {
+func getChatList(client *client.Client, limit int) error {
 
 	if !haveFullChatList && limit > len(allChats) {
 		offsetOrder := int64(math.MaxInt64)

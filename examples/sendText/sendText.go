@@ -7,15 +7,16 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/Arman92/go-tdlib/client"
+	"github.com/Arman92/go-tdlib/tdlib"
 )
 
 func main() {
-	tdlib.SetLogVerbosityLevel(1)
-	tdlib.SetFilePath("./errors.txt")
+	client.SetLogVerbosityLevel(1)
+	client.SetFilePath("./errors.txt")
 
 	// Create new instance of client
-	client := tdlib.NewClient(tdlib.Config{
+	client := client.NewClient(client.Config{
 		APIID:               "187786",
 		APIHash:             "e782045df67ba48e441ccb105da8fc85",
 		SystemLanguageCode:  "en",
@@ -41,7 +42,7 @@ func main() {
 	}()
 
 	// Wait while we get AuthorizationReady!
-	// Note: See authorization example for complete auhtorization sequence example
+	// Note: See authorization example for complete authorization sequence example
 	currentState, _ := client.Authorize()
 	for ; currentState.GetAuthorizationStateEnum() != tdlib.AuthorizationStateReadyType; currentState, _ = client.Authorize() {
 		time.Sleep(300 * time.Millisecond)
@@ -53,7 +54,7 @@ func main() {
 		chatID := int64(198529620) // Foursquare bot chat id
 
 		inputMsgTxt := tdlib.NewInputMessageText(tdlib.NewFormattedText("/start", nil), true, true)
-		client.SendMessage(chatID, int64(0), int64(0), nil, nil, inputMsgTxt)
+		client.SendMessage(chatID, 0, 0, nil, nil, inputMsgTxt)
 
 		time.Sleep(5 * time.Second)
 	}()

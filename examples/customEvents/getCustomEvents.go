@@ -7,15 +7,16 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/Arman92/go-tdlib/client"
+	"github.com/Arman92/go-tdlib/tdlib"
 )
 
 func main() {
-	tdlib.SetLogVerbosityLevel(1)
-	tdlib.SetFilePath("./errors.txt")
+	client.SetLogVerbosityLevel(1)
+	client.SetFilePath("./errors.txt")
 
 	// Create new instance of client
-	client := tdlib.NewClient(tdlib.Config{
+	client := client.NewClient(client.Config{
 		APIID:               "187786",
 		APIHash:             "e782045df67ba48e441ccb105da8fc85",
 		SystemLanguageCode:  "en",
@@ -41,7 +42,7 @@ func main() {
 	}()
 
 	// Wait while we get AuthorizationReady!
-	// Note: See authorization example for complete auhtorization sequence example
+	// Note: See authorization example for complete authorization sequence example
 	currentState, _ := client.Authorize()
 	for ; currentState.GetAuthorizationStateEnum() != tdlib.AuthorizationStateReadyType; currentState, _ = client.Authorize() {
 		time.Sleep(300 * time.Millisecond)
@@ -51,9 +52,10 @@ func main() {
 		// Create an filter function which will be used to filter out unwanted tdlib messages
 		eventFilter := func(msg *tdlib.TdMessage) bool {
 			updateMsg := (*msg).(*tdlib.UpdateNewMessage)
-			// For example, we want incomming messages from user with below id:
-			if updateMsg.Message.SenderUserID == 41507975 {
-				return true
+			// For example, we want incoming messages from user with below id:
+			if updateMsg.Message.Sender.GetMessageSenderEnum() == tdlib.MessageSenderUserType {
+				sender := updateMsg.Message.Sender.(*tdlib.MessageSenderUser)
+				return sender.UserID == 1055350095
 			}
 			return false
 		}
@@ -62,7 +64,7 @@ func main() {
 		// We like to get UpdateNewMessage events and with a specific FilterFunc
 		receiver := client.AddEventReceiver(&tdlib.UpdateNewMessage{}, eventFilter, 5)
 		for newMsg := range receiver.Chan {
-			fmt.Println(newMsg)
+			// fmt.Println(newMsg)
 			updateMsg := (newMsg).(*tdlib.UpdateNewMessage)
 			// We assume the message content is simple text: (should be more sophisticated for general use)
 			msgText := updateMsg.Message.Content.(*tdlib.MessageText)

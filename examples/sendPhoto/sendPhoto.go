@@ -1,20 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/Arman92/go-tdlib/client"
+	"github.com/Arman92/go-tdlib/tdlib"
 )
 
 func main() {
-	tdlib.SetLogVerbosityLevel(1)
-	tdlib.SetFilePath("./errors.txt")
+	client.SetLogVerbosityLevel(1)
+	client.SetFilePath("./errors.txt")
 
 	// Create new instance of client
-	client := tdlib.NewClient(tdlib.Config{
+	client := client.NewClient(client.Config{
 		APIID:               "187786",
 		APIHash:             "e782045df67ba48e441ccb105da8fc85",
 		SystemLanguageCode:  "en",
@@ -40,7 +42,7 @@ func main() {
 	}()
 
 	// Wait while we get AuthorizationReady!
-	// Note: See authorization example for complete auhtorization sequence example
+	// Note: See authorization example for complete authorization sequence example
 	currentState, _ := client.Authorize()
 	for ; currentState.GetAuthorizationStateEnum() != tdlib.AuthorizationStateReadyType; currentState, _ = client.Authorize() {
 		time.Sleep(300 * time.Millisecond)
@@ -48,10 +50,28 @@ func main() {
 
 	// Send "/start" text every 5 seconds to Forsquare bot chat
 	// Should get chatID somehow, check out "getChats" example
-	chatID := int64(198529620) // Foursquare bot chat id
+	chatID := int64(1055350095) // Foursquare bot chat id
 
+	// Note: file path ("./bunny.jpg") should be relative to your execution directory.
 	inputMsg := tdlib.NewInputMessagePhoto(tdlib.NewInputFileLocal("./bunny.jpg"), nil, nil, 400, 400,
 		tdlib.NewFormattedText("A photo sent from go-tdlib!", nil), 0)
-	client.SendMessage(chatID, 0, false, false, nil, inputMsg)
+	sentMsg, err := client.SendMessage(chatID, 0, 0, nil, nil, inputMsg)
 
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// Wait until the photo gets uploaded/sent.
+	for {
+		statMsg, err := client.GetMessage(sentMsg.ChatID, sentMsg.ID)
+		if err == nil {
+			fmt.Println(statMsg.SendingState)
+		} else {
+			fmt.Println(err)
+			return
+		}
+
+		time.Sleep(2 * time.Second)
+	}
 }
