@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Seconds Contains a value representing a number of seconds
 type Seconds struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewSeconds(seconds float64) *Seconds {
 	}
 
 	return &secondsTemp
-}
-
-// PingProxy Computes time needed to receive a response from a Telegram server through a proxy. Can be called before authorization
-// @param proxyID Proxy identifier. Use 0 to ping a Telegram server without a proxy
-func (client *Client) PingProxy(proxyID int32) (*Seconds, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "pingProxy",
-		"proxy_id": proxyID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var seconds Seconds
-	err = json.Unmarshal(result.Raw, &seconds)
-	return &seconds, err
-
 }

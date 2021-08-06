@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Date Represents a date according to the Gregorian calendar
 type Date struct {
 	tdCommon

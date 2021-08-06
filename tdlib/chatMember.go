@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // ChatMember A user with information about joining/leaving a chat
@@ -71,28 +70,4 @@ func (chatMember *ChatMember) UnmarshalJSON(b []byte) error {
 	chatMember.Status = fieldStatus
 
 	return nil
-}
-
-// GetChatMember Returns information about a single member of a chat
-// @param chatID Chat identifier
-// @param userID User identifier
-func (client *Client) GetChatMember(chatID int64, userID int32) (*ChatMember, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":   "getChatMember",
-		"chat_id": chatID,
-		"user_id": userID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatMember ChatMember
-	err = json.Unmarshal(result.Raw, &chatMember)
-	return &chatMember, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatStatisticsInviterInfo Contains statistics about number of new members invited by a user
 type ChatStatisticsInviterInfo struct {
 	tdCommon

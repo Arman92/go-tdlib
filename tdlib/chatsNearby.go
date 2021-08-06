@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatsNearby Represents a list of chats located nearby
 type ChatsNearby struct {
 	tdCommon
@@ -31,26 +26,4 @@ func NewChatsNearby(usersNearby []ChatNearby, supergroupsNearby []ChatNearby) *C
 	}
 
 	return &chatsNearbyTemp
-}
-
-// SearchChatsNearby Returns a list of users and location-based supergroups nearby. The list of users nearby will be updated for 60 seconds after the request by the updates updateUsersNearby. The request should be sent again every 25 seconds with adjusted location to not miss new chats
-// @param location Current user location
-func (client *Client) SearchChatsNearby(location *Location) (*ChatsNearby, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "searchChatsNearby",
-		"location": location,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatsNearby ChatsNearby
-	err = json.Unmarshal(result.Raw, &chatsNearby)
-	return &chatsNearby, err
-
 }

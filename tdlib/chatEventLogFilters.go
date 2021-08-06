@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatEventLogFilters Represents a set of filters used to obtain a chat event log
 type ChatEventLogFilters struct {
 	tdCommon

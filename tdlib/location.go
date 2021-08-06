@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Location Describes a location on planet Earth
 type Location struct {
 	tdCommon

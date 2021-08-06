@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ShippingOption One shipping option
 type ShippingOption struct {
 	tdCommon

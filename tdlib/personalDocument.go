@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PersonalDocument A personal document, containing some information about a user
 type PersonalDocument struct {
 	tdCommon

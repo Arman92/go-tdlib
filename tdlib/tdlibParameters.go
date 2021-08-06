@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // TdlibParameters Contains parameters for TDLib initialization
 type TdlibParameters struct {
 	tdCommon

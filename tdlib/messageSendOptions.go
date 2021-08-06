@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // MessageSendOptions Options to be used when a message is sent

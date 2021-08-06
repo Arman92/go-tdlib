@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // LanguagePackInfo Contains information about a language pack
 type LanguagePackInfo struct {
 	tdCommon
@@ -64,26 +59,4 @@ func NewLanguagePackInfo(iD string, baseLanguagePackID string, name string, nati
 	}
 
 	return &languagePackInfoTemp
-}
-
-// GetLanguagePackInfo Returns information about a language pack. Returned language pack identifier may be different from a provided one. Can be called before authorization
-// @param languagePackID Language pack identifier
-func (client *Client) GetLanguagePackInfo(languagePackID string) (*LanguagePackInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":            "getLanguagePackInfo",
-		"language_pack_id": languagePackID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var languagePackInfo LanguagePackInfo
-	err = json.Unmarshal(result.Raw, &languagePackInfo)
-	return &languagePackInfo, err
-
 }

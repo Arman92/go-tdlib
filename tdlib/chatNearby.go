@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatNearby Describes a chat located nearby
 type ChatNearby struct {
 	tdCommon

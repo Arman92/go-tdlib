@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Error An object of this type can be returned on every function call, in case of an error
 type Error struct {
 	tdCommon
@@ -31,26 +26,4 @@ func NewError(code int32, message string) *Error {
 	}
 
 	return &errorTemp
-}
-
-// TestReturnError Returns the specified error and ensures that the Error object is used; for testing only. Can be called synchronously
-// @param error The error to be returned
-func (client *Client) TestReturnError(error *Error) (*Error, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "testReturnError",
-		"error": error,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var errorDummy Error
-	err = json.Unmarshal(result.Raw, &errorDummy)
-	return &errorDummy, err
-
 }

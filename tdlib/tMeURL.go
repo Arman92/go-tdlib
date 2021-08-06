@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // TMeURL Represents a URL linking to an internal Telegram entity
 type TMeURL struct {
 	tdCommon

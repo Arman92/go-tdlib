@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // InputPassportElementError Contains the description of an error in a Telegram Passport element; for bots only

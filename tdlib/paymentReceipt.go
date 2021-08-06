@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PaymentReceipt Contains information about a successful payment
 type PaymentReceipt struct {
 	tdCommon
@@ -43,28 +38,4 @@ func NewPaymentReceipt(date int32, paymentsProviderUserID int32, invoice *Invoic
 	}
 
 	return &paymentReceiptTemp
-}
-
-// GetPaymentReceipt Returns information about a successful payment
-// @param chatID Chat identifier of the PaymentSuccessful message
-// @param messageID Message identifier
-func (client *Client) GetPaymentReceipt(chatID int64, messageID int64) (*PaymentReceipt, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":      "getPaymentReceipt",
-		"chat_id":    chatID,
-		"message_id": messageID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var paymentReceipt PaymentReceipt
-	err = json.Unmarshal(result.Raw, &paymentReceipt)
-	return &paymentReceipt, err
-
 }

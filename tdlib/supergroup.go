@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // Supergroup Represents a supergroup or channel with zero or more members (subscribers in the case of channels). From the point of view of the system, a channel is a special kind of a supergroup: only administrators can post and see the list of members, and posts from all administrators use the name and photo of the channel instead of individual names and profile photos. Unlike supergroups, channels can have an unlimited number of subscribers
@@ -111,26 +110,4 @@ func (supergroup *Supergroup) UnmarshalJSON(b []byte) error {
 	supergroup.Status = fieldStatus
 
 	return nil
-}
-
-// GetSupergroup Returns information about a supergroup or a channel by its identifier. This is an offline request if the current user is not a bot
-// @param supergroupID Supergroup or channel identifier
-func (client *Client) GetSupergroup(supergroupID int32) (*Supergroup, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":         "getSupergroup",
-		"supergroup_id": supergroupID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var supergroupDummy Supergroup
-	err = json.Unmarshal(result.Raw, &supergroupDummy)
-	return &supergroupDummy, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // CallProtocol Specifies the supported call protocols
 type CallProtocol struct {
 	tdCommon

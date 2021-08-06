@@ -113,15 +113,15 @@ func NewClient(config Config) *Client {
 					client.receiverLock.Lock()
 					for _, receiver := range client.receivers {
 						if msgType == receiver.Instance.MessageType() {
-							var newMsg tdlib.TdMessage
-							newMsg = reflect.New(reflect.ValueOf(receiver.Instance).Elem().Type()).Interface().(tdlib.TdMessage)
+							newMsg := reflect.New(reflect.ValueOf(receiver.Instance).Elem().Type()).Interface().(tdlib.TdMessage)
 
 							err := json.Unmarshal(updateBytes, &newMsg)
 							if err != nil {
 								fmt.Printf("Error unmarhaling to type %v", err)
-							}
-							if receiver.FilterFunc(&newMsg) {
-								receiver.Chan <- newMsg
+							} else {
+								if receiver.FilterFunc(&newMsg) {
+									receiver.Chan <- newMsg
+								}
 							}
 						}
 					}
@@ -141,6 +141,8 @@ func (client *Client) GetRawUpdatesChannel(capacity int) chan tdlib.UpdateMsg {
 }
 
 // AddEventReceiver adds a new receiver to be subscribed in receiver channels
+// @param msgInstance what kind of message do you want to receive?
+// @param
 func (client *Client) AddEventReceiver(msgInstance tdlib.TdMessage, filterFunc EventFilterFunc, channelCapacity int) EventReceiver {
 	receiver := EventReceiver{
 		Instance:   msgInstance,
@@ -293,19 +295,19 @@ func (client *Client) SendAndCatch(jsonQuery interface{}) (tdlib.UpdateMsg, erro
 }
 
 // Authorize is used to authorize the users
-func (client *Client) Authorize() (AuthorizationState, error) {
+func (client *Client) Authorize() (tdlib.AuthorizationState, error) {
 	state, err := client.GetAuthorizationState()
 	if err != nil {
 		return nil, err
 	}
 
-	if state.GetAuthorizationStateEnum() == AuthorizationStateWaitEncryptionKeyType {
+	if state.GetAuthorizationStateEnum() == tdlib.AuthorizationStateWaitEncryptionKeyType {
 		ok, err := client.CheckDatabaseEncryptionKey(nil)
 
 		if ok == nil || err != nil {
 			return nil, err
 		}
-	} else if state.GetAuthorizationStateEnum() == AuthorizationStateWaitTdlibParametersType {
+	} else if state.GetAuthorizationStateEnum() == tdlib.AuthorizationStateWaitTdlibParametersType {
 		client.sendTdLibParams()
 	}
 
@@ -314,9 +316,9 @@ func (client *Client) Authorize() (AuthorizationState, error) {
 }
 
 func (client *Client) sendTdLibParams() {
-	client.Send(UpdateData{
+	client.Send(tdlib.UpdateData{
 		"@type": "setTdlibParameters",
-		"parameters": UpdateData{
+		"parameters": tdlib.UpdateData{
 			"@type":                    "tdlibParameters",
 			"use_test_dc":              client.Config.UseTestDataCenter,
 			"database_directory":       client.Config.DatabaseDirectory,
@@ -338,8 +340,8 @@ func (client *Client) sendTdLibParams() {
 }
 
 // SendPhoneNumber sends phone number to tdlib
-func (client *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, error) {
-	phoneNumberConfig := PhoneNumberAuthenticationSettings{AllowFlashCall: false, IsCurrentPhoneNumber: false, AllowSmsRetrieverAPI: false}
+func (client *Client) SendPhoneNumber(phoneNumber string) (tdlib.AuthorizationState, error) {
+	phoneNumberConfig := tdlib.PhoneNumberAuthenticationSettings{AllowFlashCall: false, IsCurrentPhoneNumber: false, AllowSmsRetrieverAPI: false}
 	_, err := client.SetAuthenticationPhoneNumber(phoneNumber, &phoneNumberConfig)
 
 	if err != nil {
@@ -351,7 +353,7 @@ func (client *Client) SendPhoneNumber(phoneNumber string) (AuthorizationState, e
 }
 
 // SendAuthCode sends auth code to tdlib
-func (client *Client) SendAuthCode(code string) (AuthorizationState, error) {
+func (client *Client) SendAuthCode(code string) (tdlib.AuthorizationState, error) {
 	_, err := client.CheckAuthenticationCode(code)
 
 	if err != nil {
@@ -363,7 +365,7 @@ func (client *Client) SendAuthCode(code string) (AuthorizationState, error) {
 }
 
 // SendAuthPassword sends two-step verification password (user defined)to tdlib
-func (client *Client) SendAuthPassword(password string) (AuthorizationState, error) {
+func (client *Client) SendAuthPassword(password string) (tdlib.AuthorizationState, error) {
 	_, err := client.CheckAuthenticationPassword(password)
 
 	if err != nil {

@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // ChatPosition Describes a position of a chat in a chat list

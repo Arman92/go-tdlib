@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // TMeURLs Contains a list of t.me URLs
 type TMeURLs struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewTMeURLs(uRLs []TMeURL) *TMeURLs {
 	}
 
 	return &tMeURLsTemp
-}
-
-// GetRecentlyVisitedTMeURLs Returns t.me URLs recently visited by a newly registered user
-// @param referrer Google Play referrer to identify the user
-func (client *Client) GetRecentlyVisitedTMeURLs(referrer string) (*TMeURLs, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "getRecentlyVisitedTMeUrls",
-		"referrer": referrer,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var tMeURLs TMeURLs
-	err = json.Unmarshal(result.Raw, &tMeURLs)
-	return &tMeURLs, err
-
 }

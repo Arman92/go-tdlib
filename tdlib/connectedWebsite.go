@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ConnectedWebsite Contains information about one website the current user is logged in with Telegram
 type ConnectedWebsite struct {
 	tdCommon

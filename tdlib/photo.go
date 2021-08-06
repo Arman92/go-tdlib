@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Photo Describes a photo
 type Photo struct {
 	tdCommon

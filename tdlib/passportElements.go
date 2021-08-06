@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PassportElements Contains information about saved Telegram Passport elements
 type PassportElements struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewPassportElements(elements []PassportElement) *PassportElements {
 	}
 
 	return &passportElementsTemp
-}
-
-// GetAllPassportElements Returns all available Telegram Passport elements
-// @param password Password of the current user
-func (client *Client) GetAllPassportElements(password string) (*PassportElements, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "getAllPassportElements",
-		"password": password,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var passportElements PassportElements
-	err = json.Unmarshal(result.Raw, &passportElements)
-	return &passportElements, err
-
 }

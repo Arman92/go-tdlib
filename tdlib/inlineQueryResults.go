@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // InlineQueryResults Represents the results of the inline query. Use sendInlineQueryResultMessage to send the result of the query
 type InlineQueryResults struct {
 	tdCommon
@@ -40,34 +35,4 @@ func NewInlineQueryResults(inlineQueryID JSONInt64, nextOffset string, results [
 	}
 
 	return &inlineQueryResultsTemp
-}
-
-// GetInlineQueryResults Sends an inline query to a bot and returns its results. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires
-// @param botUserID The identifier of the target bot
-// @param chatID Identifier of the chat where the query was sent
-// @param userLocation Location of the user, only if needed
-// @param query Text of the query
-// @param offset Offset of the first entry to return
-func (client *Client) GetInlineQueryResults(botUserID int32, chatID int64, userLocation *Location, query string, offset string) (*InlineQueryResults, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":         "getInlineQueryResults",
-		"bot_user_id":   botUserID,
-		"chat_id":       chatID,
-		"user_location": userLocation,
-		"query":         query,
-		"offset":        offset,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var inlineQueryResults InlineQueryResults
-	err = json.Unmarshal(result.Raw, &inlineQueryResults)
-	return &inlineQueryResults, err
-
 }

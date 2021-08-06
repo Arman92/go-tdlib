@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ScopeNotificationSettings Contains information about notification settings for several chats
 type ScopeNotificationSettings struct {
 	tdCommon
@@ -40,26 +35,4 @@ func NewScopeNotificationSettings(muteFor int32, sound string, showPreview bool,
 	}
 
 	return &scopeNotificationSettingsTemp
-}
-
-// GetScopeNotificationSettings Returns the notification settings for chats of a given type
-// @param scope Types of chats for which to return the notification settings information
-func (client *Client) GetScopeNotificationSettings(scope NotificationSettingsScope) (*ScopeNotificationSettings, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getScopeNotificationSettings",
-		"scope": scope,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var scopeNotificationSettings ScopeNotificationSettings
-	err = json.Unmarshal(result.Raw, &scopeNotificationSettings)
-	return &scopeNotificationSettings, err
-
 }

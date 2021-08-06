@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // CallID Contains the call identifier
 type CallID struct {
 	tdCommon
@@ -28,30 +23,4 @@ func NewCallID(iD int32) *CallID {
 	}
 
 	return &callIDTemp
-}
-
-// CreateCall Creates a new call
-// @param userID Identifier of the user to be called
-// @param protocol Description of the call protocols supported by the application
-// @param isVideo True, if a video call needs to be created
-func (client *Client) CreateCall(userID int32, protocol *CallProtocol, isVideo bool) (*CallID, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":    "createCall",
-		"user_id":  userID,
-		"protocol": protocol,
-		"is_video": isVideo,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var callID CallID
-	err = json.Unmarshal(result.Raw, &callID)
-	return &callID, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // UserFullInfo Contains full information about a user
 type UserFullInfo struct {
 	tdCommon
@@ -55,26 +50,4 @@ func NewUserFullInfo(photo *ChatPhoto, isBlocked bool, canBeCalled bool, support
 	}
 
 	return &userFullInfoTemp
-}
-
-// GetUserFullInfo Returns full information about a user by their identifier
-// @param userID User identifier
-func (client *Client) GetUserFullInfo(userID int32) (*UserFullInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":   "getUserFullInfo",
-		"user_id": userID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var userFullInfo UserFullInfo
-	err = json.Unmarshal(result.Raw, &userFullInfo)
-	return &userFullInfo, err
-
 }

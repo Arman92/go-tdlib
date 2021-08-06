@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatAdministrators Represents a list of chat administrators
 type ChatAdministrators struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewChatAdministrators(administrators []ChatAdministrator) *ChatAdministrato
 	}
 
 	return &chatAdministratorsTemp
-}
-
-// GetChatAdministrators Returns a list of administrators of the chat with their custom titles
-// @param chatID Chat identifier
-func (client *Client) GetChatAdministrators(chatID int64) (*ChatAdministrators, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":   "getChatAdministrators",
-		"chat_id": chatID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatAdministrators ChatAdministrators
-	err = json.Unmarshal(result.Raw, &chatAdministrators)
-	return &chatAdministrators, err
-
 }

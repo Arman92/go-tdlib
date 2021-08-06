@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatFilter Represents a filter of user chats
 type ChatFilter struct {
 	tdCommon
@@ -64,26 +59,4 @@ func NewChatFilter(title string, iconName string, pinnedChatIDs []int64, include
 	}
 
 	return &chatFilterTemp
-}
-
-// GetChatFilter Returns information about a chat filter by its identifier
-// @param chatFilterID Chat filter identifier
-func (client *Client) GetChatFilter(chatFilterID int32) (*ChatFilter, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":          "getChatFilter",
-		"chat_filter_id": chatFilterID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatFilterDummy ChatFilter
-	err = json.Unmarshal(result.Raw, &chatFilterDummy)
-	return &chatFilterDummy, err
-
 }

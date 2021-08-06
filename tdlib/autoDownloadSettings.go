@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // AutoDownloadSettings Contains auto-download settings
 type AutoDownloadSettings struct {
 	tdCommon

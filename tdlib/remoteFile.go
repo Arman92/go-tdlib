@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // RemoteFile Represents a remote file
 type RemoteFile struct {
 	tdCommon

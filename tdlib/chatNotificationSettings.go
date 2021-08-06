@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatNotificationSettings Contains information about notification settings for a chat
 type ChatNotificationSettings struct {
 	tdCommon

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // LocalFile Represents a local file
 type LocalFile struct {
 	tdCommon

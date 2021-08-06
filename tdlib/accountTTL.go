@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // AccountTTL Contains information about the period of inactivity after which the current user's account will automatically be deleted
 type AccountTTL struct {
 	tdCommon
@@ -28,24 +23,4 @@ func NewAccountTTL(days int32) *AccountTTL {
 	}
 
 	return &accountTTLTemp
-}
-
-// GetAccountTTL Returns the period of inactivity after which the account of the current user will automatically be deleted
-func (client *Client) GetAccountTTL() (*AccountTTL, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getAccountTtl",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var accountTTL AccountTTL
-	err = json.Unmarshal(result.Raw, &accountTTL)
-	return &accountTTL, err
-
 }

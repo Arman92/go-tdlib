@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PollOption Describes one answer option of a poll
 type PollOption struct {
 	tdCommon

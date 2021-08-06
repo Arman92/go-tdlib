@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Countries Contains information about countries
 type Countries struct {
 	tdCommon
@@ -28,24 +23,4 @@ func NewCountries(countries []CountryInfo) *Countries {
 	}
 
 	return &countriesTemp
-}
-
-// GetCountries Returns information about existing countries. Can be called before authorization
-func (client *Client) GetCountries() (*Countries, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getCountries",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var countries Countries
-	err = json.Unmarshal(result.Raw, &countries)
-	return &countries, err
-
 }

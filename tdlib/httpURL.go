@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // HttpURL Contains an HTTP URL
 type HttpURL struct {
 	tdCommon
@@ -28,104 +23,4 @@ func NewHttpURL(uRL string) *HttpURL {
 	}
 
 	return &httpURLTemp
-}
-
-// GetLoginURL Returns an HTTP URL which can be used to automatically authorize the user on a website after clicking an inline button of type inlineKeyboardButtonTypeLoginUrl. Use the method getLoginUrlInfo to find whether a prior user confirmation is needed. If an error is returned, then the button must be handled as an ordinary URL button
-// @param chatID Chat identifier of the message with the button
-// @param messageID Message identifier of the message with the button
-// @param buttonID Button identifier
-// @param allowWriteAccess True, if the user allowed the bot to send them messages
-func (client *Client) GetLoginURL(chatID int64, messageID int64, buttonID int32, allowWriteAccess bool) (*HttpURL, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":              "getLoginUrl",
-		"chat_id":            chatID,
-		"message_id":         messageID,
-		"button_id":          buttonID,
-		"allow_write_access": allowWriteAccess,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var httpURL HttpURL
-	err = json.Unmarshal(result.Raw, &httpURL)
-	return &httpURL, err
-
-}
-
-// GetEmojiSuggestionsURL Returns an HTTP URL which can be used to automatically log in to the translation platform and suggest new emoji replacements. The URL will be valid for 30 seconds after generation
-// @param languageCode Language code for which the emoji replacements will be suggested
-func (client *Client) GetEmojiSuggestionsURL(languageCode string) (*HttpURL, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":         "getEmojiSuggestionsUrl",
-		"language_code": languageCode,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var httpURL HttpURL
-	err = json.Unmarshal(result.Raw, &httpURL)
-	return &httpURL, err
-
-}
-
-// GetBackgroundURL Constructs a persistent HTTP URL for a background
-// @param name Background name
-// @param typeParam Background type
-func (client *Client) GetBackgroundURL(name string, typeParam BackgroundType) (*HttpURL, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getBackgroundUrl",
-		"name":  name,
-		"type":  typeParam,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var httpURL HttpURL
-	err = json.Unmarshal(result.Raw, &httpURL)
-	return &httpURL, err
-
-}
-
-// GetChatStatisticsURL Returns an HTTP URL with the chat statistics. Currently this method of getting the statistics are disabled and can be deleted in the future
-// @param chatID Chat identifier
-// @param parameters Parameters from "tg://statsrefresh?params=******" link
-// @param isDark Pass true if a URL with the dark theme must be returned
-func (client *Client) GetChatStatisticsURL(chatID int64, parameters string, isDark bool) (*HttpURL, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":      "getChatStatisticsUrl",
-		"chat_id":    chatID,
-		"parameters": parameters,
-		"is_dark":    isDark,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var httpURL HttpURL
-	err = json.Unmarshal(result.Raw, &httpURL)
-	return &httpURL, err
-
 }

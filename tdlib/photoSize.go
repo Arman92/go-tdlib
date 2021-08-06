@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PhotoSize Describes an image in JPEG format
 type PhotoSize struct {
 	tdCommon

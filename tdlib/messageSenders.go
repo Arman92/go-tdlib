@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // MessageSenders Represents a list of message senders
 type MessageSenders struct {
 	tdCommon
@@ -31,28 +26,4 @@ func NewMessageSenders(totalCount int32, senders []MessageSender) *MessageSender
 	}
 
 	return &messageSendersTemp
-}
-
-// GetBlockedMessageSenders Returns users and chats that were blocked by the current user
-// @param offset Number of users and chats to skip in the result; must be non-negative
-// @param limit The maximum number of users and chats to return; up to 100
-func (client *Client) GetBlockedMessageSenders(offset int32, limit int32) (*MessageSenders, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":  "getBlockedMessageSenders",
-		"offset": offset,
-		"limit":  limit,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var messageSenders MessageSenders
-	err = json.Unmarshal(result.Raw, &messageSenders)
-	return &messageSenders, err
-
 }

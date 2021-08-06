@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // BasicGroupFullInfo Contains full information about a basic group
 type BasicGroupFullInfo struct {
 	tdCommon
@@ -40,26 +35,4 @@ func NewBasicGroupFullInfo(photo *ChatPhoto, description string, creatorUserID i
 	}
 
 	return &basicGroupFullInfoTemp
-}
-
-// GetBasicGroupFullInfo Returns full information about a basic group by its identifier
-// @param basicGroupID Basic group identifier
-func (client *Client) GetBasicGroupFullInfo(basicGroupID int32) (*BasicGroupFullInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":          "getBasicGroupFullInfo",
-		"basic_group_id": basicGroupID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var basicGroupFullInfo BasicGroupFullInfo
-	err = json.Unmarshal(result.Raw, &basicGroupFullInfo)
-	return &basicGroupFullInfo, err
-
 }

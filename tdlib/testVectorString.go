@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // TestVectorString A simple object containing a vector of strings; for testing only
 type TestVectorString struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewTestVectorString(value []string) *TestVectorString {
 	}
 
 	return &testVectorStringTemp
-}
-
-// TestCallVectorString Returns the received vector of strings; for testing only. This is an offline method. Can be called before authorization
-// @param x Vector of strings to return
-func (client *Client) TestCallVectorString(x []string) (*TestVectorString, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "testCallVectorString",
-		"x":     x,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var testVectorString TestVectorString
-	err = json.Unmarshal(result.Raw, &testVectorString)
-	return &testVectorString, err
-
 }

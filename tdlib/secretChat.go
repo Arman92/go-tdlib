@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // SecretChat Represents a secret chat
@@ -81,26 +80,4 @@ func (secretChat *SecretChat) UnmarshalJSON(b []byte) error {
 	secretChat.State = fieldState
 
 	return nil
-}
-
-// GetSecretChat Returns information about a secret chat by its identifier. This is an offline request
-// @param secretChatID Secret chat identifier
-func (client *Client) GetSecretChat(secretChatID int32) (*SecretChat, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":          "getSecretChat",
-		"secret_chat_id": secretChatID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var secretChatDummy SecretChat
-	err = json.Unmarshal(result.Raw, &secretChatDummy)
-	return &secretChatDummy, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // DatabaseStatistics Contains database statistics
 type DatabaseStatistics struct {
 	tdCommon
@@ -28,24 +23,4 @@ func NewDatabaseStatistics(statistics string) *DatabaseStatistics {
 	}
 
 	return &databaseStatisticsTemp
-}
-
-// GetDatabaseStatistics Returns database statistics
-func (client *Client) GetDatabaseStatistics() (*DatabaseStatistics, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getDatabaseStatistics",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var databaseStatistics DatabaseStatistics
-	err = json.Unmarshal(result.Raw, &databaseStatistics)
-	return &databaseStatistics, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PassportAuthorizationForm Contains information about a Telegram Passport authorization form that was requested
 type PassportAuthorizationForm struct {
 	tdCommon
@@ -34,32 +29,4 @@ func NewPassportAuthorizationForm(iD int32, requiredElements []PassportRequiredE
 	}
 
 	return &passportAuthorizationFormTemp
-}
-
-// GetPassportAuthorizationForm Returns a Telegram Passport authorization form for sharing data with a service
-// @param botUserID User identifier of the service's bot
-// @param scope Telegram Passport element types requested by the service
-// @param publicKey Service's public_key
-// @param nonce Authorization form nonce provided by the service
-func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string, publicKey string, nonce string) (*PassportAuthorizationForm, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":       "getPassportAuthorizationForm",
-		"bot_user_id": botUserID,
-		"scope":       scope,
-		"public_key":  publicKey,
-		"nonce":       nonce,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var passportAuthorizationForm PassportAuthorizationForm
-	err = json.Unmarshal(result.Raw, &passportAuthorizationForm)
-	return &passportAuthorizationForm, err
-
 }

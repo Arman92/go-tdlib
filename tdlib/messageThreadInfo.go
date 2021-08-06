@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // MessageThreadInfo Contains information about a message thread
 type MessageThreadInfo struct {
 	tdCommon
@@ -40,28 +35,4 @@ func NewMessageThreadInfo(chatID int64, messageThreadID int64, replyInfo *Messag
 	}
 
 	return &messageThreadInfoTemp
-}
-
-// GetMessageThread Returns information about a message thread. Can be used only if message.can_get_message_thread == true
-// @param chatID Chat identifier
-// @param messageID Identifier of the message
-func (client *Client) GetMessageThread(chatID int64, messageID int64) (*MessageThreadInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":      "getMessageThread",
-		"chat_id":    chatID,
-		"message_id": messageID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var messageThreadInfo MessageThreadInfo
-	err = json.Unmarshal(result.Raw, &messageThreadInfo)
-	return &messageThreadInfo, err
-
 }

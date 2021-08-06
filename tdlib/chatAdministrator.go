@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatAdministrator Contains information about a chat administrator
 type ChatAdministrator struct {
 	tdCommon

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatPhoto Describes a chat or user profile photo
 type ChatPhoto struct {
 	tdCommon

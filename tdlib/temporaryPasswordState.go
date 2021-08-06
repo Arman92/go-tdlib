@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // TemporaryPasswordState Returns information about the availability of a temporary password, which can be used for payments
 type TemporaryPasswordState struct {
 	tdCommon
@@ -31,48 +26,4 @@ func NewTemporaryPasswordState(hasPassword bool, validFor int32) *TemporaryPassw
 	}
 
 	return &temporaryPasswordStateTemp
-}
-
-// CreateTemporaryPassword Creates a new temporary password for processing payments
-// @param password Persistent user password
-// @param validFor Time during which the temporary password will be valid, in seconds; should be between 60 and 86400
-func (client *Client) CreateTemporaryPassword(password string, validFor int32) (*TemporaryPasswordState, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":     "createTemporaryPassword",
-		"password":  password,
-		"valid_for": validFor,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var temporaryPasswordState TemporaryPasswordState
-	err = json.Unmarshal(result.Raw, &temporaryPasswordState)
-	return &temporaryPasswordState, err
-
-}
-
-// GetTemporaryPasswordState Returns information about the current temporary password
-func (client *Client) GetTemporaryPasswordState() (*TemporaryPasswordState, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getTemporaryPasswordState",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var temporaryPasswordState TemporaryPasswordState
-	err = json.Unmarshal(result.Raw, &temporaryPasswordState)
-	return &temporaryPasswordState, err
-
 }

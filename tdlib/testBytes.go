@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // TestBytes A simple object containing a sequence of bytes; for testing only
 type TestBytes struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewTestBytes(value []byte) *TestBytes {
 	}
 
 	return &testBytesTemp
-}
-
-// TestCallBytes Returns the received bytes; for testing only. This is an offline method. Can be called before authorization
-// @param x Bytes to return
-func (client *Client) TestCallBytes(x []byte) (*TestBytes, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "testCallBytes",
-		"x":     x,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var testBytes TestBytes
-	err = json.Unmarshal(result.Raw, &testBytes)
-	return &testBytes, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Minithumbnail Thumbnail image of a very poor quality and low resolution
 type Minithumbnail struct {
 	tdCommon

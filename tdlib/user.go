@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // User Represents a user
@@ -127,66 +126,4 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	user.Type = fieldType
 
 	return nil
-}
-
-// GetMe Returns the current user
-func (client *Client) GetMe() (*User, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getMe",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var user User
-	err = json.Unmarshal(result.Raw, &user)
-	return &user, err
-
-}
-
-// GetUser Returns information about a user by their identifier. This is an offline request if the current user is not a bot
-// @param userID User identifier
-func (client *Client) GetUser(userID int32) (*User, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":   "getUser",
-		"user_id": userID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var userDummy User
-	err = json.Unmarshal(result.Raw, &userDummy)
-	return &userDummy, err
-
-}
-
-// GetSupportUser Returns a user that can be contacted to get support
-func (client *Client) GetSupportUser() (*User, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getSupportUser",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var user User
-	err = json.Unmarshal(result.Raw, &user)
-	return &user, err
-
 }

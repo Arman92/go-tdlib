@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatLists Contains a list of chat lists
 type ChatLists struct {
 	tdCommon
@@ -28,26 +23,4 @@ func NewChatLists(chatLists []ChatList) *ChatLists {
 	}
 
 	return &chatListsTemp
-}
-
-// GetChatListsToAddChat Returns chat lists to which the chat can be added. This is an offline request
-// @param chatID Chat identifier
-func (client *Client) GetChatListsToAddChat(chatID int64) (*ChatLists, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":   "getChatListsToAddChat",
-		"chat_id": chatID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatLists ChatLists
-	err = json.Unmarshal(result.Raw, &chatLists)
-	return &chatLists, err
-
 }

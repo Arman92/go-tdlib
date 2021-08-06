@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PaymentForm Contains information about an invoice payment form
 type PaymentForm struct {
 	tdCommon
@@ -46,28 +41,4 @@ func NewPaymentForm(invoice *Invoice, uRL string, paymentsProvider *PaymentsProv
 	}
 
 	return &paymentFormTemp
-}
-
-// GetPaymentForm Returns an invoice payment form. This method should be called when the user presses inlineKeyboardButtonBuy
-// @param chatID Chat identifier of the Invoice message
-// @param messageID Message identifier
-func (client *Client) GetPaymentForm(chatID int64, messageID int64) (*PaymentForm, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":      "getPaymentForm",
-		"chat_id":    chatID,
-		"message_id": messageID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var paymentForm PaymentForm
-	err = json.Unmarshal(result.Raw, &paymentForm)
-	return &paymentForm, err
-
 }

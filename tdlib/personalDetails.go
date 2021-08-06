@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // PersonalDetails Contains the user's personal details
 type PersonalDetails struct {
 	tdCommon

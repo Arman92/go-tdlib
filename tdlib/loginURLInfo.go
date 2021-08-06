@@ -93,30 +93,3 @@ func NewLoginURLInfoRequestConfirmation(uRL string, domain string, botUserID int
 
 	return &loginURLInfoRequestConfirmationTemp
 }
-
-// GetLoginURLInfo Returns information about a button of type inlineKeyboardButtonTypeLoginUrl. The method needs to be called when the user presses the button
-// @param chatID Chat identifier of the message with the button
-// @param messageID Message identifier of the message with the button
-// @param buttonID Button identifier
-func (client *Client) GetLoginURLInfo(chatID int64, messageID int64, buttonID int32) (LoginURLInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":      "getLoginUrlInfo",
-		"chat_id":    chatID,
-		"message_id": messageID,
-		"button_id":  buttonID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	switch LoginURLInfoEnum(result.Data["@type"].(string)) {
-
-	default:
-		return nil, fmt.Errorf("Invalid type")
-	}
-}

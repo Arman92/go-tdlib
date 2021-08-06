@@ -4,7 +4,6 @@ package tdlib
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // InputThumbnail A thumbnail to be sent along with a file; must be in JPEG or WEBP format for stickers, and less than 200 KB in size

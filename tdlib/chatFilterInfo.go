@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ChatFilterInfo Contains basic information about a chat filter
 type ChatFilterInfo struct {
 	tdCommon
@@ -34,50 +29,4 @@ func NewChatFilterInfo(iD int32, title string, iconName string) *ChatFilterInfo 
 	}
 
 	return &chatFilterInfoTemp
-}
-
-// CreateChatFilter Creates new chat filter. Returns information about the created chat filter
-// @param filter Chat filter
-func (client *Client) CreateChatFilter(filter *ChatFilter) (*ChatFilterInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":  "createChatFilter",
-		"filter": filter,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatFilterInfo ChatFilterInfo
-	err = json.Unmarshal(result.Raw, &chatFilterInfo)
-	return &chatFilterInfo, err
-
-}
-
-// EditChatFilter Edits existing chat filter. Returns information about the edited chat filter
-// @param chatFilterID Chat filter identifier
-// @param filter The edited chat filter
-func (client *Client) EditChatFilter(chatFilterID int32, filter *ChatFilter) (*ChatFilterInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type":          "editChatFilter",
-		"chat_filter_id": chatFilterID,
-		"filter":         filter,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var chatFilterInfo ChatFilterInfo
-	err = json.Unmarshal(result.Raw, &chatFilterInfo)
-	return &chatFilterInfo, err
-
 }

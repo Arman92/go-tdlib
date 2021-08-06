@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // VideoNote Describes a video note. The video must be equal in width and height, cropped to a circle, and stored in MPEG4 format
 type VideoNote struct {
 	tdCommon

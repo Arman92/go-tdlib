@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // RecommendedChatFilter Describes a recommended chat filter
 type RecommendedChatFilter struct {
 	tdCommon

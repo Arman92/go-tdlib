@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // WebPage Describes a web page preview
 type WebPage struct {
 	tdCommon
@@ -88,26 +83,4 @@ func NewWebPage(uRL string, displayURL string, typeParam string, siteName string
 	}
 
 	return &webPageTemp
-}
-
-// GetWebPagePreview Returns a web page preview by the text of the message. Do not call this function too often. Returns a 404 error if the web page has no preview
-// @param text Message text with formatting
-func (client *Client) GetWebPagePreview(text *FormattedText) (*WebPage, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getWebPagePreview",
-		"text":  text,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var webPage WebPage
-	err = json.Unmarshal(result.Raw, &webPage)
-	return &webPage, err
-
 }

@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // StickerSetInfo Represents short information about a sticker set
 type StickerSetInfo struct {
 	tdCommon

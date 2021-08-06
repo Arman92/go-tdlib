@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // OrderInfo Order information
 type OrderInfo struct {
 	tdCommon
@@ -37,24 +32,4 @@ func NewOrderInfo(name string, phoneNumber string, emailAddress string, shipping
 	}
 
 	return &orderInfoTemp
-}
-
-// GetSavedOrderInfo Returns saved order info, if any
-func (client *Client) GetSavedOrderInfo() (*OrderInfo, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getSavedOrderInfo",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var orderInfo OrderInfo
-	err = json.Unmarshal(result.Raw, &orderInfo)
-	return &orderInfo, err
-
 }

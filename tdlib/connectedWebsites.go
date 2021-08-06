@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // ConnectedWebsites Contains a list of websites the current user is logged in with Telegram
 type ConnectedWebsites struct {
 	tdCommon
@@ -28,24 +23,4 @@ func NewConnectedWebsites(websites []ConnectedWebsite) *ConnectedWebsites {
 	}
 
 	return &connectedWebsitesTemp
-}
-
-// GetConnectedWebsites Returns all website where the current user used Telegram to log in
-func (client *Client) GetConnectedWebsites() (*ConnectedWebsites, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "getConnectedWebsites",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var connectedWebsites ConnectedWebsites
-	err = json.Unmarshal(result.Raw, &connectedWebsites)
-	return &connectedWebsites, err
-
 }

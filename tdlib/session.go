@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Session Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order
 type Session struct {
 	tdCommon
@@ -70,26 +65,4 @@ func NewSession(iD JSONInt64, isCurrent bool, isPasswordPending bool, aPIID int3
 	}
 
 	return &sessionTemp
-}
-
-// ConfirmQrCodeAuthentication Confirms QR code authentication on another device. Returns created session on success
-// @param link A link from a QR code. The link must be scanned by the in-app camera
-func (client *Client) ConfirmQrCodeAuthentication(link string) (*Session, error) {
-	result, err := client.SendAndCatch(UpdateData{
-		"@type": "confirmQrCodeAuthentication",
-		"link":  link,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var session Session
-	err = json.Unmarshal(result.Raw, &session)
-	return &session, err
-
 }

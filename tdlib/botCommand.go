@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // BotCommand Represents a command supported by a bot
 type BotCommand struct {
 	tdCommon

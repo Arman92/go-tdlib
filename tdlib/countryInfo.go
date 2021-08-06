@@ -2,11 +2,6 @@
 
 package tdlib
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // CountryInfo Contains information about a country
 type CountryInfo struct {
 	tdCommon
