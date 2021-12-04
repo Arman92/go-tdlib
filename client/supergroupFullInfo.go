@@ -4,14 +4,13 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetSupergroupFullInfo Returns full information about a supergroup or a channel by its identifier, cached for up to 1 minute
 // @param supergroupID Supergroup or channel identifier
-func (client *Client) GetSupergroupFullInfo(supergroupID int32) (*tdlib.SupergroupFullInfo, error) {
+func (client *Client) GetSupergroupFullInfo(supergroupID int64) (*tdlib.SupergroupFullInfo, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "getSupergroupFullInfo",
 		"supergroup_id": supergroupID,
@@ -22,7 +21,7 @@ func (client *Client) GetSupergroupFullInfo(supergroupID int32) (*tdlib.Supergro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var supergroupFullInfo tdlib.SupergroupFullInfo

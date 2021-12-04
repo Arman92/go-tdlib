@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetStorageStatistics Returns storage usage statistics. Can be called before authorization
@@ -22,7 +21,7 @@ func (client *Client) GetStorageStatistics(chatLimit int32) (*tdlib.StorageStati
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var storageStatistics tdlib.StorageStatistics
@@ -32,7 +31,7 @@ func (client *Client) GetStorageStatistics(chatLimit int32) (*tdlib.StorageStati
 }
 
 // OptimizeStorage Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted
-// @param size Limit on the total size of files after deletion. Pass -1 to use the default limit
+// @param size Limit on the total size of files after deletion, in bytes. Pass -1 to use the default limit
 // @param tTL Limit on the time that has passed since the last time a file was accessed (or creation time for some filesystems). Pass -1 to use the default limit
 // @param count Limit on the total count of files after deletion. Pass -1 to use the default limit
 // @param immunityDelay The amount of time after the creation of a file during which it can't be deleted, in seconds. Pass -1 to use the default value
@@ -60,7 +59,7 @@ func (client *Client) OptimizeStorage(size int64, tTL int32, count int32, immuni
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var storageStatistics tdlib.StorageStatistics

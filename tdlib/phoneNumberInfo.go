@@ -7,7 +7,7 @@ type PhoneNumberInfo struct {
 	tdCommon
 	Country              *CountryInfo `json:"country"`                // Information about the country to which the phone number belongs; may be null
 	CountryCallingCode   string       `json:"country_calling_code"`   // The part of the phone number denoting country calling code or its part
-	FormattedPhoneNumber string       `json:"formatted_phone_number"` // The phone number without country calling code formatted accordingly to local rules
+	FormattedPhoneNumber string       `json:"formatted_phone_number"` // The phone number without country calling code formatted accordingly to local rules. Expected digits are returned as '-', but even more digits might be entered by the user
 }
 
 // MessageType return the string telegram-type of PhoneNumberInfo
@@ -19,7 +19,7 @@ func (phoneNumberInfo *PhoneNumberInfo) MessageType() string {
 //
 // @param country Information about the country to which the phone number belongs; may be null
 // @param countryCallingCode The part of the phone number denoting country calling code or its part
-// @param formattedPhoneNumber The phone number without country calling code formatted accordingly to local rules
+// @param formattedPhoneNumber The phone number without country calling code formatted accordingly to local rules. Expected digits are returned as '-', but even more digits might be entered by the user
 func NewPhoneNumberInfo(country *CountryInfo, countryCallingCode string, formattedPhoneNumber string) *PhoneNumberInfo {
 	phoneNumberInfoTemp := PhoneNumberInfo{
 		tdCommon:             tdCommon{Type: "phoneNumberInfo"},

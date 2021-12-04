@@ -39,6 +39,7 @@ const (
 	PushMessageContentChatAddMembersType       PushMessageContentEnum = "pushMessageContentChatAddMembers"
 	PushMessageContentChatChangePhotoType      PushMessageContentEnum = "pushMessageContentChatChangePhoto"
 	PushMessageContentChatChangeTitleType      PushMessageContentEnum = "pushMessageContentChatChangeTitle"
+	PushMessageContentChatChangeThemeType      PushMessageContentEnum = "pushMessageContentChatChangeTheme"
 	PushMessageContentChatDeleteMemberType     PushMessageContentEnum = "pushMessageContentChatDeleteMember"
 	PushMessageContentChatJoinByLinkType       PushMessageContentEnum = "pushMessageContentChatJoinByLink"
 	PushMessageContentMessageForwardsType      PushMessageContentEnum = "pushMessageContentMessageForwards"
@@ -166,6 +167,11 @@ func unmarshalPushMessageContent(rawMsg *json.RawMessage) (PushMessageContent, e
 		var pushMessageContentChatChangeTitle PushMessageContentChatChangeTitle
 		err := json.Unmarshal(*rawMsg, &pushMessageContentChatChangeTitle)
 		return &pushMessageContentChatChangeTitle, err
+
+	case PushMessageContentChatChangeThemeType:
+		var pushMessageContentChatChangeTheme PushMessageContentChatChangeTheme
+		err := json.Unmarshal(*rawMsg, &pushMessageContentChatChangeTheme)
+		return &pushMessageContentChatChangeTheme, err
 
 	case PushMessageContentChatDeleteMemberType:
 		var pushMessageContentChatDeleteMember PushMessageContentChatDeleteMember
@@ -789,7 +795,7 @@ type PushMessageContentChatAddMembers struct {
 	tdCommon
 	MemberName    string `json:"member_name"`     // Name of the added member
 	IsCurrentUser bool   `json:"is_current_user"` // True, if the current user was added to the group
-	IsReturned    bool   `json:"is_returned"`     // True, if the user has returned to the group themself
+	IsReturned    bool   `json:"is_returned"`     // True, if the user has returned to the group themselves
 }
 
 // MessageType return the string telegram-type of PushMessageContentChatAddMembers
@@ -801,7 +807,7 @@ func (pushMessageContentChatAddMembers *PushMessageContentChatAddMembers) Messag
 //
 // @param memberName Name of the added member
 // @param isCurrentUser True, if the current user was added to the group
-// @param isReturned True, if the user has returned to the group themself
+// @param isReturned True, if the user has returned to the group themselves
 func NewPushMessageContentChatAddMembers(memberName string, isCurrentUser bool, isReturned bool) *PushMessageContentChatAddMembers {
 	pushMessageContentChatAddMembersTemp := PushMessageContentChatAddMembers{
 		tdCommon:      tdCommon{Type: "pushMessageContentChatAddMembers"},
@@ -871,12 +877,40 @@ func (pushMessageContentChatChangeTitle *PushMessageContentChatChangeTitle) GetP
 	return PushMessageContentChatChangeTitleType
 }
 
+// PushMessageContentChatChangeTheme A chat theme was edited
+type PushMessageContentChatChangeTheme struct {
+	tdCommon
+	ThemeName string `json:"theme_name"` // If non-empty, name of a new theme set for the chat. Otherwise chat theme was reset to the default one
+}
+
+// MessageType return the string telegram-type of PushMessageContentChatChangeTheme
+func (pushMessageContentChatChangeTheme *PushMessageContentChatChangeTheme) MessageType() string {
+	return "pushMessageContentChatChangeTheme"
+}
+
+// NewPushMessageContentChatChangeTheme creates a new PushMessageContentChatChangeTheme
+//
+// @param themeName If non-empty, name of a new theme set for the chat. Otherwise chat theme was reset to the default one
+func NewPushMessageContentChatChangeTheme(themeName string) *PushMessageContentChatChangeTheme {
+	pushMessageContentChatChangeThemeTemp := PushMessageContentChatChangeTheme{
+		tdCommon:  tdCommon{Type: "pushMessageContentChatChangeTheme"},
+		ThemeName: themeName,
+	}
+
+	return &pushMessageContentChatChangeThemeTemp
+}
+
+// GetPushMessageContentEnum return the enum type of this object
+func (pushMessageContentChatChangeTheme *PushMessageContentChatChangeTheme) GetPushMessageContentEnum() PushMessageContentEnum {
+	return PushMessageContentChatChangeThemeType
+}
+
 // PushMessageContentChatDeleteMember A chat member was deleted
 type PushMessageContentChatDeleteMember struct {
 	tdCommon
 	MemberName    string `json:"member_name"`     // Name of the deleted member
 	IsCurrentUser bool   `json:"is_current_user"` // True, if the current user was deleted from the group
-	IsLeft        bool   `json:"is_left"`         // True, if the user has left the group themself
+	IsLeft        bool   `json:"is_left"`         // True, if the user has left the group themselves
 }
 
 // MessageType return the string telegram-type of PushMessageContentChatDeleteMember
@@ -888,7 +922,7 @@ func (pushMessageContentChatDeleteMember *PushMessageContentChatDeleteMember) Me
 //
 // @param memberName Name of the deleted member
 // @param isCurrentUser True, if the current user was deleted from the group
-// @param isLeft True, if the user has left the group themself
+// @param isLeft True, if the user has left the group themselves
 func NewPushMessageContentChatDeleteMember(memberName string, isCurrentUser bool, isLeft bool) *PushMessageContentChatDeleteMember {
 	pushMessageContentChatDeleteMemberTemp := PushMessageContentChatDeleteMember{
 		tdCommon:      tdCommon{Type: "pushMessageContentChatDeleteMember"},

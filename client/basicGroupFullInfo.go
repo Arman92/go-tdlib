@@ -4,14 +4,13 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetBasicGroupFullInfo Returns full information about a basic group by its identifier
 // @param basicGroupID Basic group identifier
-func (client *Client) GetBasicGroupFullInfo(basicGroupID int32) (*tdlib.BasicGroupFullInfo, error) {
+func (client *Client) GetBasicGroupFullInfo(basicGroupID int64) (*tdlib.BasicGroupFullInfo, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":          "getBasicGroupFullInfo",
 		"basic_group_id": basicGroupID,
@@ -22,7 +21,7 @@ func (client *Client) GetBasicGroupFullInfo(basicGroupID int32) (*tdlib.BasicGro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var basicGroupFullInfo tdlib.BasicGroupFullInfo

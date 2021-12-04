@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetPassportAuthorizationFormAvailableElements Returns already available Telegram Passport elements suitable for completing a Telegram Passport authorization form. Result can be received only once for each authorization form
@@ -24,7 +23,7 @@ func (client *Client) GetPassportAuthorizationFormAvailableElements(autorization
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passportElementsWithErrors tdlib.PassportElementsWithErrors

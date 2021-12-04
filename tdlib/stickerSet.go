@@ -5,18 +5,19 @@ package tdlib
 // StickerSet Represents a sticker set
 type StickerSet struct {
 	tdCommon
-	ID          JSONInt64  `json:"id"`           // Identifier of the sticker set
-	Title       string     `json:"title"`        // Title of the sticker set
-	Name        string     `json:"name"`         // Name of the sticker set
-	Thumbnail   *Thumbnail `json:"thumbnail"`    // Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
-	IsInstalled bool       `json:"is_installed"` // True, if the sticker set has been installed by the current user
-	IsArchived  bool       `json:"is_archived"`  // True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
-	IsOfficial  bool       `json:"is_official"`  // True, if the sticker set is official
-	IsAnimated  bool       `json:"is_animated"`  // True, is the stickers in the set are animated
-	IsMasks     bool       `json:"is_masks"`     // True, if the stickers in the set are masks
-	IsViewed    bool       `json:"is_viewed"`    // True for already viewed trending sticker sets
-	Stickers    []Sticker  `json:"stickers"`     // List of stickers in this set
-	Emojis      []Emojis   `json:"emojis"`       // A list of emoji corresponding to the stickers in the same order. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
+	ID               JSONInt64          `json:"id"`                // Identifier of the sticker set
+	Title            string             `json:"title"`             // Title of the sticker set
+	Name             string             `json:"name"`              // Name of the sticker set
+	Thumbnail        *Thumbnail         `json:"thumbnail"`         // Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
+	ThumbnailOutline []ClosedVectorPath `json:"thumbnail_outline"` // Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
+	IsInstalled      bool               `json:"is_installed"`      // True, if the sticker set has been installed by the current user
+	IsArchived       bool               `json:"is_archived"`       // True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
+	IsOfficial       bool               `json:"is_official"`       // True, if the sticker set is official
+	IsAnimated       bool               `json:"is_animated"`       // True, is the stickers in the set are animated
+	IsMasks          bool               `json:"is_masks"`          // True, if the stickers in the set are masks
+	IsViewed         bool               `json:"is_viewed"`         // True for already viewed trending sticker sets
+	Stickers         []Sticker          `json:"stickers"`          // List of stickers in this set
+	Emojis           []Emojis           `json:"emojis"`            // A list of emoji corresponding to the stickers in the same order. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
 }
 
 // MessageType return the string telegram-type of StickerSet
@@ -30,6 +31,7 @@ func (stickerSet *StickerSet) MessageType() string {
 // @param title Title of the sticker set
 // @param name Name of the sticker set
 // @param thumbnail Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
+// @param thumbnailOutline Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
 // @param isInstalled True, if the sticker set has been installed by the current user
 // @param isArchived True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
 // @param isOfficial True, if the sticker set is official
@@ -38,21 +40,22 @@ func (stickerSet *StickerSet) MessageType() string {
 // @param isViewed True for already viewed trending sticker sets
 // @param stickers List of stickers in this set
 // @param emojis A list of emoji corresponding to the stickers in the same order. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
-func NewStickerSet(iD JSONInt64, title string, name string, thumbnail *Thumbnail, isInstalled bool, isArchived bool, isOfficial bool, isAnimated bool, isMasks bool, isViewed bool, stickers []Sticker, emojis []Emojis) *StickerSet {
+func NewStickerSet(iD JSONInt64, title string, name string, thumbnail *Thumbnail, thumbnailOutline []ClosedVectorPath, isInstalled bool, isArchived bool, isOfficial bool, isAnimated bool, isMasks bool, isViewed bool, stickers []Sticker, emojis []Emojis) *StickerSet {
 	stickerSetTemp := StickerSet{
-		tdCommon:    tdCommon{Type: "stickerSet"},
-		ID:          iD,
-		Title:       title,
-		Name:        name,
-		Thumbnail:   thumbnail,
-		IsInstalled: isInstalled,
-		IsArchived:  isArchived,
-		IsOfficial:  isOfficial,
-		IsAnimated:  isAnimated,
-		IsMasks:     isMasks,
-		IsViewed:    isViewed,
-		Stickers:    stickers,
-		Emojis:      emojis,
+		tdCommon:         tdCommon{Type: "stickerSet"},
+		ID:               iD,
+		Title:            title,
+		Name:             name,
+		Thumbnail:        thumbnail,
+		ThumbnailOutline: thumbnailOutline,
+		IsInstalled:      isInstalled,
+		IsArchived:       isArchived,
+		IsOfficial:       isOfficial,
+		IsAnimated:       isAnimated,
+		IsMasks:          isMasks,
+		IsViewed:         isViewed,
+		Stickers:         stickers,
+		Emojis:           emojis,
 	}
 
 	return &stickerSetTemp

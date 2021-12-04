@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // SetTdlibParameters Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters
@@ -22,7 +21,7 @@ func (client *Client) SetTdlibParameters(parameters *tdlib.TdlibParameters) (*td
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -44,7 +43,7 @@ func (client *Client) CheckDatabaseEncryptionKey(encryptionKey []byte) (*tdlib.O
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -68,7 +67,7 @@ func (client *Client) SetAuthenticationPhoneNumber(phoneNumber string, settings 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -77,7 +76,7 @@ func (client *Client) SetAuthenticationPhoneNumber(phoneNumber string, settings 
 
 }
 
-// ResendAuthenticationCode Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode and the next_code_type of the result is not null
+// ResendAuthenticationCode Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode, the next_code_type of the result is not null and the server-specified timeout has passed
 func (client *Client) ResendAuthenticationCode() (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type": "resendAuthenticationCode",
@@ -88,7 +87,7 @@ func (client *Client) ResendAuthenticationCode() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -110,7 +109,7 @@ func (client *Client) CheckAuthenticationCode(code string) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -121,7 +120,7 @@ func (client *Client) CheckAuthenticationCode(code string) (*tdlib.Ok, error) {
 
 // RequestQrCodeAuthentication Requests QR code authentication by scanning a QR code on another logged in device. Works only when the current authorization state is authorizationStateWaitPhoneNumber, or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode, authorizationStateWaitRegistration, or authorizationStateWaitPassword
 // @param otherUserIDs List of user identifiers of other users currently using the application
-func (client *Client) RequestQrCodeAuthentication(otherUserIDs []int32) (*tdlib.Ok, error) {
+func (client *Client) RequestQrCodeAuthentication(otherUserIDs []int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":          "requestQrCodeAuthentication",
 		"other_user_ids": otherUserIDs,
@@ -132,7 +131,7 @@ func (client *Client) RequestQrCodeAuthentication(otherUserIDs []int32) (*tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -156,7 +155,7 @@ func (client *Client) RegisterUser(firstName string, lastName string) (*tdlib.Ok
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -178,7 +177,7 @@ func (client *Client) CheckAuthenticationPassword(password string) (*tdlib.Ok, e
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -198,7 +197,29 @@ func (client *Client) RequestAuthenticationPasswordRecovery() (*tdlib.Ok, error)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CheckAuthenticationPasswordRecoveryCode Checks whether a password recovery code sent to an email address is valid. Works only when the current authorization state is authorizationStateWaitPassword
+// @param recoveryCode Recovery code to check
+func (client *Client) CheckAuthenticationPasswordRecoveryCode(recoveryCode string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "checkAuthenticationPasswordRecoveryCode",
+		"recovery_code": recoveryCode,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -209,10 +230,14 @@ func (client *Client) RequestAuthenticationPasswordRecovery() (*tdlib.Ok, error)
 
 // RecoverAuthenticationPassword Recovers the password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword
 // @param recoveryCode Recovery code to check
-func (client *Client) RecoverAuthenticationPassword(recoveryCode string) (*tdlib.Ok, error) {
+// @param newPassword New password of the user; may be empty to remove the password
+// @param newHint New password hint; may be empty
+func (client *Client) RecoverAuthenticationPassword(recoveryCode string, newPassword string, newHint string) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "recoverAuthenticationPassword",
 		"recovery_code": recoveryCode,
+		"new_password":  newPassword,
+		"new_hint":      newHint,
 	})
 
 	if err != nil {
@@ -220,7 +245,7 @@ func (client *Client) RecoverAuthenticationPassword(recoveryCode string) (*tdlib
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -242,7 +267,7 @@ func (client *Client) CheckAuthenticationBotToken(token string) (*tdlib.Ok, erro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var okDummy tdlib.Ok
@@ -262,7 +287,7 @@ func (client *Client) LogOut() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -282,7 +307,7 @@ func (client *Client) Close() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -302,7 +327,7 @@ func (client *Client) Destroy() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -324,7 +349,73 @@ func (client *Client) SetDatabaseEncryptionKey(newEncryptionKey []byte) (*tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CheckPasswordRecoveryCode Checks whether a 2-step verification password recovery code sent to an email address is valid
+// @param recoveryCode Recovery code to check
+func (client *Client) CheckPasswordRecoveryCode(recoveryCode string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "checkPasswordRecoveryCode",
+		"recovery_code": recoveryCode,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// CancelPasswordReset Cancels reset of 2-step verification password. The method can be called if passwordState.pending_reset_date > 0
+func (client *Client) CancelPasswordReset() (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type": "cancelPasswordReset",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// LoadChats Loads more chats from a chat list. The loaded chats and their positions in the chat list will be sent through updates. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. Returns a 404 error if all chats has been loaded
+// @param chatList The chat list in which to load chats
+// @param limit The maximum number of chats to be loaded. For optimal performance, the number of loaded chats is chosen by TDLib and can be smaller than the specified limit, even if the end of the list is not reached
+func (client *Client) LoadChats(chatList tdlib.ChatList, limit int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":     "loadChats",
+		"chat_list": chatList,
+		"limit":     limit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -348,7 +439,7 @@ func (client *Client) RemoveTopChat(category tdlib.TopChatCategory, chatID int64
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -370,7 +461,7 @@ func (client *Client) AddRecentlyFoundChat(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -392,7 +483,7 @@ func (client *Client) RemoveRecentlyFoundChat(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -412,7 +503,7 @@ func (client *Client) ClearRecentlyFoundChats() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -434,7 +525,7 @@ func (client *Client) CheckCreatedPublicChatsLimit(typeParam tdlib.PublicChatTyp
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -460,12 +551,80 @@ func (client *Client) DeleteChatHistory(chatID int64, removeFromChatList bool, r
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var okDummy tdlib.Ok
 	err = json.Unmarshal(result.Raw, &okDummy)
 	return &okDummy, err
+
+}
+
+// DeleteChat Deletes a chat along with all messages in the corresponding chat for all chat members; requires owner privileges. For group chats this will release the username and remove all members. Chats with more than 1000 members can't be deleted using this method
+// @param chatID Chat identifier
+func (client *Client) DeleteChat(chatID int64) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":   "deleteChat",
+		"chat_id": chatID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteAllCallMessages Deletes all call messages
+// @param revoke Pass true to delete the messages for all users
+func (client *Client) DeleteAllCallMessages(revoke bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":  "deleteAllCallMessages",
+		"revoke": revoke,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var okDummy tdlib.Ok
+	err = json.Unmarshal(result.Raw, &okDummy)
+	return &okDummy, err
+
+}
+
+// ViewSponsoredMessage Informs TDLib that a sponsored message was viewed by the user
+// @param chatID Identifier of the chat with the sponsored message
+// @param sponsoredMessageID The identifier of the sponsored message being viewed
+func (client *Client) ViewSponsoredMessage(chatID int64, sponsoredMessageID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":                "viewSponsoredMessage",
+		"chat_id":              chatID,
+		"sponsored_message_id": sponsoredMessageID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
 
 }
 
@@ -484,7 +643,7 @@ func (client *Client) RemoveNotification(notificationGroupID int32, notification
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -508,7 +667,7 @@ func (client *Client) RemoveNotificationGroup(notificationGroupID int32, maxNoti
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -530,7 +689,7 @@ func (client *Client) SendChatScreenshotTakenNotification(chatID int64) (*tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -556,7 +715,7 @@ func (client *Client) DeleteMessages(chatID int64, messageIDs []int64, revoke bo
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var okDummy tdlib.Ok
@@ -568,7 +727,7 @@ func (client *Client) DeleteMessages(chatID int64, messageIDs []int64, revoke bo
 // DeleteChatMessagesFromUser Deletes all messages sent by the specified user to a chat. Supported only for supergroups; requires can_delete_messages administrator privileges
 // @param chatID Chat identifier
 // @param userID User identifier
-func (client *Client) DeleteChatMessagesFromUser(chatID int64, userID int32) (*tdlib.Ok, error) {
+func (client *Client) DeleteChatMessagesFromUser(chatID int64, userID int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":   "deleteChatMessagesFromUser",
 		"chat_id": chatID,
@@ -580,7 +739,7 @@ func (client *Client) DeleteChatMessagesFromUser(chatID int64, userID int32) (*t
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -592,7 +751,7 @@ func (client *Client) DeleteChatMessagesFromUser(chatID int64, userID int32) (*t
 // EditInlineMessageText Edits the text of an inline text or game message sent via a bot; for bots only
 // @param inlineMessageID Inline message identifier
 // @param replyMarkup The new message reply markup
-// @param inputMessageContent New text content of the message. Should be of type InputMessageText
+// @param inputMessageContent New text content of the message. Should be of type inputMessageText
 func (client *Client) EditInlineMessageText(inlineMessageID string, replyMarkup tdlib.ReplyMarkup, inputMessageContent tdlib.InputMessageContent) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":                 "editInlineMessageText",
@@ -606,7 +765,7 @@ func (client *Client) EditInlineMessageText(inlineMessageID string, replyMarkup 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -636,7 +795,7 @@ func (client *Client) EditInlineMessageLiveLocation(inlineMessageID string, repl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -648,7 +807,7 @@ func (client *Client) EditInlineMessageLiveLocation(inlineMessageID string, repl
 // EditInlineMessageMedia Edits the content of a message with an animation, an audio, a document, a photo or a video in an inline message sent via a bot; for bots only
 // @param inlineMessageID Inline message identifier
 // @param replyMarkup The new message reply markup; for bots only
-// @param inputMessageContent New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+// @param inputMessageContent New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
 func (client *Client) EditInlineMessageMedia(inlineMessageID string, replyMarkup tdlib.ReplyMarkup, inputMessageContent tdlib.InputMessageContent) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":                 "editInlineMessageMedia",
@@ -662,7 +821,7 @@ func (client *Client) EditInlineMessageMedia(inlineMessageID string, replyMarkup
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -688,7 +847,7 @@ func (client *Client) EditInlineMessageCaption(inlineMessageID string, replyMark
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -712,7 +871,7 @@ func (client *Client) EditInlineMessageReplyMarkup(inlineMessageID string, reply
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -738,7 +897,7 @@ func (client *Client) EditMessageSchedulingState(chatID int64, messageID int64, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -764,7 +923,7 @@ func (client *Client) SetPollAnswer(chatID int64, messageID int64, optionIDs []i
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -790,7 +949,7 @@ func (client *Client) StopPoll(chatID int64, messageID int64, replyMarkup tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -812,7 +971,7 @@ func (client *Client) HideSuggestedAction(action tdlib.SuggestedAction) (*tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -846,7 +1005,7 @@ func (client *Client) AnswerInlineQuery(inlineQueryID *tdlib.JSONInt64, isPerson
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -876,7 +1035,7 @@ func (client *Client) AnswerCallbackQuery(callbackQueryID *tdlib.JSONInt64, text
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -902,7 +1061,7 @@ func (client *Client) AnswerShippingQuery(shippingQueryID *tdlib.JSONInt64, ship
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -926,7 +1085,7 @@ func (client *Client) AnswerPreCheckoutQuery(preCheckoutQueryID *tdlib.JSONInt64
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -941,7 +1100,7 @@ func (client *Client) AnswerPreCheckoutQuery(preCheckoutQueryID *tdlib.JSONInt64
 // @param userID User identifier
 // @param score The new score
 // @param force Pass true to update the score even if it decreases. If the score is 0, the user will be deleted from the high score table
-func (client *Client) SetInlineGameScore(inlineMessageID string, editMessage bool, userID int32, score int32, force bool) (*tdlib.Ok, error) {
+func (client *Client) SetInlineGameScore(inlineMessageID string, editMessage bool, userID int64, score int32, force bool) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":             "setInlineGameScore",
 		"inline_message_id": inlineMessageID,
@@ -956,7 +1115,7 @@ func (client *Client) SetInlineGameScore(inlineMessageID string, editMessage boo
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -980,7 +1139,7 @@ func (client *Client) DeleteChatReplyMarkup(chatID int64, messageID int64) (*tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1006,7 +1165,7 @@ func (client *Client) SendChatAction(chatID int64, messageThreadID int64, action
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1028,7 +1187,7 @@ func (client *Client) OpenChat(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1050,7 +1209,7 @@ func (client *Client) CloseChat(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1078,7 +1237,7 @@ func (client *Client) ViewMessages(chatID int64, messageThreadID int64, messageI
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1102,7 +1261,7 @@ func (client *Client) OpenMessageContent(chatID int64, messageID int64) (*tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1124,7 +1283,7 @@ func (client *Client) ReadAllChatMentions(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1148,7 +1307,7 @@ func (client *Client) AddChatToList(chatID int64, chatList tdlib.ChatList) (*tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1170,7 +1329,7 @@ func (client *Client) DeleteChatFilter(chatFilterID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1192,7 +1351,7 @@ func (client *Client) ReorderChatFilters(chatFilterIDs []int32) (*tdlib.Ok, erro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1201,7 +1360,7 @@ func (client *Client) ReorderChatFilters(chatFilterIDs []int32) (*tdlib.Ok, erro
 
 }
 
-// SetChatTitle Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
+// SetChatTitle Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info administrator right
 // @param chatID Chat identifier
 // @param title New title of the chat; 1-128 characters
 func (client *Client) SetChatTitle(chatID int64, title string) (*tdlib.Ok, error) {
@@ -1216,7 +1375,7 @@ func (client *Client) SetChatTitle(chatID int64, title string) (*tdlib.Ok, error
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1225,7 +1384,7 @@ func (client *Client) SetChatTitle(chatID int64, title string) (*tdlib.Ok, error
 
 }
 
-// SetChatPhoto Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
+// SetChatPhoto Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info administrator right
 // @param chatID Chat identifier
 // @param photo New chat photo. Pass null to delete the chat photo
 func (client *Client) SetChatPhoto(chatID int64, photo tdlib.InputChatPhoto) (*tdlib.Ok, error) {
@@ -1240,7 +1399,31 @@ func (client *Client) SetChatPhoto(chatID int64, photo tdlib.InputChatPhoto) (*t
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetChatMessageTTLSetting Changes the message TTL setting (sets a new self-destruct timer) in a chat. Requires can_delete_messages administrator right in basic groups, supergroups and channels Message TTL setting of a chat with the current user (Saved Messages) and the chat 777000 (Telegram) can't be changed
+// @param chatID Chat identifier
+// @param tTL New TTL value, in seconds; must be one of 0, 86400, 7 * 86400, or 31 * 86400 unless the chat is secret
+func (client *Client) SetChatMessageTTLSetting(chatID int64, tTL int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":   "setChatMessageTtlSetting",
+		"chat_id": chatID,
+		"ttl":     tTL,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1264,7 +1447,31 @@ func (client *Client) SetChatPermissions(chatID int64, permissions *tdlib.ChatPe
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetChatTheme Changes the chat theme. Supported only in private and secret chats
+// @param chatID Chat identifier
+// @param themeName Name of the new chat theme; may be empty to return the default theme
+func (client *Client) SetChatTheme(chatID int64, themeName string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":      "setChatTheme",
+		"chat_id":    chatID,
+		"theme_name": themeName,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1290,7 +1497,7 @@ func (client *Client) SetChatDraftMessage(chatID int64, messageThreadID int64, d
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1314,7 +1521,7 @@ func (client *Client) SetChatNotificationSettings(chatID int64, notificationSett
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1338,7 +1545,7 @@ func (client *Client) ToggleChatIsMarkedAsUnread(chatID int64, isMarkedAsUnread 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1362,7 +1569,7 @@ func (client *Client) ToggleChatDefaultDisableNotification(chatID int64, default
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1386,7 +1593,7 @@ func (client *Client) SetChatClientData(chatID int64, clientData string) (*tdlib
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1395,7 +1602,7 @@ func (client *Client) SetChatClientData(chatID int64, clientData string) (*tdlib
 
 }
 
-// SetChatDescription Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info rights
+// SetChatDescription Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info administrator right
 // @param chatID Identifier of the chat
 // @param description New chat description; 0-255 characters
 func (client *Client) SetChatDescription(chatID int64, description string) (*tdlib.Ok, error) {
@@ -1410,7 +1617,7 @@ func (client *Client) SetChatDescription(chatID int64, description string) (*tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1419,7 +1626,7 @@ func (client *Client) SetChatDescription(chatID int64, description string) (*tdl
 
 }
 
-// SetChatDiscussionGroup Changes the discussion group of a channel chat; requires can_change_info rights in the channel if it is specified
+// SetChatDiscussionGroup Changes the discussion group of a channel chat; requires can_change_info administrator right in the channel if it is specified
 // @param chatID Identifier of the channel chat. Pass 0 to remove a link from the supergroup passed in the second argument to a linked channel chat (requires can_pin_messages rights in the supergroup)
 // @param discussionChatID Identifier of a new channel's discussion group. Use 0 to remove the discussion group. Use the method getSuitableDiscussionChats to find all suitable groups. Basic group chats must be first upgraded to supergroup chats. If new chat members don't have access to old messages in the supergroup, then toggleSupergroupIsAllHistoryAvailable must be used first to change that
 func (client *Client) SetChatDiscussionGroup(chatID int64, discussionChatID int64) (*tdlib.Ok, error) {
@@ -1434,7 +1641,7 @@ func (client *Client) SetChatDiscussionGroup(chatID int64, discussionChatID int6
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1458,7 +1665,7 @@ func (client *Client) SetChatLocation(chatID int64, location *tdlib.ChatLocation
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1482,7 +1689,7 @@ func (client *Client) SetChatSlowModeDelay(chatID int64, slowModeDelay int32) (*
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1510,7 +1717,7 @@ func (client *Client) PinChatMessage(chatID int64, messageID int64, disableNotif
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1534,7 +1741,7 @@ func (client *Client) UnpinChatMessage(chatID int64, messageID int64) (*tdlib.Ok
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1556,7 +1763,7 @@ func (client *Client) UnpinAllChatMessages(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1565,7 +1772,7 @@ func (client *Client) UnpinAllChatMessages(chatID int64) (*tdlib.Ok, error) {
 
 }
 
-// JoinChat Adds current user as a new member to a chat. Private and secret chats can't be joined using this method
+// JoinChat Adds the current user as a new member to a chat. Private and secret chats can't be joined using this method
 // @param chatID Chat identifier
 func (client *Client) JoinChat(chatID int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -1578,7 +1785,7 @@ func (client *Client) JoinChat(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1587,7 +1794,7 @@ func (client *Client) JoinChat(chatID int64) (*tdlib.Ok, error) {
 
 }
 
-// LeaveChat Removes current user from chat members. Private and secret chats can't be left using this method
+// LeaveChat Removes the current user from chat members. Private and secret chats can't be left using this method
 // @param chatID Chat identifier
 func (client *Client) LeaveChat(chatID int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -1600,7 +1807,7 @@ func (client *Client) LeaveChat(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1609,11 +1816,11 @@ func (client *Client) LeaveChat(chatID int64) (*tdlib.Ok, error) {
 
 }
 
-// AddChatMember Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server
+// AddChatMember Adds a new member to a chat. Members can't be added to private or secret chats
 // @param chatID Chat identifier
 // @param userID Identifier of the user
 // @param forwardLimit The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels
-func (client *Client) AddChatMember(chatID int64, userID int32, forwardLimit int32) (*tdlib.Ok, error) {
+func (client *Client) AddChatMember(chatID int64, userID int64, forwardLimit int32) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "addChatMember",
 		"chat_id":       chatID,
@@ -1626,7 +1833,7 @@ func (client *Client) AddChatMember(chatID int64, userID int32, forwardLimit int
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1635,10 +1842,10 @@ func (client *Client) AddChatMember(chatID int64, userID int32, forwardLimit int
 
 }
 
-// AddChatMembers Adds multiple new members to a chat. Currently this option is only available for supergroups and channels. This option can't be used to join a chat. Members can't be added to a channel if it has more than 200 members. Members will not be added until the chat state has been synchronized with the server
+// AddChatMembers Adds multiple new members to a chat. Currently this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members
 // @param chatID Chat identifier
-// @param userIDs Identifiers of the users to be added to the chat
-func (client *Client) AddChatMembers(chatID int64, userIDs []int32) (*tdlib.Ok, error) {
+// @param userIDs Identifiers of the users to be added to the chat. The maximum number of added users is 20 for supergroups and 100 for channels
+func (client *Client) AddChatMembers(chatID int64, userIDs []int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":    "addChatMembers",
 		"chat_id":  chatID,
@@ -1650,7 +1857,7 @@ func (client *Client) AddChatMembers(chatID int64, userIDs []int32) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1659,16 +1866,16 @@ func (client *Client) AddChatMembers(chatID int64, userIDs []int32) (*tdlib.Ok, 
 
 }
 
-// SetChatMemberStatus Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat and transferring chat ownership; instead, use addChatMember or transferChatOwnership. The chat member status will not be changed until it has been synchronized with the server
+// SetChatMemberStatus Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat and transferring chat ownership; instead, use addChatMember or transferChatOwnership
 // @param chatID Chat identifier
-// @param userID User identifier
+// @param memberID Member identifier. Chats can be only banned and unbanned in supergroups and channels
 // @param status The new status of the member in the chat
-func (client *Client) SetChatMemberStatus(chatID int64, userID int32, status tdlib.ChatMemberStatus) (*tdlib.Ok, error) {
+func (client *Client) SetChatMemberStatus(chatID int64, memberID tdlib.MessageSender, status tdlib.ChatMemberStatus) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":   "setChatMemberStatus",
-		"chat_id": chatID,
-		"user_id": userID,
-		"status":  status,
+		"@type":     "setChatMemberStatus",
+		"chat_id":   chatID,
+		"member_id": memberID,
+		"status":    status,
 	})
 
 	if err != nil {
@@ -1676,7 +1883,7 @@ func (client *Client) SetChatMemberStatus(chatID int64, userID int32, status tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1685,11 +1892,39 @@ func (client *Client) SetChatMemberStatus(chatID int64, userID int32, status tdl
 
 }
 
+// BanChatMember Bans a member in a chat. Members can't be banned in private or secret chats. In supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first
+// @param chatID Chat identifier
+// @param memberID Member identifier
+// @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Ignored in basic groups
+// @param revokeMessages Pass true to delete all messages in the chat for the user that is being removed. Always true for supergroups and channels
+func (client *Client) BanChatMember(chatID int64, memberID tdlib.MessageSender, bannedUntilDate int32, revokeMessages bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":             "banChatMember",
+		"chat_id":           chatID,
+		"member_id":         memberID,
+		"banned_until_date": bannedUntilDate,
+		"revoke_messages":   revokeMessages,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var okDummy tdlib.Ok
+	err = json.Unmarshal(result.Raw, &okDummy)
+	return &okDummy, err
+
+}
+
 // TransferChatOwnership Changes the owner of a chat. The current user must be a current owner of the chat. Use the method canTransferOwnership to check whether the ownership can be transferred from the current session. Available only for supergroups and channel chats
 // @param chatID Chat identifier
 // @param userID Identifier of the user to which transfer the ownership. The ownership can't be transferred to a bot or to a deleted user
 // @param password The password of the current user
-func (client *Client) TransferChatOwnership(chatID int64, userID int32, password string) (*tdlib.Ok, error) {
+func (client *Client) TransferChatOwnership(chatID int64, userID int64, password string) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":    "transferChatOwnership",
 		"chat_id":  chatID,
@@ -1702,7 +1937,7 @@ func (client *Client) TransferChatOwnership(chatID int64, userID int32, password
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1724,7 +1959,7 @@ func (client *Client) ClearAllDraftMessages(excludeSecretChats bool) (*tdlib.Ok,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1748,7 +1983,7 @@ func (client *Client) SetScopeNotificationSettings(scope tdlib.NotificationSetti
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1768,7 +2003,7 @@ func (client *Client) ResetAllNotificationSettings() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1794,7 +2029,7 @@ func (client *Client) ToggleChatIsPinned(chatList tdlib.ChatList, chatID int64, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1818,7 +2053,7 @@ func (client *Client) SetPinnedChats(chatList tdlib.ChatList, chatIDs []int64) (
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1842,7 +2077,7 @@ func (client *Client) CancelDownloadFile(fileID int32, onlyIfPending bool) (*tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1864,7 +2099,7 @@ func (client *Client) CancelUploadFile(fileID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1890,7 +2125,7 @@ func (client *Client) WriteGeneratedFilePart(generationID *tdlib.JSONInt64, offs
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1916,7 +2151,7 @@ func (client *Client) SetFileGenerationProgress(generationID *tdlib.JSONInt64, e
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1940,7 +2175,7 @@ func (client *Client) FinishFileGeneration(generationID *tdlib.JSONInt64, error 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1962,7 +2197,81 @@ func (client *Client) DeleteFile(fileID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ImportMessages Imports messages exported from another app
+// @param chatID Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right
+// @param messageFile File with messages to import. Only inputFileLocal and inputFileGenerated are supported. The file must not be previously uploaded
+// @param attachedFiles Files used in the imported messages. Only inputFileLocal and inputFileGenerated are supported. The files must not be previously uploaded
+func (client *Client) ImportMessages(chatID int64, messageFile tdlib.InputFile, attachedFiles []tdlib.InputFile) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":          "importMessages",
+		"chat_id":        chatID,
+		"message_file":   messageFile,
+		"attached_files": attachedFiles,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteRevokedChatInviteLink Deletes revoked chat invite links. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
+// @param chatID Chat identifier
+// @param inviteLink Invite link to revoke
+func (client *Client) DeleteRevokedChatInviteLink(chatID int64, inviteLink string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":       "deleteRevokedChatInviteLink",
+		"chat_id":     chatID,
+		"invite_link": inviteLink,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteAllRevokedChatInviteLinks Deletes all revoked chat invite links created by a given chat administrator. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
+// @param chatID Chat identifier
+// @param creatorUserID User identifier of a chat administrator, which links will be deleted. Must be an identifier of the current user for non-owner
+func (client *Client) DeleteAllRevokedChatInviteLinks(chatID int64, creatorUserID int64) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":           "deleteAllRevokedChatInviteLinks",
+		"chat_id":         chatID,
+		"creator_user_id": creatorUserID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -1986,7 +2295,7 @@ func (client *Client) AcceptCall(callID int32, protocol *tdlib.CallProtocol) (*t
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2010,7 +2319,7 @@ func (client *Client) SendCallSignalingData(callID int32, data []byte) (*tdlib.O
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2040,7 +2349,7 @@ func (client *Client) DiscardCall(callID int32, isDisconnected bool, duration in
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2068,7 +2377,7 @@ func (client *Client) SendCallRating(callID int32, rating int32, comment string,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2092,7 +2401,487 @@ func (client *Client) SendCallDebugInformation(callID int32, debugInformation st
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetVoiceChatDefaultParticipant Changes default participant identifier, which can be used to join voice chats in a chat
+// @param chatID Chat identifier
+// @param defaultParticipantID Default group call participant identifier to join the voice chats
+func (client *Client) SetVoiceChatDefaultParticipant(chatID int64, defaultParticipantID tdlib.MessageSender) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":                  "setVoiceChatDefaultParticipant",
+		"chat_id":                chatID,
+		"default_participant_id": defaultParticipantID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// StartScheduledGroupCall Starts a scheduled group call
+// @param groupCallID Group call identifier
+func (client *Client) StartScheduledGroupCall(groupCallID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "startScheduledGroupCall",
+		"group_call_id": groupCallID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallEnabledStartNotification Toggles whether the current user will receive a notification when the group call will start; scheduled group calls only
+// @param groupCallID Group call identifier
+// @param enabledStartNotification New value of the enabled_start_notification setting
+func (client *Client) ToggleGroupCallEnabledStartNotification(groupCallID int32, enabledStartNotification bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":                      "toggleGroupCallEnabledStartNotification",
+		"group_call_id":              groupCallID,
+		"enabled_start_notification": enabledStartNotification,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallScreenSharingIsPaused Pauses or unpauses screen sharing in a joined group call
+// @param groupCallID Group call identifier
+// @param isPaused True if screen sharing is paused
+func (client *Client) ToggleGroupCallScreenSharingIsPaused(groupCallID int32, isPaused bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "toggleGroupCallScreenSharingIsPaused",
+		"group_call_id": groupCallID,
+		"is_paused":     isPaused,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// EndGroupCallScreenSharing Ends screen sharing in a joined group call
+// @param groupCallID Group call identifier
+func (client *Client) EndGroupCallScreenSharing(groupCallID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "endGroupCallScreenSharing",
+		"group_call_id": groupCallID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetGroupCallTitle Sets group call title. Requires groupCall.can_be_managed group call flag
+// @param groupCallID Group call identifier
+// @param title New group call title; 1-64 characters
+func (client *Client) SetGroupCallTitle(groupCallID int32, title string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "setGroupCallTitle",
+		"group_call_id": groupCallID,
+		"title":         title,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallMuteNewParticipants Toggles whether new participants of a group call can be unmuted only by administrators of the group call. Requires groupCall.can_change_mute_new_participants group call flag
+// @param groupCallID Group call identifier
+// @param muteNewParticipants New value of the mute_new_participants setting
+func (client *Client) ToggleGroupCallMuteNewParticipants(groupCallID int32, muteNewParticipants bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":                 "toggleGroupCallMuteNewParticipants",
+		"group_call_id":         groupCallID,
+		"mute_new_participants": muteNewParticipants,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// RevokeGroupCallInviteLink Revokes invite link for a group call. Requires groupCall.can_be_managed group call flag
+// @param groupCallID Group call identifier
+func (client *Client) RevokeGroupCallInviteLink(groupCallID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "revokeGroupCallInviteLink",
+		"group_call_id": groupCallID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// InviteGroupCallParticipants Invites users to an active group call. Sends a service message of type messageInviteToGroupCall for voice chats
+// @param groupCallID Group call identifier
+// @param userIDs User identifiers. At most 10 users can be invited simultaneously
+func (client *Client) InviteGroupCallParticipants(groupCallID int32, userIDs []int64) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "inviteGroupCallParticipants",
+		"group_call_id": groupCallID,
+		"user_ids":      userIDs,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// StartGroupCallRecording Starts recording of an active group call. Requires groupCall.can_be_managed group call flag
+// @param groupCallID Group call identifier
+// @param title Group call recording title; 0-64 characters
+// @param recordVideo Pass true to record a video file instead of an audio file
+// @param usePortraitOrientation Pass true to use portrait orientation for video instead of landscape one
+func (client *Client) StartGroupCallRecording(groupCallID int32, title string, recordVideo bool, usePortraitOrientation bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":                    "startGroupCallRecording",
+		"group_call_id":            groupCallID,
+		"title":                    title,
+		"record_video":             recordVideo,
+		"use_portrait_orientation": usePortraitOrientation,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// EndGroupCallRecording Ends recording of an active group call. Requires groupCall.can_be_managed group call flag
+// @param groupCallID Group call identifier
+func (client *Client) EndGroupCallRecording(groupCallID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "endGroupCallRecording",
+		"group_call_id": groupCallID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallIsMyVideoPaused Toggles whether current user's video is paused
+// @param groupCallID Group call identifier
+// @param isMyVideoPaused Pass true if the current user's video is paused
+func (client *Client) ToggleGroupCallIsMyVideoPaused(groupCallID int32, isMyVideoPaused bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":              "toggleGroupCallIsMyVideoPaused",
+		"group_call_id":      groupCallID,
+		"is_my_video_paused": isMyVideoPaused,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallIsMyVideoEnabled Toggles whether current user's video is enabled
+// @param groupCallID Group call identifier
+// @param isMyVideoEnabled Pass true if the current user's video is enabled
+func (client *Client) ToggleGroupCallIsMyVideoEnabled(groupCallID int32, isMyVideoEnabled bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":               "toggleGroupCallIsMyVideoEnabled",
+		"group_call_id":       groupCallID,
+		"is_my_video_enabled": isMyVideoEnabled,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetGroupCallParticipantIsSpeaking Informs TDLib that speaking state of a participant of an active group has changed
+// @param groupCallID Group call identifier
+// @param audioSource Group call participant's synchronization audio source identifier, or 0 for the current user
+// @param isSpeaking True, if the user is speaking
+func (client *Client) SetGroupCallParticipantIsSpeaking(groupCallID int32, audioSource int32, isSpeaking bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "setGroupCallParticipantIsSpeaking",
+		"group_call_id": groupCallID,
+		"audio_source":  audioSource,
+		"is_speaking":   isSpeaking,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallParticipantIsMuted Toggles whether a participant of an active group call is muted, unmuted, or allowed to unmute themselves
+// @param groupCallID Group call identifier
+// @param participantID Participant identifier
+// @param isMuted Pass true if the user must be muted and false otherwise
+func (client *Client) ToggleGroupCallParticipantIsMuted(groupCallID int32, participantID tdlib.MessageSender, isMuted bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":          "toggleGroupCallParticipantIsMuted",
+		"group_call_id":  groupCallID,
+		"participant_id": participantID,
+		"is_muted":       isMuted,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// SetGroupCallParticipantVolumeLevel Changes volume level of a participant of an active group call. If the current user can manage the group call, then the participant's volume level will be changed for all users with default volume level
+// @param groupCallID Group call identifier
+// @param participantID Participant identifier
+// @param volumeLevel New participant's volume level; 1-20000 in hundreds of percents
+func (client *Client) SetGroupCallParticipantVolumeLevel(groupCallID int32, participantID tdlib.MessageSender, volumeLevel int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":          "setGroupCallParticipantVolumeLevel",
+		"group_call_id":  groupCallID,
+		"participant_id": participantID,
+		"volume_level":   volumeLevel,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleGroupCallParticipantIsHandRaised Toggles whether a group call participant hand is rased
+// @param groupCallID Group call identifier
+// @param participantID Participant identifier
+// @param isHandRaised Pass true if the user's hand should be raised. Only self hand can be raised. Requires groupCall.can_be_managed group call flag to lower other's hand
+func (client *Client) ToggleGroupCallParticipantIsHandRaised(groupCallID int32, participantID tdlib.MessageSender, isHandRaised bool) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":          "toggleGroupCallParticipantIsHandRaised",
+		"group_call_id":  groupCallID,
+		"participant_id": participantID,
+		"is_hand_raised": isHandRaised,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// LoadGroupCallParticipants Loads more participants of a group call. The loaded participants will be received through updates. Use the field groupCall.loaded_all_participants to check whether all participants has already been loaded
+// @param groupCallID Group call identifier. The group call must be previously received through getGroupCall and must be joined or being joined
+// @param limit The maximum number of participants to load
+func (client *Client) LoadGroupCallParticipants(groupCallID int32, limit int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "loadGroupCallParticipants",
+		"group_call_id": groupCallID,
+		"limit":         limit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// LeaveGroupCall Leaves a group call
+// @param groupCallID Group call identifier
+func (client *Client) LeaveGroupCall(groupCallID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "leaveGroupCall",
+		"group_call_id": groupCallID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DiscardGroupCall Discards a group call. Requires groupCall.can_be_managed
+// @param groupCallID Group call identifier
+func (client *Client) DiscardGroupCall(groupCallID int32) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "discardGroupCall",
+		"group_call_id": groupCallID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2116,7 +2905,7 @@ func (client *Client) ToggleMessageSenderIsBlocked(sender tdlib.MessageSender, i
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2144,7 +2933,7 @@ func (client *Client) BlockMessageSenderFromReplies(messageID int64, deleteMessa
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2168,7 +2957,7 @@ func (client *Client) AddContact(contact *tdlib.Contact, sharePhoneNumber bool) 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2179,7 +2968,7 @@ func (client *Client) AddContact(contact *tdlib.Contact, sharePhoneNumber bool) 
 
 // RemoveContacts Removes users from the contact list
 // @param userIDs Identifiers of users to be deleted
-func (client *Client) RemoveContacts(userIDs []int32) (*tdlib.Ok, error) {
+func (client *Client) RemoveContacts(userIDs []int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":    "removeContacts",
 		"user_ids": userIDs,
@@ -2190,7 +2979,7 @@ func (client *Client) RemoveContacts(userIDs []int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2210,7 +2999,7 @@ func (client *Client) ClearImportedContacts() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2221,7 +3010,7 @@ func (client *Client) ClearImportedContacts() (*tdlib.Ok, error) {
 
 // SharePhoneNumber Shares the phone number of the current user with a mutual contact. Supposed to be called when the user clicks on chatActionBarSharePhoneNumber
 // @param userID Identifier of the user with whom to share the phone number. The user must be a mutual contact
-func (client *Client) SharePhoneNumber(userID int32) (*tdlib.Ok, error) {
+func (client *Client) SharePhoneNumber(userID int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":   "sharePhoneNumber",
 		"user_id": userID,
@@ -2232,7 +3021,7 @@ func (client *Client) SharePhoneNumber(userID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2258,7 +3047,7 @@ func (client *Client) ChangeStickerSet(setID *tdlib.JSONInt64, isInstalled bool,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2280,7 +3069,7 @@ func (client *Client) ViewTrendingStickerSets(stickerSetIDs []tdlib.JSONInt64) (
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2304,7 +3093,7 @@ func (client *Client) ReorderInstalledStickerSets(isMasks bool, stickerSetIDs []
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2328,7 +3117,7 @@ func (client *Client) RemoveRecentSticker(isAttached bool, sticker tdlib.InputFi
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2350,7 +3139,7 @@ func (client *Client) ClearRecentStickers(isAttached bool) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2372,7 +3161,7 @@ func (client *Client) AddFavoriteSticker(sticker tdlib.InputFile) (*tdlib.Ok, er
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2394,7 +3183,7 @@ func (client *Client) RemoveFavoriteSticker(sticker tdlib.InputFile) (*tdlib.Ok,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2416,7 +3205,7 @@ func (client *Client) AddSavedAnimation(animation tdlib.InputFile) (*tdlib.Ok, e
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2438,7 +3227,7 @@ func (client *Client) RemoveSavedAnimation(animation tdlib.InputFile) (*tdlib.Ok
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2460,7 +3249,7 @@ func (client *Client) RemoveRecentHashtag(hashtag string) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2482,7 +3271,7 @@ func (client *Client) SetProfilePhoto(photo tdlib.InputChatPhoto) (*tdlib.Ok, er
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2504,7 +3293,7 @@ func (client *Client) DeleteProfilePhoto(profilePhotoID *tdlib.JSONInt64) (*tdli
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2514,8 +3303,8 @@ func (client *Client) DeleteProfilePhoto(profilePhotoID *tdlib.JSONInt64) (*tdli
 }
 
 // SetName Changes the first and last name of the current user
-// @param firstName The new value of the first name for the user; 1-64 characters
-// @param lastName The new value of the optional last name for the user; 0-64 characters
+// @param firstName The new value of the first name for the current user; 1-64 characters
+// @param lastName The new value of the optional last name for the current user; 0-64 characters
 func (client *Client) SetName(firstName string, lastName string) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":      "setName",
@@ -2528,7 +3317,7 @@ func (client *Client) SetName(firstName string, lastName string) (*tdlib.Ok, err
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2550,7 +3339,7 @@ func (client *Client) SetBio(bio string) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2572,7 +3361,7 @@ func (client *Client) SetUsername(username string) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2594,7 +3383,7 @@ func (client *Client) SetLocation(location *tdlib.Location) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2616,7 +3405,7 @@ func (client *Client) CheckChangePhoneNumberCode(code string) (*tdlib.Ok, error)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2625,12 +3414,16 @@ func (client *Client) CheckChangePhoneNumberCode(code string) (*tdlib.Ok, error)
 
 }
 
-// SetCommands Sets the list of commands supported by the bot; for bots only
+// SetCommands Sets the list of commands supported by the bot for the given user scope and language; for bots only
+// @param scope The scope to which the commands are relevant
+// @param languageCode A two-letter ISO 639-1 country code. If empty, the commands will be applied to all users from the given scope, for which language there are no dedicated commands
 // @param commands List of the bot's commands
-func (client *Client) SetCommands(commands []tdlib.BotCommand) (*tdlib.Ok, error) {
+func (client *Client) SetCommands(scope tdlib.BotCommandScope, languageCode string, commands []tdlib.BotCommand) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":    "setCommands",
-		"commands": commands,
+		"@type":         "setCommands",
+		"scope":         scope,
+		"language_code": languageCode,
+		"commands":      commands,
 	})
 
 	if err != nil {
@@ -2638,7 +3431,31 @@ func (client *Client) SetCommands(commands []tdlib.BotCommand) (*tdlib.Ok, error
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// DeleteCommands Deletes commands supported by the bot for the given user scope and language; for bots only
+// @param scope The scope to which the commands are relevant
+// @param languageCode A two-letter ISO 639-1 country code or an empty string
+func (client *Client) DeleteCommands(scope tdlib.BotCommandScope, languageCode string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "deleteCommands",
+		"scope":         scope,
+		"language_code": languageCode,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2660,7 +3477,7 @@ func (client *Client) TerminateSession(sessionID *tdlib.JSONInt64) (*tdlib.Ok, e
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2680,7 +3497,7 @@ func (client *Client) TerminateAllOtherSessions() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2702,7 +3519,7 @@ func (client *Client) DisconnectWebsite(websiteID *tdlib.JSONInt64) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2722,7 +3539,7 @@ func (client *Client) DisconnectAllWebsites() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2734,7 +3551,7 @@ func (client *Client) DisconnectAllWebsites() (*tdlib.Ok, error) {
 // SetSupergroupUsername Changes the username of a supergroup or channel, requires owner privileges in the supergroup or channel
 // @param supergroupID Identifier of the supergroup or channel
 // @param username New value of the username. Use an empty string to remove the username
-func (client *Client) SetSupergroupUsername(supergroupID int32, username string) (*tdlib.Ok, error) {
+func (client *Client) SetSupergroupUsername(supergroupID int64, username string) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "setSupergroupUsername",
 		"supergroup_id": supergroupID,
@@ -2746,7 +3563,7 @@ func (client *Client) SetSupergroupUsername(supergroupID int32, username string)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2755,10 +3572,10 @@ func (client *Client) SetSupergroupUsername(supergroupID int32, username string)
 
 }
 
-// SetSupergroupStickerSet Changes the sticker set of a supergroup; requires can_change_info rights
+// SetSupergroupStickerSet Changes the sticker set of a supergroup; requires can_change_info administrator right
 // @param supergroupID Identifier of the supergroup
 // @param stickerSetID New value of the supergroup sticker set identifier. Use 0 to remove the supergroup sticker set
-func (client *Client) SetSupergroupStickerSet(supergroupID int32, stickerSetID *tdlib.JSONInt64) (*tdlib.Ok, error) {
+func (client *Client) SetSupergroupStickerSet(supergroupID int64, stickerSetID *tdlib.JSONInt64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":          "setSupergroupStickerSet",
 		"supergroup_id":  supergroupID,
@@ -2770,7 +3587,7 @@ func (client *Client) SetSupergroupStickerSet(supergroupID int32, stickerSetID *
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2779,10 +3596,10 @@ func (client *Client) SetSupergroupStickerSet(supergroupID int32, stickerSetID *
 
 }
 
-// ToggleSupergroupSignMessages Toggles sender signatures messages sent in a channel; requires can_change_info rights
+// ToggleSupergroupSignMessages Toggles sender signatures messages sent in a channel; requires can_change_info administrator right
 // @param supergroupID Identifier of the channel
 // @param signMessages New value of sign_messages
-func (client *Client) ToggleSupergroupSignMessages(supergroupID int32, signMessages bool) (*tdlib.Ok, error) {
+func (client *Client) ToggleSupergroupSignMessages(supergroupID int64, signMessages bool) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "toggleSupergroupSignMessages",
 		"supergroup_id": supergroupID,
@@ -2794,7 +3611,7 @@ func (client *Client) ToggleSupergroupSignMessages(supergroupID int32, signMessa
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2803,10 +3620,10 @@ func (client *Client) ToggleSupergroupSignMessages(supergroupID int32, signMessa
 
 }
 
-// ToggleSupergroupIsAllHistoryAvailable Toggles whether the message history of a supergroup is available to new members; requires can_change_info rights
+// ToggleSupergroupIsAllHistoryAvailable Toggles whether the message history of a supergroup is available to new members; requires can_change_info administrator right
 // @param supergroupID The identifier of the supergroup
 // @param isAllHistoryAvailable The new value of is_all_history_available
-func (client *Client) ToggleSupergroupIsAllHistoryAvailable(supergroupID int32, isAllHistoryAvailable bool) (*tdlib.Ok, error) {
+func (client *Client) ToggleSupergroupIsAllHistoryAvailable(supergroupID int64, isAllHistoryAvailable bool) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":                    "toggleSupergroupIsAllHistoryAvailable",
 		"supergroup_id":            supergroupID,
@@ -2818,7 +3635,29 @@ func (client *Client) ToggleSupergroupIsAllHistoryAvailable(supergroupID int32, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ToggleSupergroupIsBroadcastGroup Upgrades supergroup to a broadcast group; requires owner privileges in the supergroup
+// @param supergroupID Identifier of the supergroup
+func (client *Client) ToggleSupergroupIsBroadcastGroup(supergroupID int64) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "toggleSupergroupIsBroadcastGroup",
+		"supergroup_id": supergroupID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2831,7 +3670,7 @@ func (client *Client) ToggleSupergroupIsAllHistoryAvailable(supergroupID int32, 
 // @param supergroupID Supergroup identifier
 // @param userID User identifier
 // @param messageIDs Identifiers of messages sent in the supergroup by the user. This list must be non-empty
-func (client *Client) ReportSupergroupSpam(supergroupID int32, userID int32, messageIDs []int64) (*tdlib.Ok, error) {
+func (client *Client) ReportSupergroupSpam(supergroupID int64, userID int64, messageIDs []int64) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "reportSupergroupSpam",
 		"supergroup_id": supergroupID,
@@ -2844,29 +3683,7 @@ func (client *Client) ReportSupergroupSpam(supergroupID int32, userID int32, mes
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var ok tdlib.Ok
-	err = json.Unmarshal(result.Raw, &ok)
-	return &ok, err
-
-}
-
-// DeleteSupergroup Deletes a supergroup or channel along with all messages in the corresponding chat. This will release the supergroup or channel username and remove all members; requires owner privileges in the supergroup or channel. Chats with more than 1000 members can't be deleted using this method
-// @param supergroupID Identifier of the supergroup or channel
-func (client *Client) DeleteSupergroup(supergroupID int32) (*tdlib.Ok, error) {
-	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":         "deleteSupergroup",
-		"supergroup_id": supergroupID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2888,7 +3705,7 @@ func (client *Client) CloseSecretChat(secretChatID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2908,7 +3725,7 @@ func (client *Client) DeleteSavedOrderInfo() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2928,7 +3745,7 @@ func (client *Client) DeleteSavedCredentials() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2950,7 +3767,7 @@ func (client *Client) RemoveBackground(backgroundID *tdlib.JSONInt64) (*tdlib.Ok
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2970,7 +3787,7 @@ func (client *Client) ResetBackgrounds() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -2992,7 +3809,7 @@ func (client *Client) SynchronizeLanguagePack(languagePackID string) (*tdlib.Ok,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3014,7 +3831,7 @@ func (client *Client) AddCustomServerLanguagePack(languagePackID string) (*tdlib
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3038,7 +3855,7 @@ func (client *Client) SetCustomLanguagePack(info *tdlib.LanguagePackInfo, string
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3060,7 +3877,7 @@ func (client *Client) EditCustomLanguagePackInfo(info *tdlib.LanguagePackInfo) (
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3084,7 +3901,7 @@ func (client *Client) SetCustomLanguagePackString(languagePackID string, newStri
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3106,7 +3923,7 @@ func (client *Client) DeleteLanguagePack(languagePackID string) (*tdlib.Ok, erro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3128,7 +3945,7 @@ func (client *Client) ProcessPushNotification(payload string) (*tdlib.Ok, error)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3152,7 +3969,7 @@ func (client *Client) SetUserPrivacySettingRules(setting tdlib.UserPrivacySettin
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3176,7 +3993,7 @@ func (client *Client) SetOption(name string, value tdlib.OptionValue) (*tdlib.Ok
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3198,7 +4015,7 @@ func (client *Client) SetAccountTTL(tTL *tdlib.AccountTTL) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3220,7 +4037,7 @@ func (client *Client) DeleteAccount(reason string) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3242,7 +4059,7 @@ func (client *Client) RemoveChatActionBar(chatID int64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3251,16 +4068,18 @@ func (client *Client) RemoveChatActionBar(chatID int64) (*tdlib.Ok, error) {
 
 }
 
-// ReportChat Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chats with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
+// ReportChat Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chat with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
 // @param chatID Chat identifier
-// @param reason The reason for reporting the chat
 // @param messageIDs Identifiers of reported messages, if any
-func (client *Client) ReportChat(chatID int64, reason tdlib.ChatReportReason, messageIDs []int64) (*tdlib.Ok, error) {
+// @param reason The reason for reporting the chat
+// @param text Additional report details; 0-1024 characters
+func (client *Client) ReportChat(chatID int64, messageIDs []int64, reason tdlib.ChatReportReason, text string) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":       "reportChat",
 		"chat_id":     chatID,
-		"reason":      reason,
 		"message_ids": messageIDs,
+		"reason":      reason,
+		"text":        text,
 	})
 
 	if err != nil {
@@ -3268,7 +4087,35 @@ func (client *Client) ReportChat(chatID int64, reason tdlib.ChatReportReason, me
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var ok tdlib.Ok
+	err = json.Unmarshal(result.Raw, &ok)
+	return &ok, err
+
+}
+
+// ReportChatPhoto Reports a chat photo to the Telegram moderators. A chat photo can be reported only if this is a private chat with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
+// @param chatID Chat identifier
+// @param fileID Identifier of the photo to report. Only full photos from chatPhoto can be reported
+// @param reason The reason for reporting the chat photo
+// @param text Additional report details; 0-1024 characters
+func (client *Client) ReportChatPhoto(chatID int64, fileID int32, reason tdlib.ChatReportReason, text string) (*tdlib.Ok, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":   "reportChatPhoto",
+		"chat_id": chatID,
+		"file_id": fileID,
+		"reason":  reason,
+		"text":    text,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3290,7 +4137,7 @@ func (client *Client) SetNetworkType(typeParam tdlib.NetworkType) (*tdlib.Ok, er
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3312,7 +4159,7 @@ func (client *Client) AddNetworkStatistics(entry tdlib.NetworkStatisticsEntry) (
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3332,7 +4179,7 @@ func (client *Client) ResetNetworkStatistics() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3343,7 +4190,7 @@ func (client *Client) ResetNetworkStatistics() (*tdlib.Ok, error) {
 
 // SetAutoDownloadSettings Sets auto-download settings
 // @param settings New user auto-download settings
-// @param typeParam Type of the network for which the new settings are applied
+// @param typeParam Type of the network for which the new settings are relevant
 func (client *Client) SetAutoDownloadSettings(settings *tdlib.AutoDownloadSettings, typeParam tdlib.NetworkType) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":    "setAutoDownloadSettings",
@@ -3356,7 +4203,7 @@ func (client *Client) SetAutoDownloadSettings(settings *tdlib.AutoDownloadSettin
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3378,7 +4225,7 @@ func (client *Client) DeletePassportElement(typeParam tdlib.PassportElementType)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3390,7 +4237,7 @@ func (client *Client) DeletePassportElement(typeParam tdlib.PassportElementType)
 // SetPassportElementErrors Informs the user that some of the elements in their Telegram Passport contain errors; for bots only. The user will not be able to resend the elements, until the errors are fixed
 // @param userID User identifier
 // @param errors The errors
-func (client *Client) SetPassportElementErrors(userID int32, errors []tdlib.InputPassportElementError) (*tdlib.Ok, error) {
+func (client *Client) SetPassportElementErrors(userID int64, errors []tdlib.InputPassportElementError) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":   "setPassportElementErrors",
 		"user_id": userID,
@@ -3402,7 +4249,7 @@ func (client *Client) SetPassportElementErrors(userID int32, errors []tdlib.Inpu
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3424,7 +4271,7 @@ func (client *Client) CheckPhoneNumberVerificationCode(code string) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3446,7 +4293,7 @@ func (client *Client) CheckEmailAddressVerificationCode(code string) (*tdlib.Ok,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3470,7 +4317,7 @@ func (client *Client) SendPassportAuthorizationForm(autorizationFormID int32, ty
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3492,7 +4339,7 @@ func (client *Client) CheckPhoneNumberConfirmationCode(code string) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3516,7 +4363,7 @@ func (client *Client) SetBotUpdatesStatus(pendingUpdateCount int32, errorMessage
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3540,7 +4387,7 @@ func (client *Client) SetStickerPositionInSet(sticker tdlib.InputFile, position 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3562,7 +4409,7 @@ func (client *Client) RemoveStickerFromSet(sticker tdlib.InputFile) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3584,7 +4431,7 @@ func (client *Client) AcceptTermsOfService(termsOfServiceID string) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3608,7 +4455,7 @@ func (client *Client) AnswerCustomQuery(customQueryID *tdlib.JSONInt64, data str
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3630,7 +4477,7 @@ func (client *Client) SetAlarm(seconds float64) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3656,7 +4503,7 @@ func (client *Client) SaveApplicationLogEvent(typeParam string, chatID int64, da
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3678,7 +4525,7 @@ func (client *Client) EnableProxy(proxyID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3698,7 +4545,7 @@ func (client *Client) DisableProxy() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3720,7 +4567,7 @@ func (client *Client) RemoveProxy(proxyID int32) (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3742,7 +4589,7 @@ func (client *Client) SetLogStream(logStream tdlib.LogStream) (*tdlib.Ok, error)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3764,7 +4611,7 @@ func (client *Client) SetLogVerbosityLevel(newVerbosityLevel int32) (*tdlib.Ok, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3788,7 +4635,7 @@ func (client *Client) SetLogTagVerbosityLevel(tag string, newVerbosityLevel int3
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3798,7 +4645,7 @@ func (client *Client) SetLogTagVerbosityLevel(tag string, newVerbosityLevel int3
 }
 
 // AddLogMessage Adds a message to TDLib internal log. Can be called synchronously
-// @param verbosityLevel The minimum verbosity level needed for the message to be logged, 0-1023
+// @param verbosityLevel The minimum verbosity level needed for the message to be logged; 0-1023
 // @param text Text of a message to log
 func (client *Client) AddLogMessage(verbosityLevel int32, text string) (*tdlib.Ok, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -3812,7 +4659,7 @@ func (client *Client) AddLogMessage(verbosityLevel int32, text string) (*tdlib.O
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3832,7 +4679,7 @@ func (client *Client) TestCallEmpty() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3852,7 +4699,7 @@ func (client *Client) TestNetwork() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3882,7 +4729,7 @@ func (client *Client) TestProxy(server string, port int32, typeParam tdlib.Proxy
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok
@@ -3902,7 +4749,7 @@ func (client *Client) TestGetDifference() (*tdlib.Ok, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var ok tdlib.Ok

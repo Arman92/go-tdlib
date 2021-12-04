@@ -5,12 +5,17 @@ package tdlib
 // PaymentReceipt Contains information about a successful payment
 type PaymentReceipt struct {
 	tdCommon
+	Title                  string          `json:"title"`                     // Product title
+	Description            string          `json:"description"`               // Product description
+	Photo                  *Photo          `json:"photo"`                     // Product photo; may be null
 	Date                   int32           `json:"date"`                      // Point in time (Unix timestamp) when the payment was made
-	PaymentsProviderUserID int32           `json:"payments_provider_user_id"` // User identifier of the payment provider bot
+	SellerBotUserID        int64           `json:"seller_bot_user_id"`        // User identifier of the seller bot
+	PaymentsProviderUserID int64           `json:"payments_provider_user_id"` // User identifier of the payment provider bot
 	Invoice                *Invoice        `json:"invoice"`                   // Contains information about the invoice
-	OrderInfo              *OrderInfo      `json:"order_info"`                // Contains order information; may be null
+	OrderInfo              *OrderInfo      `json:"order_info"`                // Order information; may be null
 	ShippingOption         *ShippingOption `json:"shipping_option"`           // Chosen shipping option; may be null
-	CredentialsTitle       string          `json:"credentials_title"`         // Title of the saved credentials
+	CredentialsTitle       string          `json:"credentials_title"`         // Title of the saved credentials chosen by the buyer
+	TipAmount              int64           `json:"tip_amount"`                // The amount of tip chosen by the buyer in the smallest units of the currency
 }
 
 // MessageType return the string telegram-type of PaymentReceipt
@@ -20,21 +25,31 @@ func (paymentReceipt *PaymentReceipt) MessageType() string {
 
 // NewPaymentReceipt creates a new PaymentReceipt
 //
+// @param title Product title
+// @param description Product description
+// @param photo Product photo; may be null
 // @param date Point in time (Unix timestamp) when the payment was made
+// @param sellerBotUserID User identifier of the seller bot
 // @param paymentsProviderUserID User identifier of the payment provider bot
 // @param invoice Contains information about the invoice
-// @param orderInfo Contains order information; may be null
+// @param orderInfo Order information; may be null
 // @param shippingOption Chosen shipping option; may be null
-// @param credentialsTitle Title of the saved credentials
-func NewPaymentReceipt(date int32, paymentsProviderUserID int32, invoice *Invoice, orderInfo *OrderInfo, shippingOption *ShippingOption, credentialsTitle string) *PaymentReceipt {
+// @param credentialsTitle Title of the saved credentials chosen by the buyer
+// @param tipAmount The amount of tip chosen by the buyer in the smallest units of the currency
+func NewPaymentReceipt(title string, description string, photo *Photo, date int32, sellerBotUserID int64, paymentsProviderUserID int64, invoice *Invoice, orderInfo *OrderInfo, shippingOption *ShippingOption, credentialsTitle string, tipAmount int64) *PaymentReceipt {
 	paymentReceiptTemp := PaymentReceipt{
 		tdCommon:               tdCommon{Type: "paymentReceipt"},
+		Title:                  title,
+		Description:            description,
+		Photo:                  photo,
 		Date:                   date,
+		SellerBotUserID:        sellerBotUserID,
 		PaymentsProviderUserID: paymentsProviderUserID,
 		Invoice:                invoice,
 		OrderInfo:              orderInfo,
 		ShippingOption:         shippingOption,
 		CredentialsTitle:       credentialsTitle,
+		TipAmount:              tipAmount,
 	}
 
 	return &paymentReceiptTemp

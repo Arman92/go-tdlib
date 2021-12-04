@@ -23,6 +23,7 @@ const (
 	ChatReportReasonChildAbuseType        ChatReportReasonEnum = "chatReportReasonChildAbuse"
 	ChatReportReasonCopyrightType         ChatReportReasonEnum = "chatReportReasonCopyright"
 	ChatReportReasonUnrelatedLocationType ChatReportReasonEnum = "chatReportReasonUnrelatedLocation"
+	ChatReportReasonFakeType              ChatReportReasonEnum = "chatReportReasonFake"
 	ChatReportReasonCustomType            ChatReportReasonEnum = "chatReportReasonCustom"
 )
 
@@ -67,6 +68,11 @@ func unmarshalChatReportReason(rawMsg *json.RawMessage) (ChatReportReason, error
 		var chatReportReasonUnrelatedLocation ChatReportReasonUnrelatedLocation
 		err := json.Unmarshal(*rawMsg, &chatReportReasonUnrelatedLocation)
 		return &chatReportReasonUnrelatedLocation, err
+
+	case ChatReportReasonFakeType:
+		var chatReportReasonFake ChatReportReasonFake
+		err := json.Unmarshal(*rawMsg, &chatReportReasonFake)
+		return &chatReportReasonFake, err
 
 	case ChatReportReasonCustomType:
 		var chatReportReasonCustom ChatReportReasonCustom
@@ -228,10 +234,34 @@ func (chatReportReasonUnrelatedLocation *ChatReportReasonUnrelatedLocation) GetC
 	return ChatReportReasonUnrelatedLocationType
 }
 
+// ChatReportReasonFake The chat represents a fake account
+type ChatReportReasonFake struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatReportReasonFake
+func (chatReportReasonFake *ChatReportReasonFake) MessageType() string {
+	return "chatReportReasonFake"
+}
+
+// NewChatReportReasonFake creates a new ChatReportReasonFake
+//
+func NewChatReportReasonFake() *ChatReportReasonFake {
+	chatReportReasonFakeTemp := ChatReportReasonFake{
+		tdCommon: tdCommon{Type: "chatReportReasonFake"},
+	}
+
+	return &chatReportReasonFakeTemp
+}
+
+// GetChatReportReasonEnum return the enum type of this object
+func (chatReportReasonFake *ChatReportReasonFake) GetChatReportReasonEnum() ChatReportReasonEnum {
+	return ChatReportReasonFakeType
+}
+
 // ChatReportReasonCustom A custom reason provided by the user
 type ChatReportReasonCustom struct {
 	tdCommon
-	Text string `json:"text"` // Report text
 }
 
 // MessageType return the string telegram-type of ChatReportReasonCustom
@@ -241,11 +271,9 @@ func (chatReportReasonCustom *ChatReportReasonCustom) MessageType() string {
 
 // NewChatReportReasonCustom creates a new ChatReportReasonCustom
 //
-// @param text Report text
-func NewChatReportReasonCustom(text string) *ChatReportReasonCustom {
+func NewChatReportReasonCustom() *ChatReportReasonCustom {
 	chatReportReasonCustomTemp := ChatReportReasonCustom{
 		tdCommon: tdCommon{Type: "chatReportReasonCustom"},
-		Text:     text,
 	}
 
 	return &chatReportReasonCustomTemp

@@ -9,7 +9,7 @@ type CallProtocol struct {
 	UDPReflector    bool     `json:"udp_reflector"`    // True, if connection through UDP reflectors is supported
 	MinLayer        int32    `json:"min_layer"`        // The minimum supported API layer; use 65
 	MaxLayer        int32    `json:"max_layer"`        // The maximum supported API layer; use 65
-	LibraryVersions []string `json:"library_versions"` // List of supported libtgvoip versions
+	LibraryVersions []string `json:"library_versions"` // List of supported tgcalls versions
 }
 
 // MessageType return the string telegram-type of CallProtocol
@@ -23,7 +23,7 @@ func (callProtocol *CallProtocol) MessageType() string {
 // @param uDPReflector True, if connection through UDP reflectors is supported
 // @param minLayer The minimum supported API layer; use 65
 // @param maxLayer The maximum supported API layer; use 65
-// @param libraryVersions List of supported libtgvoip versions
+// @param libraryVersions List of supported tgcalls versions
 func NewCallProtocol(uDPP2p bool, uDPReflector bool, minLayer int32, maxLayer int32, libraryVersions []string) *CallProtocol {
 	callProtocolTemp := CallProtocol{
 		tdCommon:        tdCommon{Type: "callProtocol"},

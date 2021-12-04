@@ -39,7 +39,7 @@ func unmarshalTMeURLType(rawMsg *json.RawMessage) (TMeURLType, error) {
 // TMeURLTypeUser A URL linking to a user
 type TMeURLTypeUser struct {
 	tdCommon
-	UserID int32 `json:"user_id"` // Identifier of the user
+	UserID int64 `json:"user_id"` // Identifier of the user
 }
 
 // MessageType return the string telegram-type of TMeURLTypeUser
@@ -50,7 +50,7 @@ func (tMeURLTypeUser *TMeURLTypeUser) MessageType() string {
 // NewTMeURLTypeUser creates a new TMeURLTypeUser
 //
 // @param userID Identifier of the user
-func NewTMeURLTypeUser(userID int32) *TMeURLTypeUser {
+func NewTMeURLTypeUser(userID int64) *TMeURLTypeUser {
 	tMeURLTypeUserTemp := TMeURLTypeUser{
 		tdCommon: tdCommon{Type: "tMeUrlTypeUser"},
 		UserID:   userID,

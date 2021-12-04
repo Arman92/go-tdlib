@@ -17,10 +17,10 @@ type InputCredentialsEnum string
 
 // InputCredentials enums
 const (
-	InputCredentialsSavedType      InputCredentialsEnum = "inputCredentialsSaved"
-	InputCredentialsNewType        InputCredentialsEnum = "inputCredentialsNew"
-	InputCredentialsAndroidPayType InputCredentialsEnum = "inputCredentialsAndroidPay"
-	InputCredentialsApplePayType   InputCredentialsEnum = "inputCredentialsApplePay"
+	InputCredentialsSavedType     InputCredentialsEnum = "inputCredentialsSaved"
+	InputCredentialsNewType       InputCredentialsEnum = "inputCredentialsNew"
+	InputCredentialsApplePayType  InputCredentialsEnum = "inputCredentialsApplePay"
+	InputCredentialsGooglePayType InputCredentialsEnum = "inputCredentialsGooglePay"
 )
 
 func unmarshalInputCredentials(rawMsg *json.RawMessage) (InputCredentials, error) {
@@ -45,15 +45,15 @@ func unmarshalInputCredentials(rawMsg *json.RawMessage) (InputCredentials, error
 		err := json.Unmarshal(*rawMsg, &inputCredentialsNew)
 		return &inputCredentialsNew, err
 
-	case InputCredentialsAndroidPayType:
-		var inputCredentialsAndroidPay InputCredentialsAndroidPay
-		err := json.Unmarshal(*rawMsg, &inputCredentialsAndroidPay)
-		return &inputCredentialsAndroidPay, err
-
 	case InputCredentialsApplePayType:
 		var inputCredentialsApplePay InputCredentialsApplePay
 		err := json.Unmarshal(*rawMsg, &inputCredentialsApplePay)
 		return &inputCredentialsApplePay, err
+
+	case InputCredentialsGooglePayType:
+		var inputCredentialsGooglePay InputCredentialsGooglePay
+		err := json.Unmarshal(*rawMsg, &inputCredentialsGooglePay)
+		return &inputCredentialsGooglePay, err
 
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
@@ -119,34 +119,6 @@ func (inputCredentialsNew *InputCredentialsNew) GetInputCredentialsEnum() InputC
 	return InputCredentialsNewType
 }
 
-// InputCredentialsAndroidPay Applies if a user enters new credentials using Android Pay
-type InputCredentialsAndroidPay struct {
-	tdCommon
-	Data string `json:"data"` // JSON-encoded data with the credential identifier
-}
-
-// MessageType return the string telegram-type of InputCredentialsAndroidPay
-func (inputCredentialsAndroidPay *InputCredentialsAndroidPay) MessageType() string {
-	return "inputCredentialsAndroidPay"
-}
-
-// NewInputCredentialsAndroidPay creates a new InputCredentialsAndroidPay
-//
-// @param data JSON-encoded data with the credential identifier
-func NewInputCredentialsAndroidPay(data string) *InputCredentialsAndroidPay {
-	inputCredentialsAndroidPayTemp := InputCredentialsAndroidPay{
-		tdCommon: tdCommon{Type: "inputCredentialsAndroidPay"},
-		Data:     data,
-	}
-
-	return &inputCredentialsAndroidPayTemp
-}
-
-// GetInputCredentialsEnum return the enum type of this object
-func (inputCredentialsAndroidPay *InputCredentialsAndroidPay) GetInputCredentialsEnum() InputCredentialsEnum {
-	return InputCredentialsAndroidPayType
-}
-
 // InputCredentialsApplePay Applies if a user enters new credentials using Apple Pay
 type InputCredentialsApplePay struct {
 	tdCommon
@@ -173,4 +145,32 @@ func NewInputCredentialsApplePay(data string) *InputCredentialsApplePay {
 // GetInputCredentialsEnum return the enum type of this object
 func (inputCredentialsApplePay *InputCredentialsApplePay) GetInputCredentialsEnum() InputCredentialsEnum {
 	return InputCredentialsApplePayType
+}
+
+// InputCredentialsGooglePay Applies if a user enters new credentials using Google Pay
+type InputCredentialsGooglePay struct {
+	tdCommon
+	Data string `json:"data"` // JSON-encoded data with the credential identifier
+}
+
+// MessageType return the string telegram-type of InputCredentialsGooglePay
+func (inputCredentialsGooglePay *InputCredentialsGooglePay) MessageType() string {
+	return "inputCredentialsGooglePay"
+}
+
+// NewInputCredentialsGooglePay creates a new InputCredentialsGooglePay
+//
+// @param data JSON-encoded data with the credential identifier
+func NewInputCredentialsGooglePay(data string) *InputCredentialsGooglePay {
+	inputCredentialsGooglePayTemp := InputCredentialsGooglePay{
+		tdCommon: tdCommon{Type: "inputCredentialsGooglePay"},
+		Data:     data,
+	}
+
+	return &inputCredentialsGooglePayTemp
+}
+
+// GetInputCredentialsEnum return the enum type of this object
+func (inputCredentialsGooglePay *InputCredentialsGooglePay) GetInputCredentialsEnum() InputCredentialsEnum {
+	return InputCredentialsGooglePayType
 }

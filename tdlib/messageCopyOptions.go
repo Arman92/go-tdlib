@@ -2,7 +2,7 @@
 
 package tdlib
 
-// MessageCopyOptions Options to be used when a message content is copied without a link to the original message
+// MessageCopyOptions Options to be used when a message content is copied without a link to the original message. Service messages and messageInvoice can't be copied
 type MessageCopyOptions struct {
 	tdCommon
 	SendCopy       bool           `json:"send_copy"`       // True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat

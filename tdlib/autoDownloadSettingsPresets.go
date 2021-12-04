@@ -2,7 +2,7 @@
 
 package tdlib
 
-// AutoDownloadSettingsPresets Contains auto-download settings presets for the user
+// AutoDownloadSettingsPresets Contains auto-download settings presets for the current user
 type AutoDownloadSettingsPresets struct {
 	tdCommon
 	Low    *AutoDownloadSettings `json:"low"`    // Preset with lowest settings; supposed to be used by default when roaming

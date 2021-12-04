@@ -483,6 +483,7 @@ type InputMessageSticker struct {
 	Thumbnail *InputThumbnail `json:"thumbnail"` // Sticker thumbnail, if available
 	Width     int32           `json:"width"`     // Sticker width
 	Height    int32           `json:"height"`    // Sticker height
+	Emoji     string          `json:"emoji"`     // Emoji used to choose the sticker
 }
 
 // MessageType return the string telegram-type of InputMessageSticker
@@ -496,13 +497,15 @@ func (inputMessageSticker *InputMessageSticker) MessageType() string {
 // @param thumbnail Sticker thumbnail, if available
 // @param width Sticker width
 // @param height Sticker height
-func NewInputMessageSticker(sticker InputFile, thumbnail *InputThumbnail, width int32, height int32) *InputMessageSticker {
+// @param emoji Emoji used to choose the sticker
+func NewInputMessageSticker(sticker InputFile, thumbnail *InputThumbnail, width int32, height int32, emoji string) *InputMessageSticker {
 	inputMessageStickerTemp := InputMessageSticker{
 		tdCommon:  tdCommon{Type: "inputMessageSticker"},
 		Sticker:   sticker,
 		Thumbnail: thumbnail,
 		Width:     width,
 		Height:    height,
+		Emoji:     emoji,
 	}
 
 	return &inputMessageStickerTemp
@@ -520,6 +523,7 @@ func (inputMessageSticker *InputMessageSticker) UnmarshalJSON(b []byte) error {
 		Thumbnail *InputThumbnail `json:"thumbnail"` // Sticker thumbnail, if available
 		Width     int32           `json:"width"`     // Sticker width
 		Height    int32           `json:"height"`    // Sticker height
+		Emoji     string          `json:"emoji"`     // Emoji used to choose the sticker
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -530,6 +534,7 @@ func (inputMessageSticker *InputMessageSticker) UnmarshalJSON(b []byte) error {
 	inputMessageSticker.Thumbnail = tempObj.Thumbnail
 	inputMessageSticker.Width = tempObj.Width
 	inputMessageSticker.Height = tempObj.Height
+	inputMessageSticker.Emoji = tempObj.Emoji
 
 	fieldSticker, _ := unmarshalInputFile(objMap["sticker"])
 	inputMessageSticker.Sticker = fieldSticker
@@ -892,7 +897,7 @@ func (inputMessageDice *InputMessageDice) GetInputMessageContentEnum() InputMess
 // InputMessageGame A message with a game; not supported for channels or secret chats
 type InputMessageGame struct {
 	tdCommon
-	BotUserID     int32  `json:"bot_user_id"`     // User identifier of the bot that owns the game
+	BotUserID     int64  `json:"bot_user_id"`     // User identifier of the bot that owns the game
 	GameShortName string `json:"game_short_name"` // Short name of the game
 }
 
@@ -905,7 +910,7 @@ func (inputMessageGame *InputMessageGame) MessageType() string {
 //
 // @param botUserID User identifier of the bot that owns the game
 // @param gameShortName Short name of the game
-func NewInputMessageGame(botUserID int32, gameShortName string) *InputMessageGame {
+func NewInputMessageGame(botUserID int64, gameShortName string) *InputMessageGame {
 	inputMessageGameTemp := InputMessageGame{
 		tdCommon:      tdCommon{Type: "inputMessageGame"},
 		BotUserID:     botUserID,
@@ -920,7 +925,7 @@ func (inputMessageGame *InputMessageGame) GetInputMessageContentEnum() InputMess
 	return InputMessageGameType
 }
 
-// InputMessageInvoice A message with an invoice; can be used only by bots and only in private chats
+// InputMessageInvoice A message with an invoice; can be used only by bots
 type InputMessageInvoice struct {
 	tdCommon
 	Invoice        *Invoice `json:"invoice"`         // Invoice
@@ -933,7 +938,7 @@ type InputMessageInvoice struct {
 	Payload        []byte   `json:"payload"`         // The invoice payload
 	ProviderToken  string   `json:"provider_token"`  // Payment provider token
 	ProviderData   string   `json:"provider_data"`   // JSON-encoded data about the invoice, which will be shared with the payment provider
-	StartParameter string   `json:"start_parameter"` // Unique invoice bot start_parameter for the generation of this invoice
+	StartParameter string   `json:"start_parameter"` // Unique invoice bot deep link parameter for the generation of this invoice. If empty, it would be possible to pay directly from forwards of the invoice message
 }
 
 // MessageType return the string telegram-type of InputMessageInvoice
@@ -953,7 +958,7 @@ func (inputMessageInvoice *InputMessageInvoice) MessageType() string {
 // @param payload The invoice payload
 // @param providerToken Payment provider token
 // @param providerData JSON-encoded data about the invoice, which will be shared with the payment provider
-// @param startParameter Unique invoice bot start_parameter for the generation of this invoice
+// @param startParameter Unique invoice bot deep link parameter for the generation of this invoice. If empty, it would be possible to pay directly from forwards of the invoice message
 func NewInputMessageInvoice(invoice *Invoice, title string, description string, photoURL string, photoSize int32, photoWidth int32, photoHeight int32, payload []byte, providerToken string, providerData string, startParameter string) *InputMessageInvoice {
 	inputMessageInvoiceTemp := InputMessageInvoice{
 		tdCommon:       tdCommon{Type: "inputMessageInvoice"},
@@ -981,7 +986,7 @@ func (inputMessageInvoice *InputMessageInvoice) GetInputMessageContentEnum() Inp
 // InputMessagePoll A message with a poll. Polls can't be sent to secret chats. Polls can be sent only to a private chat with a bot
 type InputMessagePoll struct {
 	tdCommon
-	Question    string   `json:"question"`     // Poll question, 1-255 characters (up to 300 characters for bots)
+	Question    string   `json:"question"`     // Poll question; 1-255 characters (up to 300 characters for bots)
 	Options     []string `json:"options"`      // List of poll answer options, 2-10 strings 1-100 characters each
 	IsAnonymous bool     `json:"is_anonymous"` // True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
 	Type        PollType `json:"type"`         // Type of the poll
@@ -997,7 +1002,7 @@ func (inputMessagePoll *InputMessagePoll) MessageType() string {
 
 // NewInputMessagePoll creates a new InputMessagePoll
 //
-// @param question Poll question, 1-255 characters (up to 300 characters for bots)
+// @param question Poll question; 1-255 characters (up to 300 characters for bots)
 // @param options List of poll answer options, 2-10 strings 1-100 characters each
 // @param isAnonymous True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
 // @param typeParam Type of the poll
@@ -1028,7 +1033,7 @@ func (inputMessagePoll *InputMessagePoll) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		Question    string   `json:"question"`     // Poll question, 1-255 characters (up to 300 characters for bots)
+		Question    string   `json:"question"`     // Poll question; 1-255 characters (up to 300 characters for bots)
 		Options     []string `json:"options"`      // List of poll answer options, 2-10 strings 1-100 characters each
 		IsAnonymous bool     `json:"is_anonymous"` // True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
 		OpenPeriod  int32    `json:"open_period"`  // Amount of time the poll will be active after creation, in seconds; for bots only

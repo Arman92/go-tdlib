@@ -21,7 +21,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // EventFilterFunc used to filter out unwanted messages in receiver channels

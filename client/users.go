@@ -4,17 +4,16 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
-// GetPollVoters Returns users voted for the specified option in a non-anonymous polls. For the optimal performance the number of returned users is chosen by the library
+// GetPollVoters Returns users voted for the specified option in a non-anonymous polls. For optimal performance, the number of returned users is chosen by TDLib
 // @param chatID Identifier of the chat to which the poll belongs
 // @param messageID Identifier of the message containing the poll
 // @param optionID 0-based identifier of the answer option
 // @param offset Number of users to skip in the result; must be non-negative
-// @param limit The maximum number of users to be returned; must be positive and can't be greater than 50. Fewer users may be returned than specified by the limit, even if the end of the voter list has not been reached
+// @param limit The maximum number of users to be returned; must be positive and can't be greater than 50. For optimal performance, the number of returned users is chosen by TDLib and can be smaller than the specified limit, even if the end of the voter list has not been reached
 func (client *Client) GetPollVoters(chatID int64, messageID int64, optionID int32, offset int32, limit int32) (*tdlib.Users, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":      "getPollVoters",
@@ -30,7 +29,7 @@ func (client *Client) GetPollVoters(chatID int64, messageID int64, optionID int3
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var users tdlib.Users
@@ -50,7 +49,7 @@ func (client *Client) GetContacts() (*tdlib.Users, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var users tdlib.Users
@@ -74,7 +73,7 @@ func (client *Client) SearchContacts(query string, limit int32) (*tdlib.Users, e
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var users tdlib.Users
@@ -94,7 +93,7 @@ func (client *Client) GetRecentInlineBots() (*tdlib.Users, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var users tdlib.Users

@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetMessageEmbeddingCode Returns an HTML code for embedding the message. Available only for messages in supergroups and channels with a username
@@ -26,7 +25,7 @@ func (client *Client) GetMessageEmbeddingCode(chatID int64, messageID int64, for
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -48,7 +47,7 @@ func (client *Client) GetFileMimeType(fileName string) (*tdlib.Text, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -70,7 +69,7 @@ func (client *Client) GetFileExtension(mimeType string) (*tdlib.Text, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -92,7 +91,7 @@ func (client *Client) CleanFileName(fileName string) (*tdlib.Text, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -114,7 +113,7 @@ func (client *Client) GetJsonString(jsonStringValue tdlib.JsonValue) (*tdlib.Tex
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -136,7 +135,113 @@ func (client *Client) GetChatFilterDefaultIconName(filter *tdlib.ChatFilter) (*t
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var text tdlib.Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// GetSuggestedFileName Returns suggested name for saving a file in a given directory
+// @param fileID Identifier of the file
+// @param directory Directory in which the file is supposed to be saved
+func (client *Client) GetSuggestedFileName(fileID int32, directory string) (*tdlib.Text, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":     "getSuggestedFileName",
+		"file_id":   fileID,
+		"directory": directory,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var text tdlib.Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// GetMessageImportConfirmationText Returns a confirmation text to be shown to the user before starting message import
+// @param chatID Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right
+func (client *Client) GetMessageImportConfirmationText(chatID int64) (*tdlib.Text, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":   "getMessageImportConfirmationText",
+		"chat_id": chatID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var text tdlib.Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// JoinGroupCall Joins an active group call. Returns join response payload for tgcalls
+// @param groupCallID Group call identifier
+// @param participantID Identifier of a group call participant, which will be used to join the call; voice chats only
+// @param audioSourceID Caller audio channel synchronization source identifier; received from tgcalls
+// @param payload Group call join payload; received from tgcalls
+// @param isMuted True, if the user's microphone is muted
+// @param isMyVideoEnabled True, if the user's video is enabled
+// @param inviteHash If non-empty, invite hash to be used to join the group call without being muted by administrators
+func (client *Client) JoinGroupCall(groupCallID int32, participantID tdlib.MessageSender, audioSourceID int32, payload string, isMuted bool, isMyVideoEnabled bool, inviteHash string) (*tdlib.Text, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":               "joinGroupCall",
+		"group_call_id":       groupCallID,
+		"participant_id":      participantID,
+		"audio_source_id":     audioSourceID,
+		"payload":             payload,
+		"is_muted":            isMuted,
+		"is_my_video_enabled": isMyVideoEnabled,
+		"invite_hash":         inviteHash,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var text tdlib.Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// StartGroupCallScreenSharing Starts screen sharing in a joined group call. Returns join response payload for tgcalls
+// @param groupCallID Group call identifier
+// @param audioSourceID Screen sharing audio channel synchronization source identifier; received from tgcalls
+// @param payload Group call join payload; received from tgcalls
+func (client *Client) StartGroupCallScreenSharing(groupCallID int32, audioSourceID int32, payload string) (*tdlib.Text, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":           "startGroupCallScreenSharing",
+		"group_call_id":   groupCallID,
+		"audio_source_id": audioSourceID,
+		"payload":         payload,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -158,7 +263,7 @@ func (client *Client) GetPreferredCountryLanguage(countryCode string) (*tdlib.Te
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text
@@ -167,7 +272,29 @@ func (client *Client) GetPreferredCountryLanguage(countryCode string) (*tdlib.Te
 
 }
 
-// GetCountryCode Uses current user IP address to find their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+// GetSuggestedStickerSetName Returns a suggested name for a new sticker set with a given title
+// @param title Sticker set title; 1-64 characters
+func (client *Client) GetSuggestedStickerSetName(title string) (*tdlib.Text, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type": "getSuggestedStickerSetName",
+		"title": title,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var text tdlib.Text
+	err = json.Unmarshal(result.Raw, &text)
+	return &text, err
+
+}
+
+// GetCountryCode Uses the current IP address to find the current country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 func (client *Client) GetCountryCode() (*tdlib.Text, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type": "getCountryCode",
@@ -178,49 +305,7 @@ func (client *Client) GetCountryCode() (*tdlib.Text, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var text tdlib.Text
-	err = json.Unmarshal(result.Raw, &text)
-	return &text, err
-
-}
-
-// GetInviteText Returns the default text for invitation messages to be used as a placeholder when the current user invites friends to Telegram
-func (client *Client) GetInviteText() (*tdlib.Text, error) {
-	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type": "getInviteText",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var text tdlib.Text
-	err = json.Unmarshal(result.Raw, &text)
-	return &text, err
-
-}
-
-// GetProxyLink Returns an HTTPS link, which can be used to add a proxy. Available only for SOCKS5 and MTProto proxies. Can be called before authorization
-// @param proxyID Proxy identifier
-func (client *Client) GetProxyLink(proxyID int32) (*tdlib.Text, error) {
-	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":    "getProxyLink",
-		"proxy_id": proxyID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var text tdlib.Text

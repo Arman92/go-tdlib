@@ -6,14 +6,13 @@ import (
 	"encoding/json"
 )
 
-// ChatMember A user with information about joining/leaving a chat
+// ChatMember Information about a user or a chat as a member of another chat
 type ChatMember struct {
 	tdCommon
-	UserID         int32            `json:"user_id"`          // User identifier of the chat member
-	InviterUserID  int32            `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
+	MemberID       MessageSender    `json:"member_id"`        // Identifier of the chat member. Currently, other chats can be only Left or Banned. Only supergroups and channels can have other chats as Left or Banned members and these chats must be supergroups or channels
+	InviterUserID  int64            `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
 	JoinedChatDate int32            `json:"joined_chat_date"` // Point in time (Unix timestamp) when the user joined the chat
 	Status         ChatMemberStatus `json:"status"`           // Status of the member in the chat
-	BotInfo        *BotInfo         `json:"bot_info"`         // If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
 }
 
 // MessageType return the string telegram-type of ChatMember
@@ -23,19 +22,17 @@ func (chatMember *ChatMember) MessageType() string {
 
 // NewChatMember creates a new ChatMember
 //
-// @param userID User identifier of the chat member
+// @param memberID Identifier of the chat member. Currently, other chats can be only Left or Banned. Only supergroups and channels can have other chats as Left or Banned members and these chats must be supergroups or channels
 // @param inviterUserID Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
 // @param joinedChatDate Point in time (Unix timestamp) when the user joined the chat
 // @param status Status of the member in the chat
-// @param botInfo If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
-func NewChatMember(userID int32, inviterUserID int32, joinedChatDate int32, status ChatMemberStatus, botInfo *BotInfo) *ChatMember {
+func NewChatMember(memberID MessageSender, inviterUserID int64, joinedChatDate int32, status ChatMemberStatus) *ChatMember {
 	chatMemberTemp := ChatMember{
 		tdCommon:       tdCommon{Type: "chatMember"},
-		UserID:         userID,
+		MemberID:       memberID,
 		InviterUserID:  inviterUserID,
 		JoinedChatDate: joinedChatDate,
 		Status:         status,
-		BotInfo:        botInfo,
 	}
 
 	return &chatMemberTemp
@@ -50,10 +47,9 @@ func (chatMember *ChatMember) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		UserID         int32    `json:"user_id"`          // User identifier of the chat member
-		InviterUserID  int32    `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
-		JoinedChatDate int32    `json:"joined_chat_date"` // Point in time (Unix timestamp) when the user joined the chat
-		BotInfo        *BotInfo `json:"bot_info"`         // If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
+		InviterUserID  int64 `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
+		JoinedChatDate int32 `json:"joined_chat_date"` // Point in time (Unix timestamp) when the user joined the chat
+
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -61,10 +57,11 @@ func (chatMember *ChatMember) UnmarshalJSON(b []byte) error {
 	}
 
 	chatMember.tdCommon = tempObj.tdCommon
-	chatMember.UserID = tempObj.UserID
 	chatMember.InviterUserID = tempObj.InviterUserID
 	chatMember.JoinedChatDate = tempObj.JoinedChatDate
-	chatMember.BotInfo = tempObj.BotInfo
+
+	fieldMemberID, _ := unmarshalMessageSender(objMap["member_id"])
+	chatMember.MemberID = fieldMemberID
 
 	fieldStatus, _ := unmarshalChatMemberStatus(objMap["status"])
 	chatMember.Status = fieldStatus

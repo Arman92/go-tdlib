@@ -4,16 +4,15 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // CreateCall Creates a new call
 // @param userID Identifier of the user to be called
 // @param protocol Description of the call protocols supported by the application
 // @param isVideo True, if a video call needs to be created
-func (client *Client) CreateCall(userID int32, protocol *tdlib.CallProtocol, isVideo bool) (*tdlib.CallID, error) {
+func (client *Client) CreateCall(userID int64, protocol *tdlib.CallProtocol, isVideo bool) (*tdlib.CallID, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":    "createCall",
 		"user_id":  userID,
@@ -26,7 +25,7 @@ func (client *Client) CreateCall(userID int32, protocol *tdlib.CallProtocol, isV
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var callID tdlib.CallID

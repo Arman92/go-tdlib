@@ -83,7 +83,7 @@ func (logStreamDefault *LogStreamDefault) GetLogStreamEnum() LogStreamEnum {
 type LogStreamFile struct {
 	tdCommon
 	Path           string `json:"path"`            // Path to the file to where the internal TDLib log will be written
-	MaxFileSize    int64  `json:"max_file_size"`   // The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+	MaxFileSize    int64  `json:"max_file_size"`   // The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated, in bytes
 	RedirectStderr bool   `json:"redirect_stderr"` // Pass true to additionally redirect stderr to the log file. Ignored on Windows
 }
 
@@ -95,7 +95,7 @@ func (logStreamFile *LogStreamFile) MessageType() string {
 // NewLogStreamFile creates a new LogStreamFile
 //
 // @param path Path to the file to where the internal TDLib log will be written
-// @param maxFileSize The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+// @param maxFileSize The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated, in bytes
 // @param redirectStderr Pass true to additionally redirect stderr to the log file. Ignored on Windows
 func NewLogStreamFile(path string, maxFileSize int64, redirectStderr bool) *LogStreamFile {
 	logStreamFileTemp := LogStreamFile{

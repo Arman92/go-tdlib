@@ -38,13 +38,16 @@ const (
 	UpdateChatIsMarkedAsUnreadType           UpdateEnum = "updateChatIsMarkedAsUnread"
 	UpdateChatIsBlockedType                  UpdateEnum = "updateChatIsBlocked"
 	UpdateChatHasScheduledMessagesType       UpdateEnum = "updateChatHasScheduledMessages"
+	UpdateChatVoiceChatType                  UpdateEnum = "updateChatVoiceChat"
 	UpdateChatDefaultDisableNotificationType UpdateEnum = "updateChatDefaultDisableNotification"
 	UpdateChatReadInboxType                  UpdateEnum = "updateChatReadInbox"
 	UpdateChatReadOutboxType                 UpdateEnum = "updateChatReadOutbox"
 	UpdateChatUnreadMentionCountType         UpdateEnum = "updateChatUnreadMentionCount"
 	UpdateChatNotificationSettingsType       UpdateEnum = "updateChatNotificationSettings"
 	UpdateScopeNotificationSettingsType      UpdateEnum = "updateScopeNotificationSettings"
+	UpdateChatMessageTTLSettingType          UpdateEnum = "updateChatMessageTtlSetting"
 	UpdateChatActionBarType                  UpdateEnum = "updateChatActionBar"
+	UpdateChatThemeType                      UpdateEnum = "updateChatTheme"
 	UpdateChatReplyMarkupType                UpdateEnum = "updateChatReplyMarkup"
 	UpdateChatDraftMessageType               UpdateEnum = "updateChatDraftMessage"
 	UpdateChatFiltersType                    UpdateEnum = "updateChatFilters"
@@ -68,6 +71,8 @@ const (
 	UpdateFileGenerationStartType            UpdateEnum = "updateFileGenerationStart"
 	UpdateFileGenerationStopType             UpdateEnum = "updateFileGenerationStop"
 	UpdateCallType                           UpdateEnum = "updateCall"
+	UpdateGroupCallType                      UpdateEnum = "updateGroupCall"
+	UpdateGroupCallParticipantType           UpdateEnum = "updateGroupCallParticipant"
 	UpdateNewCallSignalingDataType           UpdateEnum = "updateNewCallSignalingData"
 	UpdateUserPrivacySettingRulesType        UpdateEnum = "updateUserPrivacySettingRules"
 	UpdateUnreadMessageCountType             UpdateEnum = "updateUnreadMessageCount"
@@ -80,6 +85,7 @@ const (
 	UpdateFavoriteStickersType               UpdateEnum = "updateFavoriteStickers"
 	UpdateSavedAnimationsType                UpdateEnum = "updateSavedAnimations"
 	UpdateSelectedBackgroundType             UpdateEnum = "updateSelectedBackground"
+	UpdateChatThemesType                     UpdateEnum = "updateChatThemes"
 	UpdateLanguagePackStringsType            UpdateEnum = "updateLanguagePackStrings"
 	UpdateConnectionStateType                UpdateEnum = "updateConnectionState"
 	UpdateTermsOfServiceType                 UpdateEnum = "updateTermsOfService"
@@ -97,6 +103,7 @@ const (
 	UpdateNewCustomQueryType                 UpdateEnum = "updateNewCustomQuery"
 	UpdatePollType                           UpdateEnum = "updatePoll"
 	UpdatePollAnswerType                     UpdateEnum = "updatePollAnswer"
+	UpdateChatMemberType                     UpdateEnum = "updateChatMember"
 )
 
 func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
@@ -216,6 +223,11 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateChatHasScheduledMessages)
 		return &updateChatHasScheduledMessages, err
 
+	case UpdateChatVoiceChatType:
+		var updateChatVoiceChat UpdateChatVoiceChat
+		err := json.Unmarshal(*rawMsg, &updateChatVoiceChat)
+		return &updateChatVoiceChat, err
+
 	case UpdateChatDefaultDisableNotificationType:
 		var updateChatDefaultDisableNotification UpdateChatDefaultDisableNotification
 		err := json.Unmarshal(*rawMsg, &updateChatDefaultDisableNotification)
@@ -246,10 +258,20 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateScopeNotificationSettings)
 		return &updateScopeNotificationSettings, err
 
+	case UpdateChatMessageTTLSettingType:
+		var updateChatMessageTTLSetting UpdateChatMessageTTLSetting
+		err := json.Unmarshal(*rawMsg, &updateChatMessageTTLSetting)
+		return &updateChatMessageTTLSetting, err
+
 	case UpdateChatActionBarType:
 		var updateChatActionBar UpdateChatActionBar
 		err := json.Unmarshal(*rawMsg, &updateChatActionBar)
 		return &updateChatActionBar, err
+
+	case UpdateChatThemeType:
+		var updateChatTheme UpdateChatTheme
+		err := json.Unmarshal(*rawMsg, &updateChatTheme)
+		return &updateChatTheme, err
 
 	case UpdateChatReplyMarkupType:
 		var updateChatReplyMarkup UpdateChatReplyMarkup
@@ -366,6 +388,16 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		err := json.Unmarshal(*rawMsg, &updateCall)
 		return &updateCall, err
 
+	case UpdateGroupCallType:
+		var updateGroupCall UpdateGroupCall
+		err := json.Unmarshal(*rawMsg, &updateGroupCall)
+		return &updateGroupCall, err
+
+	case UpdateGroupCallParticipantType:
+		var updateGroupCallParticipant UpdateGroupCallParticipant
+		err := json.Unmarshal(*rawMsg, &updateGroupCallParticipant)
+		return &updateGroupCallParticipant, err
+
 	case UpdateNewCallSignalingDataType:
 		var updateNewCallSignalingData UpdateNewCallSignalingData
 		err := json.Unmarshal(*rawMsg, &updateNewCallSignalingData)
@@ -425,6 +457,11 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		var updateSelectedBackground UpdateSelectedBackground
 		err := json.Unmarshal(*rawMsg, &updateSelectedBackground)
 		return &updateSelectedBackground, err
+
+	case UpdateChatThemesType:
+		var updateChatThemes UpdateChatThemes
+		err := json.Unmarshal(*rawMsg, &updateChatThemes)
+		return &updateChatThemes, err
 
 	case UpdateLanguagePackStringsType:
 		var updateLanguagePackStrings UpdateLanguagePackStrings
@@ -510,6 +547,11 @@ func unmarshalUpdate(rawMsg *json.RawMessage) (Update, error) {
 		var updatePollAnswer UpdatePollAnswer
 		err := json.Unmarshal(*rawMsg, &updatePollAnswer)
 		return &updatePollAnswer, err
+
+	case UpdateChatMemberType:
+		var updateChatMember UpdateChatMember
+		err := json.Unmarshal(*rawMsg, &updateChatMember)
+		return &updateChatMember, err
 
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
@@ -1266,6 +1308,37 @@ func (updateChatHasScheduledMessages *UpdateChatHasScheduledMessages) GetUpdateE
 	return UpdateChatHasScheduledMessagesType
 }
 
+// UpdateChatVoiceChat A chat voice chat state has changed
+type UpdateChatVoiceChat struct {
+	tdCommon
+	ChatID    int64      `json:"chat_id"`    // Chat identifier
+	VoiceChat *VoiceChat `json:"voice_chat"` // New value of voice_chat
+}
+
+// MessageType return the string telegram-type of UpdateChatVoiceChat
+func (updateChatVoiceChat *UpdateChatVoiceChat) MessageType() string {
+	return "updateChatVoiceChat"
+}
+
+// NewUpdateChatVoiceChat creates a new UpdateChatVoiceChat
+//
+// @param chatID Chat identifier
+// @param voiceChat New value of voice_chat
+func NewUpdateChatVoiceChat(chatID int64, voiceChat *VoiceChat) *UpdateChatVoiceChat {
+	updateChatVoiceChatTemp := UpdateChatVoiceChat{
+		tdCommon:  tdCommon{Type: "updateChatVoiceChat"},
+		ChatID:    chatID,
+		VoiceChat: voiceChat,
+	}
+
+	return &updateChatVoiceChatTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatVoiceChat *UpdateChatVoiceChat) GetUpdateEnum() UpdateEnum {
+	return UpdateChatVoiceChatType
+}
+
 // UpdateChatDefaultDisableNotification The value of the default disable_notification parameter, used when a message is sent to the chat, was changed
 type UpdateChatDefaultDisableNotification struct {
 	tdCommon
@@ -1480,6 +1553,37 @@ func (updateScopeNotificationSettings *UpdateScopeNotificationSettings) GetUpdat
 	return UpdateScopeNotificationSettingsType
 }
 
+// UpdateChatMessageTTLSetting The message Time To Live setting for a chat was changed
+type UpdateChatMessageTTLSetting struct {
+	tdCommon
+	ChatID            int64 `json:"chat_id"`             // Chat identifier
+	MessageTTLSetting int32 `json:"message_ttl_setting"` // New value of message_ttl_setting
+}
+
+// MessageType return the string telegram-type of UpdateChatMessageTTLSetting
+func (updateChatMessageTTLSetting *UpdateChatMessageTTLSetting) MessageType() string {
+	return "updateChatMessageTtlSetting"
+}
+
+// NewUpdateChatMessageTTLSetting creates a new UpdateChatMessageTTLSetting
+//
+// @param chatID Chat identifier
+// @param messageTTLSetting New value of message_ttl_setting
+func NewUpdateChatMessageTTLSetting(chatID int64, messageTTLSetting int32) *UpdateChatMessageTTLSetting {
+	updateChatMessageTTLSettingTemp := UpdateChatMessageTTLSetting{
+		tdCommon:          tdCommon{Type: "updateChatMessageTtlSetting"},
+		ChatID:            chatID,
+		MessageTTLSetting: messageTTLSetting,
+	}
+
+	return &updateChatMessageTTLSettingTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatMessageTTLSetting *UpdateChatMessageTTLSetting) GetUpdateEnum() UpdateEnum {
+	return UpdateChatMessageTTLSettingType
+}
+
 // UpdateChatActionBar The chat action bar was changed
 type UpdateChatActionBar struct {
 	tdCommon
@@ -1535,6 +1639,37 @@ func (updateChatActionBar *UpdateChatActionBar) UnmarshalJSON(b []byte) error {
 // GetUpdateEnum return the enum type of this object
 func (updateChatActionBar *UpdateChatActionBar) GetUpdateEnum() UpdateEnum {
 	return UpdateChatActionBarType
+}
+
+// UpdateChatTheme The chat theme was changed
+type UpdateChatTheme struct {
+	tdCommon
+	ChatID    int64  `json:"chat_id"`    // Chat identifier
+	ThemeName string `json:"theme_name"` // The new name of the chat theme; may be empty if theme was reset to default
+}
+
+// MessageType return the string telegram-type of UpdateChatTheme
+func (updateChatTheme *UpdateChatTheme) MessageType() string {
+	return "updateChatTheme"
+}
+
+// NewUpdateChatTheme creates a new UpdateChatTheme
+//
+// @param chatID Chat identifier
+// @param themeName The new name of the chat theme; may be empty if theme was reset to default
+func NewUpdateChatTheme(chatID int64, themeName string) *UpdateChatTheme {
+	updateChatThemeTemp := UpdateChatTheme{
+		tdCommon:  tdCommon{Type: "updateChatTheme"},
+		ChatID:    chatID,
+		ThemeName: themeName,
+	}
+
+	return &updateChatThemeTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatTheme *UpdateChatTheme) GetUpdateEnum() UpdateEnum {
+	return UpdateChatThemeType
 }
 
 // UpdateChatReplyMarkup The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
@@ -1879,7 +2014,7 @@ type UpdateUserChatAction struct {
 	tdCommon
 	ChatID          int64      `json:"chat_id"`           // Chat identifier
 	MessageThreadID int64      `json:"message_thread_id"` // If not 0, a message thread identifier in which the action was performed
-	UserID          int32      `json:"user_id"`           // Identifier of a user performing an action
+	UserID          int64      `json:"user_id"`           // Identifier of a user performing an action
 	Action          ChatAction `json:"action"`            // The action description
 }
 
@@ -1894,7 +2029,7 @@ func (updateUserChatAction *UpdateUserChatAction) MessageType() string {
 // @param messageThreadID If not 0, a message thread identifier in which the action was performed
 // @param userID Identifier of a user performing an action
 // @param action The action description
-func NewUpdateUserChatAction(chatID int64, messageThreadID int64, userID int32, action ChatAction) *UpdateUserChatAction {
+func NewUpdateUserChatAction(chatID int64, messageThreadID int64, userID int64, action ChatAction) *UpdateUserChatAction {
 	updateUserChatActionTemp := UpdateUserChatAction{
 		tdCommon:        tdCommon{Type: "updateUserChatAction"},
 		ChatID:          chatID,
@@ -1917,7 +2052,7 @@ func (updateUserChatAction *UpdateUserChatAction) UnmarshalJSON(b []byte) error 
 		tdCommon
 		ChatID          int64 `json:"chat_id"`           // Chat identifier
 		MessageThreadID int64 `json:"message_thread_id"` // If not 0, a message thread identifier in which the action was performed
-		UserID          int32 `json:"user_id"`           // Identifier of a user performing an action
+		UserID          int64 `json:"user_id"`           // Identifier of a user performing an action
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -1944,7 +2079,7 @@ func (updateUserChatAction *UpdateUserChatAction) GetUpdateEnum() UpdateEnum {
 // UpdateUserStatus The user went online or offline
 type UpdateUserStatus struct {
 	tdCommon
-	UserID int32      `json:"user_id"` // User identifier
+	UserID int64      `json:"user_id"` // User identifier
 	Status UserStatus `json:"status"`  // New status of the user
 }
 
@@ -1957,7 +2092,7 @@ func (updateUserStatus *UpdateUserStatus) MessageType() string {
 //
 // @param userID User identifier
 // @param status New status of the user
-func NewUpdateUserStatus(userID int32, status UserStatus) *UpdateUserStatus {
+func NewUpdateUserStatus(userID int64, status UserStatus) *UpdateUserStatus {
 	updateUserStatusTemp := UpdateUserStatus{
 		tdCommon: tdCommon{Type: "updateUserStatus"},
 		UserID:   userID,
@@ -1976,7 +2111,7 @@ func (updateUserStatus *UpdateUserStatus) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		UserID int32 `json:"user_id"` // User identifier
+		UserID int64 `json:"user_id"` // User identifier
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -2113,7 +2248,7 @@ func (updateSecretChat *UpdateSecretChat) GetUpdateEnum() UpdateEnum {
 // UpdateUserFullInfo Some data from userFullInfo has been changed
 type UpdateUserFullInfo struct {
 	tdCommon
-	UserID       int32         `json:"user_id"`        // User identifier
+	UserID       int64         `json:"user_id"`        // User identifier
 	UserFullInfo *UserFullInfo `json:"user_full_info"` // New full information about the user
 }
 
@@ -2126,7 +2261,7 @@ func (updateUserFullInfo *UpdateUserFullInfo) MessageType() string {
 //
 // @param userID User identifier
 // @param userFullInfo New full information about the user
-func NewUpdateUserFullInfo(userID int32, userFullInfo *UserFullInfo) *UpdateUserFullInfo {
+func NewUpdateUserFullInfo(userID int64, userFullInfo *UserFullInfo) *UpdateUserFullInfo {
 	updateUserFullInfoTemp := UpdateUserFullInfo{
 		tdCommon:     tdCommon{Type: "updateUserFullInfo"},
 		UserID:       userID,
@@ -2144,7 +2279,7 @@ func (updateUserFullInfo *UpdateUserFullInfo) GetUpdateEnum() UpdateEnum {
 // UpdateBasicGroupFullInfo Some data from basicGroupFullInfo has been changed
 type UpdateBasicGroupFullInfo struct {
 	tdCommon
-	BasicGroupID       int32               `json:"basic_group_id"`        // Identifier of a basic group
+	BasicGroupID       int64               `json:"basic_group_id"`        // Identifier of a basic group
 	BasicGroupFullInfo *BasicGroupFullInfo `json:"basic_group_full_info"` // New full information about the group
 }
 
@@ -2157,7 +2292,7 @@ func (updateBasicGroupFullInfo *UpdateBasicGroupFullInfo) MessageType() string {
 //
 // @param basicGroupID Identifier of a basic group
 // @param basicGroupFullInfo New full information about the group
-func NewUpdateBasicGroupFullInfo(basicGroupID int32, basicGroupFullInfo *BasicGroupFullInfo) *UpdateBasicGroupFullInfo {
+func NewUpdateBasicGroupFullInfo(basicGroupID int64, basicGroupFullInfo *BasicGroupFullInfo) *UpdateBasicGroupFullInfo {
 	updateBasicGroupFullInfoTemp := UpdateBasicGroupFullInfo{
 		tdCommon:           tdCommon{Type: "updateBasicGroupFullInfo"},
 		BasicGroupID:       basicGroupID,
@@ -2175,7 +2310,7 @@ func (updateBasicGroupFullInfo *UpdateBasicGroupFullInfo) GetUpdateEnum() Update
 // UpdateSupergroupFullInfo Some data from supergroupFullInfo has been changed
 type UpdateSupergroupFullInfo struct {
 	tdCommon
-	SupergroupID       int32               `json:"supergroup_id"`        // Identifier of the supergroup or channel
+	SupergroupID       int64               `json:"supergroup_id"`        // Identifier of the supergroup or channel
 	SupergroupFullInfo *SupergroupFullInfo `json:"supergroup_full_info"` // New full information about the supergroup
 }
 
@@ -2188,7 +2323,7 @@ func (updateSupergroupFullInfo *UpdateSupergroupFullInfo) MessageType() string {
 //
 // @param supergroupID Identifier of the supergroup or channel
 // @param supergroupFullInfo New full information about the supergroup
-func NewUpdateSupergroupFullInfo(supergroupID int32, supergroupFullInfo *SupergroupFullInfo) *UpdateSupergroupFullInfo {
+func NewUpdateSupergroupFullInfo(supergroupID int64, supergroupFullInfo *SupergroupFullInfo) *UpdateSupergroupFullInfo {
 	updateSupergroupFullInfoTemp := UpdateSupergroupFullInfo{
 		tdCommon:           tdCommon{Type: "updateSupergroupFullInfo"},
 		SupergroupID:       supergroupID,
@@ -2379,6 +2514,65 @@ func NewUpdateCall(call *Call) *UpdateCall {
 // GetUpdateEnum return the enum type of this object
 func (updateCall *UpdateCall) GetUpdateEnum() UpdateEnum {
 	return UpdateCallType
+}
+
+// UpdateGroupCall Information about a group call was updated
+type UpdateGroupCall struct {
+	tdCommon
+	GroupCall *GroupCall `json:"group_call"` // New data about a group call
+}
+
+// MessageType return the string telegram-type of UpdateGroupCall
+func (updateGroupCall *UpdateGroupCall) MessageType() string {
+	return "updateGroupCall"
+}
+
+// NewUpdateGroupCall creates a new UpdateGroupCall
+//
+// @param groupCall New data about a group call
+func NewUpdateGroupCall(groupCall *GroupCall) *UpdateGroupCall {
+	updateGroupCallTemp := UpdateGroupCall{
+		tdCommon:  tdCommon{Type: "updateGroupCall"},
+		GroupCall: groupCall,
+	}
+
+	return &updateGroupCallTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateGroupCall *UpdateGroupCall) GetUpdateEnum() UpdateEnum {
+	return UpdateGroupCallType
+}
+
+// UpdateGroupCallParticipant Information about a group call participant was changed. The updates are sent only after the group call is received through getGroupCall and only if the call is joined or being joined
+type UpdateGroupCallParticipant struct {
+	tdCommon
+	GroupCallID int32                 `json:"group_call_id"` // Identifier of group call
+	Participant *GroupCallParticipant `json:"participant"`   // New data about a participant
+}
+
+// MessageType return the string telegram-type of UpdateGroupCallParticipant
+func (updateGroupCallParticipant *UpdateGroupCallParticipant) MessageType() string {
+	return "updateGroupCallParticipant"
+}
+
+// NewUpdateGroupCallParticipant creates a new UpdateGroupCallParticipant
+//
+// @param groupCallID Identifier of group call
+// @param participant New data about a participant
+func NewUpdateGroupCallParticipant(groupCallID int32, participant *GroupCallParticipant) *UpdateGroupCallParticipant {
+	updateGroupCallParticipantTemp := UpdateGroupCallParticipant{
+		tdCommon:    tdCommon{Type: "updateGroupCallParticipant"},
+		GroupCallID: groupCallID,
+		Participant: participant,
+	}
+
+	return &updateGroupCallParticipantTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateGroupCallParticipant *UpdateGroupCallParticipant) GetUpdateEnum() UpdateEnum {
+	return UpdateGroupCallParticipantType
 }
 
 // UpdateNewCallSignalingData New call signaling data arrived
@@ -2867,6 +3061,34 @@ func (updateSelectedBackground *UpdateSelectedBackground) GetUpdateEnum() Update
 	return UpdateSelectedBackgroundType
 }
 
+// UpdateChatThemes The list of available chat themes has changed
+type UpdateChatThemes struct {
+	tdCommon
+	ChatThemes []ChatTheme `json:"chat_themes"` // The new list of chat themes
+}
+
+// MessageType return the string telegram-type of UpdateChatThemes
+func (updateChatThemes *UpdateChatThemes) MessageType() string {
+	return "updateChatThemes"
+}
+
+// NewUpdateChatThemes creates a new UpdateChatThemes
+//
+// @param chatThemes The new list of chat themes
+func NewUpdateChatThemes(chatThemes []ChatTheme) *UpdateChatThemes {
+	updateChatThemesTemp := UpdateChatThemes{
+		tdCommon:   tdCommon{Type: "updateChatThemes"},
+		ChatThemes: chatThemes,
+	}
+
+	return &updateChatThemesTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatThemes *UpdateChatThemes) GetUpdateEnum() UpdateEnum {
+	return UpdateChatThemesType
+}
+
 // UpdateLanguagePackStrings Some language pack strings have been updated
 type UpdateLanguagePackStrings struct {
 	tdCommon
@@ -3105,8 +3327,9 @@ func (updateSuggestedActions *UpdateSuggestedActions) GetUpdateEnum() UpdateEnum
 type UpdateNewInlineQuery struct {
 	tdCommon
 	ID           JSONInt64 `json:"id"`             // Unique query identifier
-	SenderUserID int32     `json:"sender_user_id"` // Identifier of the user who sent the query
+	SenderUserID int64     `json:"sender_user_id"` // Identifier of the user who sent the query
 	UserLocation *Location `json:"user_location"`  // User location; may be null
+	ChatType     ChatType  `json:"chat_type"`      // Contains information about the type of the chat, from which the query originated; may be null if unknown
 	Query        string    `json:"query"`          // Text of the query
 	Offset       string    `json:"offset"`         // Offset of the first entry to return
 }
@@ -3121,19 +3344,54 @@ func (updateNewInlineQuery *UpdateNewInlineQuery) MessageType() string {
 // @param iD Unique query identifier
 // @param senderUserID Identifier of the user who sent the query
 // @param userLocation User location; may be null
+// @param chatType Contains information about the type of the chat, from which the query originated; may be null if unknown
 // @param query Text of the query
 // @param offset Offset of the first entry to return
-func NewUpdateNewInlineQuery(iD JSONInt64, senderUserID int32, userLocation *Location, query string, offset string) *UpdateNewInlineQuery {
+func NewUpdateNewInlineQuery(iD JSONInt64, senderUserID int64, userLocation *Location, chatType ChatType, query string, offset string) *UpdateNewInlineQuery {
 	updateNewInlineQueryTemp := UpdateNewInlineQuery{
 		tdCommon:     tdCommon{Type: "updateNewInlineQuery"},
 		ID:           iD,
 		SenderUserID: senderUserID,
 		UserLocation: userLocation,
+		ChatType:     chatType,
 		Query:        query,
 		Offset:       offset,
 	}
 
 	return &updateNewInlineQueryTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (updateNewInlineQuery *UpdateNewInlineQuery) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		ID           JSONInt64 `json:"id"`             // Unique query identifier
+		SenderUserID int64     `json:"sender_user_id"` // Identifier of the user who sent the query
+		UserLocation *Location `json:"user_location"`  // User location; may be null
+		Query        string    `json:"query"`          // Text of the query
+		Offset       string    `json:"offset"`         // Offset of the first entry to return
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	updateNewInlineQuery.tdCommon = tempObj.tdCommon
+	updateNewInlineQuery.ID = tempObj.ID
+	updateNewInlineQuery.SenderUserID = tempObj.SenderUserID
+	updateNewInlineQuery.UserLocation = tempObj.UserLocation
+	updateNewInlineQuery.Query = tempObj.Query
+	updateNewInlineQuery.Offset = tempObj.Offset
+
+	fieldChatType, _ := unmarshalChatType(objMap["chat_type"])
+	updateNewInlineQuery.ChatType = fieldChatType
+
+	return nil
 }
 
 // GetUpdateEnum return the enum type of this object
@@ -3144,7 +3402,7 @@ func (updateNewInlineQuery *UpdateNewInlineQuery) GetUpdateEnum() UpdateEnum {
 // UpdateNewChosenInlineResult The user has chosen a result of an inline query; for bots only
 type UpdateNewChosenInlineResult struct {
 	tdCommon
-	SenderUserID    int32     `json:"sender_user_id"`    // Identifier of the user who sent the query
+	SenderUserID    int64     `json:"sender_user_id"`    // Identifier of the user who sent the query
 	UserLocation    *Location `json:"user_location"`     // User location; may be null
 	Query           string    `json:"query"`             // Text of the query
 	ResultID        string    `json:"result_id"`         // Identifier of the chosen result
@@ -3163,7 +3421,7 @@ func (updateNewChosenInlineResult *UpdateNewChosenInlineResult) MessageType() st
 // @param query Text of the query
 // @param resultID Identifier of the chosen result
 // @param inlineMessageID Identifier of the sent inline message, if known
-func NewUpdateNewChosenInlineResult(senderUserID int32, userLocation *Location, query string, resultID string, inlineMessageID string) *UpdateNewChosenInlineResult {
+func NewUpdateNewChosenInlineResult(senderUserID int64, userLocation *Location, query string, resultID string, inlineMessageID string) *UpdateNewChosenInlineResult {
 	updateNewChosenInlineResultTemp := UpdateNewChosenInlineResult{
 		tdCommon:        tdCommon{Type: "updateNewChosenInlineResult"},
 		SenderUserID:    senderUserID,
@@ -3185,7 +3443,7 @@ func (updateNewChosenInlineResult *UpdateNewChosenInlineResult) GetUpdateEnum() 
 type UpdateNewCallbackQuery struct {
 	tdCommon
 	ID           JSONInt64            `json:"id"`             // Unique query identifier
-	SenderUserID int32                `json:"sender_user_id"` // Identifier of the user who sent the query
+	SenderUserID int64                `json:"sender_user_id"` // Identifier of the user who sent the query
 	ChatID       int64                `json:"chat_id"`        // Identifier of the chat where the query was sent
 	MessageID    int64                `json:"message_id"`     // Identifier of the message, from which the query originated
 	ChatInstance JSONInt64            `json:"chat_instance"`  // Identifier that uniquely corresponds to the chat to which the message was sent
@@ -3205,7 +3463,7 @@ func (updateNewCallbackQuery *UpdateNewCallbackQuery) MessageType() string {
 // @param messageID Identifier of the message, from which the query originated
 // @param chatInstance Identifier that uniquely corresponds to the chat to which the message was sent
 // @param payload Query payload
-func NewUpdateNewCallbackQuery(iD JSONInt64, senderUserID int32, chatID int64, messageID int64, chatInstance JSONInt64, payload CallbackQueryPayload) *UpdateNewCallbackQuery {
+func NewUpdateNewCallbackQuery(iD JSONInt64, senderUserID int64, chatID int64, messageID int64, chatInstance JSONInt64, payload CallbackQueryPayload) *UpdateNewCallbackQuery {
 	updateNewCallbackQueryTemp := UpdateNewCallbackQuery{
 		tdCommon:     tdCommon{Type: "updateNewCallbackQuery"},
 		ID:           iD,
@@ -3229,7 +3487,7 @@ func (updateNewCallbackQuery *UpdateNewCallbackQuery) UnmarshalJSON(b []byte) er
 	tempObj := struct {
 		tdCommon
 		ID           JSONInt64 `json:"id"`             // Unique query identifier
-		SenderUserID int32     `json:"sender_user_id"` // Identifier of the user who sent the query
+		SenderUserID int64     `json:"sender_user_id"` // Identifier of the user who sent the query
 		ChatID       int64     `json:"chat_id"`        // Identifier of the chat where the query was sent
 		MessageID    int64     `json:"message_id"`     // Identifier of the message, from which the query originated
 		ChatInstance JSONInt64 `json:"chat_instance"`  // Identifier that uniquely corresponds to the chat to which the message was sent
@@ -3262,7 +3520,7 @@ func (updateNewCallbackQuery *UpdateNewCallbackQuery) GetUpdateEnum() UpdateEnum
 type UpdateNewInlineCallbackQuery struct {
 	tdCommon
 	ID              JSONInt64            `json:"id"`                // Unique query identifier
-	SenderUserID    int32                `json:"sender_user_id"`    // Identifier of the user who sent the query
+	SenderUserID    int64                `json:"sender_user_id"`    // Identifier of the user who sent the query
 	InlineMessageID string               `json:"inline_message_id"` // Identifier of the inline message, from which the query originated
 	ChatInstance    JSONInt64            `json:"chat_instance"`     // An identifier uniquely corresponding to the chat a message was sent to
 	Payload         CallbackQueryPayload `json:"payload"`           // Query payload
@@ -3280,7 +3538,7 @@ func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) MessageType() 
 // @param inlineMessageID Identifier of the inline message, from which the query originated
 // @param chatInstance An identifier uniquely corresponding to the chat a message was sent to
 // @param payload Query payload
-func NewUpdateNewInlineCallbackQuery(iD JSONInt64, senderUserID int32, inlineMessageID string, chatInstance JSONInt64, payload CallbackQueryPayload) *UpdateNewInlineCallbackQuery {
+func NewUpdateNewInlineCallbackQuery(iD JSONInt64, senderUserID int64, inlineMessageID string, chatInstance JSONInt64, payload CallbackQueryPayload) *UpdateNewInlineCallbackQuery {
 	updateNewInlineCallbackQueryTemp := UpdateNewInlineCallbackQuery{
 		tdCommon:        tdCommon{Type: "updateNewInlineCallbackQuery"},
 		ID:              iD,
@@ -3303,7 +3561,7 @@ func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) UnmarshalJSON(
 	tempObj := struct {
 		tdCommon
 		ID              JSONInt64 `json:"id"`                // Unique query identifier
-		SenderUserID    int32     `json:"sender_user_id"`    // Identifier of the user who sent the query
+		SenderUserID    int64     `json:"sender_user_id"`    // Identifier of the user who sent the query
 		InlineMessageID string    `json:"inline_message_id"` // Identifier of the inline message, from which the query originated
 		ChatInstance    JSONInt64 `json:"chat_instance"`     // An identifier uniquely corresponding to the chat a message was sent to
 
@@ -3334,7 +3592,7 @@ func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) GetUpdateEnum(
 type UpdateNewShippingQuery struct {
 	tdCommon
 	ID              JSONInt64 `json:"id"`               // Unique query identifier
-	SenderUserID    int32     `json:"sender_user_id"`   // Identifier of the user who sent the query
+	SenderUserID    int64     `json:"sender_user_id"`   // Identifier of the user who sent the query
 	InvoicePayload  string    `json:"invoice_payload"`  // Invoice payload
 	ShippingAddress *Address  `json:"shipping_address"` // User shipping address
 }
@@ -3350,7 +3608,7 @@ func (updateNewShippingQuery *UpdateNewShippingQuery) MessageType() string {
 // @param senderUserID Identifier of the user who sent the query
 // @param invoicePayload Invoice payload
 // @param shippingAddress User shipping address
-func NewUpdateNewShippingQuery(iD JSONInt64, senderUserID int32, invoicePayload string, shippingAddress *Address) *UpdateNewShippingQuery {
+func NewUpdateNewShippingQuery(iD JSONInt64, senderUserID int64, invoicePayload string, shippingAddress *Address) *UpdateNewShippingQuery {
 	updateNewShippingQueryTemp := UpdateNewShippingQuery{
 		tdCommon:        tdCommon{Type: "updateNewShippingQuery"},
 		ID:              iD,
@@ -3371,9 +3629,9 @@ func (updateNewShippingQuery *UpdateNewShippingQuery) GetUpdateEnum() UpdateEnum
 type UpdateNewPreCheckoutQuery struct {
 	tdCommon
 	ID               JSONInt64  `json:"id"`                 // Unique query identifier
-	SenderUserID     int32      `json:"sender_user_id"`     // Identifier of the user who sent the query
+	SenderUserID     int64      `json:"sender_user_id"`     // Identifier of the user who sent the query
 	Currency         string     `json:"currency"`           // Currency for the product price
-	TotalAmount      int64      `json:"total_amount"`       // Total price for the product, in the minimal quantity of the currency
+	TotalAmount      int64      `json:"total_amount"`       // Total price for the product, in the smallest units of the currency
 	InvoicePayload   []byte     `json:"invoice_payload"`    // Invoice payload
 	ShippingOptionID string     `json:"shipping_option_id"` // Identifier of a shipping option chosen by the user; may be empty if not applicable
 	OrderInfo        *OrderInfo `json:"order_info"`         // Information about the order; may be null
@@ -3389,11 +3647,11 @@ func (updateNewPreCheckoutQuery *UpdateNewPreCheckoutQuery) MessageType() string
 // @param iD Unique query identifier
 // @param senderUserID Identifier of the user who sent the query
 // @param currency Currency for the product price
-// @param totalAmount Total price for the product, in the minimal quantity of the currency
+// @param totalAmount Total price for the product, in the smallest units of the currency
 // @param invoicePayload Invoice payload
 // @param shippingOptionID Identifier of a shipping option chosen by the user; may be empty if not applicable
 // @param orderInfo Information about the order; may be null
-func NewUpdateNewPreCheckoutQuery(iD JSONInt64, senderUserID int32, currency string, totalAmount int64, invoicePayload []byte, shippingOptionID string, orderInfo *OrderInfo) *UpdateNewPreCheckoutQuery {
+func NewUpdateNewPreCheckoutQuery(iD JSONInt64, senderUserID int64, currency string, totalAmount int64, invoicePayload []byte, shippingOptionID string, orderInfo *OrderInfo) *UpdateNewPreCheckoutQuery {
 	updateNewPreCheckoutQueryTemp := UpdateNewPreCheckoutQuery{
 		tdCommon:         tdCommon{Type: "updateNewPreCheckoutQuery"},
 		ID:               iD,
@@ -3507,7 +3765,7 @@ func (updatePoll *UpdatePoll) GetUpdateEnum() UpdateEnum {
 type UpdatePollAnswer struct {
 	tdCommon
 	PollID    JSONInt64 `json:"poll_id"`    // Unique poll identifier
-	UserID    int32     `json:"user_id"`    // The user, who changed the answer to the poll
+	UserID    int64     `json:"user_id"`    // The user, who changed the answer to the poll
 	OptionIDs []int32   `json:"option_ids"` // 0-based identifiers of answer options, chosen by the user
 }
 
@@ -3521,7 +3779,7 @@ func (updatePollAnswer *UpdatePollAnswer) MessageType() string {
 // @param pollID Unique poll identifier
 // @param userID The user, who changed the answer to the poll
 // @param optionIDs 0-based identifiers of answer options, chosen by the user
-func NewUpdatePollAnswer(pollID JSONInt64, userID int32, optionIDs []int32) *UpdatePollAnswer {
+func NewUpdatePollAnswer(pollID JSONInt64, userID int64, optionIDs []int32) *UpdatePollAnswer {
 	updatePollAnswerTemp := UpdatePollAnswer{
 		tdCommon:  tdCommon{Type: "updatePollAnswer"},
 		PollID:    pollID,
@@ -3535,4 +3793,47 @@ func NewUpdatePollAnswer(pollID JSONInt64, userID int32, optionIDs []int32) *Upd
 // GetUpdateEnum return the enum type of this object
 func (updatePollAnswer *UpdatePollAnswer) GetUpdateEnum() UpdateEnum {
 	return UpdatePollAnswerType
+}
+
+// UpdateChatMember User rights changed in a chat; for bots only
+type UpdateChatMember struct {
+	tdCommon
+	ChatID        int64           `json:"chat_id"`         // Chat identifier
+	ActorUserID   int64           `json:"actor_user_id"`   // Identifier of the user, changing the rights
+	Date          int32           `json:"date"`            // Point in time (Unix timestamp) when the user rights was changed
+	InviteLink    *ChatInviteLink `json:"invite_link"`     // If user has joined the chat using an invite link, the invite link; may be null
+	OldChatMember *ChatMember     `json:"old_chat_member"` // Previous chat member
+	NewChatMember *ChatMember     `json:"new_chat_member"` // New chat member
+}
+
+// MessageType return the string telegram-type of UpdateChatMember
+func (updateChatMember *UpdateChatMember) MessageType() string {
+	return "updateChatMember"
+}
+
+// NewUpdateChatMember creates a new UpdateChatMember
+//
+// @param chatID Chat identifier
+// @param actorUserID Identifier of the user, changing the rights
+// @param date Point in time (Unix timestamp) when the user rights was changed
+// @param inviteLink If user has joined the chat using an invite link, the invite link; may be null
+// @param oldChatMember Previous chat member
+// @param newChatMember New chat member
+func NewUpdateChatMember(chatID int64, actorUserID int64, date int32, inviteLink *ChatInviteLink, oldChatMember *ChatMember, newChatMember *ChatMember) *UpdateChatMember {
+	updateChatMemberTemp := UpdateChatMember{
+		tdCommon:      tdCommon{Type: "updateChatMember"},
+		ChatID:        chatID,
+		ActorUserID:   actorUserID,
+		Date:          date,
+		InviteLink:    inviteLink,
+		OldChatMember: oldChatMember,
+		NewChatMember: newChatMember,
+	}
+
+	return &updateChatMemberTemp
+}
+
+// GetUpdateEnum return the enum type of this object
+func (updateChatMember *UpdateChatMember) GetUpdateEnum() UpdateEnum {
+	return UpdateChatMemberType
 }

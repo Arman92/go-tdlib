@@ -5,7 +5,7 @@ package tdlib
 // ChatAdministrator Contains information about a chat administrator
 type ChatAdministrator struct {
 	tdCommon
-	UserID      int32  `json:"user_id"`      // User identifier of the administrator
+	UserID      int64  `json:"user_id"`      // User identifier of the administrator
 	CustomTitle string `json:"custom_title"` // Custom title of the administrator
 	IsOwner     bool   `json:"is_owner"`     // True, if the user is the owner of the chat
 }
@@ -20,7 +20,7 @@ func (chatAdministrator *ChatAdministrator) MessageType() string {
 // @param userID User identifier of the administrator
 // @param customTitle Custom title of the administrator
 // @param isOwner True, if the user is the owner of the chat
-func NewChatAdministrator(userID int32, customTitle string, isOwner bool) *ChatAdministrator {
+func NewChatAdministrator(userID int64, customTitle string, isOwner bool) *ChatAdministrator {
 	chatAdministratorTemp := ChatAdministrator{
 		tdCommon:    tdCommon{Type: "chatAdministrator"},
 		UserID:      userID,

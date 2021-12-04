@@ -5,7 +5,15 @@ package tdlib
 // ChatInviteLink Contains a chat invite link
 type ChatInviteLink struct {
 	tdCommon
-	InviteLink string `json:"invite_link"` // Chat invite link
+	InviteLink    string `json:"invite_link"`     // Chat invite link
+	CreatorUserID int64  `json:"creator_user_id"` // User identifier of an administrator created the link
+	Date          int32  `json:"date"`            // Point in time (Unix timestamp) when the link was created
+	EditDate      int32  `json:"edit_date"`       // Point in time (Unix timestamp) when the link was last edited; 0 if never or unknown
+	ExpireDate    int32  `json:"expire_date"`     // Point in time (Unix timestamp) when the link will expire; 0 if never
+	MemberLimit   int32  `json:"member_limit"`    // The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
+	MemberCount   int32  `json:"member_count"`    // Number of chat members, which joined the chat using the link
+	IsPrimary     bool   `json:"is_primary"`      // True, if the link is primary. Primary invite link can't have expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
+	IsRevoked     bool   `json:"is_revoked"`      // True, if the link was revoked
 }
 
 // MessageType return the string telegram-type of ChatInviteLink
@@ -16,10 +24,26 @@ func (chatInviteLink *ChatInviteLink) MessageType() string {
 // NewChatInviteLink creates a new ChatInviteLink
 //
 // @param inviteLink Chat invite link
-func NewChatInviteLink(inviteLink string) *ChatInviteLink {
+// @param creatorUserID User identifier of an administrator created the link
+// @param date Point in time (Unix timestamp) when the link was created
+// @param editDate Point in time (Unix timestamp) when the link was last edited; 0 if never or unknown
+// @param expireDate Point in time (Unix timestamp) when the link will expire; 0 if never
+// @param memberLimit The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
+// @param memberCount Number of chat members, which joined the chat using the link
+// @param isPrimary True, if the link is primary. Primary invite link can't have expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
+// @param isRevoked True, if the link was revoked
+func NewChatInviteLink(inviteLink string, creatorUserID int64, date int32, editDate int32, expireDate int32, memberLimit int32, memberCount int32, isPrimary bool, isRevoked bool) *ChatInviteLink {
 	chatInviteLinkTemp := ChatInviteLink{
-		tdCommon:   tdCommon{Type: "chatInviteLink"},
-		InviteLink: inviteLink,
+		tdCommon:      tdCommon{Type: "chatInviteLink"},
+		InviteLink:    inviteLink,
+		CreatorUserID: creatorUserID,
+		Date:          date,
+		EditDate:      editDate,
+		ExpireDate:    expireDate,
+		MemberLimit:   memberLimit,
+		MemberCount:   memberCount,
+		IsPrimary:     isPrimary,
+		IsRevoked:     isRevoked,
 	}
 
 	return &chatInviteLinkTemp

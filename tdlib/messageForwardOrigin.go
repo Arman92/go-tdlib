@@ -17,10 +17,11 @@ type MessageForwardOriginEnum string
 
 // MessageForwardOrigin enums
 const (
-	MessageForwardOriginUserType       MessageForwardOriginEnum = "messageForwardOriginUser"
-	MessageForwardOriginChatType       MessageForwardOriginEnum = "messageForwardOriginChat"
-	MessageForwardOriginHiddenUserType MessageForwardOriginEnum = "messageForwardOriginHiddenUser"
-	MessageForwardOriginChannelType    MessageForwardOriginEnum = "messageForwardOriginChannel"
+	MessageForwardOriginUserType          MessageForwardOriginEnum = "messageForwardOriginUser"
+	MessageForwardOriginChatType          MessageForwardOriginEnum = "messageForwardOriginChat"
+	MessageForwardOriginHiddenUserType    MessageForwardOriginEnum = "messageForwardOriginHiddenUser"
+	MessageForwardOriginChannelType       MessageForwardOriginEnum = "messageForwardOriginChannel"
+	MessageForwardOriginMessageImportType MessageForwardOriginEnum = "messageForwardOriginMessageImport"
 )
 
 func unmarshalMessageForwardOrigin(rawMsg *json.RawMessage) (MessageForwardOrigin, error) {
@@ -55,6 +56,11 @@ func unmarshalMessageForwardOrigin(rawMsg *json.RawMessage) (MessageForwardOrigi
 		err := json.Unmarshal(*rawMsg, &messageForwardOriginChannel)
 		return &messageForwardOriginChannel, err
 
+	case MessageForwardOriginMessageImportType:
+		var messageForwardOriginMessageImport MessageForwardOriginMessageImport
+		err := json.Unmarshal(*rawMsg, &messageForwardOriginMessageImport)
+		return &messageForwardOriginMessageImport, err
+
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
 	}
@@ -63,7 +69,7 @@ func unmarshalMessageForwardOrigin(rawMsg *json.RawMessage) (MessageForwardOrigi
 // MessageForwardOriginUser The message was originally sent by a known user
 type MessageForwardOriginUser struct {
 	tdCommon
-	SenderUserID int32 `json:"sender_user_id"` // Identifier of the user that originally sent the message
+	SenderUserID int64 `json:"sender_user_id"` // Identifier of the user that originally sent the message
 }
 
 // MessageType return the string telegram-type of MessageForwardOriginUser
@@ -74,7 +80,7 @@ func (messageForwardOriginUser *MessageForwardOriginUser) MessageType() string {
 // NewMessageForwardOriginUser creates a new MessageForwardOriginUser
 //
 // @param senderUserID Identifier of the user that originally sent the message
-func NewMessageForwardOriginUser(senderUserID int32) *MessageForwardOriginUser {
+func NewMessageForwardOriginUser(senderUserID int64) *MessageForwardOriginUser {
 	messageForwardOriginUserTemp := MessageForwardOriginUser{
 		tdCommon:     tdCommon{Type: "messageForwardOriginUser"},
 		SenderUserID: senderUserID,
@@ -179,4 +185,32 @@ func NewMessageForwardOriginChannel(chatID int64, messageID int64, authorSignatu
 // GetMessageForwardOriginEnum return the enum type of this object
 func (messageForwardOriginChannel *MessageForwardOriginChannel) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
 	return MessageForwardOriginChannelType
+}
+
+// MessageForwardOriginMessageImport The message was imported from an exported message history
+type MessageForwardOriginMessageImport struct {
+	tdCommon
+	SenderName string `json:"sender_name"` // Name of the sender
+}
+
+// MessageType return the string telegram-type of MessageForwardOriginMessageImport
+func (messageForwardOriginMessageImport *MessageForwardOriginMessageImport) MessageType() string {
+	return "messageForwardOriginMessageImport"
+}
+
+// NewMessageForwardOriginMessageImport creates a new MessageForwardOriginMessageImport
+//
+// @param senderName Name of the sender
+func NewMessageForwardOriginMessageImport(senderName string) *MessageForwardOriginMessageImport {
+	messageForwardOriginMessageImportTemp := MessageForwardOriginMessageImport{
+		tdCommon:   tdCommon{Type: "messageForwardOriginMessageImport"},
+		SenderName: senderName,
+	}
+
+	return &messageForwardOriginMessageImportTemp
+}
+
+// GetMessageForwardOriginEnum return the enum type of this object
+func (messageForwardOriginMessageImport *MessageForwardOriginMessageImport) GetMessageForwardOriginEnum() MessageForwardOriginEnum {
+	return MessageForwardOriginMessageImportType
 }

@@ -5,7 +5,7 @@ package tdlib
 // ImportedContacts Represents the result of an ImportContacts request
 type ImportedContacts struct {
 	tdCommon
-	UserIDs       []int32 `json:"user_ids"`       // User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user
+	UserIDs       []int64 `json:"user_ids"`       // User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user
 	ImporterCount []int32 `json:"importer_count"` // The number of users that imported the corresponding contact; 0 for already registered users or if unavailable
 }
 
@@ -18,7 +18,7 @@ func (importedContacts *ImportedContacts) MessageType() string {
 //
 // @param userIDs User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user
 // @param importerCount The number of users that imported the corresponding contact; 0 for already registered users or if unavailable
-func NewImportedContacts(userIDs []int32, importerCount []int32) *ImportedContacts {
+func NewImportedContacts(userIDs []int64, importerCount []int32) *ImportedContacts {
 	importedContactsTemp := ImportedContacts{
 		tdCommon:      tdCommon{Type: "importedContacts"},
 		UserIDs:       userIDs,

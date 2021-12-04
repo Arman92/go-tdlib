@@ -4,16 +4,15 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetGameHighScores Returns the high scores for a game and some part of the high score table in the range of the specified user; for bots only
 // @param chatID The chat that contains the message with the game
 // @param messageID Identifier of the message
 // @param userID User identifier
-func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID int32) (*tdlib.GameHighScores, error) {
+func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID int64) (*tdlib.GameHighScores, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":      "getGameHighScores",
 		"chat_id":    chatID,
@@ -26,7 +25,7 @@ func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID in
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var gameHighScores tdlib.GameHighScores
@@ -38,7 +37,7 @@ func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID in
 // GetInlineGameHighScores Returns game high scores and some part of the high score table in the range of the specified user; for bots only
 // @param inlineMessageID Inline message identifier
 // @param userID User identifier
-func (client *Client) GetInlineGameHighScores(inlineMessageID string, userID int32) (*tdlib.GameHighScores, error) {
+func (client *Client) GetInlineGameHighScores(inlineMessageID string, userID int64) (*tdlib.GameHighScores, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":             "getInlineGameHighScores",
 		"inline_message_id": inlineMessageID,
@@ -50,7 +49,7 @@ func (client *Client) GetInlineGameHighScores(inlineMessageID string, userID int
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var gameHighScores tdlib.GameHighScores

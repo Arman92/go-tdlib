@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // ChangePhoneNumber Changes the phone number of the user and sends an authentication code to the user's new phone number. On success, returns information about the sent code
@@ -24,7 +23,7 @@ func (client *Client) ChangePhoneNumber(phoneNumber string, settings *tdlib.Phon
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var authenticationCodeInfo tdlib.AuthenticationCodeInfo
@@ -33,7 +32,7 @@ func (client *Client) ChangePhoneNumber(phoneNumber string, settings *tdlib.Phon
 
 }
 
-// ResendChangePhoneNumberCode Re-sends the authentication code sent to confirm a new phone number for the user. Works only if the previously received authenticationCodeInfo next_code_type was not null
+// ResendChangePhoneNumberCode Re-sends the authentication code sent to confirm a new phone number for the current user. Works only if the previously received authenticationCodeInfo next_code_type was not null and the server-specified timeout has passed
 func (client *Client) ResendChangePhoneNumberCode() (*tdlib.AuthenticationCodeInfo, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type": "resendChangePhoneNumberCode",
@@ -44,7 +43,7 @@ func (client *Client) ResendChangePhoneNumberCode() (*tdlib.AuthenticationCodeIn
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var authenticationCodeInfo tdlib.AuthenticationCodeInfo
@@ -68,7 +67,7 @@ func (client *Client) SendPhoneNumberVerificationCode(phoneNumber string, settin
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var authenticationCodeInfo tdlib.AuthenticationCodeInfo
@@ -88,7 +87,7 @@ func (client *Client) ResendPhoneNumberVerificationCode() (*tdlib.Authentication
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var authenticationCodeInfo tdlib.AuthenticationCodeInfo
@@ -97,9 +96,9 @@ func (client *Client) ResendPhoneNumberVerificationCode() (*tdlib.Authentication
 
 }
 
-// SendPhoneNumberConfirmationCode Sends phone number confirmation code. Should be called when user presses "https://t.me/confirmphone?phone=*******&hash=**********" or "tg://confirmphone?phone=*******&hash=**********" link
-// @param hash Value of the "hash" parameter from the link
-// @param phoneNumber Value of the "phone" parameter from the link
+// SendPhoneNumberConfirmationCode Sends phone number confirmation code to handle links of the type internalLinkTypePhoneNumberConfirmation
+// @param hash Hash value from the link
+// @param phoneNumber Phone number value from the link
 // @param settings Settings for the authentication of the user's phone number
 func (client *Client) SendPhoneNumberConfirmationCode(hash string, phoneNumber string, settings *tdlib.PhoneNumberAuthenticationSettings) (*tdlib.AuthenticationCodeInfo, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -114,7 +113,7 @@ func (client *Client) SendPhoneNumberConfirmationCode(hash string, phoneNumber s
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var authenticationCodeInfo tdlib.AuthenticationCodeInfo
@@ -134,7 +133,7 @@ func (client *Client) ResendPhoneNumberConfirmationCode() (*tdlib.Authentication
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var authenticationCodeInfo tdlib.AuthenticationCodeInfo

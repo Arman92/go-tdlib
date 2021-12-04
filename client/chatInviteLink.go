@@ -4,16 +4,15 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
-// GenerateChatInviteLink Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right
+// ReplacePrimaryChatInviteLink Replaces current primary invite link for a chat with a new primary invite link. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right
 // @param chatID Chat identifier
-func (client *Client) GenerateChatInviteLink(chatID int64) (*tdlib.ChatInviteLink, error) {
+func (client *Client) ReplacePrimaryChatInviteLink(chatID int64) (*tdlib.ChatInviteLink, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":   "generateChatInviteLink",
+		"@type":   "replacePrimaryChatInviteLink",
 		"chat_id": chatID,
 	})
 
@@ -22,7 +21,85 @@ func (client *Client) GenerateChatInviteLink(chatID int64) (*tdlib.ChatInviteLin
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var chatInviteLink tdlib.ChatInviteLink
+	err = json.Unmarshal(result.Raw, &chatInviteLink)
+	return &chatInviteLink, err
+
+}
+
+// CreateChatInviteLink Creates a new invite link for a chat. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right in the chat
+// @param chatID Chat identifier
+// @param expireDate Point in time (Unix timestamp) when the link will expire; pass 0 if never
+// @param memberLimit The maximum number of chat members that can join the chat by the link simultaneously; 0-99999; pass 0 if not limited
+func (client *Client) CreateChatInviteLink(chatID int64, expireDate int32, memberLimit int32) (*tdlib.ChatInviteLink, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":        "createChatInviteLink",
+		"chat_id":      chatID,
+		"expire_date":  expireDate,
+		"member_limit": memberLimit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var chatInviteLink tdlib.ChatInviteLink
+	err = json.Unmarshal(result.Raw, &chatInviteLink)
+	return &chatInviteLink, err
+
+}
+
+// EditChatInviteLink Edits a non-primary invite link for a chat. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
+// @param chatID Chat identifier
+// @param inviteLink Invite link to be edited
+// @param expireDate Point in time (Unix timestamp) when the link will expire; pass 0 if never
+// @param memberLimit The maximum number of chat members that can join the chat by the link simultaneously; 0-99999; pass 0 if not limited
+func (client *Client) EditChatInviteLink(chatID int64, inviteLink string, expireDate int32, memberLimit int32) (*tdlib.ChatInviteLink, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":        "editChatInviteLink",
+		"chat_id":      chatID,
+		"invite_link":  inviteLink,
+		"expire_date":  expireDate,
+		"member_limit": memberLimit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var chatInviteLink tdlib.ChatInviteLink
+	err = json.Unmarshal(result.Raw, &chatInviteLink)
+	return &chatInviteLink, err
+
+}
+
+// GetChatInviteLink Returns information about an invite link. Requires administrator privileges and can_invite_users right in the chat to get own links and owner privileges to get other links
+// @param chatID Chat identifier
+// @param inviteLink Invite link to get
+func (client *Client) GetChatInviteLink(chatID int64, inviteLink string) (*tdlib.ChatInviteLink, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":       "getChatInviteLink",
+		"chat_id":     chatID,
+		"invite_link": inviteLink,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chatInviteLink tdlib.ChatInviteLink

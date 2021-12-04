@@ -5,11 +5,12 @@ package tdlib
 // BasicGroupFullInfo Contains full information about a basic group
 type BasicGroupFullInfo struct {
 	tdCommon
-	Photo         *ChatPhoto   `json:"photo"`           // Chat photo; may be null
-	Description   string       `json:"description"`     // Group description
-	CreatorUserID int32        `json:"creator_user_id"` // User identifier of the creator of the group; 0 if unknown
-	Members       []ChatMember `json:"members"`         // Group members
-	InviteLink    string       `json:"invite_link"`     // Invite link for this group; available only after it has been generated at least once and only for the group creator
+	Photo         *ChatPhoto      `json:"photo"`           // Chat photo; may be null
+	Description   string          `json:"description"`     // Group description. Updated only after the basic group is opened
+	CreatorUserID int64           `json:"creator_user_id"` // User identifier of the creator of the group; 0 if unknown
+	Members       []ChatMember    `json:"members"`         // Group members
+	InviteLink    *ChatInviteLink `json:"invite_link"`     // Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
+	BotCommands   []BotCommands   `json:"bot_commands"`    // List of commands of bots in the group
 }
 
 // MessageType return the string telegram-type of BasicGroupFullInfo
@@ -20,11 +21,12 @@ func (basicGroupFullInfo *BasicGroupFullInfo) MessageType() string {
 // NewBasicGroupFullInfo creates a new BasicGroupFullInfo
 //
 // @param photo Chat photo; may be null
-// @param description Group description
+// @param description Group description. Updated only after the basic group is opened
 // @param creatorUserID User identifier of the creator of the group; 0 if unknown
 // @param members Group members
-// @param inviteLink Invite link for this group; available only after it has been generated at least once and only for the group creator
-func NewBasicGroupFullInfo(photo *ChatPhoto, description string, creatorUserID int32, members []ChatMember, inviteLink string) *BasicGroupFullInfo {
+// @param inviteLink Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
+// @param botCommands List of commands of bots in the group
+func NewBasicGroupFullInfo(photo *ChatPhoto, description string, creatorUserID int64, members []ChatMember, inviteLink *ChatInviteLink, botCommands []BotCommands) *BasicGroupFullInfo {
 	basicGroupFullInfoTemp := BasicGroupFullInfo{
 		tdCommon:      tdCommon{Type: "basicGroupFullInfo"},
 		Photo:         photo,
@@ -32,6 +34,7 @@ func NewBasicGroupFullInfo(photo *ChatPhoto, description string, creatorUserID i
 		CreatorUserID: creatorUserID,
 		Members:       members,
 		InviteLink:    inviteLink,
+		BotCommands:   botCommands,
 	}
 
 	return &basicGroupFullInfoTemp

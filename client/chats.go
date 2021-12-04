@@ -4,23 +4,18 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
-// GetChats Returns an ordered list of chats in a chat list. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). For optimal performance the number of returned chats is chosen by the library
+// GetChats Returns an ordered list of chats from the beginning of a chat list. For informational purposes only. Use loadChats instead to maintain chat lists
 // @param chatList The chat list in which to return chats
-// @param offsetOrder Chat order to return chats from
-// @param offsetChatID Chat identifier to return chats from
-// @param limit The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached
-func (client *Client) GetChats(chatList tdlib.ChatList, offsetOrder *tdlib.JSONInt64, offsetChatID int64, limit int32) (*tdlib.Chats, error) {
+// @param limit The maximum number of chats to be returned
+func (client *Client) GetChats(chatList tdlib.ChatList, limit int32) (*tdlib.Chats, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":          "getChats",
-		"chat_list":      chatList,
-		"offset_order":   offsetOrder,
-		"offset_chat_id": offsetChatID,
-		"limit":          limit,
+		"@type":     "getChats",
+		"chat_list": chatList,
+		"limit":     limit,
 	})
 
 	if err != nil {
@@ -28,7 +23,7 @@ func (client *Client) GetChats(chatList tdlib.ChatList, offsetOrder *tdlib.JSONI
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -50,7 +45,7 @@ func (client *Client) SearchPublicChats(query string) (*tdlib.Chats, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -60,7 +55,7 @@ func (client *Client) SearchPublicChats(query string) (*tdlib.Chats, error) {
 }
 
 // SearchChats Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the main chat list
-// @param query Query to search for. If the query is empty, returns up to 20 recently found chats
+// @param query Query to search for. If the query is empty, returns up to 50 recently found chats
 // @param limit The maximum number of chats to be returned
 func (client *Client) SearchChats(query string, limit int32) (*tdlib.Chats, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -74,7 +69,7 @@ func (client *Client) SearchChats(query string, limit int32) (*tdlib.Chats, erro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -98,7 +93,7 @@ func (client *Client) SearchChatsOnServer(query string, limit int32) (*tdlib.Cha
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -122,7 +117,29 @@ func (client *Client) GetTopChats(category tdlib.TopChatCategory, limit int32) (
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var chats tdlib.Chats
+	err = json.Unmarshal(result.Raw, &chats)
+	return &chats, err
+
+}
+
+// GetRecentlyOpenedChats Returns recently opened chats, this is an offline request. Returns chats in the order of last opening
+// @param limit The maximum number of chats to be returned
+func (client *Client) GetRecentlyOpenedChats(limit int32) (*tdlib.Chats, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type": "getRecentlyOpenedChats",
+		"limit": limit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -144,7 +161,7 @@ func (client *Client) GetCreatedPublicChats(typeParam tdlib.PublicChatType) (*td
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -164,7 +181,7 @@ func (client *Client) GetSuitableDiscussionChats() (*tdlib.Chats, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -184,7 +201,7 @@ func (client *Client) GetInactiveSupergroupChats() (*tdlib.Chats, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -197,7 +214,7 @@ func (client *Client) GetInactiveSupergroupChats() (*tdlib.Chats, error) {
 // @param userID User identifier
 // @param offsetChatID Chat identifier starting from which to return chats; use 0 for the first request
 // @param limit The maximum number of chats to be returned; up to 100
-func (client *Client) GetGroupsInCommon(userID int32, offsetChatID int64, limit int32) (*tdlib.Chats, error) {
+func (client *Client) GetGroupsInCommon(userID int64, offsetChatID int64, limit int32) (*tdlib.Chats, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":          "getGroupsInCommon",
 		"user_id":        userID,
@@ -210,7 +227,7 @@ func (client *Client) GetGroupsInCommon(userID int32, offsetChatID int64, limit 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats
@@ -234,7 +251,7 @@ func (client *Client) GetChatNotificationSettingsExceptions(scope tdlib.Notifica
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chats tdlib.Chats

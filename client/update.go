@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // TestUseUpdate Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
@@ -20,7 +20,7 @@ func (client *Client) TestUseUpdate() (tdlib.Update, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	switch tdlib.UpdateEnum(result.Data["@type"].(string)) {
@@ -130,6 +130,11 @@ func (client *Client) TestUseUpdate() (tdlib.Update, error) {
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
+	case tdlib.UpdateChatVoiceChatType:
+		var update tdlib.UpdateChatVoiceChat
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
 	case tdlib.UpdateChatDefaultDisableNotificationType:
 		var update tdlib.UpdateChatDefaultDisableNotification
 		err = json.Unmarshal(result.Raw, &update)
@@ -160,8 +165,18 @@ func (client *Client) TestUseUpdate() (tdlib.Update, error) {
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
+	case tdlib.UpdateChatMessageTTLSettingType:
+		var update tdlib.UpdateChatMessageTTLSetting
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
 	case tdlib.UpdateChatActionBarType:
 		var update tdlib.UpdateChatActionBar
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case tdlib.UpdateChatThemeType:
+		var update tdlib.UpdateChatTheme
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
@@ -280,6 +295,16 @@ func (client *Client) TestUseUpdate() (tdlib.Update, error) {
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
+	case tdlib.UpdateGroupCallType:
+		var update tdlib.UpdateGroupCall
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case tdlib.UpdateGroupCallParticipantType:
+		var update tdlib.UpdateGroupCallParticipant
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
 	case tdlib.UpdateNewCallSignalingDataType:
 		var update tdlib.UpdateNewCallSignalingData
 		err = json.Unmarshal(result.Raw, &update)
@@ -337,6 +362,11 @@ func (client *Client) TestUseUpdate() (tdlib.Update, error) {
 
 	case tdlib.UpdateSelectedBackgroundType:
 		var update tdlib.UpdateSelectedBackground
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case tdlib.UpdateChatThemesType:
+		var update tdlib.UpdateChatThemes
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 
@@ -422,6 +452,11 @@ func (client *Client) TestUseUpdate() (tdlib.Update, error) {
 
 	case tdlib.UpdatePollAnswerType:
 		var update tdlib.UpdatePollAnswer
+		err = json.Unmarshal(result.Raw, &update)
+		return &update, err
+
+	case tdlib.UpdateChatMemberType:
+		var update tdlib.UpdateChatMember
 		err = json.Unmarshal(result.Raw, &update)
 		return &update, err
 

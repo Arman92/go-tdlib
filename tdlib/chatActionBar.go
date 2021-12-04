@@ -19,6 +19,7 @@ type ChatActionBarEnum string
 const (
 	ChatActionBarReportSpamType              ChatActionBarEnum = "chatActionBarReportSpam"
 	ChatActionBarReportUnrelatedLocationType ChatActionBarEnum = "chatActionBarReportUnrelatedLocation"
+	ChatActionBarInviteMembersType           ChatActionBarEnum = "chatActionBarInviteMembers"
 	ChatActionBarReportAddBlockType          ChatActionBarEnum = "chatActionBarReportAddBlock"
 	ChatActionBarAddContactType              ChatActionBarEnum = "chatActionBarAddContact"
 	ChatActionBarSharePhoneNumberType        ChatActionBarEnum = "chatActionBarSharePhoneNumber"
@@ -45,6 +46,11 @@ func unmarshalChatActionBar(rawMsg *json.RawMessage) (ChatActionBar, error) {
 		var chatActionBarReportUnrelatedLocation ChatActionBarReportUnrelatedLocation
 		err := json.Unmarshal(*rawMsg, &chatActionBarReportUnrelatedLocation)
 		return &chatActionBarReportUnrelatedLocation, err
+
+	case ChatActionBarInviteMembersType:
+		var chatActionBarInviteMembers ChatActionBarInviteMembers
+		err := json.Unmarshal(*rawMsg, &chatActionBarInviteMembers)
+		return &chatActionBarInviteMembers, err
 
 	case ChatActionBarReportAddBlockType:
 		var chatActionBarReportAddBlock ChatActionBarReportAddBlock
@@ -117,6 +123,31 @@ func NewChatActionBarReportUnrelatedLocation() *ChatActionBarReportUnrelatedLoca
 // GetChatActionBarEnum return the enum type of this object
 func (chatActionBarReportUnrelatedLocation *ChatActionBarReportUnrelatedLocation) GetChatActionBarEnum() ChatActionBarEnum {
 	return ChatActionBarReportUnrelatedLocationType
+}
+
+// ChatActionBarInviteMembers The chat is a recently created group chat, to which new members can be invited
+type ChatActionBarInviteMembers struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatActionBarInviteMembers
+func (chatActionBarInviteMembers *ChatActionBarInviteMembers) MessageType() string {
+	return "chatActionBarInviteMembers"
+}
+
+// NewChatActionBarInviteMembers creates a new ChatActionBarInviteMembers
+//
+func NewChatActionBarInviteMembers() *ChatActionBarInviteMembers {
+	chatActionBarInviteMembersTemp := ChatActionBarInviteMembers{
+		tdCommon: tdCommon{Type: "chatActionBarInviteMembers"},
+	}
+
+	return &chatActionBarInviteMembersTemp
+}
+
+// GetChatActionBarEnum return the enum type of this object
+func (chatActionBarInviteMembers *ChatActionBarInviteMembers) GetChatActionBarEnum() ChatActionBarEnum {
+	return ChatActionBarInviteMembersType
 }
 
 // ChatActionBarReportAddBlock The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method blockUser, or the other user can be added to the contact list using the method addContact

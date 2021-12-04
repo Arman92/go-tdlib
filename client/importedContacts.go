@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // ImportContacts Adds new contacts or edits existing contacts by their phone numbers; contacts' user identifiers are ignored
@@ -22,7 +21,7 @@ func (client *Client) ImportContacts(contacts []tdlib.Contact) (*tdlib.ImportedC
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var importedContacts tdlib.ImportedContacts
@@ -31,7 +30,7 @@ func (client *Client) ImportContacts(contacts []tdlib.Contact) (*tdlib.ImportedC
 
 }
 
-// ChangeImportedContacts Changes imported contacts using the list of current user contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts. Query result depends on the result of the previous query, so only one query is possible at the same time
+// ChangeImportedContacts Changes imported contacts using the list of contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts. Query result depends on the result of the previous query, so only one query is possible at the same time
 // @param contacts The new list of contacts, contact's vCard are ignored and are not imported
 func (client *Client) ChangeImportedContacts(contacts []tdlib.Contact) (*tdlib.ImportedContacts, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -44,7 +43,7 @@ func (client *Client) ChangeImportedContacts(contacts []tdlib.Contact) (*tdlib.I
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var importedContacts tdlib.ImportedContacts

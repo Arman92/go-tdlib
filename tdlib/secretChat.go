@@ -10,12 +10,11 @@ import (
 type SecretChat struct {
 	tdCommon
 	ID         int32           `json:"id"`          // Secret chat identifier
-	UserID     int32           `json:"user_id"`     // Identifier of the chat partner
+	UserID     int64           `json:"user_id"`     // Identifier of the chat partner
 	State      SecretChatState `json:"state"`       // State of the secret chat
 	IsOutbound bool            `json:"is_outbound"` // True, if the chat was created by the current user; otherwise false
-	TTL        int32           `json:"ttl"`         // Current message Time To Live setting (self-destruct timer) for the chat, in seconds
 	KeyHash    []byte          `json:"key_hash"`    // Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 little-endian bytes, which must be split into groups of 2 bits, each denoting a pixel of one of 4 colors FFFFFF, D5E6F3, 2D5775, and 2F99C9. The pixels must be used to make a 12x12 square image filled from left to right, top to bottom. Alternatively, the first 32 bytes of the hash can be converted to the hexadecimal format and printed as 32 2-digit hex numbers
-	Layer      int32           `json:"layer"`       // Secret chat layer; determines features supported by the chat partner's application. Video notes are supported if the layer >= 66; nested text entities and underline and strikethrough entities are supported if the layer >= 101
+	Layer      int32           `json:"layer"`       // Secret chat layer; determines features supported by the chat partner's application. Nested text entities and underline and strikethrough entities are supported if the layer >= 101
 }
 
 // MessageType return the string telegram-type of SecretChat
@@ -29,17 +28,15 @@ func (secretChat *SecretChat) MessageType() string {
 // @param userID Identifier of the chat partner
 // @param state State of the secret chat
 // @param isOutbound True, if the chat was created by the current user; otherwise false
-// @param tTL Current message Time To Live setting (self-destruct timer) for the chat, in seconds
 // @param keyHash Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 little-endian bytes, which must be split into groups of 2 bits, each denoting a pixel of one of 4 colors FFFFFF, D5E6F3, 2D5775, and 2F99C9. The pixels must be used to make a 12x12 square image filled from left to right, top to bottom. Alternatively, the first 32 bytes of the hash can be converted to the hexadecimal format and printed as 32 2-digit hex numbers
-// @param layer Secret chat layer; determines features supported by the chat partner's application. Video notes are supported if the layer >= 66; nested text entities and underline and strikethrough entities are supported if the layer >= 101
-func NewSecretChat(iD int32, userID int32, state SecretChatState, isOutbound bool, tTL int32, keyHash []byte, layer int32) *SecretChat {
+// @param layer Secret chat layer; determines features supported by the chat partner's application. Nested text entities and underline and strikethrough entities are supported if the layer >= 101
+func NewSecretChat(iD int32, userID int64, state SecretChatState, isOutbound bool, keyHash []byte, layer int32) *SecretChat {
 	secretChatTemp := SecretChat{
 		tdCommon:   tdCommon{Type: "secretChat"},
 		ID:         iD,
 		UserID:     userID,
 		State:      state,
 		IsOutbound: isOutbound,
-		TTL:        tTL,
 		KeyHash:    keyHash,
 		Layer:      layer,
 	}
@@ -57,11 +54,10 @@ func (secretChat *SecretChat) UnmarshalJSON(b []byte) error {
 	tempObj := struct {
 		tdCommon
 		ID         int32  `json:"id"`          // Secret chat identifier
-		UserID     int32  `json:"user_id"`     // Identifier of the chat partner
+		UserID     int64  `json:"user_id"`     // Identifier of the chat partner
 		IsOutbound bool   `json:"is_outbound"` // True, if the chat was created by the current user; otherwise false
-		TTL        int32  `json:"ttl"`         // Current message Time To Live setting (self-destruct timer) for the chat, in seconds
 		KeyHash    []byte `json:"key_hash"`    // Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 little-endian bytes, which must be split into groups of 2 bits, each denoting a pixel of one of 4 colors FFFFFF, D5E6F3, 2D5775, and 2F99C9. The pixels must be used to make a 12x12 square image filled from left to right, top to bottom. Alternatively, the first 32 bytes of the hash can be converted to the hexadecimal format and printed as 32 2-digit hex numbers
-		Layer      int32  `json:"layer"`       // Secret chat layer; determines features supported by the chat partner's application. Video notes are supported if the layer >= 66; nested text entities and underline and strikethrough entities are supported if the layer >= 101
+		Layer      int32  `json:"layer"`       // Secret chat layer; determines features supported by the chat partner's application. Nested text entities and underline and strikethrough entities are supported if the layer >= 101
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -72,7 +68,6 @@ func (secretChat *SecretChat) UnmarshalJSON(b []byte) error {
 	secretChat.ID = tempObj.ID
 	secretChat.UserID = tempObj.UserID
 	secretChat.IsOutbound = tempObj.IsOutbound
-	secretChat.TTL = tempObj.TTL
 	secretChat.KeyHash = tempObj.KeyHash
 	secretChat.Layer = tempObj.Layer
 

@@ -88,9 +88,10 @@ func (backgroundTypeWallpaper *BackgroundTypeWallpaper) GetBackgroundTypeEnum() 
 // BackgroundTypePattern A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
 type BackgroundTypePattern struct {
 	tdCommon
-	Fill      BackgroundFill `json:"fill"`      // Description of the background fill
-	Intensity int32          `json:"intensity"` // Intensity of the pattern when it is shown above the filled background, 0-100
-	IsMoving  bool           `json:"is_moving"` // True, if the background needs to be slightly moved when device is tilted
+	Fill       BackgroundFill `json:"fill"`        // Description of the background fill
+	Intensity  int32          `json:"intensity"`   // Intensity of the pattern when it is shown above the filled background; 0-100.
+	IsInverted bool           `json:"is_inverted"` // True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
+	IsMoving   bool           `json:"is_moving"`   // True, if the background needs to be slightly moved when device is tilted
 }
 
 // MessageType return the string telegram-type of BackgroundTypePattern
@@ -101,14 +102,16 @@ func (backgroundTypePattern *BackgroundTypePattern) MessageType() string {
 // NewBackgroundTypePattern creates a new BackgroundTypePattern
 //
 // @param fill Description of the background fill
-// @param intensity Intensity of the pattern when it is shown above the filled background, 0-100
+// @param intensity Intensity of the pattern when it is shown above the filled background; 0-100.
+// @param isInverted True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
 // @param isMoving True, if the background needs to be slightly moved when device is tilted
-func NewBackgroundTypePattern(fill BackgroundFill, intensity int32, isMoving bool) *BackgroundTypePattern {
+func NewBackgroundTypePattern(fill BackgroundFill, intensity int32, isInverted bool, isMoving bool) *BackgroundTypePattern {
 	backgroundTypePatternTemp := BackgroundTypePattern{
-		tdCommon:  tdCommon{Type: "backgroundTypePattern"},
-		Fill:      fill,
-		Intensity: intensity,
-		IsMoving:  isMoving,
+		tdCommon:   tdCommon{Type: "backgroundTypePattern"},
+		Fill:       fill,
+		Intensity:  intensity,
+		IsInverted: isInverted,
+		IsMoving:   isMoving,
 	}
 
 	return &backgroundTypePatternTemp
@@ -123,8 +126,9 @@ func (backgroundTypePattern *BackgroundTypePattern) UnmarshalJSON(b []byte) erro
 	}
 	tempObj := struct {
 		tdCommon
-		Intensity int32 `json:"intensity"` // Intensity of the pattern when it is shown above the filled background, 0-100
-		IsMoving  bool  `json:"is_moving"` // True, if the background needs to be slightly moved when device is tilted
+		Intensity  int32 `json:"intensity"`   // Intensity of the pattern when it is shown above the filled background; 0-100.
+		IsInverted bool  `json:"is_inverted"` // True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
+		IsMoving   bool  `json:"is_moving"`   // True, if the background needs to be slightly moved when device is tilted
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -133,6 +137,7 @@ func (backgroundTypePattern *BackgroundTypePattern) UnmarshalJSON(b []byte) erro
 
 	backgroundTypePattern.tdCommon = tempObj.tdCommon
 	backgroundTypePattern.Intensity = tempObj.Intensity
+	backgroundTypePattern.IsInverted = tempObj.IsInverted
 	backgroundTypePattern.IsMoving = tempObj.IsMoving
 
 	fieldFill, _ := unmarshalBackgroundFill(objMap["fill"])

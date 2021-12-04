@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetChatMessageCount Returns approximate number of messages of the specified type in the chat
@@ -26,7 +25,7 @@ func (client *Client) GetChatMessageCount(chatID int64, filter tdlib.SearchMessa
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var count tdlib.Count
@@ -35,7 +34,7 @@ func (client *Client) GetChatMessageCount(chatID int64, filter tdlib.SearchMessa
 
 }
 
-// GetFileDownloadedPrefixSize Returns file downloaded prefix size from a given offset
+// GetFileDownloadedPrefixSize Returns file downloaded prefix size from a given offset, in bytes
 // @param fileID Identifier of the file
 // @param offset Offset from which downloaded prefix size should be calculated
 func (client *Client) GetFileDownloadedPrefixSize(fileID int32, offset int32) (*tdlib.Count, error) {
@@ -50,7 +49,7 @@ func (client *Client) GetFileDownloadedPrefixSize(fileID int32, offset int32) (*
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var count tdlib.Count
@@ -70,7 +69,7 @@ func (client *Client) GetImportedContactCount() (*tdlib.Count, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var count tdlib.Count

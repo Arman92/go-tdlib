@@ -17,8 +17,9 @@ type BackgroundFillEnum string
 
 // BackgroundFill enums
 const (
-	BackgroundFillSolidType    BackgroundFillEnum = "backgroundFillSolid"
-	BackgroundFillGradientType BackgroundFillEnum = "backgroundFillGradient"
+	BackgroundFillSolidType            BackgroundFillEnum = "backgroundFillSolid"
+	BackgroundFillGradientType         BackgroundFillEnum = "backgroundFillGradient"
+	BackgroundFillFreeformGradientType BackgroundFillEnum = "backgroundFillFreeformGradient"
 )
 
 func unmarshalBackgroundFill(rawMsg *json.RawMessage) (BackgroundFill, error) {
@@ -42,6 +43,11 @@ func unmarshalBackgroundFill(rawMsg *json.RawMessage) (BackgroundFill, error) {
 		var backgroundFillGradient BackgroundFillGradient
 		err := json.Unmarshal(*rawMsg, &backgroundFillGradient)
 		return &backgroundFillGradient, err
+
+	case BackgroundFillFreeformGradientType:
+		var backgroundFillFreeformGradient BackgroundFillFreeformGradient
+		err := json.Unmarshal(*rawMsg, &backgroundFillFreeformGradient)
+		return &backgroundFillFreeformGradient, err
 
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
@@ -108,4 +114,32 @@ func NewBackgroundFillGradient(topColor int32, bottomColor int32, rotationAngle 
 // GetBackgroundFillEnum return the enum type of this object
 func (backgroundFillGradient *BackgroundFillGradient) GetBackgroundFillEnum() BackgroundFillEnum {
 	return BackgroundFillGradientType
+}
+
+// BackgroundFillFreeformGradient Describes a freeform gradient fill of a background
+type BackgroundFillFreeformGradient struct {
+	tdCommon
+	Colors []int32 `json:"colors"` // A list of 3 or 4 colors of the freeform gradients in the RGB24 format
+}
+
+// MessageType return the string telegram-type of BackgroundFillFreeformGradient
+func (backgroundFillFreeformGradient *BackgroundFillFreeformGradient) MessageType() string {
+	return "backgroundFillFreeformGradient"
+}
+
+// NewBackgroundFillFreeformGradient creates a new BackgroundFillFreeformGradient
+//
+// @param colors A list of 3 or 4 colors of the freeform gradients in the RGB24 format
+func NewBackgroundFillFreeformGradient(colors []int32) *BackgroundFillFreeformGradient {
+	backgroundFillFreeformGradientTemp := BackgroundFillFreeformGradient{
+		tdCommon: tdCommon{Type: "backgroundFillFreeformGradient"},
+		Colors:   colors,
+	}
+
+	return &backgroundFillFreeformGradientTemp
+}
+
+// GetBackgroundFillEnum return the enum type of this object
+func (backgroundFillFreeformGradient *BackgroundFillFreeformGradient) GetBackgroundFillEnum() BackgroundFillEnum {
+	return BackgroundFillFreeformGradientType
 }

@@ -4,13 +4,12 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
-// GetMessageLinkInfo Returns information about a public or private message link
-// @param uRL The message link in the format "https://t.me/c/...", or "tg://privatepost?...", or "https://t.me/username/...", or "tg://resolve?..."
+// GetMessageLinkInfo Returns information about a public or private message link. Can be called for any internal link of the type internalLinkTypeMessage
+// @param uRL The message link
 func (client *Client) GetMessageLinkInfo(uRL string) (*tdlib.MessageLinkInfo, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type": "getMessageLinkInfo",
@@ -22,7 +21,7 @@ func (client *Client) GetMessageLinkInfo(uRL string) (*tdlib.MessageLinkInfo, er
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageLinkInfo tdlib.MessageLinkInfo

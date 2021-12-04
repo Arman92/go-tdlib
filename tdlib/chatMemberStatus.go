@@ -72,7 +72,7 @@ func unmarshalChatMemberStatus(rawMsg *json.RawMessage) (ChatMemberStatus, error
 	}
 }
 
-// ChatMemberStatusCreator The user is the owner of a chat and has all the administrator privileges
+// ChatMemberStatusCreator The user is the owner of the chat and has all the administrator privileges
 type ChatMemberStatusCreator struct {
 	tdCommon
 	CustomTitle string `json:"custom_title"` // A custom title of the owner; 0-16 characters without emojis; applicable to supergroups only
@@ -106,20 +106,22 @@ func (chatMemberStatusCreator *ChatMemberStatusCreator) GetChatMemberStatusEnum(
 	return ChatMemberStatusCreatorType
 }
 
-// ChatMemberStatusAdministrator The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges
+// ChatMemberStatusAdministrator The user is a member of the chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
 type ChatMemberStatusAdministrator struct {
 	tdCommon
-	CustomTitle        string `json:"custom_title"`         // A custom title of the administrator; 0-16 characters without emojis; applicable to supergroups only
-	CanBeEdited        bool   `json:"can_be_edited"`        // True, if the current user can edit the administrator privileges for the called user
-	CanChangeInfo      bool   `json:"can_change_info"`      // True, if the administrator can change the chat title, photo, and other settings
-	CanPostMessages    bool   `json:"can_post_messages"`    // True, if the administrator can create channel posts; applicable to channels only
-	CanEditMessages    bool   `json:"can_edit_messages"`    // True, if the administrator can edit messages of other users and pin messages; applicable to channels only
-	CanDeleteMessages  bool   `json:"can_delete_messages"`  // True, if the administrator can delete messages of other users
-	CanInviteUsers     bool   `json:"can_invite_users"`     // True, if the administrator can invite new users to the chat
-	CanRestrictMembers bool   `json:"can_restrict_members"` // True, if the administrator can restrict, ban, or unban chat members
-	CanPinMessages     bool   `json:"can_pin_messages"`     // True, if the administrator can pin messages; applicable to groups only
-	CanPromoteMembers  bool   `json:"can_promote_members"`  // True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
-	IsAnonymous        bool   `json:"is_anonymous"`         // True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
+	CustomTitle         string `json:"custom_title"`           // A custom title of the administrator; 0-16 characters without emojis; applicable to supergroups only
+	CanBeEdited         bool   `json:"can_be_edited"`          // True, if the current user can edit the administrator privileges for the called user
+	CanManageChat       bool   `json:"can_manage_chat"`        // True, if the administrator can get chat event log, get chat statistics, get message statistics in channels, get channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other privilege; applicable to supergroups and channels only
+	CanChangeInfo       bool   `json:"can_change_info"`        // True, if the administrator can change the chat title, photo, and other settings
+	CanPostMessages     bool   `json:"can_post_messages"`      // True, if the administrator can create channel posts; applicable to channels only
+	CanEditMessages     bool   `json:"can_edit_messages"`      // True, if the administrator can edit messages of other users and pin messages; applicable to channels only
+	CanDeleteMessages   bool   `json:"can_delete_messages"`    // True, if the administrator can delete messages of other users
+	CanInviteUsers      bool   `json:"can_invite_users"`       // True, if the administrator can invite new users to the chat
+	CanRestrictMembers  bool   `json:"can_restrict_members"`   // True, if the administrator can restrict, ban, or unban chat members; always true for channels
+	CanPinMessages      bool   `json:"can_pin_messages"`       // True, if the administrator can pin messages; applicable to basic groups and supergroups only
+	CanPromoteMembers   bool   `json:"can_promote_members"`    // True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
+	CanManageVoiceChats bool   `json:"can_manage_voice_chats"` // True, if the administrator can manage voice chats
+	IsAnonymous         bool   `json:"is_anonymous"`           // True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
 }
 
 // MessageType return the string telegram-type of ChatMemberStatusAdministrator
@@ -131,29 +133,33 @@ func (chatMemberStatusAdministrator *ChatMemberStatusAdministrator) MessageType(
 //
 // @param customTitle A custom title of the administrator; 0-16 characters without emojis; applicable to supergroups only
 // @param canBeEdited True, if the current user can edit the administrator privileges for the called user
+// @param canManageChat True, if the administrator can get chat event log, get chat statistics, get message statistics in channels, get channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other privilege; applicable to supergroups and channels only
 // @param canChangeInfo True, if the administrator can change the chat title, photo, and other settings
 // @param canPostMessages True, if the administrator can create channel posts; applicable to channels only
 // @param canEditMessages True, if the administrator can edit messages of other users and pin messages; applicable to channels only
 // @param canDeleteMessages True, if the administrator can delete messages of other users
 // @param canInviteUsers True, if the administrator can invite new users to the chat
-// @param canRestrictMembers True, if the administrator can restrict, ban, or unban chat members
-// @param canPinMessages True, if the administrator can pin messages; applicable to groups only
+// @param canRestrictMembers True, if the administrator can restrict, ban, or unban chat members; always true for channels
+// @param canPinMessages True, if the administrator can pin messages; applicable to basic groups and supergroups only
 // @param canPromoteMembers True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
+// @param canManageVoiceChats True, if the administrator can manage voice chats
 // @param isAnonymous True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
-func NewChatMemberStatusAdministrator(customTitle string, canBeEdited bool, canChangeInfo bool, canPostMessages bool, canEditMessages bool, canDeleteMessages bool, canInviteUsers bool, canRestrictMembers bool, canPinMessages bool, canPromoteMembers bool, isAnonymous bool) *ChatMemberStatusAdministrator {
+func NewChatMemberStatusAdministrator(customTitle string, canBeEdited bool, canManageChat bool, canChangeInfo bool, canPostMessages bool, canEditMessages bool, canDeleteMessages bool, canInviteUsers bool, canRestrictMembers bool, canPinMessages bool, canPromoteMembers bool, canManageVoiceChats bool, isAnonymous bool) *ChatMemberStatusAdministrator {
 	chatMemberStatusAdministratorTemp := ChatMemberStatusAdministrator{
-		tdCommon:           tdCommon{Type: "chatMemberStatusAdministrator"},
-		CustomTitle:        customTitle,
-		CanBeEdited:        canBeEdited,
-		CanChangeInfo:      canChangeInfo,
-		CanPostMessages:    canPostMessages,
-		CanEditMessages:    canEditMessages,
-		CanDeleteMessages:  canDeleteMessages,
-		CanInviteUsers:     canInviteUsers,
-		CanRestrictMembers: canRestrictMembers,
-		CanPinMessages:     canPinMessages,
-		CanPromoteMembers:  canPromoteMembers,
-		IsAnonymous:        isAnonymous,
+		tdCommon:            tdCommon{Type: "chatMemberStatusAdministrator"},
+		CustomTitle:         customTitle,
+		CanBeEdited:         canBeEdited,
+		CanManageChat:       canManageChat,
+		CanChangeInfo:       canChangeInfo,
+		CanPostMessages:     canPostMessages,
+		CanEditMessages:     canEditMessages,
+		CanDeleteMessages:   canDeleteMessages,
+		CanInviteUsers:      canInviteUsers,
+		CanRestrictMembers:  canRestrictMembers,
+		CanPinMessages:      canPinMessages,
+		CanPromoteMembers:   canPromoteMembers,
+		CanManageVoiceChats: canManageVoiceChats,
+		IsAnonymous:         isAnonymous,
 	}
 
 	return &chatMemberStatusAdministratorTemp
@@ -164,7 +170,7 @@ func (chatMemberStatusAdministrator *ChatMemberStatusAdministrator) GetChatMembe
 	return ChatMemberStatusAdministratorType
 }
 
-// ChatMemberStatusMember The user is a member of a chat, without any additional privileges or restrictions
+// ChatMemberStatusMember The user is a member of the chat, without any additional privileges or restrictions
 type ChatMemberStatusMember struct {
 	tdCommon
 }
@@ -223,7 +229,7 @@ func (chatMemberStatusRestricted *ChatMemberStatusRestricted) GetChatMemberStatu
 	return ChatMemberStatusRestrictedType
 }
 
-// ChatMemberStatusLeft The user is not a chat member
+// ChatMemberStatusLeft The user or the chat is not a chat member
 type ChatMemberStatusLeft struct {
 	tdCommon
 }
@@ -248,10 +254,10 @@ func (chatMemberStatusLeft *ChatMemberStatusLeft) GetChatMemberStatusEnum() Chat
 	return ChatMemberStatusLeftType
 }
 
-// ChatMemberStatusBanned The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
+// ChatMemberStatusBanned The user or the chat was banned (and hence is not a member of the chat). Implies the user can't return to the chat, view messages, or be used as a participant identifier to join a voice chat of the chat
 type ChatMemberStatusBanned struct {
 	tdCommon
-	BannedUntilDate int32 `json:"banned_until_date"` // Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+	BannedUntilDate int32 `json:"banned_until_date"` // Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
 }
 
 // MessageType return the string telegram-type of ChatMemberStatusBanned
@@ -261,7 +267,7 @@ func (chatMemberStatusBanned *ChatMemberStatusBanned) MessageType() string {
 
 // NewChatMemberStatusBanned creates a new ChatMemberStatusBanned
 //
-// @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+// @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
 func NewChatMemberStatusBanned(bannedUntilDate int32) *ChatMemberStatusBanned {
 	chatMemberStatusBannedTemp := ChatMemberStatusBanned{
 		tdCommon:        tdCommon{Type: "chatMemberStatusBanned"},

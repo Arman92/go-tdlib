@@ -7,8 +7,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Arman92/go-tdlib/client"
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/client"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 func main() {

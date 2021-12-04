@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetJsonValue Converts a JSON-serialized string to corresponding JsonValue object. Can be called synchronously
@@ -22,7 +22,7 @@ func (client *Client) GetJsonValue(jsonString string) (tdlib.JsonValue, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	switch tdlib.JsonValueEnum(result.Data["@type"].(string)) {
@@ -73,7 +73,7 @@ func (client *Client) GetApplicationConfig() (tdlib.JsonValue, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	switch tdlib.JsonValueEnum(result.Data["@type"].(string)) {

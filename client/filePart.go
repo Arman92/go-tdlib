@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // ReadFilePart Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the application has no direct access to TDLib's file system, because it is usually slower than a direct read from the file
@@ -26,7 +25,37 @@ func (client *Client) ReadFilePart(fileID int32, offset int32, count int32) (*td
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var filePart tdlib.FilePart
+	err = json.Unmarshal(result.Raw, &filePart)
+	return &filePart, err
+
+}
+
+// GetGroupCallStreamSegment Returns a file with a segment of a group call stream in a modified OGG format for audio or MPEG-4 format for video
+// @param groupCallID Group call identifier
+// @param timeOffset Point in time when the stream segment begins; Unix timestamp in milliseconds
+// @param scale Segment duration scale; 0-1. Segment's duration is 1000/(2**scale) milliseconds
+// @param channelID Identifier of an audio/video channel to get as received from tgcalls
+// @param videoQuality Video quality as received from tgcalls
+func (client *Client) GetGroupCallStreamSegment(groupCallID int32, timeOffset int64, scale int32, channelID int32, videoQuality tdlib.GroupCallVideoQuality) (*tdlib.FilePart, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":         "getGroupCallStreamSegment",
+		"group_call_id": groupCallID,
+		"time_offset":   timeOffset,
+		"scale":         scale,
+		"channel_id":    channelID,
+		"video_quality": videoQuality,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var filePart tdlib.FilePart

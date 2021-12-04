@@ -4,19 +4,20 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetPaymentForm Returns an invoice payment form. This method should be called when the user presses inlineKeyboardButtonBuy
 // @param chatID Chat identifier of the Invoice message
 // @param messageID Message identifier
-func (client *Client) GetPaymentForm(chatID int64, messageID int64) (*tdlib.PaymentForm, error) {
+// @param theme Preferred payment form theme
+func (client *Client) GetPaymentForm(chatID int64, messageID int64, theme *tdlib.PaymentFormTheme) (*tdlib.PaymentForm, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":      "getPaymentForm",
 		"chat_id":    chatID,
 		"message_id": messageID,
+		"theme":      theme,
 	})
 
 	if err != nil {
@@ -24,7 +25,7 @@ func (client *Client) GetPaymentForm(chatID int64, messageID int64) (*tdlib.Paym
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var paymentForm tdlib.PaymentForm

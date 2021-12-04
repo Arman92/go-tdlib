@@ -34,6 +34,7 @@ const (
 	TextEntityTypePreCodeType        TextEntityTypeEnum = "textEntityTypePreCode"
 	TextEntityTypeTextURLType        TextEntityTypeEnum = "textEntityTypeTextUrl"
 	TextEntityTypeMentionNameType    TextEntityTypeEnum = "textEntityTypeMentionName"
+	TextEntityTypeMediaTimestampType TextEntityTypeEnum = "textEntityTypeMediaTimestamp"
 )
 
 func unmarshalTextEntityType(rawMsg *json.RawMessage) (TextEntityType, error) {
@@ -133,6 +134,11 @@ func unmarshalTextEntityType(rawMsg *json.RawMessage) (TextEntityType, error) {
 		err := json.Unmarshal(*rawMsg, &textEntityTypeMentionName)
 		return &textEntityTypeMentionName, err
 
+	case TextEntityTypeMediaTimestampType:
+		var textEntityTypeMediaTimestamp TextEntityTypeMediaTimestamp
+		err := json.Unmarshal(*rawMsg, &textEntityTypeMediaTimestamp)
+		return &textEntityTypeMediaTimestamp, err
+
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
 	}
@@ -213,7 +219,7 @@ func (textEntityTypeCashtag *TextEntityTypeCashtag) GetTextEntityTypeEnum() Text
 	return TextEntityTypeCashtagType
 }
 
-// TextEntityTypeBotCommand A bot command, beginning with "/". This shouldn't be highlighted if there are no bots in the chat
+// TextEntityTypeBotCommand A bot command, beginning with "/"
 type TextEntityTypeBotCommand struct {
 	tdCommon
 }
@@ -547,7 +553,7 @@ func (textEntityTypeTextURL *TextEntityTypeTextURL) GetTextEntityTypeEnum() Text
 // TextEntityTypeMentionName A text shows instead of a raw mention of the user (e.g., when the user has no username)
 type TextEntityTypeMentionName struct {
 	tdCommon
-	UserID int32 `json:"user_id"` // Identifier of the mentioned user
+	UserID int64 `json:"user_id"` // Identifier of the mentioned user
 }
 
 // MessageType return the string telegram-type of TextEntityTypeMentionName
@@ -558,7 +564,7 @@ func (textEntityTypeMentionName *TextEntityTypeMentionName) MessageType() string
 // NewTextEntityTypeMentionName creates a new TextEntityTypeMentionName
 //
 // @param userID Identifier of the mentioned user
-func NewTextEntityTypeMentionName(userID int32) *TextEntityTypeMentionName {
+func NewTextEntityTypeMentionName(userID int64) *TextEntityTypeMentionName {
 	textEntityTypeMentionNameTemp := TextEntityTypeMentionName{
 		tdCommon: tdCommon{Type: "textEntityTypeMentionName"},
 		UserID:   userID,
@@ -570,4 +576,32 @@ func NewTextEntityTypeMentionName(userID int32) *TextEntityTypeMentionName {
 // GetTextEntityTypeEnum return the enum type of this object
 func (textEntityTypeMentionName *TextEntityTypeMentionName) GetTextEntityTypeEnum() TextEntityTypeEnum {
 	return TextEntityTypeMentionNameType
+}
+
+// TextEntityTypeMediaTimestamp A media timestamp
+type TextEntityTypeMediaTimestamp struct {
+	tdCommon
+	MediaTimestamp int32 `json:"media_timestamp"` // Timestamp from which a video/audio/video note/voice note playing should start, in seconds. The media can be in the content or the web page preview of the current message, or in the same places in the replied message
+}
+
+// MessageType return the string telegram-type of TextEntityTypeMediaTimestamp
+func (textEntityTypeMediaTimestamp *TextEntityTypeMediaTimestamp) MessageType() string {
+	return "textEntityTypeMediaTimestamp"
+}
+
+// NewTextEntityTypeMediaTimestamp creates a new TextEntityTypeMediaTimestamp
+//
+// @param mediaTimestamp Timestamp from which a video/audio/video note/voice note playing should start, in seconds. The media can be in the content or the web page preview of the current message, or in the same places in the replied message
+func NewTextEntityTypeMediaTimestamp(mediaTimestamp int32) *TextEntityTypeMediaTimestamp {
+	textEntityTypeMediaTimestampTemp := TextEntityTypeMediaTimestamp{
+		tdCommon:       tdCommon{Type: "textEntityTypeMediaTimestamp"},
+		MediaTimestamp: mediaTimestamp,
+	}
+
+	return &textEntityTypeMediaTimestampTemp
+}
+
+// GetTextEntityTypeEnum return the enum type of this object
+func (textEntityTypeMediaTimestamp *TextEntityTypeMediaTimestamp) GetTextEntityTypeEnum() TextEntityTypeEnum {
+	return TextEntityTypeMediaTimestampType
 }

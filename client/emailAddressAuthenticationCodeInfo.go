@@ -4,12 +4,11 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
-// RequestPasswordRecovery Requests to send a password recovery code to an email address that was previously set up
+// RequestPasswordRecovery Requests to send a 2-step verification password recovery code to an email address that was previously set up
 func (client *Client) RequestPasswordRecovery() (*tdlib.EmailAddressAuthenticationCodeInfo, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type": "requestPasswordRecovery",
@@ -20,7 +19,7 @@ func (client *Client) RequestPasswordRecovery() (*tdlib.EmailAddressAuthenticati
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var emailAddressAuthenticationCodeInfo tdlib.EmailAddressAuthenticationCodeInfo
@@ -42,7 +41,7 @@ func (client *Client) SendEmailAddressVerificationCode(emailAddress string) (*td
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var emailAddressAuthenticationCodeInfo tdlib.EmailAddressAuthenticationCodeInfo
@@ -62,7 +61,7 @@ func (client *Client) ResendEmailAddressVerificationCode() (*tdlib.EmailAddressA
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var emailAddressAuthenticationCodeInfo tdlib.EmailAddressAuthenticationCodeInfo

@@ -10,7 +10,7 @@ import (
 type StorageStatisticsByFileType struct {
 	tdCommon
 	FileType FileType `json:"file_type"` // File type
-	Size     int64    `json:"size"`      // Total size of the files
+	Size     int64    `json:"size"`      // Total size of the files, in bytes
 	Count    int32    `json:"count"`     // Total number of files
 }
 
@@ -22,7 +22,7 @@ func (storageStatisticsByFileType *StorageStatisticsByFileType) MessageType() st
 // NewStorageStatisticsByFileType creates a new StorageStatisticsByFileType
 //
 // @param fileType File type
-// @param size Total size of the files
+// @param size Total size of the files, in bytes
 // @param count Total number of files
 func NewStorageStatisticsByFileType(fileType FileType, size int64, count int32) *StorageStatisticsByFileType {
 	storageStatisticsByFileTypeTemp := StorageStatisticsByFileType{
@@ -44,7 +44,7 @@ func (storageStatisticsByFileType *StorageStatisticsByFileType) UnmarshalJSON(b 
 	}
 	tempObj := struct {
 		tdCommon
-		Size  int64 `json:"size"`  // Total size of the files
+		Size  int64 `json:"size"`  // Total size of the files, in bytes
 		Count int32 `json:"count"` // Total number of files
 	}{}
 	err = json.Unmarshal(b, &tempObj)

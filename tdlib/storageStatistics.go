@@ -5,7 +5,7 @@ package tdlib
 // StorageStatistics Contains the exact storage usage statistics split by chats and file type
 type StorageStatistics struct {
 	tdCommon
-	Size   int64                     `json:"size"`    // Total size of files
+	Size   int64                     `json:"size"`    // Total size of files, in bytes
 	Count  int32                     `json:"count"`   // Total number of files
 	ByChat []StorageStatisticsByChat `json:"by_chat"` // Statistics split by chats
 }
@@ -17,7 +17,7 @@ func (storageStatistics *StorageStatistics) MessageType() string {
 
 // NewStorageStatistics creates a new StorageStatistics
 //
-// @param size Total size of files
+// @param size Total size of files, in bytes
 // @param count Total number of files
 // @param byChat Statistics split by chats
 func NewStorageStatistics(size int64, count int32, byChat []StorageStatisticsByChat) *StorageStatistics {
