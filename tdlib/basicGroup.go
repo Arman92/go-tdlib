@@ -9,11 +9,11 @@ import (
 // BasicGroup Represents a basic group of 0-200 users (must be upgraded to a supergroup to accommodate more than 200 users)
 type BasicGroup struct {
 	tdCommon
-	ID                     int32            `json:"id"`                        // Group identifier
+	ID                     int64            `json:"id"`                        // Group identifier
 	MemberCount            int32            `json:"member_count"`              // Number of members in the group
 	Status                 ChatMemberStatus `json:"status"`                    // Status of the current user in the group
 	IsActive               bool             `json:"is_active"`                 // True, if the group is active
-	UpgradedToSupergroupID int32            `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
+	UpgradedToSupergroupID int64            `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
 }
 
 // MessageType return the string telegram-type of BasicGroup
@@ -28,7 +28,7 @@ func (basicGroup *BasicGroup) MessageType() string {
 // @param status Status of the current user in the group
 // @param isActive True, if the group is active
 // @param upgradedToSupergroupID Identifier of the supergroup to which this group was upgraded; 0 if none
-func NewBasicGroup(iD int32, memberCount int32, status ChatMemberStatus, isActive bool, upgradedToSupergroupID int32) *BasicGroup {
+func NewBasicGroup(iD int64, memberCount int32, status ChatMemberStatus, isActive bool, upgradedToSupergroupID int64) *BasicGroup {
 	basicGroupTemp := BasicGroup{
 		tdCommon:               tdCommon{Type: "basicGroup"},
 		ID:                     iD,
@@ -50,10 +50,10 @@ func (basicGroup *BasicGroup) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		ID                     int32 `json:"id"`                        // Group identifier
+		ID                     int64 `json:"id"`                        // Group identifier
 		MemberCount            int32 `json:"member_count"`              // Number of members in the group
 		IsActive               bool  `json:"is_active"`                 // True, if the group is active
-		UpgradedToSupergroupID int32 `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
+		UpgradedToSupergroupID int64 `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {

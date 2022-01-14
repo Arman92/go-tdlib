@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetChat Returns information about a chat by its identifier, this is an offline request if the current user is not a bot
@@ -22,7 +21,7 @@ func (client *Client) GetChat(chatID int64) (*tdlib.Chat, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chatDummy tdlib.Chat
@@ -44,7 +43,7 @@ func (client *Client) SearchPublicChat(username string) (*tdlib.Chat, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -56,7 +55,7 @@ func (client *Client) SearchPublicChat(username string) (*tdlib.Chat, error) {
 // CreatePrivateChat Returns an existing chat corresponding to a given user
 // @param userID User identifier
 // @param force If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect
-func (client *Client) CreatePrivateChat(userID int32, force bool) (*tdlib.Chat, error) {
+func (client *Client) CreatePrivateChat(userID int64, force bool) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":   "createPrivateChat",
 		"user_id": userID,
@@ -68,7 +67,7 @@ func (client *Client) CreatePrivateChat(userID int32, force bool) (*tdlib.Chat, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -80,7 +79,7 @@ func (client *Client) CreatePrivateChat(userID int32, force bool) (*tdlib.Chat, 
 // CreateBasicGroupChat Returns an existing chat corresponding to a known basic group
 // @param basicGroupID Basic group identifier
 // @param force If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect
-func (client *Client) CreateBasicGroupChat(basicGroupID int32, force bool) (*tdlib.Chat, error) {
+func (client *Client) CreateBasicGroupChat(basicGroupID int64, force bool) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":          "createBasicGroupChat",
 		"basic_group_id": basicGroupID,
@@ -92,7 +91,7 @@ func (client *Client) CreateBasicGroupChat(basicGroupID int32, force bool) (*tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -104,7 +103,7 @@ func (client *Client) CreateBasicGroupChat(basicGroupID int32, force bool) (*tdl
 // CreateSupergroupChat Returns an existing chat corresponding to a known supergroup or channel
 // @param supergroupID Supergroup or channel identifier
 // @param force If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect
-func (client *Client) CreateSupergroupChat(supergroupID int32, force bool) (*tdlib.Chat, error) {
+func (client *Client) CreateSupergroupChat(supergroupID int64, force bool) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "createSupergroupChat",
 		"supergroup_id": supergroupID,
@@ -116,7 +115,7 @@ func (client *Client) CreateSupergroupChat(supergroupID int32, force bool) (*tdl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -138,7 +137,7 @@ func (client *Client) CreateSecretChat(secretChatID int32) (*tdlib.Chat, error) 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chatDummy tdlib.Chat
@@ -150,7 +149,7 @@ func (client *Client) CreateSecretChat(secretChatID int32) (*tdlib.Chat, error) 
 // CreateNewBasicGroupChat Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns the newly created chat
 // @param userIDs Identifiers of users to be added to the basic group
 // @param title Title of the new basic group; 1-128 characters
-func (client *Client) CreateNewBasicGroupChat(userIDs []int32, title string) (*tdlib.Chat, error) {
+func (client *Client) CreateNewBasicGroupChat(userIDs []int64, title string) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":    "createNewBasicGroupChat",
 		"user_ids": userIDs,
@@ -162,7 +161,7 @@ func (client *Client) CreateNewBasicGroupChat(userIDs []int32, title string) (*t
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -173,16 +172,18 @@ func (client *Client) CreateNewBasicGroupChat(userIDs []int32, title string) (*t
 
 // CreateNewSupergroupChat Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate. Returns the newly created chat
 // @param title Title of the new chat; 1-128 characters
-// @param isChannel True, if a channel chat should be created
+// @param isChannel True, if a channel chat needs to be created
 // @param description Chat description; 0-255 characters
 // @param location Chat location if a location-based supergroup is being created
-func (client *Client) CreateNewSupergroupChat(title string, isChannel bool, description string, location *tdlib.ChatLocation) (*tdlib.Chat, error) {
+// @param forImport True, if the supergroup is created for importing messages using importMessage
+func (client *Client) CreateNewSupergroupChat(title string, isChannel bool, description string, location *tdlib.ChatLocation, forImport bool) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":       "createNewSupergroupChat",
 		"title":       title,
 		"is_channel":  isChannel,
 		"description": description,
 		"location":    location,
+		"for_import":  forImport,
 	})
 
 	if err != nil {
@@ -190,7 +191,7 @@ func (client *Client) CreateNewSupergroupChat(title string, isChannel bool, desc
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -201,7 +202,7 @@ func (client *Client) CreateNewSupergroupChat(title string, isChannel bool, desc
 
 // CreateNewSecretChat Creates a new secret chat. Returns the newly created chat
 // @param userID Identifier of the target user
-func (client *Client) CreateNewSecretChat(userID int32) (*tdlib.Chat, error) {
+func (client *Client) CreateNewSecretChat(userID int64) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":   "createNewSecretChat",
 		"user_id": userID,
@@ -212,7 +213,7 @@ func (client *Client) CreateNewSecretChat(userID int32) (*tdlib.Chat, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat
@@ -234,7 +235,7 @@ func (client *Client) UpgradeBasicGroupChatToSupergroupChat(chatID int64) (*tdli
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chatDummy tdlib.Chat
@@ -243,8 +244,8 @@ func (client *Client) UpgradeBasicGroupChatToSupergroupChat(chatID int64) (*tdli
 
 }
 
-// JoinChatByInviteLink Uses an invite link to add the current user to the chat if possible. The new member will not be added until the chat state has been synchronized with the server
-// @param inviteLink Invite link to import; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/"
+// JoinChatByInviteLink Uses an invite link to add the current user to the chat if possible
+// @param inviteLink Invite link to use
 func (client *Client) JoinChatByInviteLink(inviteLink string) (*tdlib.Chat, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":       "joinChatByInviteLink",
@@ -256,7 +257,7 @@ func (client *Client) JoinChatByInviteLink(inviteLink string) (*tdlib.Chat, erro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chat tdlib.Chat

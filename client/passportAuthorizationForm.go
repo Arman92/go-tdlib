@@ -4,17 +4,16 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetPassportAuthorizationForm Returns a Telegram Passport authorization form for sharing data with a service
 // @param botUserID User identifier of the service's bot
 // @param scope Telegram Passport element types requested by the service
-// @param publicKey Service's public_key
-// @param nonce Authorization form nonce provided by the service
-func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string, publicKey string, nonce string) (*tdlib.PassportAuthorizationForm, error) {
+// @param publicKey Service's public key
+// @param nonce Unique request identifier provided by the service
+func (client *Client) GetPassportAuthorizationForm(botUserID int64, scope string, publicKey string, nonce string) (*tdlib.PassportAuthorizationForm, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":       "getPassportAuthorizationForm",
 		"bot_user_id": botUserID,
@@ -28,7 +27,7 @@ func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passportAuthorizationForm tdlib.PassportAuthorizationForm

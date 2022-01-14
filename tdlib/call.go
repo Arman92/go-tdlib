@@ -10,7 +10,7 @@ import (
 type Call struct {
 	tdCommon
 	ID         int32     `json:"id"`          // Call identifier, not persistent
-	UserID     int32     `json:"user_id"`     // Peer user identifier
+	UserID     int64     `json:"user_id"`     // Peer user identifier
 	IsOutgoing bool      `json:"is_outgoing"` // True, if the call is outgoing
 	IsVideo    bool      `json:"is_video"`    // True, if the call is a video call
 	State      CallState `json:"state"`       // Call state
@@ -28,7 +28,7 @@ func (call *Call) MessageType() string {
 // @param isOutgoing True, if the call is outgoing
 // @param isVideo True, if the call is a video call
 // @param state Call state
-func NewCall(iD int32, userID int32, isOutgoing bool, isVideo bool, state CallState) *Call {
+func NewCall(iD int32, userID int64, isOutgoing bool, isVideo bool, state CallState) *Call {
 	callTemp := Call{
 		tdCommon:   tdCommon{Type: "call"},
 		ID:         iD,
@@ -51,7 +51,7 @@ func (call *Call) UnmarshalJSON(b []byte) error {
 	tempObj := struct {
 		tdCommon
 		ID         int32 `json:"id"`          // Call identifier, not persistent
-		UserID     int32 `json:"user_id"`     // Peer user identifier
+		UserID     int64 `json:"user_id"`     // Peer user identifier
 		IsOutgoing bool  `json:"is_outgoing"` // True, if the call is outgoing
 		IsVideo    bool  `json:"is_video"`    // True, if the call is a video call
 

@@ -106,11 +106,11 @@ func (inlineKeyboardButtonTypeURL *InlineKeyboardButtonTypeURL) GetInlineKeyboar
 	return InlineKeyboardButtonTypeURLType
 }
 
-// InlineKeyboardButtonTypeLoginURL A button that opens a specified URL and automatically logs in in current user if they allowed to do that
+// InlineKeyboardButtonTypeLoginURL A button that opens a specified URL and automatically authorize the current user if allowed to do so
 type InlineKeyboardButtonTypeLoginURL struct {
 	tdCommon
 	URL         string `json:"url"`          // An HTTP URL to open
-	ID          int32  `json:"id"`           // Unique button identifier
+	ID          int64  `json:"id"`           // Unique button identifier
 	ForwardText string `json:"forward_text"` // If non-empty, new text of the button in forwarded messages
 }
 
@@ -124,7 +124,7 @@ func (inlineKeyboardButtonTypeLoginURL *InlineKeyboardButtonTypeLoginURL) Messag
 // @param uRL An HTTP URL to open
 // @param iD Unique button identifier
 // @param forwardText If non-empty, new text of the button in forwarded messages
-func NewInlineKeyboardButtonTypeLoginURL(uRL string, iD int32, forwardText string) *InlineKeyboardButtonTypeLoginURL {
+func NewInlineKeyboardButtonTypeLoginURL(uRL string, iD int64, forwardText string) *InlineKeyboardButtonTypeLoginURL {
 	inlineKeyboardButtonTypeLoginURLTemp := InlineKeyboardButtonTypeLoginURL{
 		tdCommon:    tdCommon{Type: "inlineKeyboardButtonTypeLoginUrl"},
 		URL:         uRL,

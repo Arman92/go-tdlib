@@ -2,7 +2,7 @@
 
 package tdlib
 
-// DeepLinkInfo Contains information about a tg:// deep link
+// DeepLinkInfo Contains information about a tg: deep link
 type DeepLinkInfo struct {
 	tdCommon
 	Text                  *FormattedText `json:"text"`                    // Text to be shown to the user

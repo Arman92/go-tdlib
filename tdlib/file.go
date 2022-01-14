@@ -6,8 +6,8 @@ package tdlib
 type File struct {
 	tdCommon
 	ID           int32       `json:"id"`            // Unique file identifier
-	Size         int32       `json:"size"`          // File size; 0 if unknown
-	ExpectedSize int32       `json:"expected_size"` // Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
+	Size         int32       `json:"size"`          // File size, in bytes; 0 if unknown
+	ExpectedSize int32       `json:"expected_size"` // Approximate file size in bytes in case the exact file size is unknown. Can be used to show download/upload progress
 	Local        *LocalFile  `json:"local"`         // Information about the local copy of the file
 	Remote       *RemoteFile `json:"remote"`        // Information about the remote copy of the file
 }
@@ -20,8 +20,8 @@ func (file *File) MessageType() string {
 // NewFile creates a new File
 //
 // @param iD Unique file identifier
-// @param size File size; 0 if unknown
-// @param expectedSize Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
+// @param size File size, in bytes; 0 if unknown
+// @param expectedSize Approximate file size in bytes in case the exact file size is unknown. Can be used to show download/upload progress
 // @param local Information about the local copy of the file
 // @param remote Information about the remote copy of the file
 func NewFile(iD int32, size int32, expectedSize int32, local *LocalFile, remote *RemoteFile) *File {

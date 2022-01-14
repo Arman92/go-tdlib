@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetInstalledStickerSets Returns a list of installed sticker sets
@@ -22,7 +21,7 @@ func (client *Client) GetInstalledStickerSets(isMasks bool) (*tdlib.StickerSets,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var stickerSets tdlib.StickerSets
@@ -48,7 +47,7 @@ func (client *Client) GetArchivedStickerSets(isMasks bool, offsetStickerSetID *t
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var stickerSets tdlib.StickerSets
@@ -57,9 +56,9 @@ func (client *Client) GetArchivedStickerSets(isMasks bool, offsetStickerSetID *t
 
 }
 
-// GetTrendingStickerSets Returns a list of trending sticker sets. For the optimal performance the number of returned sticker sets is chosen by the library
+// GetTrendingStickerSets Returns a list of trending sticker sets. For optimal performance, the number of returned sticker sets is chosen by TDLib
 // @param offset The offset from which to return the sticker sets; must be non-negative
-// @param limit The maximum number of sticker sets to be returned; must be non-negative. Fewer sticker sets may be returned than specified by the limit, even if the end of the list has not been reached
+// @param limit The maximum number of sticker sets to be returned; must be non-negative. For optimal performance, the number of returned sticker sets is chosen by TDLib and can be smaller than the specified limit, even if the end of the list has not been reached
 func (client *Client) GetTrendingStickerSets(offset int32, limit int32) (*tdlib.StickerSets, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":  "getTrendingStickerSets",
@@ -72,7 +71,7 @@ func (client *Client) GetTrendingStickerSets(offset int32, limit int32) (*tdlib.
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var stickerSets tdlib.StickerSets
@@ -94,7 +93,7 @@ func (client *Client) GetAttachedStickerSets(fileID int32) (*tdlib.StickerSets, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var stickerSets tdlib.StickerSets
@@ -120,7 +119,7 @@ func (client *Client) SearchInstalledStickerSets(isMasks bool, query string, lim
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var stickerSets tdlib.StickerSets
@@ -142,7 +141,7 @@ func (client *Client) SearchStickerSets(query string) (*tdlib.StickerSets, error
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var stickerSets tdlib.StickerSets

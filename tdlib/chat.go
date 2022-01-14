@@ -21,14 +21,17 @@ type Chat struct {
 	HasScheduledMessages       bool                      `json:"has_scheduled_messages"`       // True, if the chat has scheduled messages
 	CanBeDeletedOnlyForSelf    bool                      `json:"can_be_deleted_only_for_self"` // True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
 	CanBeDeletedForAllUsers    bool                      `json:"can_be_deleted_for_all_users"` // True, if the chat messages can be deleted for all users
-	CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat
+	CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat or reportChatPhoto
 	DefaultDisableNotification bool                      `json:"default_disable_notification"` // Default value of the disable_notification parameter, used when a message is sent to the chat
 	UnreadCount                int32                     `json:"unread_count"`                 // Number of unread messages in the chat
 	LastReadInboxMessageID     int64                     `json:"last_read_inbox_message_id"`   // Identifier of the last read incoming message
 	LastReadOutboxMessageID    int64                     `json:"last_read_outbox_message_id"`  // Identifier of the last read outgoing message
 	UnreadMentionCount         int32                     `json:"unread_mention_count"`         // Number of unread messages with a mention/reply in the chat
 	NotificationSettings       *ChatNotificationSettings `json:"notification_settings"`        // Notification settings for this chat
+	MessageTTLSetting          int32                     `json:"message_ttl_setting"`          // Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
+	ThemeName                  string                    `json:"theme_name"`                   // If non-empty, name of a theme set for the chat
 	ActionBar                  ChatActionBar             `json:"action_bar"`                   // Describes actions which should be possible to do through a chat action bar; may be null
+	VoiceChat                  *VoiceChat                `json:"voice_chat"`                   // Contains information about voice chat of the chat
 	ReplyMarkupMessageID       int64                     `json:"reply_markup_message_id"`      // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 	DraftMessage               *DraftMessage             `json:"draft_message"`                // A draft of a message in the chat; may be null
 	ClientData                 string                    `json:"client_data"`                  // Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
@@ -53,18 +56,21 @@ func (chat *Chat) MessageType() string {
 // @param hasScheduledMessages True, if the chat has scheduled messages
 // @param canBeDeletedOnlyForSelf True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
 // @param canBeDeletedForAllUsers True, if the chat messages can be deleted for all users
-// @param canBeReported True, if the chat can be reported to Telegram moderators through reportChat
+// @param canBeReported True, if the chat can be reported to Telegram moderators through reportChat or reportChatPhoto
 // @param defaultDisableNotification Default value of the disable_notification parameter, used when a message is sent to the chat
 // @param unreadCount Number of unread messages in the chat
 // @param lastReadInboxMessageID Identifier of the last read incoming message
 // @param lastReadOutboxMessageID Identifier of the last read outgoing message
 // @param unreadMentionCount Number of unread messages with a mention/reply in the chat
 // @param notificationSettings Notification settings for this chat
+// @param messageTTLSetting Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
+// @param themeName If non-empty, name of a theme set for the chat
 // @param actionBar Describes actions which should be possible to do through a chat action bar; may be null
+// @param voiceChat Contains information about voice chat of the chat
 // @param replyMarkupMessageID Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 // @param draftMessage A draft of a message in the chat; may be null
 // @param clientData Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
-func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhotoInfo, permissions *ChatPermissions, lastMessage *Message, positions []ChatPosition, isMarkedAsUnread bool, isBlocked bool, hasScheduledMessages bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, canBeReported bool, defaultDisableNotification bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *ChatNotificationSettings, actionBar ChatActionBar, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
+func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhotoInfo, permissions *ChatPermissions, lastMessage *Message, positions []ChatPosition, isMarkedAsUnread bool, isBlocked bool, hasScheduledMessages bool, canBeDeletedOnlyForSelf bool, canBeDeletedForAllUsers bool, canBeReported bool, defaultDisableNotification bool, unreadCount int32, lastReadInboxMessageID int64, lastReadOutboxMessageID int64, unreadMentionCount int32, notificationSettings *ChatNotificationSettings, messageTTLSetting int32, themeName string, actionBar ChatActionBar, voiceChat *VoiceChat, replyMarkupMessageID int64, draftMessage *DraftMessage, clientData string) *Chat {
 	chatTemp := Chat{
 		tdCommon:                   tdCommon{Type: "chat"},
 		ID:                         iD,
@@ -86,7 +92,10 @@ func NewChat(iD int64, typeParam ChatType, title string, photo *ChatPhotoInfo, p
 		LastReadOutboxMessageID:    lastReadOutboxMessageID,
 		UnreadMentionCount:         unreadMentionCount,
 		NotificationSettings:       notificationSettings,
+		MessageTTLSetting:          messageTTLSetting,
+		ThemeName:                  themeName,
 		ActionBar:                  actionBar,
+		VoiceChat:                  voiceChat,
 		ReplyMarkupMessageID:       replyMarkupMessageID,
 		DraftMessage:               draftMessage,
 		ClientData:                 clientData,
@@ -115,13 +124,16 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 		HasScheduledMessages       bool                      `json:"has_scheduled_messages"`       // True, if the chat has scheduled messages
 		CanBeDeletedOnlyForSelf    bool                      `json:"can_be_deleted_only_for_self"` // True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
 		CanBeDeletedForAllUsers    bool                      `json:"can_be_deleted_for_all_users"` // True, if the chat messages can be deleted for all users
-		CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat
+		CanBeReported              bool                      `json:"can_be_reported"`              // True, if the chat can be reported to Telegram moderators through reportChat or reportChatPhoto
 		DefaultDisableNotification bool                      `json:"default_disable_notification"` // Default value of the disable_notification parameter, used when a message is sent to the chat
 		UnreadCount                int32                     `json:"unread_count"`                 // Number of unread messages in the chat
 		LastReadInboxMessageID     int64                     `json:"last_read_inbox_message_id"`   // Identifier of the last read incoming message
 		LastReadOutboxMessageID    int64                     `json:"last_read_outbox_message_id"`  // Identifier of the last read outgoing message
 		UnreadMentionCount         int32                     `json:"unread_mention_count"`         // Number of unread messages with a mention/reply in the chat
 		NotificationSettings       *ChatNotificationSettings `json:"notification_settings"`        // Notification settings for this chat
+		MessageTTLSetting          int32                     `json:"message_ttl_setting"`          // Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
+		ThemeName                  string                    `json:"theme_name"`                   // If non-empty, name of a theme set for the chat
+		VoiceChat                  *VoiceChat                `json:"voice_chat"`                   // Contains information about voice chat of the chat
 		ReplyMarkupMessageID       int64                     `json:"reply_markup_message_id"`      // Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 		DraftMessage               *DraftMessage             `json:"draft_message"`                // A draft of a message in the chat; may be null
 		ClientData                 string                    `json:"client_data"`                  // Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
@@ -150,6 +162,9 @@ func (chat *Chat) UnmarshalJSON(b []byte) error {
 	chat.LastReadOutboxMessageID = tempObj.LastReadOutboxMessageID
 	chat.UnreadMentionCount = tempObj.UnreadMentionCount
 	chat.NotificationSettings = tempObj.NotificationSettings
+	chat.MessageTTLSetting = tempObj.MessageTTLSetting
+	chat.ThemeName = tempObj.ThemeName
+	chat.VoiceChat = tempObj.VoiceChat
 	chat.ReplyMarkupMessageID = tempObj.ReplyMarkupMessageID
 	chat.DraftMessage = tempObj.DraftMessage
 	chat.ClientData = tempObj.ClientData

@@ -121,7 +121,7 @@ type InputInlineQueryResultAnimation struct {
 	VideoWidth          int32               `json:"video_width"`           // Width of the video
 	VideoHeight         int32               `json:"video_height"`          // Height of the video
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultAnimation
@@ -141,7 +141,7 @@ func (inputInlineQueryResultAnimation *InputInlineQueryResultAnimation) MessageT
 // @param videoWidth Width of the video
 // @param videoHeight Height of the video
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultAnimation(iD string, title string, thumbnailURL string, thumbnailMimeType string, videoURL string, videoMimeType string, videoDuration int32, videoWidth int32, videoHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultAnimation {
 	inputInlineQueryResultAnimationTemp := InputInlineQueryResultAnimation{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultAnimation"},
@@ -223,7 +223,7 @@ type InputInlineQueryResultArticle struct {
 	ThumbnailWidth      int32               `json:"thumbnail_width"`       // Thumbnail width, if known
 	ThumbnailHeight     int32               `json:"thumbnail_height"`      // Thumbnail height, if known
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultArticle
@@ -242,7 +242,7 @@ func (inputInlineQueryResultArticle *InputInlineQueryResultArticle) MessageType(
 // @param thumbnailWidth Thumbnail width, if known
 // @param thumbnailHeight Thumbnail height, if known
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultArticle(iD string, uRL string, hideURL bool, title string, description string, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultArticle {
 	inputInlineQueryResultArticleTemp := InputInlineQueryResultArticle{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultArticle"},
@@ -318,7 +318,7 @@ type InputInlineQueryResultAudio struct {
 	AudioURL            string              `json:"audio_url"`             // The URL of the audio file
 	AudioDuration       int32               `json:"audio_duration"`        // Audio file duration, in seconds
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAudio, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultAudio
@@ -334,7 +334,7 @@ func (inputInlineQueryResultAudio *InputInlineQueryResultAudio) MessageType() st
 // @param audioURL The URL of the audio file
 // @param audioDuration Audio file duration, in seconds
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAudio, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultAudio(iD string, title string, performer string, audioURL string, audioDuration int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultAudio {
 	inputInlineQueryResultAudioTemp := InputInlineQueryResultAudio{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultAudio"},
@@ -401,7 +401,7 @@ type InputInlineQueryResultContact struct {
 	ThumbnailWidth      int32               `json:"thumbnail_width"`       // Thumbnail width, if known
 	ThumbnailHeight     int32               `json:"thumbnail_height"`      // Thumbnail height, if known
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultContact
@@ -417,7 +417,7 @@ func (inputInlineQueryResultContact *InputInlineQueryResultContact) MessageType(
 // @param thumbnailWidth Thumbnail width, if known
 // @param thumbnailHeight Thumbnail height, if known
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultContact(iD string, contact *Contact, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultContact {
 	inputInlineQueryResultContactTemp := InputInlineQueryResultContact{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultContact"},
@@ -487,7 +487,7 @@ type InputInlineQueryResultDocument struct {
 	ThumbnailWidth      int32               `json:"thumbnail_width"`       // Width of the thumbnail
 	ThumbnailHeight     int32               `json:"thumbnail_height"`      // Height of the thumbnail
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageDocument, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageDocument, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultDocument
@@ -506,7 +506,7 @@ func (inputInlineQueryResultDocument *InputInlineQueryResultDocument) MessageTyp
 // @param thumbnailWidth Width of the thumbnail
 // @param thumbnailHeight Height of the thumbnail
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageDocument, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageDocument, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultDocument(iD string, title string, description string, documentURL string, mimeType string, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultDocument {
 	inputInlineQueryResultDocumentTemp := InputInlineQueryResultDocument{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultDocument"},
@@ -646,7 +646,7 @@ type InputInlineQueryResultLocation struct {
 	ThumbnailWidth      int32               `json:"thumbnail_width"`       // Thumbnail width, if known
 	ThumbnailHeight     int32               `json:"thumbnail_height"`      // Thumbnail height, if known
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultLocation
@@ -664,7 +664,7 @@ func (inputInlineQueryResultLocation *InputInlineQueryResultLocation) MessageTyp
 // @param thumbnailWidth Thumbnail width, if known
 // @param thumbnailHeight Thumbnail height, if known
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultLocation(iD string, location *Location, livePeriod int32, title string, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultLocation {
 	inputInlineQueryResultLocationTemp := InputInlineQueryResultLocation{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultLocation"},
@@ -739,7 +739,7 @@ type InputInlineQueryResultPhoto struct {
 	PhotoWidth          int32               `json:"photo_width"`           // Width of the photo
 	PhotoHeight         int32               `json:"photo_height"`          // Height of the photo
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessagePhoto, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultPhoto
@@ -757,7 +757,7 @@ func (inputInlineQueryResultPhoto *InputInlineQueryResultPhoto) MessageType() st
 // @param photoWidth Width of the photo
 // @param photoHeight Height of the photo
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessagePhoto, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultPhoto(iD string, title string, description string, thumbnailURL string, photoURL string, photoWidth int32, photoHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultPhoto {
 	inputInlineQueryResultPhotoTemp := InputInlineQueryResultPhoto{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultPhoto"},
@@ -830,7 +830,7 @@ type InputInlineQueryResultSticker struct {
 	StickerWidth        int32               `json:"sticker_width"`         // Width of the sticker
 	StickerHeight       int32               `json:"sticker_height"`        // Height of the sticker
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, inputMessageSticker, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageSticker, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultSticker
@@ -846,7 +846,7 @@ func (inputInlineQueryResultSticker *InputInlineQueryResultSticker) MessageType(
 // @param stickerWidth Width of the sticker
 // @param stickerHeight Height of the sticker
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, inputMessageSticker, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageSticker, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultSticker(iD string, thumbnailURL string, stickerURL string, stickerWidth int32, stickerHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultSticker {
 	inputInlineQueryResultStickerTemp := InputInlineQueryResultSticker{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultSticker"},
@@ -913,7 +913,7 @@ type InputInlineQueryResultVenue struct {
 	ThumbnailWidth      int32               `json:"thumbnail_width"`       // Thumbnail width, if known
 	ThumbnailHeight     int32               `json:"thumbnail_height"`      // Thumbnail height, if known
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultVenue
@@ -929,7 +929,7 @@ func (inputInlineQueryResultVenue *InputInlineQueryResultVenue) MessageType() st
 // @param thumbnailWidth Thumbnail width, if known
 // @param thumbnailHeight Thumbnail height, if known
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultVenue(iD string, venue *Venue, thumbnailURL string, thumbnailWidth int32, thumbnailHeight int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultVenue {
 	inputInlineQueryResultVenueTemp := InputInlineQueryResultVenue{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultVenue"},
@@ -1000,7 +1000,7 @@ type InputInlineQueryResultVideo struct {
 	VideoHeight         int32               `json:"video_height"`          // Height of the video
 	VideoDuration       int32               `json:"video_duration"`        // Video duration, in seconds
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVideo, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultVideo
@@ -1020,7 +1020,7 @@ func (inputInlineQueryResultVideo *InputInlineQueryResultVideo) MessageType() st
 // @param videoHeight Height of the video
 // @param videoDuration Video duration, in seconds
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVideo, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultVideo(iD string, title string, description string, thumbnailURL string, videoURL string, mimeType string, videoWidth int32, videoHeight int32, videoDuration int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultVideo {
 	inputInlineQueryResultVideoTemp := InputInlineQueryResultVideo{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultVideo"},
@@ -1098,7 +1098,7 @@ type InputInlineQueryResultVoiceNote struct {
 	VoiceNoteURL        string              `json:"voice_note_url"`        // The URL of the voice note file
 	VoiceNoteDuration   int32               `json:"voice_note_duration"`   // Duration of the voice note, in seconds
 	ReplyMarkup         ReplyMarkup         `json:"reply_markup"`          // The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVoiceNote, InputMessageLocation, InputMessageVenue or InputMessageContact
+	InputMessageContent InputMessageContent `json:"input_message_content"` // The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 }
 
 // MessageType return the string telegram-type of InputInlineQueryResultVoiceNote
@@ -1113,7 +1113,7 @@ func (inputInlineQueryResultVoiceNote *InputInlineQueryResultVoiceNote) MessageT
 // @param voiceNoteURL The URL of the voice note file
 // @param voiceNoteDuration Duration of the voice note, in seconds
 // @param replyMarkup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-// @param inputMessageContent The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVoiceNote, InputMessageLocation, InputMessageVenue or InputMessageContact
+// @param inputMessageContent The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
 func NewInputInlineQueryResultVoiceNote(iD string, title string, voiceNoteURL string, voiceNoteDuration int32, replyMarkup ReplyMarkup, inputMessageContent InputMessageContent) *InputInlineQueryResultVoiceNote {
 	inputInlineQueryResultVoiceNoteTemp := InputInlineQueryResultVoiceNote{
 		tdCommon:            tdCommon{Type: "inputInlineQueryResultVoiceNote"},

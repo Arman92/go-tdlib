@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetPasswordState Returns the current state of 2-step verification
@@ -20,7 +19,7 @@ func (client *Client) GetPasswordState() (*tdlib.PasswordState, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passwordState tdlib.PasswordState
@@ -29,7 +28,7 @@ func (client *Client) GetPasswordState() (*tdlib.PasswordState, error) {
 
 }
 
-// SetPassword Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
+// SetPassword Changes the password for the current user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
 // @param oldPassword Previous password of the user
 // @param newPassword New password of the user; may be empty to remove the password
 // @param newHint New password hint; may be empty
@@ -50,7 +49,7 @@ func (client *Client) SetPassword(oldPassword string, newPassword string, newHin
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passwordState tdlib.PasswordState
@@ -74,7 +73,7 @@ func (client *Client) SetRecoveryEmailAddress(password string, newRecoveryEmailA
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passwordState tdlib.PasswordState
@@ -96,7 +95,7 @@ func (client *Client) CheckRecoveryEmailAddressCode(code string) (*tdlib.Passwor
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passwordState tdlib.PasswordState
@@ -116,7 +115,7 @@ func (client *Client) ResendRecoveryEmailAddressCode() (*tdlib.PasswordState, er
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passwordState tdlib.PasswordState
@@ -125,12 +124,16 @@ func (client *Client) ResendRecoveryEmailAddressCode() (*tdlib.PasswordState, er
 
 }
 
-// RecoverPassword Recovers the password using a recovery code sent to an email address that was previously set up
+// RecoverPassword Recovers the 2-step verification password using a recovery code sent to an email address that was previously set up
 // @param recoveryCode Recovery code to check
-func (client *Client) RecoverPassword(recoveryCode string) (*tdlib.PasswordState, error) {
+// @param newPassword New password of the user; may be empty to remove the password
+// @param newHint New password hint; may be empty
+func (client *Client) RecoverPassword(recoveryCode string, newPassword string, newHint string) (*tdlib.PasswordState, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":         "recoverPassword",
 		"recovery_code": recoveryCode,
+		"new_password":  newPassword,
+		"new_hint":      newHint,
 	})
 
 	if err != nil {
@@ -138,7 +141,7 @@ func (client *Client) RecoverPassword(recoveryCode string) (*tdlib.PasswordState
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var passwordState tdlib.PasswordState

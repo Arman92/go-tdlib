@@ -5,7 +5,7 @@ package tdlib
 // ChatStatisticsInviterInfo Contains statistics about number of new members invited by a user
 type ChatStatisticsInviterInfo struct {
 	tdCommon
-	UserID           int32 `json:"user_id"`            // User identifier
+	UserID           int64 `json:"user_id"`            // User identifier
 	AddedMemberCount int32 `json:"added_member_count"` // Number of new members invited by the user
 }
 
@@ -18,7 +18,7 @@ func (chatStatisticsInviterInfo *ChatStatisticsInviterInfo) MessageType() string
 //
 // @param userID User identifier
 // @param addedMemberCount Number of new members invited by the user
-func NewChatStatisticsInviterInfo(userID int32, addedMemberCount int32) *ChatStatisticsInviterInfo {
+func NewChatStatisticsInviterInfo(userID int64, addedMemberCount int32) *ChatStatisticsInviterInfo {
 	chatStatisticsInviterInfoTemp := ChatStatisticsInviterInfo{
 		tdCommon:         tdCommon{Type: "chatStatisticsInviterInfo"},
 		UserID:           userID,

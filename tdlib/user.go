@@ -9,7 +9,7 @@ import (
 // User Represents a user
 type User struct {
 	tdCommon
-	ID                int32         `json:"id"`                 // User identifier
+	ID                int64         `json:"id"`                 // User identifier
 	FirstName         string        `json:"first_name"`         // First name of the user
 	LastName          string        `json:"last_name"`          // Last name of the user
 	Username          string        `json:"username"`           // Username of the user
@@ -22,6 +22,7 @@ type User struct {
 	IsSupport         bool          `json:"is_support"`         // True, if the user is Telegram support account
 	RestrictionReason string        `json:"restriction_reason"` // If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
 	IsScam            bool          `json:"is_scam"`            // True, if many users reported this user as a scam
+	IsFake            bool          `json:"is_fake"`            // True, if many users reported this user as a fake account
 	HaveAccess        bool          `json:"have_access"`        // If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 	Type              UserType      `json:"type"`               // Type of the user
 	LanguageCode      string        `json:"language_code"`      // IETF language tag of the user's language; only available to bots
@@ -47,10 +48,11 @@ func (user *User) MessageType() string {
 // @param isSupport True, if the user is Telegram support account
 // @param restrictionReason If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
 // @param isScam True, if many users reported this user as a scam
+// @param isFake True, if many users reported this user as a fake account
 // @param haveAccess If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 // @param typeParam Type of the user
 // @param languageCode IETF language tag of the user's language; only available to bots
-func NewUser(iD int32, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, isContact bool, isMutualContact bool, isVerified bool, isSupport bool, restrictionReason string, isScam bool, haveAccess bool, typeParam UserType, languageCode string) *User {
+func NewUser(iD int64, firstName string, lastName string, username string, phoneNumber string, status UserStatus, profilePhoto *ProfilePhoto, isContact bool, isMutualContact bool, isVerified bool, isSupport bool, restrictionReason string, isScam bool, isFake bool, haveAccess bool, typeParam UserType, languageCode string) *User {
 	userTemp := User{
 		tdCommon:          tdCommon{Type: "user"},
 		ID:                iD,
@@ -66,6 +68,7 @@ func NewUser(iD int32, firstName string, lastName string, username string, phone
 		IsSupport:         isSupport,
 		RestrictionReason: restrictionReason,
 		IsScam:            isScam,
+		IsFake:            isFake,
 		HaveAccess:        haveAccess,
 		Type:              typeParam,
 		LanguageCode:      languageCode,
@@ -83,7 +86,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		ID                int32         `json:"id"`                 // User identifier
+		ID                int64         `json:"id"`                 // User identifier
 		FirstName         string        `json:"first_name"`         // First name of the user
 		LastName          string        `json:"last_name"`          // Last name of the user
 		Username          string        `json:"username"`           // Username of the user
@@ -95,6 +98,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 		IsSupport         bool          `json:"is_support"`         // True, if the user is Telegram support account
 		RestrictionReason string        `json:"restriction_reason"` // If non-empty, it contains a human-readable description of the reason why access to this user must be restricted
 		IsScam            bool          `json:"is_scam"`            // True, if many users reported this user as a scam
+		IsFake            bool          `json:"is_fake"`            // True, if many users reported this user as a fake account
 		HaveAccess        bool          `json:"have_access"`        // If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
 		LanguageCode      string        `json:"language_code"`      // IETF language tag of the user's language; only available to bots
 	}{}
@@ -116,6 +120,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	user.IsSupport = tempObj.IsSupport
 	user.RestrictionReason = tempObj.RestrictionReason
 	user.IsScam = tempObj.IsScam
+	user.IsFake = tempObj.IsFake
 	user.HaveAccess = tempObj.HaveAccess
 	user.LanguageCode = tempObj.LanguageCode
 

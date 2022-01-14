@@ -5,11 +5,12 @@ package tdlib
 // MessageThreadInfo Contains information about a message thread
 type MessageThreadInfo struct {
 	tdCommon
-	ChatID          int64             `json:"chat_id"`           // Identifier of the chat to which the message thread belongs
-	MessageThreadID int64             `json:"message_thread_id"` // Message thread identifier, unique within the chat
-	ReplyInfo       *MessageReplyInfo `json:"reply_info"`        // Contains information about the message thread
-	Messages        []Message         `json:"messages"`          // The messages from which the thread starts. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id)
-	DraftMessage    *DraftMessage     `json:"draft_message"`     // A draft of a message in the message thread; may be null
+	ChatID             int64             `json:"chat_id"`              // Identifier of the chat to which the message thread belongs
+	MessageThreadID    int64             `json:"message_thread_id"`    // Message thread identifier, unique within the chat
+	ReplyInfo          *MessageReplyInfo `json:"reply_info"`           // Contains information about the message thread
+	UnreadMessageCount int32             `json:"unread_message_count"` // Approximate number of unread messages in the message thread
+	Messages           []Message         `json:"messages"`             // The messages from which the thread starts. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id)
+	DraftMessage       *DraftMessage     `json:"draft_message"`        // A draft of a message in the message thread; may be null
 }
 
 // MessageType return the string telegram-type of MessageThreadInfo
@@ -22,16 +23,18 @@ func (messageThreadInfo *MessageThreadInfo) MessageType() string {
 // @param chatID Identifier of the chat to which the message thread belongs
 // @param messageThreadID Message thread identifier, unique within the chat
 // @param replyInfo Contains information about the message thread
+// @param unreadMessageCount Approximate number of unread messages in the message thread
 // @param messages The messages from which the thread starts. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id)
 // @param draftMessage A draft of a message in the message thread; may be null
-func NewMessageThreadInfo(chatID int64, messageThreadID int64, replyInfo *MessageReplyInfo, messages []Message, draftMessage *DraftMessage) *MessageThreadInfo {
+func NewMessageThreadInfo(chatID int64, messageThreadID int64, replyInfo *MessageReplyInfo, unreadMessageCount int32, messages []Message, draftMessage *DraftMessage) *MessageThreadInfo {
 	messageThreadInfoTemp := MessageThreadInfo{
-		tdCommon:        tdCommon{Type: "messageThreadInfo"},
-		ChatID:          chatID,
-		MessageThreadID: messageThreadID,
-		ReplyInfo:       replyInfo,
-		Messages:        messages,
-		DraftMessage:    draftMessage,
+		tdCommon:           tdCommon{Type: "messageThreadInfo"},
+		ChatID:             chatID,
+		MessageThreadID:    messageThreadID,
+		ReplyInfo:          replyInfo,
+		UnreadMessageCount: unreadMessageCount,
+		Messages:           messages,
+		DraftMessage:       draftMessage,
 	}
 
 	return &messageThreadInfoTemp

@@ -51,7 +51,7 @@ func unmarshalMessageSender(rawMsg *json.RawMessage) (MessageSender, error) {
 // MessageSenderUser The message was sent by a known user
 type MessageSenderUser struct {
 	tdCommon
-	UserID int32 `json:"user_id"` // Identifier of the user that sent the message
+	UserID int64 `json:"user_id"` // Identifier of the user that sent the message
 }
 
 // MessageType return the string telegram-type of MessageSenderUser
@@ -62,7 +62,7 @@ func (messageSenderUser *MessageSenderUser) MessageType() string {
 // NewMessageSenderUser creates a new MessageSenderUser
 //
 // @param userID Identifier of the user that sent the message
-func NewMessageSenderUser(userID int32) *MessageSenderUser {
+func NewMessageSenderUser(userID int64) *MessageSenderUser {
 	messageSenderUserTemp := MessageSenderUser{
 		tdCommon: tdCommon{Type: "messageSenderUser"},
 		UserID:   userID,

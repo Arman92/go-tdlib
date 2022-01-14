@@ -18,7 +18,10 @@ type SuggestedActionEnum string
 // SuggestedAction enums
 const (
 	SuggestedActionEnableArchiveAndMuteNewChatsType SuggestedActionEnum = "suggestedActionEnableArchiveAndMuteNewChats"
+	SuggestedActionCheckPasswordType                SuggestedActionEnum = "suggestedActionCheckPassword"
 	SuggestedActionCheckPhoneNumberType             SuggestedActionEnum = "suggestedActionCheckPhoneNumber"
+	SuggestedActionSeeTicksHintType                 SuggestedActionEnum = "suggestedActionSeeTicksHint"
+	SuggestedActionConvertToBroadcastGroupType      SuggestedActionEnum = "suggestedActionConvertToBroadcastGroup"
 )
 
 func unmarshalSuggestedAction(rawMsg *json.RawMessage) (SuggestedAction, error) {
@@ -38,10 +41,25 @@ func unmarshalSuggestedAction(rawMsg *json.RawMessage) (SuggestedAction, error) 
 		err := json.Unmarshal(*rawMsg, &suggestedActionEnableArchiveAndMuteNewChats)
 		return &suggestedActionEnableArchiveAndMuteNewChats, err
 
+	case SuggestedActionCheckPasswordType:
+		var suggestedActionCheckPassword SuggestedActionCheckPassword
+		err := json.Unmarshal(*rawMsg, &suggestedActionCheckPassword)
+		return &suggestedActionCheckPassword, err
+
 	case SuggestedActionCheckPhoneNumberType:
 		var suggestedActionCheckPhoneNumber SuggestedActionCheckPhoneNumber
 		err := json.Unmarshal(*rawMsg, &suggestedActionCheckPhoneNumber)
 		return &suggestedActionCheckPhoneNumber, err
+
+	case SuggestedActionSeeTicksHintType:
+		var suggestedActionSeeTicksHint SuggestedActionSeeTicksHint
+		err := json.Unmarshal(*rawMsg, &suggestedActionSeeTicksHint)
+		return &suggestedActionSeeTicksHint, err
+
+	case SuggestedActionConvertToBroadcastGroupType:
+		var suggestedActionConvertToBroadcastGroup SuggestedActionConvertToBroadcastGroup
+		err := json.Unmarshal(*rawMsg, &suggestedActionConvertToBroadcastGroup)
+		return &suggestedActionConvertToBroadcastGroup, err
 
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
@@ -73,7 +91,32 @@ func (suggestedActionEnableArchiveAndMuteNewChats *SuggestedActionEnableArchiveA
 	return SuggestedActionEnableArchiveAndMuteNewChatsType
 }
 
-// SuggestedActionCheckPhoneNumber Suggests the user to check authorization phone number and change the phone number if it is inaccessible
+// SuggestedActionCheckPassword Suggests the user to check whether 2-step verification password is still remembered
+type SuggestedActionCheckPassword struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of SuggestedActionCheckPassword
+func (suggestedActionCheckPassword *SuggestedActionCheckPassword) MessageType() string {
+	return "suggestedActionCheckPassword"
+}
+
+// NewSuggestedActionCheckPassword creates a new SuggestedActionCheckPassword
+//
+func NewSuggestedActionCheckPassword() *SuggestedActionCheckPassword {
+	suggestedActionCheckPasswordTemp := SuggestedActionCheckPassword{
+		tdCommon: tdCommon{Type: "suggestedActionCheckPassword"},
+	}
+
+	return &suggestedActionCheckPasswordTemp
+}
+
+// GetSuggestedActionEnum return the enum type of this object
+func (suggestedActionCheckPassword *SuggestedActionCheckPassword) GetSuggestedActionEnum() SuggestedActionEnum {
+	return SuggestedActionCheckPasswordType
+}
+
+// SuggestedActionCheckPhoneNumber Suggests the user to check whether authorization phone number is correct and change the phone number if it is inaccessible
 type SuggestedActionCheckPhoneNumber struct {
 	tdCommon
 }
@@ -96,4 +139,57 @@ func NewSuggestedActionCheckPhoneNumber() *SuggestedActionCheckPhoneNumber {
 // GetSuggestedActionEnum return the enum type of this object
 func (suggestedActionCheckPhoneNumber *SuggestedActionCheckPhoneNumber) GetSuggestedActionEnum() SuggestedActionEnum {
 	return SuggestedActionCheckPhoneNumberType
+}
+
+// SuggestedActionSeeTicksHint Suggests the user to see a hint about meaning of one and two ticks on sent message
+type SuggestedActionSeeTicksHint struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of SuggestedActionSeeTicksHint
+func (suggestedActionSeeTicksHint *SuggestedActionSeeTicksHint) MessageType() string {
+	return "suggestedActionSeeTicksHint"
+}
+
+// NewSuggestedActionSeeTicksHint creates a new SuggestedActionSeeTicksHint
+//
+func NewSuggestedActionSeeTicksHint() *SuggestedActionSeeTicksHint {
+	suggestedActionSeeTicksHintTemp := SuggestedActionSeeTicksHint{
+		tdCommon: tdCommon{Type: "suggestedActionSeeTicksHint"},
+	}
+
+	return &suggestedActionSeeTicksHintTemp
+}
+
+// GetSuggestedActionEnum return the enum type of this object
+func (suggestedActionSeeTicksHint *SuggestedActionSeeTicksHint) GetSuggestedActionEnum() SuggestedActionEnum {
+	return SuggestedActionSeeTicksHintType
+}
+
+// SuggestedActionConvertToBroadcastGroup Suggests the user to convert specified supergroup to a broadcast group
+type SuggestedActionConvertToBroadcastGroup struct {
+	tdCommon
+	SupergroupID int64 `json:"supergroup_id"` // Supergroup identifier
+}
+
+// MessageType return the string telegram-type of SuggestedActionConvertToBroadcastGroup
+func (suggestedActionConvertToBroadcastGroup *SuggestedActionConvertToBroadcastGroup) MessageType() string {
+	return "suggestedActionConvertToBroadcastGroup"
+}
+
+// NewSuggestedActionConvertToBroadcastGroup creates a new SuggestedActionConvertToBroadcastGroup
+//
+// @param supergroupID Supergroup identifier
+func NewSuggestedActionConvertToBroadcastGroup(supergroupID int64) *SuggestedActionConvertToBroadcastGroup {
+	suggestedActionConvertToBroadcastGroupTemp := SuggestedActionConvertToBroadcastGroup{
+		tdCommon:     tdCommon{Type: "suggestedActionConvertToBroadcastGroup"},
+		SupergroupID: supergroupID,
+	}
+
+	return &suggestedActionConvertToBroadcastGroupTemp
+}
+
+// GetSuggestedActionEnum return the enum type of this object
+func (suggestedActionConvertToBroadcastGroup *SuggestedActionConvertToBroadcastGroup) GetSuggestedActionEnum() SuggestedActionEnum {
+	return SuggestedActionConvertToBroadcastGroupType
 }

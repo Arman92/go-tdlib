@@ -6,11 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // CheckChatUsername Checks whether a username can be set for a chat
-// @param chatID Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created
+// @param chatID Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if the chat is being created
 // @param username Username to be checked
 func (client *Client) CheckChatUsername(chatID int64, username string) (tdlib.CheckChatUsernameResult, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -24,7 +24,7 @@ func (client *Client) CheckChatUsername(chatID int64, username string) (tdlib.Ch
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	switch tdlib.CheckChatUsernameResultEnum(result.Data["@type"].(string)) {

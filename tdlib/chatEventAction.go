@@ -17,28 +17,38 @@ type ChatEventActionEnum string
 
 // ChatEventAction enums
 const (
-	ChatEventMessageEditedType                ChatEventActionEnum = "chatEventMessageEdited"
-	ChatEventMessageDeletedType               ChatEventActionEnum = "chatEventMessageDeleted"
-	ChatEventPollStoppedType                  ChatEventActionEnum = "chatEventPollStopped"
-	ChatEventMessagePinnedType                ChatEventActionEnum = "chatEventMessagePinned"
-	ChatEventMessageUnpinnedType              ChatEventActionEnum = "chatEventMessageUnpinned"
-	ChatEventMemberJoinedType                 ChatEventActionEnum = "chatEventMemberJoined"
-	ChatEventMemberLeftType                   ChatEventActionEnum = "chatEventMemberLeft"
-	ChatEventMemberInvitedType                ChatEventActionEnum = "chatEventMemberInvited"
-	ChatEventMemberPromotedType               ChatEventActionEnum = "chatEventMemberPromoted"
-	ChatEventMemberRestrictedType             ChatEventActionEnum = "chatEventMemberRestricted"
-	ChatEventTitleChangedType                 ChatEventActionEnum = "chatEventTitleChanged"
-	ChatEventPermissionsChangedType           ChatEventActionEnum = "chatEventPermissionsChanged"
-	ChatEventDescriptionChangedType           ChatEventActionEnum = "chatEventDescriptionChanged"
-	ChatEventUsernameChangedType              ChatEventActionEnum = "chatEventUsernameChanged"
-	ChatEventPhotoChangedType                 ChatEventActionEnum = "chatEventPhotoChanged"
-	ChatEventInvitesToggledType               ChatEventActionEnum = "chatEventInvitesToggled"
-	ChatEventLinkedChatChangedType            ChatEventActionEnum = "chatEventLinkedChatChanged"
-	ChatEventSlowModeDelayChangedType         ChatEventActionEnum = "chatEventSlowModeDelayChanged"
-	ChatEventSignMessagesToggledType          ChatEventActionEnum = "chatEventSignMessagesToggled"
-	ChatEventStickerSetChangedType            ChatEventActionEnum = "chatEventStickerSetChanged"
-	ChatEventLocationChangedType              ChatEventActionEnum = "chatEventLocationChanged"
-	ChatEventIsAllHistoryAvailableToggledType ChatEventActionEnum = "chatEventIsAllHistoryAvailableToggled"
+	ChatEventMessageEditedType                          ChatEventActionEnum = "chatEventMessageEdited"
+	ChatEventMessageDeletedType                         ChatEventActionEnum = "chatEventMessageDeleted"
+	ChatEventPollStoppedType                            ChatEventActionEnum = "chatEventPollStopped"
+	ChatEventMessagePinnedType                          ChatEventActionEnum = "chatEventMessagePinned"
+	ChatEventMessageUnpinnedType                        ChatEventActionEnum = "chatEventMessageUnpinned"
+	ChatEventMemberJoinedType                           ChatEventActionEnum = "chatEventMemberJoined"
+	ChatEventMemberJoinedByInviteLinkType               ChatEventActionEnum = "chatEventMemberJoinedByInviteLink"
+	ChatEventMemberLeftType                             ChatEventActionEnum = "chatEventMemberLeft"
+	ChatEventMemberInvitedType                          ChatEventActionEnum = "chatEventMemberInvited"
+	ChatEventMemberPromotedType                         ChatEventActionEnum = "chatEventMemberPromoted"
+	ChatEventMemberRestrictedType                       ChatEventActionEnum = "chatEventMemberRestricted"
+	ChatEventTitleChangedType                           ChatEventActionEnum = "chatEventTitleChanged"
+	ChatEventPermissionsChangedType                     ChatEventActionEnum = "chatEventPermissionsChanged"
+	ChatEventDescriptionChangedType                     ChatEventActionEnum = "chatEventDescriptionChanged"
+	ChatEventUsernameChangedType                        ChatEventActionEnum = "chatEventUsernameChanged"
+	ChatEventPhotoChangedType                           ChatEventActionEnum = "chatEventPhotoChanged"
+	ChatEventInvitesToggledType                         ChatEventActionEnum = "chatEventInvitesToggled"
+	ChatEventLinkedChatChangedType                      ChatEventActionEnum = "chatEventLinkedChatChanged"
+	ChatEventSlowModeDelayChangedType                   ChatEventActionEnum = "chatEventSlowModeDelayChanged"
+	ChatEventMessageTTLSettingChangedType               ChatEventActionEnum = "chatEventMessageTtlSettingChanged"
+	ChatEventSignMessagesToggledType                    ChatEventActionEnum = "chatEventSignMessagesToggled"
+	ChatEventStickerSetChangedType                      ChatEventActionEnum = "chatEventStickerSetChanged"
+	ChatEventLocationChangedType                        ChatEventActionEnum = "chatEventLocationChanged"
+	ChatEventIsAllHistoryAvailableToggledType           ChatEventActionEnum = "chatEventIsAllHistoryAvailableToggled"
+	ChatEventInviteLinkEditedType                       ChatEventActionEnum = "chatEventInviteLinkEdited"
+	ChatEventInviteLinkRevokedType                      ChatEventActionEnum = "chatEventInviteLinkRevoked"
+	ChatEventInviteLinkDeletedType                      ChatEventActionEnum = "chatEventInviteLinkDeleted"
+	ChatEventVoiceChatCreatedType                       ChatEventActionEnum = "chatEventVoiceChatCreated"
+	ChatEventVoiceChatDiscardedType                     ChatEventActionEnum = "chatEventVoiceChatDiscarded"
+	ChatEventVoiceChatParticipantIsMutedToggledType     ChatEventActionEnum = "chatEventVoiceChatParticipantIsMutedToggled"
+	ChatEventVoiceChatParticipantVolumeLevelChangedType ChatEventActionEnum = "chatEventVoiceChatParticipantVolumeLevelChanged"
+	ChatEventVoiceChatMuteNewParticipantsToggledType    ChatEventActionEnum = "chatEventVoiceChatMuteNewParticipantsToggled"
 )
 
 func unmarshalChatEventAction(rawMsg *json.RawMessage) (ChatEventAction, error) {
@@ -82,6 +92,11 @@ func unmarshalChatEventAction(rawMsg *json.RawMessage) (ChatEventAction, error) 
 		var chatEventMemberJoined ChatEventMemberJoined
 		err := json.Unmarshal(*rawMsg, &chatEventMemberJoined)
 		return &chatEventMemberJoined, err
+
+	case ChatEventMemberJoinedByInviteLinkType:
+		var chatEventMemberJoinedByInviteLink ChatEventMemberJoinedByInviteLink
+		err := json.Unmarshal(*rawMsg, &chatEventMemberJoinedByInviteLink)
+		return &chatEventMemberJoinedByInviteLink, err
 
 	case ChatEventMemberLeftType:
 		var chatEventMemberLeft ChatEventMemberLeft
@@ -143,6 +158,11 @@ func unmarshalChatEventAction(rawMsg *json.RawMessage) (ChatEventAction, error) 
 		err := json.Unmarshal(*rawMsg, &chatEventSlowModeDelayChanged)
 		return &chatEventSlowModeDelayChanged, err
 
+	case ChatEventMessageTTLSettingChangedType:
+		var chatEventMessageTTLSettingChanged ChatEventMessageTTLSettingChanged
+		err := json.Unmarshal(*rawMsg, &chatEventMessageTTLSettingChanged)
+		return &chatEventMessageTTLSettingChanged, err
+
 	case ChatEventSignMessagesToggledType:
 		var chatEventSignMessagesToggled ChatEventSignMessagesToggled
 		err := json.Unmarshal(*rawMsg, &chatEventSignMessagesToggled)
@@ -162,6 +182,46 @@ func unmarshalChatEventAction(rawMsg *json.RawMessage) (ChatEventAction, error) 
 		var chatEventIsAllHistoryAvailableToggled ChatEventIsAllHistoryAvailableToggled
 		err := json.Unmarshal(*rawMsg, &chatEventIsAllHistoryAvailableToggled)
 		return &chatEventIsAllHistoryAvailableToggled, err
+
+	case ChatEventInviteLinkEditedType:
+		var chatEventInviteLinkEdited ChatEventInviteLinkEdited
+		err := json.Unmarshal(*rawMsg, &chatEventInviteLinkEdited)
+		return &chatEventInviteLinkEdited, err
+
+	case ChatEventInviteLinkRevokedType:
+		var chatEventInviteLinkRevoked ChatEventInviteLinkRevoked
+		err := json.Unmarshal(*rawMsg, &chatEventInviteLinkRevoked)
+		return &chatEventInviteLinkRevoked, err
+
+	case ChatEventInviteLinkDeletedType:
+		var chatEventInviteLinkDeleted ChatEventInviteLinkDeleted
+		err := json.Unmarshal(*rawMsg, &chatEventInviteLinkDeleted)
+		return &chatEventInviteLinkDeleted, err
+
+	case ChatEventVoiceChatCreatedType:
+		var chatEventVoiceChatCreated ChatEventVoiceChatCreated
+		err := json.Unmarshal(*rawMsg, &chatEventVoiceChatCreated)
+		return &chatEventVoiceChatCreated, err
+
+	case ChatEventVoiceChatDiscardedType:
+		var chatEventVoiceChatDiscarded ChatEventVoiceChatDiscarded
+		err := json.Unmarshal(*rawMsg, &chatEventVoiceChatDiscarded)
+		return &chatEventVoiceChatDiscarded, err
+
+	case ChatEventVoiceChatParticipantIsMutedToggledType:
+		var chatEventVoiceChatParticipantIsMutedToggled ChatEventVoiceChatParticipantIsMutedToggled
+		err := json.Unmarshal(*rawMsg, &chatEventVoiceChatParticipantIsMutedToggled)
+		return &chatEventVoiceChatParticipantIsMutedToggled, err
+
+	case ChatEventVoiceChatParticipantVolumeLevelChangedType:
+		var chatEventVoiceChatParticipantVolumeLevelChanged ChatEventVoiceChatParticipantVolumeLevelChanged
+		err := json.Unmarshal(*rawMsg, &chatEventVoiceChatParticipantVolumeLevelChanged)
+		return &chatEventVoiceChatParticipantVolumeLevelChanged, err
+
+	case ChatEventVoiceChatMuteNewParticipantsToggledType:
+		var chatEventVoiceChatMuteNewParticipantsToggled ChatEventVoiceChatMuteNewParticipantsToggled
+		err := json.Unmarshal(*rawMsg, &chatEventVoiceChatMuteNewParticipantsToggled)
+		return &chatEventVoiceChatMuteNewParticipantsToggled, err
 
 	default:
 		return nil, fmt.Errorf("Error UnMarshaling, unknown type:" + objMap["@type"].(string))
@@ -336,6 +396,34 @@ func (chatEventMemberJoined *ChatEventMemberJoined) GetChatEventActionEnum() Cha
 	return ChatEventMemberJoinedType
 }
 
+// ChatEventMemberJoinedByInviteLink A new member joined the chat by an invite link
+type ChatEventMemberJoinedByInviteLink struct {
+	tdCommon
+	InviteLink *ChatInviteLink `json:"invite_link"` // Invite link used to join the chat
+}
+
+// MessageType return the string telegram-type of ChatEventMemberJoinedByInviteLink
+func (chatEventMemberJoinedByInviteLink *ChatEventMemberJoinedByInviteLink) MessageType() string {
+	return "chatEventMemberJoinedByInviteLink"
+}
+
+// NewChatEventMemberJoinedByInviteLink creates a new ChatEventMemberJoinedByInviteLink
+//
+// @param inviteLink Invite link used to join the chat
+func NewChatEventMemberJoinedByInviteLink(inviteLink *ChatInviteLink) *ChatEventMemberJoinedByInviteLink {
+	chatEventMemberJoinedByInviteLinkTemp := ChatEventMemberJoinedByInviteLink{
+		tdCommon:   tdCommon{Type: "chatEventMemberJoinedByInviteLink"},
+		InviteLink: inviteLink,
+	}
+
+	return &chatEventMemberJoinedByInviteLinkTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventMemberJoinedByInviteLink *ChatEventMemberJoinedByInviteLink) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventMemberJoinedByInviteLinkType
+}
+
 // ChatEventMemberLeft A member left the chat
 type ChatEventMemberLeft struct {
 	tdCommon
@@ -364,7 +452,7 @@ func (chatEventMemberLeft *ChatEventMemberLeft) GetChatEventActionEnum() ChatEve
 // ChatEventMemberInvited A new chat member was invited
 type ChatEventMemberInvited struct {
 	tdCommon
-	UserID int32            `json:"user_id"` // New member user identifier
+	UserID int64            `json:"user_id"` // New member user identifier
 	Status ChatMemberStatus `json:"status"`  // New member status
 }
 
@@ -377,7 +465,7 @@ func (chatEventMemberInvited *ChatEventMemberInvited) MessageType() string {
 //
 // @param userID New member user identifier
 // @param status New member status
-func NewChatEventMemberInvited(userID int32, status ChatMemberStatus) *ChatEventMemberInvited {
+func NewChatEventMemberInvited(userID int64, status ChatMemberStatus) *ChatEventMemberInvited {
 	chatEventMemberInvitedTemp := ChatEventMemberInvited{
 		tdCommon: tdCommon{Type: "chatEventMemberInvited"},
 		UserID:   userID,
@@ -396,7 +484,7 @@ func (chatEventMemberInvited *ChatEventMemberInvited) UnmarshalJSON(b []byte) er
 	}
 	tempObj := struct {
 		tdCommon
-		UserID int32 `json:"user_id"` // New member user identifier
+		UserID int64 `json:"user_id"` // New member user identifier
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -421,7 +509,7 @@ func (chatEventMemberInvited *ChatEventMemberInvited) GetChatEventActionEnum() C
 // ChatEventMemberPromoted A chat member has gained/lost administrator status, or the list of their administrator privileges has changed
 type ChatEventMemberPromoted struct {
 	tdCommon
-	UserID    int32            `json:"user_id"`    // Chat member user identifier
+	UserID    int64            `json:"user_id"`    // Affected chat member user identifier
 	OldStatus ChatMemberStatus `json:"old_status"` // Previous status of the chat member
 	NewStatus ChatMemberStatus `json:"new_status"` // New status of the chat member
 }
@@ -433,10 +521,10 @@ func (chatEventMemberPromoted *ChatEventMemberPromoted) MessageType() string {
 
 // NewChatEventMemberPromoted creates a new ChatEventMemberPromoted
 //
-// @param userID Chat member user identifier
+// @param userID Affected chat member user identifier
 // @param oldStatus Previous status of the chat member
 // @param newStatus New status of the chat member
-func NewChatEventMemberPromoted(userID int32, oldStatus ChatMemberStatus, newStatus ChatMemberStatus) *ChatEventMemberPromoted {
+func NewChatEventMemberPromoted(userID int64, oldStatus ChatMemberStatus, newStatus ChatMemberStatus) *ChatEventMemberPromoted {
 	chatEventMemberPromotedTemp := ChatEventMemberPromoted{
 		tdCommon:  tdCommon{Type: "chatEventMemberPromoted"},
 		UserID:    userID,
@@ -456,7 +544,7 @@ func (chatEventMemberPromoted *ChatEventMemberPromoted) UnmarshalJSON(b []byte) 
 	}
 	tempObj := struct {
 		tdCommon
-		UserID int32 `json:"user_id"` // Chat member user identifier
+		UserID int64 `json:"user_id"` // Affected chat member user identifier
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)
@@ -484,7 +572,7 @@ func (chatEventMemberPromoted *ChatEventMemberPromoted) GetChatEventActionEnum()
 // ChatEventMemberRestricted A chat member was restricted/unrestricted or banned/unbanned, or the list of their restrictions has changed
 type ChatEventMemberRestricted struct {
 	tdCommon
-	UserID    int32            `json:"user_id"`    // Chat member user identifier
+	MemberID  MessageSender    `json:"member_id"`  // Affected chat member identifier
 	OldStatus ChatMemberStatus `json:"old_status"` // Previous status of the chat member
 	NewStatus ChatMemberStatus `json:"new_status"` // New status of the chat member
 }
@@ -496,13 +584,13 @@ func (chatEventMemberRestricted *ChatEventMemberRestricted) MessageType() string
 
 // NewChatEventMemberRestricted creates a new ChatEventMemberRestricted
 //
-// @param userID Chat member user identifier
+// @param memberID Affected chat member identifier
 // @param oldStatus Previous status of the chat member
 // @param newStatus New status of the chat member
-func NewChatEventMemberRestricted(userID int32, oldStatus ChatMemberStatus, newStatus ChatMemberStatus) *ChatEventMemberRestricted {
+func NewChatEventMemberRestricted(memberID MessageSender, oldStatus ChatMemberStatus, newStatus ChatMemberStatus) *ChatEventMemberRestricted {
 	chatEventMemberRestrictedTemp := ChatEventMemberRestricted{
 		tdCommon:  tdCommon{Type: "chatEventMemberRestricted"},
-		UserID:    userID,
+		MemberID:  memberID,
 		OldStatus: oldStatus,
 		NewStatus: newStatus,
 	}
@@ -519,8 +607,6 @@ func (chatEventMemberRestricted *ChatEventMemberRestricted) UnmarshalJSON(b []by
 	}
 	tempObj := struct {
 		tdCommon
-		UserID int32 `json:"user_id"` // Chat member user identifier
-
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -528,7 +614,9 @@ func (chatEventMemberRestricted *ChatEventMemberRestricted) UnmarshalJSON(b []by
 	}
 
 	chatEventMemberRestricted.tdCommon = tempObj.tdCommon
-	chatEventMemberRestricted.UserID = tempObj.UserID
+
+	fieldMemberID, _ := unmarshalMessageSender(objMap["member_id"])
+	chatEventMemberRestricted.MemberID = fieldMemberID
 
 	fieldOldStatus, _ := unmarshalChatMemberStatus(objMap["old_status"])
 	chatEventMemberRestricted.OldStatus = fieldOldStatus
@@ -789,6 +877,37 @@ func (chatEventSlowModeDelayChanged *ChatEventSlowModeDelayChanged) GetChatEvent
 	return ChatEventSlowModeDelayChangedType
 }
 
+// ChatEventMessageTTLSettingChanged The message TTL setting was changed
+type ChatEventMessageTTLSettingChanged struct {
+	tdCommon
+	OldMessageTTLSetting int32 `json:"old_message_ttl_setting"` // Previous value of message_ttl_setting
+	NewMessageTTLSetting int32 `json:"new_message_ttl_setting"` // New value of message_ttl_setting
+}
+
+// MessageType return the string telegram-type of ChatEventMessageTTLSettingChanged
+func (chatEventMessageTTLSettingChanged *ChatEventMessageTTLSettingChanged) MessageType() string {
+	return "chatEventMessageTtlSettingChanged"
+}
+
+// NewChatEventMessageTTLSettingChanged creates a new ChatEventMessageTTLSettingChanged
+//
+// @param oldMessageTTLSetting Previous value of message_ttl_setting
+// @param newMessageTTLSetting New value of message_ttl_setting
+func NewChatEventMessageTTLSettingChanged(oldMessageTTLSetting int32, newMessageTTLSetting int32) *ChatEventMessageTTLSettingChanged {
+	chatEventMessageTTLSettingChangedTemp := ChatEventMessageTTLSettingChanged{
+		tdCommon:             tdCommon{Type: "chatEventMessageTtlSettingChanged"},
+		OldMessageTTLSetting: oldMessageTTLSetting,
+		NewMessageTTLSetting: newMessageTTLSetting,
+	}
+
+	return &chatEventMessageTTLSettingChangedTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventMessageTTLSettingChanged *ChatEventMessageTTLSettingChanged) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventMessageTTLSettingChangedType
+}
+
 // ChatEventSignMessagesToggled The sign_messages setting of a channel was toggled
 type ChatEventSignMessagesToggled struct {
 	tdCommon
@@ -905,4 +1024,287 @@ func NewChatEventIsAllHistoryAvailableToggled(isAllHistoryAvailable bool) *ChatE
 // GetChatEventActionEnum return the enum type of this object
 func (chatEventIsAllHistoryAvailableToggled *ChatEventIsAllHistoryAvailableToggled) GetChatEventActionEnum() ChatEventActionEnum {
 	return ChatEventIsAllHistoryAvailableToggledType
+}
+
+// ChatEventInviteLinkEdited A chat invite link was edited
+type ChatEventInviteLinkEdited struct {
+	tdCommon
+	OldInviteLink *ChatInviteLink `json:"old_invite_link"` // Previous information about the invite link
+	NewInviteLink *ChatInviteLink `json:"new_invite_link"` // New information about the invite link
+}
+
+// MessageType return the string telegram-type of ChatEventInviteLinkEdited
+func (chatEventInviteLinkEdited *ChatEventInviteLinkEdited) MessageType() string {
+	return "chatEventInviteLinkEdited"
+}
+
+// NewChatEventInviteLinkEdited creates a new ChatEventInviteLinkEdited
+//
+// @param oldInviteLink Previous information about the invite link
+// @param newInviteLink New information about the invite link
+func NewChatEventInviteLinkEdited(oldInviteLink *ChatInviteLink, newInviteLink *ChatInviteLink) *ChatEventInviteLinkEdited {
+	chatEventInviteLinkEditedTemp := ChatEventInviteLinkEdited{
+		tdCommon:      tdCommon{Type: "chatEventInviteLinkEdited"},
+		OldInviteLink: oldInviteLink,
+		NewInviteLink: newInviteLink,
+	}
+
+	return &chatEventInviteLinkEditedTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventInviteLinkEdited *ChatEventInviteLinkEdited) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventInviteLinkEditedType
+}
+
+// ChatEventInviteLinkRevoked A chat invite link was revoked
+type ChatEventInviteLinkRevoked struct {
+	tdCommon
+	InviteLink *ChatInviteLink `json:"invite_link"` // The invite link
+}
+
+// MessageType return the string telegram-type of ChatEventInviteLinkRevoked
+func (chatEventInviteLinkRevoked *ChatEventInviteLinkRevoked) MessageType() string {
+	return "chatEventInviteLinkRevoked"
+}
+
+// NewChatEventInviteLinkRevoked creates a new ChatEventInviteLinkRevoked
+//
+// @param inviteLink The invite link
+func NewChatEventInviteLinkRevoked(inviteLink *ChatInviteLink) *ChatEventInviteLinkRevoked {
+	chatEventInviteLinkRevokedTemp := ChatEventInviteLinkRevoked{
+		tdCommon:   tdCommon{Type: "chatEventInviteLinkRevoked"},
+		InviteLink: inviteLink,
+	}
+
+	return &chatEventInviteLinkRevokedTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventInviteLinkRevoked *ChatEventInviteLinkRevoked) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventInviteLinkRevokedType
+}
+
+// ChatEventInviteLinkDeleted A revoked chat invite link was deleted
+type ChatEventInviteLinkDeleted struct {
+	tdCommon
+	InviteLink *ChatInviteLink `json:"invite_link"` // The invite link
+}
+
+// MessageType return the string telegram-type of ChatEventInviteLinkDeleted
+func (chatEventInviteLinkDeleted *ChatEventInviteLinkDeleted) MessageType() string {
+	return "chatEventInviteLinkDeleted"
+}
+
+// NewChatEventInviteLinkDeleted creates a new ChatEventInviteLinkDeleted
+//
+// @param inviteLink The invite link
+func NewChatEventInviteLinkDeleted(inviteLink *ChatInviteLink) *ChatEventInviteLinkDeleted {
+	chatEventInviteLinkDeletedTemp := ChatEventInviteLinkDeleted{
+		tdCommon:   tdCommon{Type: "chatEventInviteLinkDeleted"},
+		InviteLink: inviteLink,
+	}
+
+	return &chatEventInviteLinkDeletedTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventInviteLinkDeleted *ChatEventInviteLinkDeleted) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventInviteLinkDeletedType
+}
+
+// ChatEventVoiceChatCreated A voice chat was created
+type ChatEventVoiceChatCreated struct {
+	tdCommon
+	GroupCallID int32 `json:"group_call_id"` // Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+}
+
+// MessageType return the string telegram-type of ChatEventVoiceChatCreated
+func (chatEventVoiceChatCreated *ChatEventVoiceChatCreated) MessageType() string {
+	return "chatEventVoiceChatCreated"
+}
+
+// NewChatEventVoiceChatCreated creates a new ChatEventVoiceChatCreated
+//
+// @param groupCallID Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+func NewChatEventVoiceChatCreated(groupCallID int32) *ChatEventVoiceChatCreated {
+	chatEventVoiceChatCreatedTemp := ChatEventVoiceChatCreated{
+		tdCommon:    tdCommon{Type: "chatEventVoiceChatCreated"},
+		GroupCallID: groupCallID,
+	}
+
+	return &chatEventVoiceChatCreatedTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventVoiceChatCreated *ChatEventVoiceChatCreated) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventVoiceChatCreatedType
+}
+
+// ChatEventVoiceChatDiscarded A voice chat was discarded
+type ChatEventVoiceChatDiscarded struct {
+	tdCommon
+	GroupCallID int32 `json:"group_call_id"` // Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+}
+
+// MessageType return the string telegram-type of ChatEventVoiceChatDiscarded
+func (chatEventVoiceChatDiscarded *ChatEventVoiceChatDiscarded) MessageType() string {
+	return "chatEventVoiceChatDiscarded"
+}
+
+// NewChatEventVoiceChatDiscarded creates a new ChatEventVoiceChatDiscarded
+//
+// @param groupCallID Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+func NewChatEventVoiceChatDiscarded(groupCallID int32) *ChatEventVoiceChatDiscarded {
+	chatEventVoiceChatDiscardedTemp := ChatEventVoiceChatDiscarded{
+		tdCommon:    tdCommon{Type: "chatEventVoiceChatDiscarded"},
+		GroupCallID: groupCallID,
+	}
+
+	return &chatEventVoiceChatDiscardedTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventVoiceChatDiscarded *ChatEventVoiceChatDiscarded) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventVoiceChatDiscardedType
+}
+
+// ChatEventVoiceChatParticipantIsMutedToggled A voice chat participant was muted or unmuted
+type ChatEventVoiceChatParticipantIsMutedToggled struct {
+	tdCommon
+	ParticipantID MessageSender `json:"participant_id"` // Identifier of the affected group call participant
+	IsMuted       bool          `json:"is_muted"`       // New value of is_muted
+}
+
+// MessageType return the string telegram-type of ChatEventVoiceChatParticipantIsMutedToggled
+func (chatEventVoiceChatParticipantIsMutedToggled *ChatEventVoiceChatParticipantIsMutedToggled) MessageType() string {
+	return "chatEventVoiceChatParticipantIsMutedToggled"
+}
+
+// NewChatEventVoiceChatParticipantIsMutedToggled creates a new ChatEventVoiceChatParticipantIsMutedToggled
+//
+// @param participantID Identifier of the affected group call participant
+// @param isMuted New value of is_muted
+func NewChatEventVoiceChatParticipantIsMutedToggled(participantID MessageSender, isMuted bool) *ChatEventVoiceChatParticipantIsMutedToggled {
+	chatEventVoiceChatParticipantIsMutedToggledTemp := ChatEventVoiceChatParticipantIsMutedToggled{
+		tdCommon:      tdCommon{Type: "chatEventVoiceChatParticipantIsMutedToggled"},
+		ParticipantID: participantID,
+		IsMuted:       isMuted,
+	}
+
+	return &chatEventVoiceChatParticipantIsMutedToggledTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (chatEventVoiceChatParticipantIsMutedToggled *ChatEventVoiceChatParticipantIsMutedToggled) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		IsMuted bool `json:"is_muted"` // New value of is_muted
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	chatEventVoiceChatParticipantIsMutedToggled.tdCommon = tempObj.tdCommon
+	chatEventVoiceChatParticipantIsMutedToggled.IsMuted = tempObj.IsMuted
+
+	fieldParticipantID, _ := unmarshalMessageSender(objMap["participant_id"])
+	chatEventVoiceChatParticipantIsMutedToggled.ParticipantID = fieldParticipantID
+
+	return nil
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventVoiceChatParticipantIsMutedToggled *ChatEventVoiceChatParticipantIsMutedToggled) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventVoiceChatParticipantIsMutedToggledType
+}
+
+// ChatEventVoiceChatParticipantVolumeLevelChanged A voice chat participant volume level was changed
+type ChatEventVoiceChatParticipantVolumeLevelChanged struct {
+	tdCommon
+	ParticipantID MessageSender `json:"participant_id"` // Identifier of the affected group call participant
+	VolumeLevel   int32         `json:"volume_level"`   // New value of volume_level; 1-20000 in hundreds of percents
+}
+
+// MessageType return the string telegram-type of ChatEventVoiceChatParticipantVolumeLevelChanged
+func (chatEventVoiceChatParticipantVolumeLevelChanged *ChatEventVoiceChatParticipantVolumeLevelChanged) MessageType() string {
+	return "chatEventVoiceChatParticipantVolumeLevelChanged"
+}
+
+// NewChatEventVoiceChatParticipantVolumeLevelChanged creates a new ChatEventVoiceChatParticipantVolumeLevelChanged
+//
+// @param participantID Identifier of the affected group call participant
+// @param volumeLevel New value of volume_level; 1-20000 in hundreds of percents
+func NewChatEventVoiceChatParticipantVolumeLevelChanged(participantID MessageSender, volumeLevel int32) *ChatEventVoiceChatParticipantVolumeLevelChanged {
+	chatEventVoiceChatParticipantVolumeLevelChangedTemp := ChatEventVoiceChatParticipantVolumeLevelChanged{
+		tdCommon:      tdCommon{Type: "chatEventVoiceChatParticipantVolumeLevelChanged"},
+		ParticipantID: participantID,
+		VolumeLevel:   volumeLevel,
+	}
+
+	return &chatEventVoiceChatParticipantVolumeLevelChangedTemp
+}
+
+// UnmarshalJSON unmarshal to json
+func (chatEventVoiceChatParticipantVolumeLevelChanged *ChatEventVoiceChatParticipantVolumeLevelChanged) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+	tempObj := struct {
+		tdCommon
+		VolumeLevel int32 `json:"volume_level"` // New value of volume_level; 1-20000 in hundreds of percents
+	}{}
+	err = json.Unmarshal(b, &tempObj)
+	if err != nil {
+		return err
+	}
+
+	chatEventVoiceChatParticipantVolumeLevelChanged.tdCommon = tempObj.tdCommon
+	chatEventVoiceChatParticipantVolumeLevelChanged.VolumeLevel = tempObj.VolumeLevel
+
+	fieldParticipantID, _ := unmarshalMessageSender(objMap["participant_id"])
+	chatEventVoiceChatParticipantVolumeLevelChanged.ParticipantID = fieldParticipantID
+
+	return nil
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventVoiceChatParticipantVolumeLevelChanged *ChatEventVoiceChatParticipantVolumeLevelChanged) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventVoiceChatParticipantVolumeLevelChangedType
+}
+
+// ChatEventVoiceChatMuteNewParticipantsToggled The mute_new_participants setting of a voice chat was toggled
+type ChatEventVoiceChatMuteNewParticipantsToggled struct {
+	tdCommon
+	MuteNewParticipants bool `json:"mute_new_participants"` // New value of the mute_new_participants setting
+}
+
+// MessageType return the string telegram-type of ChatEventVoiceChatMuteNewParticipantsToggled
+func (chatEventVoiceChatMuteNewParticipantsToggled *ChatEventVoiceChatMuteNewParticipantsToggled) MessageType() string {
+	return "chatEventVoiceChatMuteNewParticipantsToggled"
+}
+
+// NewChatEventVoiceChatMuteNewParticipantsToggled creates a new ChatEventVoiceChatMuteNewParticipantsToggled
+//
+// @param muteNewParticipants New value of the mute_new_participants setting
+func NewChatEventVoiceChatMuteNewParticipantsToggled(muteNewParticipants bool) *ChatEventVoiceChatMuteNewParticipantsToggled {
+	chatEventVoiceChatMuteNewParticipantsToggledTemp := ChatEventVoiceChatMuteNewParticipantsToggled{
+		tdCommon:            tdCommon{Type: "chatEventVoiceChatMuteNewParticipantsToggled"},
+		MuteNewParticipants: muteNewParticipants,
+	}
+
+	return &chatEventVoiceChatMuteNewParticipantsToggledTemp
+}
+
+// GetChatEventActionEnum return the enum type of this object
+func (chatEventVoiceChatMuteNewParticipantsToggled *ChatEventVoiceChatMuteNewParticipantsToggled) GetChatEventActionEnum() ChatEventActionEnum {
+	return ChatEventVoiceChatMuteNewParticipantsToggledType
 }

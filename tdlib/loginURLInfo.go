@@ -67,7 +67,7 @@ type LoginURLInfoRequestConfirmation struct {
 	tdCommon
 	URL                string `json:"url"`                  // An HTTP URL to be opened
 	Domain             string `json:"domain"`               // A domain of the URL
-	BotUserID          int32  `json:"bot_user_id"`          // User identifier of a bot linked with the website
+	BotUserID          int64  `json:"bot_user_id"`          // User identifier of a bot linked with the website
 	RequestWriteAccess bool   `json:"request_write_access"` // True, if the user needs to be requested to give the permission to the bot to send them messages
 }
 
@@ -82,7 +82,7 @@ func (loginURLInfoRequestConfirmation *LoginURLInfoRequestConfirmation) MessageT
 // @param domain A domain of the URL
 // @param botUserID User identifier of a bot linked with the website
 // @param requestWriteAccess True, if the user needs to be requested to give the permission to the bot to send them messages
-func NewLoginURLInfoRequestConfirmation(uRL string, domain string, botUserID int32, requestWriteAccess bool) *LoginURLInfoRequestConfirmation {
+func NewLoginURLInfoRequestConfirmation(uRL string, domain string, botUserID int64, requestWriteAccess bool) *LoginURLInfoRequestConfirmation {
 	loginURLInfoRequestConfirmationTemp := LoginURLInfoRequestConfirmation{
 		tdCommon:           tdCommon{Type: "loginUrlInfoRequestConfirmation"},
 		URL:                uRL,

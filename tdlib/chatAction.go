@@ -24,6 +24,7 @@ const (
 	ChatActionUploadingVoiceNoteType ChatActionEnum = "chatActionUploadingVoiceNote"
 	ChatActionUploadingPhotoType     ChatActionEnum = "chatActionUploadingPhoto"
 	ChatActionUploadingDocumentType  ChatActionEnum = "chatActionUploadingDocument"
+	ChatActionChoosingStickerType    ChatActionEnum = "chatActionChoosingSticker"
 	ChatActionChoosingLocationType   ChatActionEnum = "chatActionChoosingLocation"
 	ChatActionChoosingContactType    ChatActionEnum = "chatActionChoosingContact"
 	ChatActionStartPlayingGameType   ChatActionEnum = "chatActionStartPlayingGame"
@@ -78,6 +79,11 @@ func unmarshalChatAction(rawMsg *json.RawMessage) (ChatAction, error) {
 		var chatActionUploadingDocument ChatActionUploadingDocument
 		err := json.Unmarshal(*rawMsg, &chatActionUploadingDocument)
 		return &chatActionUploadingDocument, err
+
+	case ChatActionChoosingStickerType:
+		var chatActionChoosingSticker ChatActionChoosingSticker
+		err := json.Unmarshal(*rawMsg, &chatActionChoosingSticker)
+		return &chatActionChoosingSticker, err
 
 	case ChatActionChoosingLocationType:
 		var chatActionChoosingLocation ChatActionChoosingLocation
@@ -301,6 +307,31 @@ func (chatActionUploadingDocument *ChatActionUploadingDocument) GetChatActionEnu
 	return ChatActionUploadingDocumentType
 }
 
+// ChatActionChoosingSticker The user is picking a sticker to send
+type ChatActionChoosingSticker struct {
+	tdCommon
+}
+
+// MessageType return the string telegram-type of ChatActionChoosingSticker
+func (chatActionChoosingSticker *ChatActionChoosingSticker) MessageType() string {
+	return "chatActionChoosingSticker"
+}
+
+// NewChatActionChoosingSticker creates a new ChatActionChoosingSticker
+//
+func NewChatActionChoosingSticker() *ChatActionChoosingSticker {
+	chatActionChoosingStickerTemp := ChatActionChoosingSticker{
+		tdCommon: tdCommon{Type: "chatActionChoosingSticker"},
+	}
+
+	return &chatActionChoosingStickerTemp
+}
+
+// GetChatActionEnum return the enum type of this object
+func (chatActionChoosingSticker *ChatActionChoosingSticker) GetChatActionEnum() ChatActionEnum {
+	return ChatActionChoosingStickerType
+}
+
 // ChatActionChoosingLocation The user is picking a location or venue to send
 type ChatActionChoosingLocation struct {
 	tdCommon
@@ -429,7 +460,7 @@ func (chatActionUploadingVideoNote *ChatActionUploadingVideoNote) GetChatActionE
 	return ChatActionUploadingVideoNoteType
 }
 
-// ChatActionCancel The user has cancelled the previous action
+// ChatActionCancel The user has canceled the previous action
 type ChatActionCancel struct {
 	tdCommon
 }

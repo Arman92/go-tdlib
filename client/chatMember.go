@@ -4,19 +4,18 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetChatMember Returns information about a single member of a chat
 // @param chatID Chat identifier
-// @param userID User identifier
-func (client *Client) GetChatMember(chatID int64, userID int32) (*tdlib.ChatMember, error) {
+// @param memberID Member identifier
+func (client *Client) GetChatMember(chatID int64, memberID tdlib.MessageSender) (*tdlib.ChatMember, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":   "getChatMember",
-		"chat_id": chatID,
-		"user_id": userID,
+		"@type":     "getChatMember",
+		"chat_id":   chatID,
+		"member_id": memberID,
 	})
 
 	if err != nil {
@@ -24,7 +23,7 @@ func (client *Client) GetChatMember(chatID int64, userID int32) (*tdlib.ChatMemb
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var chatMember tdlib.ChatMember

@@ -10,10 +10,10 @@ import (
 type Poll struct {
 	tdCommon
 	ID                 JSONInt64    `json:"id"`                    // Unique poll identifier
-	Question           string       `json:"question"`              // Poll question, 1-300 characters
+	Question           string       `json:"question"`              // Poll question; 1-300 characters
 	Options            []PollOption `json:"options"`               // List of poll answer options
 	TotalVoterCount    int32        `json:"total_voter_count"`     // Total number of voters, participating in the poll
-	RecentVoterUserIDs []int32      `json:"recent_voter_user_ids"` // User identifiers of recent voters, if the poll is non-anonymous
+	RecentVoterUserIDs []int64      `json:"recent_voter_user_ids"` // User identifiers of recent voters, if the poll is non-anonymous
 	IsAnonymous        bool         `json:"is_anonymous"`          // True, if the poll is anonymous
 	Type               PollType     `json:"type"`                  // Type of the poll
 	OpenPeriod         int32        `json:"open_period"`           // Amount of time the poll will be active after creation, in seconds
@@ -29,7 +29,7 @@ func (poll *Poll) MessageType() string {
 // NewPoll creates a new Poll
 //
 // @param iD Unique poll identifier
-// @param question Poll question, 1-300 characters
+// @param question Poll question; 1-300 characters
 // @param options List of poll answer options
 // @param totalVoterCount Total number of voters, participating in the poll
 // @param recentVoterUserIDs User identifiers of recent voters, if the poll is non-anonymous
@@ -38,7 +38,7 @@ func (poll *Poll) MessageType() string {
 // @param openPeriod Amount of time the poll will be active after creation, in seconds
 // @param closeDate Point in time (Unix timestamp) when the poll will be automatically closed
 // @param isClosed True, if the poll is closed
-func NewPoll(iD JSONInt64, question string, options []PollOption, totalVoterCount int32, recentVoterUserIDs []int32, isAnonymous bool, typeParam PollType, openPeriod int32, closeDate int32, isClosed bool) *Poll {
+func NewPoll(iD JSONInt64, question string, options []PollOption, totalVoterCount int32, recentVoterUserIDs []int64, isAnonymous bool, typeParam PollType, openPeriod int32, closeDate int32, isClosed bool) *Poll {
 	pollTemp := Poll{
 		tdCommon:           tdCommon{Type: "poll"},
 		ID:                 iD,
@@ -66,10 +66,10 @@ func (poll *Poll) UnmarshalJSON(b []byte) error {
 	tempObj := struct {
 		tdCommon
 		ID                 JSONInt64    `json:"id"`                    // Unique poll identifier
-		Question           string       `json:"question"`              // Poll question, 1-300 characters
+		Question           string       `json:"question"`              // Poll question; 1-300 characters
 		Options            []PollOption `json:"options"`               // List of poll answer options
 		TotalVoterCount    int32        `json:"total_voter_count"`     // Total number of voters, participating in the poll
-		RecentVoterUserIDs []int32      `json:"recent_voter_user_ids"` // User identifiers of recent voters, if the poll is non-anonymous
+		RecentVoterUserIDs []int64      `json:"recent_voter_user_ids"` // User identifiers of recent voters, if the poll is non-anonymous
 		IsAnonymous        bool         `json:"is_anonymous"`          // True, if the poll is anonymous
 		OpenPeriod         int32        `json:"open_period"`           // Amount of time the poll will be active after creation, in seconds
 		CloseDate          int32        `json:"close_date"`            // Point in time (Unix timestamp) when the poll will be automatically closed

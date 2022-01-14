@@ -10,6 +10,7 @@ type PasswordState struct {
 	HasRecoveryEmailAddress      bool                                `json:"has_recovery_email_address"`       // True, if a recovery email is set
 	HasPassportData              bool                                `json:"has_passport_data"`                // True, if some Telegram Passport elements were saved
 	RecoveryEmailAddressCodeInfo *EmailAddressAuthenticationCodeInfo `json:"recovery_email_address_code_info"` // Information about the recovery email address to which the confirmation email was sent; may be null
+	PendingResetDate             int32                               `json:"pending_reset_date"`               // If not 0, point in time (Unix timestamp) after which the password can be reset immediately using resetPassword
 }
 
 // MessageType return the string telegram-type of PasswordState
@@ -24,7 +25,8 @@ func (passwordState *PasswordState) MessageType() string {
 // @param hasRecoveryEmailAddress True, if a recovery email is set
 // @param hasPassportData True, if some Telegram Passport elements were saved
 // @param recoveryEmailAddressCodeInfo Information about the recovery email address to which the confirmation email was sent; may be null
-func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, hasPassportData bool, recoveryEmailAddressCodeInfo *EmailAddressAuthenticationCodeInfo) *PasswordState {
+// @param pendingResetDate If not 0, point in time (Unix timestamp) after which the password can be reset immediately using resetPassword
+func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAddress bool, hasPassportData bool, recoveryEmailAddressCodeInfo *EmailAddressAuthenticationCodeInfo, pendingResetDate int32) *PasswordState {
 	passwordStateTemp := PasswordState{
 		tdCommon:                     tdCommon{Type: "passwordState"},
 		HasPassword:                  hasPassword,
@@ -32,6 +34,7 @@ func NewPasswordState(hasPassword bool, passwordHint string, hasRecoveryEmailAdd
 		HasRecoveryEmailAddress:      hasRecoveryEmailAddress,
 		HasPassportData:              hasPassportData,
 		RecoveryEmailAddressCodeInfo: recoveryEmailAddressCodeInfo,
+		PendingResetDate:             pendingResetDate,
 	}
 
 	return &passwordStateTemp

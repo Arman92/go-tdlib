@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetFile Returns information about a file; this is an offline request
@@ -22,7 +21,7 @@ func (client *Client) GetFile(fileID int32) (*tdlib.File, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var fileDummy tdlib.File
@@ -46,7 +45,7 @@ func (client *Client) GetRemoteFile(remoteFileID string, fileType tdlib.FileType
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var fileDummy tdlib.File
@@ -59,8 +58,8 @@ func (client *Client) GetRemoteFile(remoteFileID string, fileType tdlib.FileType
 // @param fileID Identifier of the file to download
 // @param priority Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first
 // @param offset The starting position from which the file should be downloaded
-// @param limit Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit
-// @param synchronous If false, this request returns file state just after the download has been started. If true, this request returns file state only after the download has succeeded, has failed, has been cancelled or a new downloadFile request with different offset/limit parameters was sent
+// @param limit Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically canceled; use 0 to download without a limit
+// @param synchronous If false, this request returns file state just after the download has been started. If true, this request returns file state only after the download has succeeded, has failed, has been canceled or a new downloadFile request with different offset/limit parameters was sent
 func (client *Client) DownloadFile(fileID int32, priority int32, offset int32, limit int32, synchronous bool) (*tdlib.File, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":       "downloadFile",
@@ -76,7 +75,7 @@ func (client *Client) DownloadFile(fileID int32, priority int32, offset int32, l
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var fileDummy tdlib.File
@@ -102,7 +101,7 @@ func (client *Client) UploadFile(file tdlib.InputFile, fileType tdlib.FileType, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var fileDummy tdlib.File
@@ -111,14 +110,14 @@ func (client *Client) UploadFile(file tdlib.InputFile, fileType tdlib.FileType, 
 
 }
 
-// UploadStickerFile Uploads a PNG image with a sticker; for bots only; returns the uploaded file
-// @param userID Sticker file owner
-// @param pngSticker PNG image with the sticker; must be up to 512 KB in size and fit in 512x512 square
-func (client *Client) UploadStickerFile(userID int32, pngSticker tdlib.InputFile) (*tdlib.File, error) {
+// UploadStickerFile Uploads a PNG image with a sticker; returns the uploaded file
+// @param userID Sticker file owner; ignored for regular users
+// @param sticker Sticker file to upload
+func (client *Client) UploadStickerFile(userID int64, sticker tdlib.InputSticker) (*tdlib.File, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":       "uploadStickerFile",
-		"user_id":     userID,
-		"png_sticker": pngSticker,
+		"@type":   "uploadStickerFile",
+		"user_id": userID,
+		"sticker": sticker,
 	})
 
 	if err != nil {
@@ -126,7 +125,7 @@ func (client *Client) UploadStickerFile(userID int32, pngSticker tdlib.InputFile
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var file tdlib.File
@@ -158,7 +157,7 @@ func (client *Client) GetMapThumbnailFile(location *tdlib.Location, zoom int32, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var file tdlib.File

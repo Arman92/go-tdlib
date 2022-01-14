@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetMessage Returns information about a message
@@ -24,7 +23,7 @@ func (client *Client) GetMessage(chatID int64, messageID int64) (*tdlib.Message,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -48,7 +47,7 @@ func (client *Client) GetMessageLocally(chatID int64, messageID int64) (*tdlib.M
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -72,7 +71,7 @@ func (client *Client) GetRepliedMessage(chatID int64, messageID int64) (*tdlib.M
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -94,7 +93,7 @@ func (client *Client) GetChatPinnedMessage(chatID int64) (*tdlib.Message, error)
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var message tdlib.Message
@@ -120,7 +119,7 @@ func (client *Client) GetCallbackQueryMessage(chatID int64, messageID int64, cal
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -144,7 +143,7 @@ func (client *Client) GetChatMessageByDate(chatID int64, date int32) (*tdlib.Mes
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var message tdlib.Message
@@ -176,7 +175,7 @@ func (client *Client) SendMessage(chatID int64, messageThreadID int64, replyToMe
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -189,7 +188,7 @@ func (client *Client) SendMessage(chatID int64, messageThreadID int64, replyToMe
 // @param botUserID Identifier of the bot
 // @param chatID Identifier of the target chat
 // @param parameter A hidden parameter sent to the bot for deep linking purposes (https://core.telegram.org/bots#deep-linking)
-func (client *Client) SendBotStartMessage(botUserID int32, chatID int64, parameter string) (*tdlib.Message, error) {
+func (client *Client) SendBotStartMessage(botUserID int64, chatID int64, parameter string) (*tdlib.Message, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":       "sendBotStartMessage",
 		"bot_user_id": botUserID,
@@ -202,7 +201,7 @@ func (client *Client) SendBotStartMessage(botUserID int32, chatID int64, paramet
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var message tdlib.Message
@@ -236,36 +235,12 @@ func (client *Client) SendInlineQueryResultMessage(chatID int64, messageThreadID
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
 	err = json.Unmarshal(result.Raw, &messageDummy)
 	return &messageDummy, err
-
-}
-
-// SendChatSetTTLMessage Changes the current TTL setting (sets a new self-destruct timer) in a secret chat and sends the corresponding message
-// @param chatID Chat identifier
-// @param tTL New TTL value, in seconds
-func (client *Client) SendChatSetTTLMessage(chatID int64, tTL int32) (*tdlib.Message, error) {
-	result, err := client.SendAndCatch(tdlib.UpdateData{
-		"@type":   "sendChatSetTtlMessage",
-		"chat_id": chatID,
-		"ttl":     tTL,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
-	}
-
-	var message tdlib.Message
-	err = json.Unmarshal(result.Raw, &message)
-	return &message, err
 
 }
 
@@ -290,7 +265,7 @@ func (client *Client) AddLocalMessage(chatID int64, sender tdlib.MessageSender, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -303,7 +278,7 @@ func (client *Client) AddLocalMessage(chatID int64, sender tdlib.MessageSender, 
 // @param chatID The chat the message belongs to
 // @param messageID Identifier of the message
 // @param replyMarkup The new message reply markup; for bots only
-// @param inputMessageContent New text content of the message. Should be of type InputMessageText
+// @param inputMessageContent New text content of the message. Should be of type inputMessageText
 func (client *Client) EditMessageText(chatID int64, messageID int64, replyMarkup tdlib.ReplyMarkup, inputMessageContent tdlib.InputMessageContent) (*tdlib.Message, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":                 "editMessageText",
@@ -318,7 +293,7 @@ func (client *Client) EditMessageText(chatID int64, messageID int64, replyMarkup
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -350,7 +325,7 @@ func (client *Client) EditMessageLiveLocation(chatID int64, messageID int64, rep
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -359,11 +334,11 @@ func (client *Client) EditMessageLiveLocation(chatID int64, messageID int64, rep
 
 }
 
-// EditMessageMedia Edits the content of a message with an animation, an audio, a document, a photo or a video. The media in the message can't be replaced if the message was set to self-destruct. Media can't be replaced by self-destructing media. Media in an album can be edited only to contain a photo or a video. Returns the edited message after the edit is completed on the server side
+// EditMessageMedia Edits the content of a message with an animation, an audio, a document, a photo or a video, including message caption. If only the caption needs to be edited, use editMessageCaption instead. The media can't be edited if the message was set to self-destruct or to a self-destructing media. The type of message content in an album can't be changed with exception of replacing a photo with a video or vice versa. Returns the edited message after the edit is completed on the server side
 // @param chatID The chat the message belongs to
 // @param messageID Identifier of the message
 // @param replyMarkup The new message reply markup; for bots only
-// @param inputMessageContent New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+// @param inputMessageContent New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
 func (client *Client) EditMessageMedia(chatID int64, messageID int64, replyMarkup tdlib.ReplyMarkup, inputMessageContent tdlib.InputMessageContent) (*tdlib.Message, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":                 "editMessageMedia",
@@ -378,7 +353,7 @@ func (client *Client) EditMessageMedia(chatID int64, messageID int64, replyMarku
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -406,7 +381,7 @@ func (client *Client) EditMessageCaption(chatID int64, messageID int64, replyMar
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -432,7 +407,7 @@ func (client *Client) EditMessageReplyMarkup(chatID int64, messageID int64, repl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message
@@ -448,7 +423,7 @@ func (client *Client) EditMessageReplyMarkup(chatID int64, messageID int64, repl
 // @param userID User identifier
 // @param score The new score
 // @param force Pass true to update the score even if it decreases. If the score is 0, the user will be deleted from the high score table
-func (client *Client) SetGameScore(chatID int64, messageID int64, editMessage bool, userID int32, score int32, force bool) (*tdlib.Message, error) {
+func (client *Client) SetGameScore(chatID int64, messageID int64, editMessage bool, userID int64, score int32, force bool) (*tdlib.Message, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":        "setGameScore",
 		"chat_id":      chatID,
@@ -464,7 +439,7 @@ func (client *Client) SetGameScore(chatID int64, messageID int64, editMessage bo
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messageDummy tdlib.Message

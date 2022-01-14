@@ -8,7 +8,7 @@ type IDentityDocument struct {
 	Number      string      `json:"number"`       // Document number; 1-24 characters
 	ExpiryDate  *Date       `json:"expiry_date"`  // Document expiry date; may be null
 	FrontSide   *DatedFile  `json:"front_side"`   // Front side of the document
-	ReverseSide *DatedFile  `json:"reverse_side"` // Reverse side of the document; only for driver license and identity card
+	ReverseSide *DatedFile  `json:"reverse_side"` // Reverse side of the document; only for driver license and identity card; may be null
 	Selfie      *DatedFile  `json:"selfie"`       // Selfie with the document; may be null
 	Translation []DatedFile `json:"translation"`  // List of files containing a certified English translation of the document
 }
@@ -23,7 +23,7 @@ func (iDentityDocument *IDentityDocument) MessageType() string {
 // @param number Document number; 1-24 characters
 // @param expiryDate Document expiry date; may be null
 // @param frontSide Front side of the document
-// @param reverseSide Reverse side of the document; only for driver license and identity card
+// @param reverseSide Reverse side of the document; only for driver license and identity card; may be null
 // @param selfie Selfie with the document; may be null
 // @param translation List of files containing a certified English translation of the document
 func NewIDentityDocument(number string, expiryDate *Date, frontSide *DatedFile, reverseSide *DatedFile, selfie *DatedFile, translation []DatedFile) *IDentityDocument {

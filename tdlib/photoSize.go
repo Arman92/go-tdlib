@@ -9,7 +9,7 @@ type PhotoSize struct {
 	Photo            *File   `json:"photo"`             // Information about the image file
 	Width            int32   `json:"width"`             // Image width
 	Height           int32   `json:"height"`            // Image height
-	ProgressiveSizes []int32 `json:"progressive_sizes"` // Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image
+	ProgressiveSizes []int32 `json:"progressive_sizes"` // Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image; in bytes
 }
 
 // MessageType return the string telegram-type of PhotoSize
@@ -23,7 +23,7 @@ func (photoSize *PhotoSize) MessageType() string {
 // @param photo Information about the image file
 // @param width Image width
 // @param height Image height
-// @param progressiveSizes Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image
+// @param progressiveSizes Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image; in bytes
 func NewPhotoSize(typeParam string, photo *File, width int32, height int32, progressiveSizes []int32) *PhotoSize {
 	photoSizeTemp := PhotoSize{
 		tdCommon:         tdCommon{Type: "photoSize"},

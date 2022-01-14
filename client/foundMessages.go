@@ -4,16 +4,15 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
-// SearchSecretMessages Searches for messages in secret chats. Returns the results in reverse chronological order. For optimal performance the number of returned messages is chosen by the library
+// SearchSecretMessages Searches for messages in secret chats. Returns the results in reverse chronological order. For optimal performance, the number of returned messages is chosen by TDLib
 // @param chatID Identifier of the chat in which to search. Specify 0 to search in all secret chats
 // @param query Query to search for. If empty, searchChatMessages should be used instead
 // @param offset Offset of the first entry to return as received from the previous request; use empty string to get first chunk of results
-// @param limit The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+// @param limit The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 // @param filter A filter for message content in the search results
 func (client *Client) SearchSecretMessages(chatID int64, query string, offset string, limit int32, filter tdlib.SearchMessagesFilter) (*tdlib.FoundMessages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -30,7 +29,7 @@ func (client *Client) SearchSecretMessages(chatID int64, query string, offset st
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var foundMessages tdlib.FoundMessages
@@ -39,11 +38,11 @@ func (client *Client) SearchSecretMessages(chatID int64, query string, offset st
 
 }
 
-// GetMessagePublicForwards Returns forwarded copies of a channel message to different public channels. For optimal performance the number of returned messages is chosen by the library
+// GetMessagePublicForwards Returns forwarded copies of a channel message to different public channels. For optimal performance, the number of returned messages is chosen by TDLib
 // @param chatID Chat identifier of the message
 // @param messageID Message identifier
 // @param offset Offset of the first entry to return as received from the previous request; use empty string to get first chunk of results
-// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. Fewer messages may be returned than specified by the limit, even if the end of the list has not been reached
+// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 func (client *Client) GetMessagePublicForwards(chatID int64, messageID int64, offset string, limit int32) (*tdlib.FoundMessages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":      "getMessagePublicForwards",
@@ -58,7 +57,7 @@ func (client *Client) GetMessagePublicForwards(chatID int64, messageID int64, of
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var foundMessages tdlib.FoundMessages

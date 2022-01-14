@@ -63,7 +63,7 @@ func unmarshalChatType(rawMsg *json.RawMessage) (ChatType, error) {
 // ChatTypePrivate An ordinary chat with a user
 type ChatTypePrivate struct {
 	tdCommon
-	UserID int32 `json:"user_id"` // User identifier
+	UserID int64 `json:"user_id"` // User identifier
 }
 
 // MessageType return the string telegram-type of ChatTypePrivate
@@ -74,7 +74,7 @@ func (chatTypePrivate *ChatTypePrivate) MessageType() string {
 // NewChatTypePrivate creates a new ChatTypePrivate
 //
 // @param userID User identifier
-func NewChatTypePrivate(userID int32) *ChatTypePrivate {
+func NewChatTypePrivate(userID int64) *ChatTypePrivate {
 	chatTypePrivateTemp := ChatTypePrivate{
 		tdCommon: tdCommon{Type: "chatTypePrivate"},
 		UserID:   userID,
@@ -91,7 +91,7 @@ func (chatTypePrivate *ChatTypePrivate) GetChatTypeEnum() ChatTypeEnum {
 // ChatTypeBasicGroup A basic group (i.e., a chat with 0-200 other users)
 type ChatTypeBasicGroup struct {
 	tdCommon
-	BasicGroupID int32 `json:"basic_group_id"` // Basic group identifier
+	BasicGroupID int64 `json:"basic_group_id"` // Basic group identifier
 }
 
 // MessageType return the string telegram-type of ChatTypeBasicGroup
@@ -102,7 +102,7 @@ func (chatTypeBasicGroup *ChatTypeBasicGroup) MessageType() string {
 // NewChatTypeBasicGroup creates a new ChatTypeBasicGroup
 //
 // @param basicGroupID Basic group identifier
-func NewChatTypeBasicGroup(basicGroupID int32) *ChatTypeBasicGroup {
+func NewChatTypeBasicGroup(basicGroupID int64) *ChatTypeBasicGroup {
 	chatTypeBasicGroupTemp := ChatTypeBasicGroup{
 		tdCommon:     tdCommon{Type: "chatTypeBasicGroup"},
 		BasicGroupID: basicGroupID,
@@ -119,7 +119,7 @@ func (chatTypeBasicGroup *ChatTypeBasicGroup) GetChatTypeEnum() ChatTypeEnum {
 // ChatTypeSupergroup A supergroup (i.e. a chat with up to GetOption("supergroup_max_size") other users), or channel (with unlimited members)
 type ChatTypeSupergroup struct {
 	tdCommon
-	SupergroupID int32 `json:"supergroup_id"` // Supergroup or channel identifier
+	SupergroupID int64 `json:"supergroup_id"` // Supergroup or channel identifier
 	IsChannel    bool  `json:"is_channel"`    // True, if the supergroup is a channel
 }
 
@@ -132,7 +132,7 @@ func (chatTypeSupergroup *ChatTypeSupergroup) MessageType() string {
 //
 // @param supergroupID Supergroup or channel identifier
 // @param isChannel True, if the supergroup is a channel
-func NewChatTypeSupergroup(supergroupID int32, isChannel bool) *ChatTypeSupergroup {
+func NewChatTypeSupergroup(supergroupID int64, isChannel bool) *ChatTypeSupergroup {
 	chatTypeSupergroupTemp := ChatTypeSupergroup{
 		tdCommon:     tdCommon{Type: "chatTypeSupergroup"},
 		SupergroupID: supergroupID,
@@ -151,7 +151,7 @@ func (chatTypeSupergroup *ChatTypeSupergroup) GetChatTypeEnum() ChatTypeEnum {
 type ChatTypeSecret struct {
 	tdCommon
 	SecretChatID int32 `json:"secret_chat_id"` // Secret chat identifier
-	UserID       int32 `json:"user_id"`        // User identifier of the secret chat peer
+	UserID       int64 `json:"user_id"`        // User identifier of the secret chat peer
 }
 
 // MessageType return the string telegram-type of ChatTypeSecret
@@ -163,7 +163,7 @@ func (chatTypeSecret *ChatTypeSecret) MessageType() string {
 //
 // @param secretChatID Secret chat identifier
 // @param userID User identifier of the secret chat peer
-func NewChatTypeSecret(secretChatID int32, userID int32) *ChatTypeSecret {
+func NewChatTypeSecret(secretChatID int32, userID int64) *ChatTypeSecret {
 	chatTypeSecretTemp := ChatTypeSecret{
 		tdCommon:     tdCommon{Type: "chatTypeSecret"},
 		SecretChatID: secretChatID,

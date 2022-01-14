@@ -7,7 +7,7 @@ type ConnectedWebsite struct {
 	tdCommon
 	ID             JSONInt64 `json:"id"`               // Website identifier
 	DomainName     string    `json:"domain_name"`      // The domain name of the website
-	BotUserID      int32     `json:"bot_user_id"`      // User identifier of a bot linked with the website
+	BotUserID      int64     `json:"bot_user_id"`      // User identifier of a bot linked with the website
 	Browser        string    `json:"browser"`          // The version of a browser used to log in
 	Platform       string    `json:"platform"`         // Operating system the browser is running on
 	LogInDate      int32     `json:"log_in_date"`      // Point in time (Unix timestamp) when the user was logged in
@@ -32,7 +32,7 @@ func (connectedWebsite *ConnectedWebsite) MessageType() string {
 // @param lastActiveDate Point in time (Unix timestamp) when obtained authorization was last used
 // @param iP IP address from which the user was logged in, in human-readable format
 // @param location Human-readable description of a country and a region, from which the user was logged in, based on the IP address
-func NewConnectedWebsite(iD JSONInt64, domainName string, botUserID int32, browser string, platform string, logInDate int32, lastActiveDate int32, iP string, location string) *ConnectedWebsite {
+func NewConnectedWebsite(iD JSONInt64, domainName string, botUserID int64, browser string, platform string, logInDate int32, lastActiveDate int32, iP string, location string) *ConnectedWebsite {
 	connectedWebsiteTemp := ConnectedWebsite{
 		tdCommon:       tdCommon{Type: "connectedWebsite"},
 		ID:             iD,

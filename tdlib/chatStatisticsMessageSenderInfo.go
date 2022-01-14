@@ -5,9 +5,9 @@ package tdlib
 // ChatStatisticsMessageSenderInfo Contains statistics about messages sent by a user
 type ChatStatisticsMessageSenderInfo struct {
 	tdCommon
-	UserID                int32 `json:"user_id"`                 // User identifier
+	UserID                int64 `json:"user_id"`                 // User identifier
 	SentMessageCount      int32 `json:"sent_message_count"`      // Number of sent messages
-	AverageCharacterCount int32 `json:"average_character_count"` // Average number of characters in sent messages
+	AverageCharacterCount int32 `json:"average_character_count"` // Average number of characters in sent messages; 0 if unknown
 }
 
 // MessageType return the string telegram-type of ChatStatisticsMessageSenderInfo
@@ -19,8 +19,8 @@ func (chatStatisticsMessageSenderInfo *ChatStatisticsMessageSenderInfo) MessageT
 //
 // @param userID User identifier
 // @param sentMessageCount Number of sent messages
-// @param averageCharacterCount Average number of characters in sent messages
-func NewChatStatisticsMessageSenderInfo(userID int32, sentMessageCount int32, averageCharacterCount int32) *ChatStatisticsMessageSenderInfo {
+// @param averageCharacterCount Average number of characters in sent messages; 0 if unknown
+func NewChatStatisticsMessageSenderInfo(userID int64, sentMessageCount int32, averageCharacterCount int32) *ChatStatisticsMessageSenderInfo {
 	chatStatisticsMessageSenderInfoTemp := ChatStatisticsMessageSenderInfo{
 		tdCommon:              tdCommon{Type: "chatStatisticsMessageSenderInfo"},
 		UserID:                userID,

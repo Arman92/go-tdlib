@@ -17,6 +17,16 @@ type TdMessage interface {
 	MessageType() string
 }
 
+// RequestError represents an error returned from tdlib.
+type RequestError struct {
+	Code    int
+	Message string
+}
+
+func (re RequestError) Error() string {
+	return "error! code: " + strconv.FormatInt(int64(re.Code), 10) + " msg: " + re.Message
+}
+
 // JSONInt64 alias for int64, in order to deal with json big number problem
 type JSONInt64 int64
 

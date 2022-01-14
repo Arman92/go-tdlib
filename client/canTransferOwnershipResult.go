@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // CanTransferOwnership Checks whether the current session can be used to transfer a chat ownership to another user
@@ -20,7 +20,7 @@ func (client *Client) CanTransferOwnership() (tdlib.CanTransferOwnershipResult, 
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	switch tdlib.CanTransferOwnershipResultEnum(result.Data["@type"].(string)) {

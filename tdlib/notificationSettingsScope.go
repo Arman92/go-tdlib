@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-// NotificationSettingsScope Describes the types of chats to which notification settings are applied
+// NotificationSettingsScope Describes the types of chats to which notification settings are relevant
 type NotificationSettingsScope interface {
 	GetNotificationSettingsScopeEnum() NotificationSettingsScopeEnum
 }

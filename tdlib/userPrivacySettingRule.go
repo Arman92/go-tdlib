@@ -137,7 +137,7 @@ func (userPrivacySettingRuleAllowContacts *UserPrivacySettingRuleAllowContacts) 
 // UserPrivacySettingRuleAllowUsers A rule to allow certain specified users to do something
 type UserPrivacySettingRuleAllowUsers struct {
 	tdCommon
-	UserIDs []int32 `json:"user_ids"` // The user identifiers, total number of users in all rules must not exceed 1000
+	UserIDs []int64 `json:"user_ids"` // The user identifiers, total number of users in all rules must not exceed 1000
 }
 
 // MessageType return the string telegram-type of UserPrivacySettingRuleAllowUsers
@@ -148,7 +148,7 @@ func (userPrivacySettingRuleAllowUsers *UserPrivacySettingRuleAllowUsers) Messag
 // NewUserPrivacySettingRuleAllowUsers creates a new UserPrivacySettingRuleAllowUsers
 //
 // @param userIDs The user identifiers, total number of users in all rules must not exceed 1000
-func NewUserPrivacySettingRuleAllowUsers(userIDs []int32) *UserPrivacySettingRuleAllowUsers {
+func NewUserPrivacySettingRuleAllowUsers(userIDs []int64) *UserPrivacySettingRuleAllowUsers {
 	userPrivacySettingRuleAllowUsersTemp := UserPrivacySettingRuleAllowUsers{
 		tdCommon: tdCommon{Type: "userPrivacySettingRuleAllowUsers"},
 		UserIDs:  userIDs,
@@ -243,7 +243,7 @@ func (userPrivacySettingRuleRestrictContacts *UserPrivacySettingRuleRestrictCont
 // UserPrivacySettingRuleRestrictUsers A rule to restrict all specified users from doing something
 type UserPrivacySettingRuleRestrictUsers struct {
 	tdCommon
-	UserIDs []int32 `json:"user_ids"` // The user identifiers, total number of users in all rules must not exceed 1000
+	UserIDs []int64 `json:"user_ids"` // The user identifiers, total number of users in all rules must not exceed 1000
 }
 
 // MessageType return the string telegram-type of UserPrivacySettingRuleRestrictUsers
@@ -254,7 +254,7 @@ func (userPrivacySettingRuleRestrictUsers *UserPrivacySettingRuleRestrictUsers) 
 // NewUserPrivacySettingRuleRestrictUsers creates a new UserPrivacySettingRuleRestrictUsers
 //
 // @param userIDs The user identifiers, total number of users in all rules must not exceed 1000
-func NewUserPrivacySettingRuleRestrictUsers(userIDs []int32) *UserPrivacySettingRuleRestrictUsers {
+func NewUserPrivacySettingRuleRestrictUsers(userIDs []int64) *UserPrivacySettingRuleRestrictUsers {
 	userPrivacySettingRuleRestrictUsersTemp := UserPrivacySettingRuleRestrictUsers{
 		tdCommon: tdCommon{Type: "userPrivacySettingRuleRestrictUsers"},
 		UserIDs:  userIDs,

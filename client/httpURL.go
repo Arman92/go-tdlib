@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetLoginURL Returns an HTTP URL which can be used to automatically authorize the user on a website after clicking an inline button of type inlineKeyboardButtonTypeLoginUrl. Use the method getLoginUrlInfo to find whether a prior user confirmation is needed. If an error is returned, then the button must be handled as an ordinary URL button
@@ -14,7 +13,7 @@ import (
 // @param messageID Message identifier of the message with the button
 // @param buttonID Button identifier
 // @param allowWriteAccess True, if the user allowed the bot to send them messages
-func (client *Client) GetLoginURL(chatID int64, messageID int64, buttonID int32, allowWriteAccess bool) (*tdlib.HttpURL, error) {
+func (client *Client) GetLoginURL(chatID int64, messageID int64, buttonID int64, allowWriteAccess bool) (*tdlib.HttpURL, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":              "getLoginUrl",
 		"chat_id":            chatID,
@@ -28,7 +27,55 @@ func (client *Client) GetLoginURL(chatID int64, messageID int64, buttonID int32,
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var httpURL tdlib.HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetExternalLink Returns an HTTP URL which can be used to automatically authorize the current user on a website after clicking an HTTP link. Use the method getExternalLinkInfo to find whether a prior user confirmation is needed
+// @param link The HTTP link
+// @param allowWriteAccess True, if the current user allowed the bot, returned in getExternalLinkInfo, to send them messages
+func (client *Client) GetExternalLink(link string, allowWriteAccess bool) (*tdlib.HttpURL, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":              "getExternalLink",
+		"link":               link,
+		"allow_write_access": allowWriteAccess,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var httpURL tdlib.HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetGroupCallInviteLink Returns invite link to a voice chat in a public chat
+// @param groupCallID Group call identifier
+// @param canSelfUnmute Pass true if the invite_link should contain an invite hash, passing which to joinGroupCall would allow the invited user to unmute themselves. Requires groupCall.can_be_managed group call flag
+func (client *Client) GetGroupCallInviteLink(groupCallID int32, canSelfUnmute bool) (*tdlib.HttpURL, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":           "getGroupCallInviteLink",
+		"group_call_id":   groupCallID,
+		"can_self_unmute": canSelfUnmute,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var httpURL tdlib.HttpURL
@@ -50,7 +97,7 @@ func (client *Client) GetEmojiSuggestionsURL(languageCode string) (*tdlib.HttpUR
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var httpURL tdlib.HttpURL
@@ -74,7 +121,7 @@ func (client *Client) GetBackgroundURL(name string, typeParam tdlib.BackgroundTy
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var httpURL tdlib.HttpURL
@@ -85,7 +132,7 @@ func (client *Client) GetBackgroundURL(name string, typeParam tdlib.BackgroundTy
 
 // GetChatStatisticsURL Returns an HTTP URL with the chat statistics. Currently this method of getting the statistics are disabled and can be deleted in the future
 // @param chatID Chat identifier
-// @param parameters Parameters from "tg://statsrefresh?params=******" link
+// @param parameters Parameters for the request
 // @param isDark Pass true if a URL with the dark theme must be returned
 func (client *Client) GetChatStatisticsURL(chatID int64, parameters string, isDark bool) (*tdlib.HttpURL, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -100,7 +147,49 @@ func (client *Client) GetChatStatisticsURL(chatID int64, parameters string, isDa
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var httpURL tdlib.HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetApplicationDownloadLink Returns the link for downloading official Telegram application to be used when the current user invites friends to Telegram
+func (client *Client) GetApplicationDownloadLink() (*tdlib.HttpURL, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type": "getApplicationDownloadLink",
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
+	}
+
+	var httpURL tdlib.HttpURL
+	err = json.Unmarshal(result.Raw, &httpURL)
+	return &httpURL, err
+
+}
+
+// GetProxyLink Returns an HTTPS link, which can be used to add a proxy. Available only for SOCKS5 and MTProto proxies. Can be called before authorization
+// @param proxyID Proxy identifier
+func (client *Client) GetProxyLink(proxyID int32) (*tdlib.HttpURL, error) {
+	result, err := client.SendAndCatch(tdlib.UpdateData{
+		"@type":    "getProxyLink",
+		"proxy_id": proxyID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Data["@type"].(string) == "error" {
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var httpURL tdlib.HttpURL

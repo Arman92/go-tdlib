@@ -57,7 +57,7 @@ func unmarshalInputChatPhoto(rawMsg *json.RawMessage) (InputChatPhoto, error) {
 // InputChatPhotoPrevious A previously used profile photo of the current user
 type InputChatPhotoPrevious struct {
 	tdCommon
-	ChatPhotoID JSONInt64 `json:"chat_photo_id"` // Identifier of the profile photo to reuse
+	ChatPhotoID JSONInt64 `json:"chat_photo_id"` // Identifier of the current user's profile photo to reuse
 }
 
 // MessageType return the string telegram-type of InputChatPhotoPrevious
@@ -67,7 +67,7 @@ func (inputChatPhotoPrevious *InputChatPhotoPrevious) MessageType() string {
 
 // NewInputChatPhotoPrevious creates a new InputChatPhotoPrevious
 //
-// @param chatPhotoID Identifier of the profile photo to reuse
+// @param chatPhotoID Identifier of the current user's profile photo to reuse
 func NewInputChatPhotoPrevious(chatPhotoID JSONInt64) *InputChatPhotoPrevious {
 	inputChatPhotoPreviousTemp := InputChatPhotoPrevious{
 		tdCommon:    tdCommon{Type: "inputChatPhotoPrevious"},

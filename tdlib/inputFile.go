@@ -149,7 +149,7 @@ type InputFileGenerated struct {
 	tdCommon
 	OriginalPath string `json:"original_path"` // Local path to a file from which the file is generated; may be empty if there is no such file
 	Conversion   string `json:"conversion"`    // String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
-	ExpectedSize int32  `json:"expected_size"` // Expected size of the generated file; 0 if unknown
+	ExpectedSize int32  `json:"expected_size"` // Expected size of the generated file, in bytes; 0 if unknown
 }
 
 // MessageType return the string telegram-type of InputFileGenerated
@@ -161,7 +161,7 @@ func (inputFileGenerated *InputFileGenerated) MessageType() string {
 //
 // @param originalPath Local path to a file from which the file is generated; may be empty if there is no such file
 // @param conversion String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
-// @param expectedSize Expected size of the generated file; 0 if unknown
+// @param expectedSize Expected size of the generated file, in bytes; 0 if unknown
 func NewInputFileGenerated(originalPath string, conversion string, expectedSize int32) *InputFileGenerated {
 	inputFileGeneratedTemp := InputFileGenerated{
 		tdCommon:     tdCommon{Type: "inputFileGenerated"},

@@ -5,7 +5,7 @@ package tdlib
 // ChatStatisticsAdministratorActionsInfo Contains statistics about administrator actions done by a user
 type ChatStatisticsAdministratorActionsInfo struct {
 	tdCommon
-	UserID              int32 `json:"user_id"`               // Administrator user identifier
+	UserID              int64 `json:"user_id"`               // Administrator user identifier
 	DeletedMessageCount int32 `json:"deleted_message_count"` // Number of messages deleted by the administrator
 	BannedUserCount     int32 `json:"banned_user_count"`     // Number of users banned by the administrator
 	RestrictedUserCount int32 `json:"restricted_user_count"` // Number of users restricted by the administrator
@@ -22,7 +22,7 @@ func (chatStatisticsAdministratorActionsInfo *ChatStatisticsAdministratorActions
 // @param deletedMessageCount Number of messages deleted by the administrator
 // @param bannedUserCount Number of users banned by the administrator
 // @param restrictedUserCount Number of users restricted by the administrator
-func NewChatStatisticsAdministratorActionsInfo(userID int32, deletedMessageCount int32, bannedUserCount int32, restrictedUserCount int32) *ChatStatisticsAdministratorActionsInfo {
+func NewChatStatisticsAdministratorActionsInfo(userID int64, deletedMessageCount int32, bannedUserCount int32, restrictedUserCount int32) *ChatStatisticsAdministratorActionsInfo {
 	chatStatisticsAdministratorActionsInfoTemp := ChatStatisticsAdministratorActionsInfo{
 		tdCommon:            tdCommon{Type: "chatStatisticsAdministratorActionsInfo"},
 		UserID:              userID,

@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetMessages Returns information about messages. If a message is not found, returns null on the corresponding position of the result
@@ -24,7 +23,7 @@ func (client *Client) GetMessages(chatID int64, messageIDs []int64) (*tdlib.Mess
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -33,11 +32,11 @@ func (client *Client) GetMessages(chatID int64, messageIDs []int64) (*tdlib.Mess
 
 }
 
-// GetChatHistory Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true
+// GetChatHistory Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib. This is an offline request if only_local is true
 // @param chatID Chat identifier
 // @param fromMessageID Identifier of the message starting from which history must be fetched; use 0 to get results from the last message
 // @param offset Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
-// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 // @param onlyLocal If true, returns only messages that are available locally without sending network requests
 func (client *Client) GetChatHistory(chatID int64, fromMessageID int64, offset int32, limit int32, onlyLocal bool) (*tdlib.Messages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -54,7 +53,7 @@ func (client *Client) GetChatHistory(chatID int64, fromMessageID int64, offset i
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -63,12 +62,12 @@ func (client *Client) GetChatHistory(chatID int64, fromMessageID int64, offset i
 
 }
 
-// GetMessageThreadHistory Returns messages in a message thread of a message. Can be used only if message.can_get_message_thread == true. Message thread of a channel message is in the channel's linked supergroup. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library
+// GetMessageThreadHistory Returns messages in a message thread of a message. Can be used only if message.can_get_message_thread == true. Message thread of a channel message is in the channel's linked supergroup. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib
 // @param chatID Chat identifier
 // @param messageID Message identifier, which thread history needs to be returned
 // @param fromMessageID Identifier of the message starting from which history must be fetched; use 0 to get results from the last message
 // @param offset Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
-// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message thread history has not been reached
+// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 func (client *Client) GetMessageThreadHistory(chatID int64, messageID int64, fromMessageID int64, offset int32, limit int32) (*tdlib.Messages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":           "getMessageThreadHistory",
@@ -84,7 +83,7 @@ func (client *Client) GetMessageThreadHistory(chatID int64, messageID int64, fro
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -93,13 +92,13 @@ func (client *Client) GetMessageThreadHistory(chatID int64, messageID int64, fro
 
 }
 
-// SearchChatMessages Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query (searchSecretMessages should be used instead), or without an enabled message database. For optimal performance the number of returned messages is chosen by the library
+// SearchChatMessages Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query (searchSecretMessages should be used instead), or without an enabled message database. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 // @param chatID Identifier of the chat in which to search messages
 // @param query Query to search for
 // @param sender If not null, only messages sent by the specified sender will be returned. Not supported in secret chats
 // @param fromMessageID Identifier of the message starting from which history must be fetched; use 0 to get results from the last message
 // @param offset Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages
-// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+// @param limit The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 // @param filter Filter for message content in the search results
 // @param messageThreadID If not 0, only messages in the specified thread will be returned; supergroups only
 func (client *Client) SearchChatMessages(chatID int64, query string, sender tdlib.MessageSender, fromMessageID int64, offset int32, limit int32, filter tdlib.SearchMessagesFilter, messageThreadID int64) (*tdlib.Messages, error) {
@@ -120,7 +119,7 @@ func (client *Client) SearchChatMessages(chatID int64, query string, sender tdli
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -129,13 +128,13 @@ func (client *Client) SearchChatMessages(chatID int64, query string, sender tdli
 
 }
 
-// SearchMessages Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). For optimal performance the number of returned messages is chosen by the library
-// @param chatList Chat list in which to search messages; pass null to search in all chats regardless of their chat list
+// SearchMessages Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
+// @param chatList Chat list in which to search messages; pass null to search in all chats regardless of their chat list. Only Main and Archive chat lists are supported
 // @param query Query to search for
 // @param offsetDate The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the last message
 // @param offsetChatID The chat identifier of the last found message, or 0 for the first request
 // @param offsetMessageID The message identifier of the last found message, or 0 for the first request
-// @param limit The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+// @param limit The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 // @param filter Filter for message content in the search results; searchMessagesFilterCall, searchMessagesFilterMissedCall, searchMessagesFilterMention, searchMessagesFilterUnreadMention, searchMessagesFilterFailedToSend and searchMessagesFilterPinned are unsupported in this function
 // @param minDate If not 0, the minimum date of the messages to return
 // @param maxDate If not 0, the maximum date of the messages to return
@@ -158,7 +157,7 @@ func (client *Client) SearchMessages(chatList tdlib.ChatList, query string, offs
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -167,9 +166,9 @@ func (client *Client) SearchMessages(chatList tdlib.ChatList, query string, offs
 
 }
 
-// SearchCallMessages Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library
+// SearchCallMessages Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib
 // @param fromMessageID Identifier of the message from which to search; use 0 to get results from the last message
-// @param limit The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+// @param limit The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 // @param onlyMissed If true, returns only messages with missed calls
 func (client *Client) SearchCallMessages(fromMessageID int64, limit int32, onlyMissed bool) (*tdlib.Messages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
@@ -184,7 +183,7 @@ func (client *Client) SearchCallMessages(fromMessageID int64, limit int32, onlyM
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -208,7 +207,7 @@ func (client *Client) SearchChatRecentLocationMessages(chatID int64, limit int32
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -228,7 +227,7 @@ func (client *Client) GetActiveLiveLocationMessages() (*tdlib.Messages, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -250,7 +249,7 @@ func (client *Client) GetChatScheduledMessages(chatID int64) (*tdlib.Messages, e
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -259,12 +258,12 @@ func (client *Client) GetChatScheduledMessages(chatID int64) (*tdlib.Messages, e
 
 }
 
-// SendMessageAlbum Sends messages grouped together into an album. Currently only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages
+// SendMessageAlbum Sends 2-10 messages grouped together into an album. Currently only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages
 // @param chatID Target chat
 // @param messageThreadID If not 0, a message thread identifier in which the messages will be sent
 // @param replyToMessageID Identifier of a message to reply to or 0
 // @param options Options to be used to send the messages
-// @param inputMessageContents Contents of messages to be sent
+// @param inputMessageContents Contents of messages to be sent. At most 10 messages can be added to an album
 func (client *Client) SendMessageAlbum(chatID int64, messageThreadID int64, replyToMessageID int64, options *tdlib.MessageSendOptions, inputMessageContents []tdlib.InputMessageContent) (*tdlib.Messages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":                  "sendMessageAlbum",
@@ -280,7 +279,7 @@ func (client *Client) SendMessageAlbum(chatID int64, messageThreadID int64, repl
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -292,11 +291,12 @@ func (client *Client) SendMessageAlbum(chatID int64, messageThreadID int64, repl
 // ForwardMessages Forwards previously sent messages. Returns the forwarded messages in the same order as the message identifiers passed in message_ids. If a message can't be forwarded, null will be returned instead of the message
 // @param chatID Identifier of the chat to which to forward messages
 // @param fromChatID Identifier of the chat from which to forward messages
-// @param messageIDs Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order
+// @param messageIDs Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order. At most 100 messages can be forwarded simultaneously
 // @param options Options to be used to send the messages
-// @param sendCopy True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat
-// @param removeCaption True, if media caption of message copies needs to be removed. Ignored if send_copy is false
-func (client *Client) ForwardMessages(chatID int64, fromChatID int64, messageIDs []int64, options *tdlib.MessageSendOptions, sendCopy bool, removeCaption bool) (*tdlib.Messages, error) {
+// @param sendCopy If true, content of the messages will be copied without links to the original messages. Always true if the messages are forwarded to a secret chat
+// @param removeCaption If true, media caption of message copies will be removed. Ignored if send_copy is false
+// @param onlyPreview If true, messages will not be forwarded and instead fake messages will be returned
+func (client *Client) ForwardMessages(chatID int64, fromChatID int64, messageIDs []int64, options *tdlib.MessageSendOptions, sendCopy bool, removeCaption bool, onlyPreview bool) (*tdlib.Messages, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":          "forwardMessages",
 		"chat_id":        chatID,
@@ -305,6 +305,7 @@ func (client *Client) ForwardMessages(chatID int64, fromChatID int64, messageIDs
 		"options":        options,
 		"send_copy":      sendCopy,
 		"remove_caption": removeCaption,
+		"only_preview":   onlyPreview,
 	})
 
 	if err != nil {
@@ -312,7 +313,7 @@ func (client *Client) ForwardMessages(chatID int64, fromChatID int64, messageIDs
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages
@@ -336,7 +337,7 @@ func (client *Client) ResendMessages(chatID int64, messageIDs []int64) (*tdlib.M
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var messages tdlib.Messages

@@ -4,25 +4,28 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // SendPaymentForm Sends a filled-out payment form to the bot for final verification
 // @param chatID Chat identifier of the Invoice message
 // @param messageID Message identifier
-// @param orderInfoID Identifier returned by ValidateOrderInfo, or an empty string
+// @param paymentFormID Payment form identifier returned by getPaymentForm
+// @param orderInfoID Identifier returned by validateOrderInfo, or an empty string
 // @param shippingOptionID Identifier of a chosen shipping option, if applicable
 // @param credentials The credentials chosen by user for payment
-func (client *Client) SendPaymentForm(chatID int64, messageID int64, orderInfoID string, shippingOptionID string, credentials tdlib.InputCredentials) (*tdlib.PaymentResult, error) {
+// @param tipAmount Chosen by the user amount of tip in the smallest units of the currency
+func (client *Client) SendPaymentForm(chatID int64, messageID int64, paymentFormID *tdlib.JSONInt64, orderInfoID string, shippingOptionID string, credentials tdlib.InputCredentials, tipAmount int64) (*tdlib.PaymentResult, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":              "sendPaymentForm",
 		"chat_id":            chatID,
 		"message_id":         messageID,
+		"payment_form_id":    paymentFormID,
 		"order_info_id":      orderInfoID,
 		"shipping_option_id": shippingOptionID,
 		"credentials":        credentials,
+		"tip_amount":         tipAmount,
 	})
 
 	if err != nil {
@@ -30,7 +33,7 @@ func (client *Client) SendPaymentForm(chatID int64, messageID int64, orderInfoID
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var paymentResult tdlib.PaymentResult

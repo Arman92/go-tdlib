@@ -3,17 +3,18 @@ package main
 import (
 	"fmt"
 
-	"github.com/Arman92/go-tdlib"
+	"github.com/Arman92/go-tdlib/v2/client"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 const botToken = "<your bot token>"
 
 func main() {
-	tdlib.SetLogVerbosityLevel(1)
-	tdlib.SetFilePath("./errors.txt")
+	client.SetLogVerbosityLevel(1)
+	client.SetFilePath("./errors.txt")
 
 	// Create new instance of client
-	client := tdlib.NewClient(tdlib.Config{
+	client := client.NewClient(client.Config{
 		APIID:               "187786",
 		APIHash:             "e782045df67ba48e441ccb105da8fc85",
 		SystemLanguageCode:  "en",

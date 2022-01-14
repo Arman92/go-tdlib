@@ -17,48 +17,53 @@ type MessageContentEnum string
 
 // MessageContent enums
 const (
-	MessageTextType                    MessageContentEnum = "messageText"
-	MessageAnimationType               MessageContentEnum = "messageAnimation"
-	MessageAudioType                   MessageContentEnum = "messageAudio"
-	MessageDocumentType                MessageContentEnum = "messageDocument"
-	MessagePhotoType                   MessageContentEnum = "messagePhoto"
-	MessageExpiredPhotoType            MessageContentEnum = "messageExpiredPhoto"
-	MessageStickerType                 MessageContentEnum = "messageSticker"
-	MessageVideoType                   MessageContentEnum = "messageVideo"
-	MessageExpiredVideoType            MessageContentEnum = "messageExpiredVideo"
-	MessageVideoNoteType               MessageContentEnum = "messageVideoNote"
-	MessageVoiceNoteType               MessageContentEnum = "messageVoiceNote"
-	MessageLocationType                MessageContentEnum = "messageLocation"
-	MessageVenueType                   MessageContentEnum = "messageVenue"
-	MessageContactType                 MessageContentEnum = "messageContact"
-	MessageDiceType                    MessageContentEnum = "messageDice"
-	MessageGameType                    MessageContentEnum = "messageGame"
-	MessagePollType                    MessageContentEnum = "messagePoll"
-	MessageInvoiceType                 MessageContentEnum = "messageInvoice"
-	MessageCallType                    MessageContentEnum = "messageCall"
-	MessageBasicGroupChatCreateType    MessageContentEnum = "messageBasicGroupChatCreate"
-	MessageSupergroupChatCreateType    MessageContentEnum = "messageSupergroupChatCreate"
-	MessageChatChangeTitleType         MessageContentEnum = "messageChatChangeTitle"
-	MessageChatChangePhotoType         MessageContentEnum = "messageChatChangePhoto"
-	MessageChatDeletePhotoType         MessageContentEnum = "messageChatDeletePhoto"
-	MessageChatAddMembersType          MessageContentEnum = "messageChatAddMembers"
-	MessageChatJoinByLinkType          MessageContentEnum = "messageChatJoinByLink"
-	MessageChatDeleteMemberType        MessageContentEnum = "messageChatDeleteMember"
-	MessageChatUpgradeToType           MessageContentEnum = "messageChatUpgradeTo"
-	MessageChatUpgradeFromType         MessageContentEnum = "messageChatUpgradeFrom"
-	MessagePinMessageType              MessageContentEnum = "messagePinMessage"
-	MessageScreenshotTakenType         MessageContentEnum = "messageScreenshotTaken"
-	MessageChatSetTTLType              MessageContentEnum = "messageChatSetTtl"
-	MessageCustomServiceActionType     MessageContentEnum = "messageCustomServiceAction"
-	MessageGameScoreType               MessageContentEnum = "messageGameScore"
-	MessagePaymentSuccessfulType       MessageContentEnum = "messagePaymentSuccessful"
-	MessagePaymentSuccessfulBotType    MessageContentEnum = "messagePaymentSuccessfulBot"
-	MessageContactRegisteredType       MessageContentEnum = "messageContactRegistered"
-	MessageWebsiteConnectedType        MessageContentEnum = "messageWebsiteConnected"
-	MessagePassportDataSentType        MessageContentEnum = "messagePassportDataSent"
-	MessagePassportDataReceivedType    MessageContentEnum = "messagePassportDataReceived"
-	MessageProximityAlertTriggeredType MessageContentEnum = "messageProximityAlertTriggered"
-	MessageUnsupportedType             MessageContentEnum = "messageUnsupported"
+	MessageTextType                        MessageContentEnum = "messageText"
+	MessageAnimationType                   MessageContentEnum = "messageAnimation"
+	MessageAudioType                       MessageContentEnum = "messageAudio"
+	MessageDocumentType                    MessageContentEnum = "messageDocument"
+	MessagePhotoType                       MessageContentEnum = "messagePhoto"
+	MessageExpiredPhotoType                MessageContentEnum = "messageExpiredPhoto"
+	MessageStickerType                     MessageContentEnum = "messageSticker"
+	MessageVideoType                       MessageContentEnum = "messageVideo"
+	MessageExpiredVideoType                MessageContentEnum = "messageExpiredVideo"
+	MessageVideoNoteType                   MessageContentEnum = "messageVideoNote"
+	MessageVoiceNoteType                   MessageContentEnum = "messageVoiceNote"
+	MessageLocationType                    MessageContentEnum = "messageLocation"
+	MessageVenueType                       MessageContentEnum = "messageVenue"
+	MessageContactType                     MessageContentEnum = "messageContact"
+	MessageDiceType                        MessageContentEnum = "messageDice"
+	MessageGameType                        MessageContentEnum = "messageGame"
+	MessagePollType                        MessageContentEnum = "messagePoll"
+	MessageInvoiceType                     MessageContentEnum = "messageInvoice"
+	MessageCallType                        MessageContentEnum = "messageCall"
+	MessageVoiceChatScheduledType          MessageContentEnum = "messageVoiceChatScheduled"
+	MessageVoiceChatStartedType            MessageContentEnum = "messageVoiceChatStarted"
+	MessageVoiceChatEndedType              MessageContentEnum = "messageVoiceChatEnded"
+	MessageInviteVoiceChatParticipantsType MessageContentEnum = "messageInviteVoiceChatParticipants"
+	MessageBasicGroupChatCreateType        MessageContentEnum = "messageBasicGroupChatCreate"
+	MessageSupergroupChatCreateType        MessageContentEnum = "messageSupergroupChatCreate"
+	MessageChatChangeTitleType             MessageContentEnum = "messageChatChangeTitle"
+	MessageChatChangePhotoType             MessageContentEnum = "messageChatChangePhoto"
+	MessageChatDeletePhotoType             MessageContentEnum = "messageChatDeletePhoto"
+	MessageChatAddMembersType              MessageContentEnum = "messageChatAddMembers"
+	MessageChatJoinByLinkType              MessageContentEnum = "messageChatJoinByLink"
+	MessageChatDeleteMemberType            MessageContentEnum = "messageChatDeleteMember"
+	MessageChatUpgradeToType               MessageContentEnum = "messageChatUpgradeTo"
+	MessageChatUpgradeFromType             MessageContentEnum = "messageChatUpgradeFrom"
+	MessagePinMessageType                  MessageContentEnum = "messagePinMessage"
+	MessageScreenshotTakenType             MessageContentEnum = "messageScreenshotTaken"
+	MessageChatSetThemeType                MessageContentEnum = "messageChatSetTheme"
+	MessageChatSetTTLType                  MessageContentEnum = "messageChatSetTtl"
+	MessageCustomServiceActionType         MessageContentEnum = "messageCustomServiceAction"
+	MessageGameScoreType                   MessageContentEnum = "messageGameScore"
+	MessagePaymentSuccessfulType           MessageContentEnum = "messagePaymentSuccessful"
+	MessagePaymentSuccessfulBotType        MessageContentEnum = "messagePaymentSuccessfulBot"
+	MessageContactRegisteredType           MessageContentEnum = "messageContactRegistered"
+	MessageWebsiteConnectedType            MessageContentEnum = "messageWebsiteConnected"
+	MessagePassportDataSentType            MessageContentEnum = "messagePassportDataSent"
+	MessagePassportDataReceivedType        MessageContentEnum = "messagePassportDataReceived"
+	MessageProximityAlertTriggeredType     MessageContentEnum = "messageProximityAlertTriggered"
+	MessageUnsupportedType                 MessageContentEnum = "messageUnsupported"
 )
 
 func unmarshalMessageContent(rawMsg *json.RawMessage) (MessageContent, error) {
@@ -168,6 +173,26 @@ func unmarshalMessageContent(rawMsg *json.RawMessage) (MessageContent, error) {
 		err := json.Unmarshal(*rawMsg, &messageCall)
 		return &messageCall, err
 
+	case MessageVoiceChatScheduledType:
+		var messageVoiceChatScheduled MessageVoiceChatScheduled
+		err := json.Unmarshal(*rawMsg, &messageVoiceChatScheduled)
+		return &messageVoiceChatScheduled, err
+
+	case MessageVoiceChatStartedType:
+		var messageVoiceChatStarted MessageVoiceChatStarted
+		err := json.Unmarshal(*rawMsg, &messageVoiceChatStarted)
+		return &messageVoiceChatStarted, err
+
+	case MessageVoiceChatEndedType:
+		var messageVoiceChatEnded MessageVoiceChatEnded
+		err := json.Unmarshal(*rawMsg, &messageVoiceChatEnded)
+		return &messageVoiceChatEnded, err
+
+	case MessageInviteVoiceChatParticipantsType:
+		var messageInviteVoiceChatParticipants MessageInviteVoiceChatParticipants
+		err := json.Unmarshal(*rawMsg, &messageInviteVoiceChatParticipants)
+		return &messageInviteVoiceChatParticipants, err
+
 	case MessageBasicGroupChatCreateType:
 		var messageBasicGroupChatCreate MessageBasicGroupChatCreate
 		err := json.Unmarshal(*rawMsg, &messageBasicGroupChatCreate)
@@ -227,6 +252,11 @@ func unmarshalMessageContent(rawMsg *json.RawMessage) (MessageContent, error) {
 		var messageScreenshotTaken MessageScreenshotTaken
 		err := json.Unmarshal(*rawMsg, &messageScreenshotTaken)
 		return &messageScreenshotTaken, err
+
+	case MessageChatSetThemeType:
+		var messageChatSetTheme MessageChatSetTheme
+		err := json.Unmarshal(*rawMsg, &messageChatSetTheme)
+		return &messageChatSetTheme, err
 
 	case MessageChatSetTTLType:
 		var messageChatSetTTL MessageChatSetTTL
@@ -860,7 +890,7 @@ type MessageInvoice struct {
 	Description         string `json:"description"`           // Product description
 	Photo               *Photo `json:"photo"`                 // Product photo; may be null
 	Currency            string `json:"currency"`              // Currency for the product price
-	TotalAmount         int64  `json:"total_amount"`          // Product total price in the minimal quantity of the currency
+	TotalAmount         int64  `json:"total_amount"`          // Product total price in the smallest units of the currency
 	StartParameter      string `json:"start_parameter"`       // Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
 	IsTest              bool   `json:"is_test"`               // True, if the invoice is a test invoice
 	NeedShippingAddress bool   `json:"need_shipping_address"` // True, if the shipping address should be specified
@@ -878,7 +908,7 @@ func (messageInvoice *MessageInvoice) MessageType() string {
 // @param description Product description
 // @param photo Product photo; may be null
 // @param currency Currency for the product price
-// @param totalAmount Product total price in the minimal quantity of the currency
+// @param totalAmount Product total price in the smallest units of the currency
 // @param startParameter Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
 // @param isTest True, if the invoice is a test invoice
 // @param needShippingAddress True, if the shipping address should be specified
@@ -966,11 +996,129 @@ func (messageCall *MessageCall) GetMessageContentEnum() MessageContentEnum {
 	return MessageCallType
 }
 
+// MessageVoiceChatScheduled A new voice chat was scheduled
+type MessageVoiceChatScheduled struct {
+	tdCommon
+	GroupCallID int32 `json:"group_call_id"` // Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+	StartDate   int32 `json:"start_date"`    // Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
+}
+
+// MessageType return the string telegram-type of MessageVoiceChatScheduled
+func (messageVoiceChatScheduled *MessageVoiceChatScheduled) MessageType() string {
+	return "messageVoiceChatScheduled"
+}
+
+// NewMessageVoiceChatScheduled creates a new MessageVoiceChatScheduled
+//
+// @param groupCallID Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+// @param startDate Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
+func NewMessageVoiceChatScheduled(groupCallID int32, startDate int32) *MessageVoiceChatScheduled {
+	messageVoiceChatScheduledTemp := MessageVoiceChatScheduled{
+		tdCommon:    tdCommon{Type: "messageVoiceChatScheduled"},
+		GroupCallID: groupCallID,
+		StartDate:   startDate,
+	}
+
+	return &messageVoiceChatScheduledTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messageVoiceChatScheduled *MessageVoiceChatScheduled) GetMessageContentEnum() MessageContentEnum {
+	return MessageVoiceChatScheduledType
+}
+
+// MessageVoiceChatStarted A newly created voice chat
+type MessageVoiceChatStarted struct {
+	tdCommon
+	GroupCallID int32 `json:"group_call_id"` // Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+}
+
+// MessageType return the string telegram-type of MessageVoiceChatStarted
+func (messageVoiceChatStarted *MessageVoiceChatStarted) MessageType() string {
+	return "messageVoiceChatStarted"
+}
+
+// NewMessageVoiceChatStarted creates a new MessageVoiceChatStarted
+//
+// @param groupCallID Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+func NewMessageVoiceChatStarted(groupCallID int32) *MessageVoiceChatStarted {
+	messageVoiceChatStartedTemp := MessageVoiceChatStarted{
+		tdCommon:    tdCommon{Type: "messageVoiceChatStarted"},
+		GroupCallID: groupCallID,
+	}
+
+	return &messageVoiceChatStartedTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messageVoiceChatStarted *MessageVoiceChatStarted) GetMessageContentEnum() MessageContentEnum {
+	return MessageVoiceChatStartedType
+}
+
+// MessageVoiceChatEnded A message with information about an ended voice chat
+type MessageVoiceChatEnded struct {
+	tdCommon
+	Duration int32 `json:"duration"` // Call duration, in seconds
+}
+
+// MessageType return the string telegram-type of MessageVoiceChatEnded
+func (messageVoiceChatEnded *MessageVoiceChatEnded) MessageType() string {
+	return "messageVoiceChatEnded"
+}
+
+// NewMessageVoiceChatEnded creates a new MessageVoiceChatEnded
+//
+// @param duration Call duration, in seconds
+func NewMessageVoiceChatEnded(duration int32) *MessageVoiceChatEnded {
+	messageVoiceChatEndedTemp := MessageVoiceChatEnded{
+		tdCommon: tdCommon{Type: "messageVoiceChatEnded"},
+		Duration: duration,
+	}
+
+	return &messageVoiceChatEndedTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messageVoiceChatEnded *MessageVoiceChatEnded) GetMessageContentEnum() MessageContentEnum {
+	return MessageVoiceChatEndedType
+}
+
+// MessageInviteVoiceChatParticipants A message with information about an invite to a voice chat
+type MessageInviteVoiceChatParticipants struct {
+	tdCommon
+	GroupCallID int32   `json:"group_call_id"` // Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+	UserIDs     []int64 `json:"user_ids"`      // Invited user identifiers
+}
+
+// MessageType return the string telegram-type of MessageInviteVoiceChatParticipants
+func (messageInviteVoiceChatParticipants *MessageInviteVoiceChatParticipants) MessageType() string {
+	return "messageInviteVoiceChatParticipants"
+}
+
+// NewMessageInviteVoiceChatParticipants creates a new MessageInviteVoiceChatParticipants
+//
+// @param groupCallID Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+// @param userIDs Invited user identifiers
+func NewMessageInviteVoiceChatParticipants(groupCallID int32, userIDs []int64) *MessageInviteVoiceChatParticipants {
+	messageInviteVoiceChatParticipantsTemp := MessageInviteVoiceChatParticipants{
+		tdCommon:    tdCommon{Type: "messageInviteVoiceChatParticipants"},
+		GroupCallID: groupCallID,
+		UserIDs:     userIDs,
+	}
+
+	return &messageInviteVoiceChatParticipantsTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messageInviteVoiceChatParticipants *MessageInviteVoiceChatParticipants) GetMessageContentEnum() MessageContentEnum {
+	return MessageInviteVoiceChatParticipantsType
+}
+
 // MessageBasicGroupChatCreate A newly created basic group
 type MessageBasicGroupChatCreate struct {
 	tdCommon
 	Title         string  `json:"title"`           // Title of the basic group
-	MemberUserIDs []int32 `json:"member_user_ids"` // User identifiers of members in the basic group
+	MemberUserIDs []int64 `json:"member_user_ids"` // User identifiers of members in the basic group
 }
 
 // MessageType return the string telegram-type of MessageBasicGroupChatCreate
@@ -982,7 +1130,7 @@ func (messageBasicGroupChatCreate *MessageBasicGroupChatCreate) MessageType() st
 //
 // @param title Title of the basic group
 // @param memberUserIDs User identifiers of members in the basic group
-func NewMessageBasicGroupChatCreate(title string, memberUserIDs []int32) *MessageBasicGroupChatCreate {
+func NewMessageBasicGroupChatCreate(title string, memberUserIDs []int64) *MessageBasicGroupChatCreate {
 	messageBasicGroupChatCreateTemp := MessageBasicGroupChatCreate{
 		tdCommon:      tdCommon{Type: "messageBasicGroupChatCreate"},
 		Title:         title,
@@ -1109,7 +1257,7 @@ func (messageChatDeletePhoto *MessageChatDeletePhoto) GetMessageContentEnum() Me
 // MessageChatAddMembers New chat members were added
 type MessageChatAddMembers struct {
 	tdCommon
-	MemberUserIDs []int32 `json:"member_user_ids"` // User identifiers of the new members
+	MemberUserIDs []int64 `json:"member_user_ids"` // User identifiers of the new members
 }
 
 // MessageType return the string telegram-type of MessageChatAddMembers
@@ -1120,7 +1268,7 @@ func (messageChatAddMembers *MessageChatAddMembers) MessageType() string {
 // NewMessageChatAddMembers creates a new MessageChatAddMembers
 //
 // @param memberUserIDs User identifiers of the new members
-func NewMessageChatAddMembers(memberUserIDs []int32) *MessageChatAddMembers {
+func NewMessageChatAddMembers(memberUserIDs []int64) *MessageChatAddMembers {
 	messageChatAddMembersTemp := MessageChatAddMembers{
 		tdCommon:      tdCommon{Type: "messageChatAddMembers"},
 		MemberUserIDs: memberUserIDs,
@@ -1162,7 +1310,7 @@ func (messageChatJoinByLink *MessageChatJoinByLink) GetMessageContentEnum() Mess
 // MessageChatDeleteMember A chat member was deleted
 type MessageChatDeleteMember struct {
 	tdCommon
-	UserID int32 `json:"user_id"` // User identifier of the deleted chat member
+	UserID int64 `json:"user_id"` // User identifier of the deleted chat member
 }
 
 // MessageType return the string telegram-type of MessageChatDeleteMember
@@ -1173,7 +1321,7 @@ func (messageChatDeleteMember *MessageChatDeleteMember) MessageType() string {
 // NewMessageChatDeleteMember creates a new MessageChatDeleteMember
 //
 // @param userID User identifier of the deleted chat member
-func NewMessageChatDeleteMember(userID int32) *MessageChatDeleteMember {
+func NewMessageChatDeleteMember(userID int64) *MessageChatDeleteMember {
 	messageChatDeleteMemberTemp := MessageChatDeleteMember{
 		tdCommon: tdCommon{Type: "messageChatDeleteMember"},
 		UserID:   userID,
@@ -1190,7 +1338,7 @@ func (messageChatDeleteMember *MessageChatDeleteMember) GetMessageContentEnum() 
 // MessageChatUpgradeTo A basic group was upgraded to a supergroup and was deactivated as the result
 type MessageChatUpgradeTo struct {
 	tdCommon
-	SupergroupID int32 `json:"supergroup_id"` // Identifier of the supergroup to which the basic group was upgraded
+	SupergroupID int64 `json:"supergroup_id"` // Identifier of the supergroup to which the basic group was upgraded
 }
 
 // MessageType return the string telegram-type of MessageChatUpgradeTo
@@ -1201,7 +1349,7 @@ func (messageChatUpgradeTo *MessageChatUpgradeTo) MessageType() string {
 // NewMessageChatUpgradeTo creates a new MessageChatUpgradeTo
 //
 // @param supergroupID Identifier of the supergroup to which the basic group was upgraded
-func NewMessageChatUpgradeTo(supergroupID int32) *MessageChatUpgradeTo {
+func NewMessageChatUpgradeTo(supergroupID int64) *MessageChatUpgradeTo {
 	messageChatUpgradeToTemp := MessageChatUpgradeTo{
 		tdCommon:     tdCommon{Type: "messageChatUpgradeTo"},
 		SupergroupID: supergroupID,
@@ -1219,7 +1367,7 @@ func (messageChatUpgradeTo *MessageChatUpgradeTo) GetMessageContentEnum() Messag
 type MessageChatUpgradeFrom struct {
 	tdCommon
 	Title        string `json:"title"`          // Title of the newly created supergroup
-	BasicGroupID int32  `json:"basic_group_id"` // The identifier of the original basic group
+	BasicGroupID int64  `json:"basic_group_id"` // The identifier of the original basic group
 }
 
 // MessageType return the string telegram-type of MessageChatUpgradeFrom
@@ -1231,7 +1379,7 @@ func (messageChatUpgradeFrom *MessageChatUpgradeFrom) MessageType() string {
 //
 // @param title Title of the newly created supergroup
 // @param basicGroupID The identifier of the original basic group
-func NewMessageChatUpgradeFrom(title string, basicGroupID int32) *MessageChatUpgradeFrom {
+func NewMessageChatUpgradeFrom(title string, basicGroupID int64) *MessageChatUpgradeFrom {
 	messageChatUpgradeFromTemp := MessageChatUpgradeFrom{
 		tdCommon:     tdCommon{Type: "messageChatUpgradeFrom"},
 		Title:        title,
@@ -1299,10 +1447,38 @@ func (messageScreenshotTaken *MessageScreenshotTaken) GetMessageContentEnum() Me
 	return MessageScreenshotTakenType
 }
 
-// MessageChatSetTTL The TTL (Time To Live) setting messages in a secret chat has been changed
+// MessageChatSetTheme A theme in the chat has been changed
+type MessageChatSetTheme struct {
+	tdCommon
+	ThemeName string `json:"theme_name"` // If non-empty, name of a new theme set for the chat. Otherwise chat theme was reset to the default one
+}
+
+// MessageType return the string telegram-type of MessageChatSetTheme
+func (messageChatSetTheme *MessageChatSetTheme) MessageType() string {
+	return "messageChatSetTheme"
+}
+
+// NewMessageChatSetTheme creates a new MessageChatSetTheme
+//
+// @param themeName If non-empty, name of a new theme set for the chat. Otherwise chat theme was reset to the default one
+func NewMessageChatSetTheme(themeName string) *MessageChatSetTheme {
+	messageChatSetThemeTemp := MessageChatSetTheme{
+		tdCommon:  tdCommon{Type: "messageChatSetTheme"},
+		ThemeName: themeName,
+	}
+
+	return &messageChatSetThemeTemp
+}
+
+// GetMessageContentEnum return the enum type of this object
+func (messageChatSetTheme *MessageChatSetTheme) GetMessageContentEnum() MessageContentEnum {
+	return MessageChatSetThemeType
+}
+
+// MessageChatSetTTL The TTL (Time To Live) setting for messages in the chat has been changed
 type MessageChatSetTTL struct {
 	tdCommon
-	TTL int32 `json:"ttl"` // New TTL
+	TTL int32 `json:"ttl"` // New message TTL setting
 }
 
 // MessageType return the string telegram-type of MessageChatSetTTL
@@ -1312,7 +1488,7 @@ func (messageChatSetTTL *MessageChatSetTTL) MessageType() string {
 
 // NewMessageChatSetTTL creates a new MessageChatSetTTL
 //
-// @param tTL New TTL
+// @param tTL New message TTL setting
 func NewMessageChatSetTTL(tTL int32) *MessageChatSetTTL {
 	messageChatSetTTLTemp := MessageChatSetTTL{
 		tdCommon: tdCommon{Type: "messageChatSetTtl"},
@@ -1392,9 +1568,10 @@ func (messageGameScore *MessageGameScore) GetMessageContentEnum() MessageContent
 // MessagePaymentSuccessful A payment has been completed
 type MessagePaymentSuccessful struct {
 	tdCommon
+	InvoiceChatID    int64  `json:"invoice_chat_id"`    // Identifier of the chat, containing the corresponding invoice message; 0 if unknown
 	InvoiceMessageID int64  `json:"invoice_message_id"` // Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
 	Currency         string `json:"currency"`           // Currency for the price of the product
-	TotalAmount      int64  `json:"total_amount"`       // Total price for the product, in the minimal quantity of the currency
+	TotalAmount      int64  `json:"total_amount"`       // Total price for the product, in the smallest units of the currency
 }
 
 // MessageType return the string telegram-type of MessagePaymentSuccessful
@@ -1404,12 +1581,14 @@ func (messagePaymentSuccessful *MessagePaymentSuccessful) MessageType() string {
 
 // NewMessagePaymentSuccessful creates a new MessagePaymentSuccessful
 //
+// @param invoiceChatID Identifier of the chat, containing the corresponding invoice message; 0 if unknown
 // @param invoiceMessageID Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
 // @param currency Currency for the price of the product
-// @param totalAmount Total price for the product, in the minimal quantity of the currency
-func NewMessagePaymentSuccessful(invoiceMessageID int64, currency string, totalAmount int64) *MessagePaymentSuccessful {
+// @param totalAmount Total price for the product, in the smallest units of the currency
+func NewMessagePaymentSuccessful(invoiceChatID int64, invoiceMessageID int64, currency string, totalAmount int64) *MessagePaymentSuccessful {
 	messagePaymentSuccessfulTemp := MessagePaymentSuccessful{
 		tdCommon:         tdCommon{Type: "messagePaymentSuccessful"},
+		InvoiceChatID:    invoiceChatID,
 		InvoiceMessageID: invoiceMessageID,
 		Currency:         currency,
 		TotalAmount:      totalAmount,
@@ -1426,9 +1605,8 @@ func (messagePaymentSuccessful *MessagePaymentSuccessful) GetMessageContentEnum(
 // MessagePaymentSuccessfulBot A payment has been completed; for bots only
 type MessagePaymentSuccessfulBot struct {
 	tdCommon
-	InvoiceMessageID        int64      `json:"invoice_message_id"`         // Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
 	Currency                string     `json:"currency"`                   // Currency for price of the product
-	TotalAmount             int64      `json:"total_amount"`               // Total price for the product, in the minimal quantity of the currency
+	TotalAmount             int64      `json:"total_amount"`               // Total price for the product, in the smallest units of the currency
 	InvoicePayload          []byte     `json:"invoice_payload"`            // Invoice payload
 	ShippingOptionID        string     `json:"shipping_option_id"`         // Identifier of the shipping option chosen by the user; may be empty if not applicable
 	OrderInfo               *OrderInfo `json:"order_info"`                 // Information about the order; may be null
@@ -1443,18 +1621,16 @@ func (messagePaymentSuccessfulBot *MessagePaymentSuccessfulBot) MessageType() st
 
 // NewMessagePaymentSuccessfulBot creates a new MessagePaymentSuccessfulBot
 //
-// @param invoiceMessageID Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
 // @param currency Currency for price of the product
-// @param totalAmount Total price for the product, in the minimal quantity of the currency
+// @param totalAmount Total price for the product, in the smallest units of the currency
 // @param invoicePayload Invoice payload
 // @param shippingOptionID Identifier of the shipping option chosen by the user; may be empty if not applicable
 // @param orderInfo Information about the order; may be null
 // @param telegramPaymentChargeID Telegram payment identifier
 // @param providerPaymentChargeID Provider payment identifier
-func NewMessagePaymentSuccessfulBot(invoiceMessageID int64, currency string, totalAmount int64, invoicePayload []byte, shippingOptionID string, orderInfo *OrderInfo, telegramPaymentChargeID string, providerPaymentChargeID string) *MessagePaymentSuccessfulBot {
+func NewMessagePaymentSuccessfulBot(currency string, totalAmount int64, invoicePayload []byte, shippingOptionID string, orderInfo *OrderInfo, telegramPaymentChargeID string, providerPaymentChargeID string) *MessagePaymentSuccessfulBot {
 	messagePaymentSuccessfulBotTemp := MessagePaymentSuccessfulBot{
 		tdCommon:                tdCommon{Type: "messagePaymentSuccessfulBot"},
-		InvoiceMessageID:        invoiceMessageID,
 		Currency:                currency,
 		TotalAmount:             totalAmount,
 		InvoicePayload:          invoicePayload,

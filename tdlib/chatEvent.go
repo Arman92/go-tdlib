@@ -11,7 +11,7 @@ type ChatEvent struct {
 	tdCommon
 	ID     JSONInt64       `json:"id"`      // Chat event identifier
 	Date   int32           `json:"date"`    // Point in time (Unix timestamp) when the event happened
-	UserID int32           `json:"user_id"` // Identifier of the user who performed the action that triggered the event
+	UserID int64           `json:"user_id"` // Identifier of the user who performed the action that triggered the event
 	Action ChatEventAction `json:"action"`  // Action performed by the user
 }
 
@@ -26,7 +26,7 @@ func (chatEvent *ChatEvent) MessageType() string {
 // @param date Point in time (Unix timestamp) when the event happened
 // @param userID Identifier of the user who performed the action that triggered the event
 // @param action Action performed by the user
-func NewChatEvent(iD JSONInt64, date int32, userID int32, action ChatEventAction) *ChatEvent {
+func NewChatEvent(iD JSONInt64, date int32, userID int64, action ChatEventAction) *ChatEvent {
 	chatEventTemp := ChatEvent{
 		tdCommon: tdCommon{Type: "chatEvent"},
 		ID:       iD,
@@ -49,7 +49,7 @@ func (chatEvent *ChatEvent) UnmarshalJSON(b []byte) error {
 		tdCommon
 		ID     JSONInt64 `json:"id"`      // Chat event identifier
 		Date   int32     `json:"date"`    // Point in time (Unix timestamp) when the event happened
-		UserID int32     `json:"user_id"` // Identifier of the user who performed the action that triggered the event
+		UserID int64     `json:"user_id"` // Identifier of the user who performed the action that triggered the event
 
 	}{}
 	err = json.Unmarshal(b, &tempObj)

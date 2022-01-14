@@ -4,9 +4,8 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 
-	"github.com/Arman92/go-tdlib/tdlib"
+	"github.com/Arman92/go-tdlib/v2/tdlib"
 )
 
 // GetMe Returns the current user
@@ -20,7 +19,7 @@ func (client *Client) GetMe() (*tdlib.User, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var user tdlib.User
@@ -31,7 +30,7 @@ func (client *Client) GetMe() (*tdlib.User, error) {
 
 // GetUser Returns information about a user by their identifier. This is an offline request if the current user is not a bot
 // @param userID User identifier
-func (client *Client) GetUser(userID int32) (*tdlib.User, error) {
+func (client *Client) GetUser(userID int64) (*tdlib.User, error) {
 	result, err := client.SendAndCatch(tdlib.UpdateData{
 		"@type":   "getUser",
 		"user_id": userID,
@@ -42,7 +41,7 @@ func (client *Client) GetUser(userID int32) (*tdlib.User, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var userDummy tdlib.User
@@ -62,7 +61,7 @@ func (client *Client) GetSupportUser() (*tdlib.User, error) {
 	}
 
 	if result.Data["@type"].(string) == "error" {
-		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
+		return nil, tdlib.RequestError{Code: int(result.Data["code"].(float64)), Message: result.Data["message"].(string)}
 	}
 
 	var user tdlib.User

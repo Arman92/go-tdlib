@@ -6,7 +6,7 @@ package tdlib
 type GameHighScore struct {
 	tdCommon
 	Position int32 `json:"position"` // Position in the high score table
-	UserID   int32 `json:"user_id"`  // User identifier
+	UserID   int64 `json:"user_id"`  // User identifier
 	Score    int32 `json:"score"`    // User score
 }
 
@@ -20,7 +20,7 @@ func (gameHighScore *GameHighScore) MessageType() string {
 // @param position Position in the high score table
 // @param userID User identifier
 // @param score User score
-func NewGameHighScore(position int32, userID int32, score int32) *GameHighScore {
+func NewGameHighScore(position int32, userID int64, score int32) *GameHighScore {
 	gameHighScoreTemp := GameHighScore{
 		tdCommon: tdCommon{Type: "gameHighScore"},
 		Position: position,

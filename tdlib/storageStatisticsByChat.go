@@ -6,7 +6,7 @@ package tdlib
 type StorageStatisticsByChat struct {
 	tdCommon
 	ChatID     int64                         `json:"chat_id"`      // Chat identifier; 0 if none
-	Size       int64                         `json:"size"`         // Total size of the files in the chat
+	Size       int64                         `json:"size"`         // Total size of the files in the chat, in bytes
 	Count      int32                         `json:"count"`        // Total number of files in the chat
 	ByFileType []StorageStatisticsByFileType `json:"by_file_type"` // Statistics split by file types
 }
@@ -19,7 +19,7 @@ func (storageStatisticsByChat *StorageStatisticsByChat) MessageType() string {
 // NewStorageStatisticsByChat creates a new StorageStatisticsByChat
 //
 // @param chatID Chat identifier; 0 if none
-// @param size Total size of the files in the chat
+// @param size Total size of the files in the chat, in bytes
 // @param count Total number of files in the chat
 // @param byFileType Statistics split by file types
 func NewStorageStatisticsByChat(chatID int64, size int64, count int32, byFileType []StorageStatisticsByFileType) *StorageStatisticsByChat {

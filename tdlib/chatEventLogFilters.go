@@ -15,6 +15,8 @@ type ChatEventLogFilters struct {
 	MemberRestrictions bool `json:"member_restrictions"` // True, if member restricted/unrestricted/banned/unbanned events should be returned
 	InfoChanges        bool `json:"info_changes"`        // True, if changes in chat information should be returned
 	SettingChanges     bool `json:"setting_changes"`     // True, if changes in chat settings should be returned
+	InviteLinkChanges  bool `json:"invite_link_changes"` // True, if changes to invite links should be returned
+	VoiceChatChanges   bool `json:"voice_chat_changes"`  // True, if voice chat actions should be returned
 }
 
 // MessageType return the string telegram-type of ChatEventLogFilters
@@ -34,7 +36,9 @@ func (chatEventLogFilters *ChatEventLogFilters) MessageType() string {
 // @param memberRestrictions True, if member restricted/unrestricted/banned/unbanned events should be returned
 // @param infoChanges True, if changes in chat information should be returned
 // @param settingChanges True, if changes in chat settings should be returned
-func NewChatEventLogFilters(messageEdits bool, messageDeletions bool, messagePins bool, memberJoins bool, memberLeaves bool, memberInvites bool, memberPromotions bool, memberRestrictions bool, infoChanges bool, settingChanges bool) *ChatEventLogFilters {
+// @param inviteLinkChanges True, if changes to invite links should be returned
+// @param voiceChatChanges True, if voice chat actions should be returned
+func NewChatEventLogFilters(messageEdits bool, messageDeletions bool, messagePins bool, memberJoins bool, memberLeaves bool, memberInvites bool, memberPromotions bool, memberRestrictions bool, infoChanges bool, settingChanges bool, inviteLinkChanges bool, voiceChatChanges bool) *ChatEventLogFilters {
 	chatEventLogFiltersTemp := ChatEventLogFilters{
 		tdCommon:           tdCommon{Type: "chatEventLogFilters"},
 		MessageEdits:       messageEdits,
@@ -47,6 +51,8 @@ func NewChatEventLogFilters(messageEdits bool, messageDeletions bool, messagePin
 		MemberRestrictions: memberRestrictions,
 		InfoChanges:        infoChanges,
 		SettingChanges:     settingChanges,
+		InviteLinkChanges:  inviteLinkChanges,
+		VoiceChatChanges:   voiceChatChanges,
 	}
 
 	return &chatEventLogFiltersTemp

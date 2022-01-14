@@ -80,7 +80,7 @@ func (pollTypeRegular *PollTypeRegular) GetPollTypeEnum() PollTypeEnum {
 type PollTypeQuiz struct {
 	tdCommon
 	CorrectOptionID int32          `json:"correct_option_id"` // 0-based identifier of the correct answer option; -1 for a yet unanswered poll
-	Explanation     *FormattedText `json:"explanation"`       // Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+	Explanation     *FormattedText `json:"explanation"`       // Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
 }
 
 // MessageType return the string telegram-type of PollTypeQuiz
@@ -91,7 +91,7 @@ func (pollTypeQuiz *PollTypeQuiz) MessageType() string {
 // NewPollTypeQuiz creates a new PollTypeQuiz
 //
 // @param correctOptionID 0-based identifier of the correct answer option; -1 for a yet unanswered poll
-// @param explanation Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+// @param explanation Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
 func NewPollTypeQuiz(correctOptionID int32, explanation *FormattedText) *PollTypeQuiz {
 	pollTypeQuizTemp := PollTypeQuiz{
 		tdCommon:        tdCommon{Type: "pollTypeQuiz"},
