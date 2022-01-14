@@ -134,7 +134,8 @@ func main() {
 	}
 
 	// Main loop
-	for update := range client.RawUpdates {
+	rawUpdates := client.GetRawUpdatesChannel(100)
+        for update := range rawUpdates {
 		// Show all updates
 		fmt.Println(update.Data)
 		fmt.Print("\n\n")
